@@ -10,6 +10,7 @@ import javax.persistence.OneToOne;
 
 import br.ifes.leds.reuse.endereco.cdp.Endereco;
 import java.util.Set;
+import javax.persistence.FetchType;
 
 /**
  * Instituicao.java
@@ -34,7 +35,7 @@ public abstract class Instituicao {
     @OneToOne
     private Endereco endereco;//endereco da instituicao
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private Set<Telefone> telefones;//Telefone da instituicao
 
     public String getNome() {

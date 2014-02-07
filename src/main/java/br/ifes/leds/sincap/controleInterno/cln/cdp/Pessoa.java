@@ -20,7 +20,6 @@ public abstract class Pessoa extends ObjetoPersistente {
 		this.nome = nome;
 	}
 
-
 	public String getNome() {
 		return nome;
 	}

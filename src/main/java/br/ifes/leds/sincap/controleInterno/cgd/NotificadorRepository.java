@@ -27,14 +27,7 @@ public interface NotificadorRepository extends JpaRepository<Notificador, Long> 
 	 */
 	public Notificador findByCpf(String cpf);
 	
-	/**
-	 * Metodo para retornar o notificador a apartir do nme de usuario.
-	 * @param username, String que representa o username do Notificador.
-	 * @return Notificador relacionado ao username dado.
-	 */
-	public Notificador findByUsuarioUsername(String username);
-	
 	@QueryHints(value = { @QueryHint(name = "name", value = "value")}, forCounting = false)
-	public Page<Notificador> findByUsuarioUsername(String username, Pageable pageable);
+	public Page<Notificador> findByCpf(String username, Pageable pageable);
 
 }

@@ -1,6 +1,6 @@
--- ## TIPOS DE USUÁRIOS: ADMINISTRADOR, ALUNO, SECRETARIA, PEDAGOGO; ## --
+-- ## TIPOS DE USUï¿½RIOS: ADMINISTRADOR, ALUNO, SECRETARIA, PEDAGOGO; ## --
 
--- # FUNÇÕES # --
+-- # FUNï¿½ï¿½ES # --
 
 CREATE OR REPLACE FUNCTION getIdUsuario(username text) RETURNS bigint AS 
 	'SELECT id FROM usuario WHERE username = $1'
@@ -35,7 +35,7 @@ INSERT INTO usuario(id, active, username, password, email) VALUES (nextval('usua
 
 -- ## ENDERECOS DOS HOSPITAIS## --
 --INSERT INTO endereco(id, cep, complemento, logradouro, numero, bairro) VALUES (nextval('endereco_id_seq'), 'cep', 'complemento', 'logradouro', 0, getIdBairro('Bairro', 'cidade', 'siglaestado'));
-INSERT INTO endereco(id, cep, complemento, logradouro, numero, bairro_id) VALUES (nextval('endereco_id_seq'), 29042715, null, 'AVENIDA MARECHAL CAMPOS', 1355, getIdBairro('Santos Dumont', 'Vitória', 'ES'));
+INSERT INTO endereco(id, cep, complemento, logradouro, numero, bairro_id) VALUES (nextval('endereco_id_seq'), 29042715, null, 'AVENIDA MARECHAL CAMPOS', 1355, getIdBairro('Santos Dumont', 'Vitï¿½ria', 'ES'));
 INSERT INTO endereco(id, cep, complemento, logradouro, numero, bairro_id) VALUES (nextval('endereco_id_seq'), 29166828, null, 'AVENIDA PAULO PEREIRA GOMES', 1089, getIdBairro('Morada de Laranjeira', 'Serra', 'ES'));
 INSERT INTO endereco(id, cep, complemento, logradouro, numero, bairro_id) VALUES (nextval('endereco_id_seq'), 29118060, null, 'RUA VENUS', 0, getIdBairro('Alecrim', 'Vila Velha', 'ES'));
 INSERT INTO endereco(id, cep, complemento, logradouro, numero, bairro_id) VALUES (nextval('endereco_id_seq'), 29165680, null, 'RUA EUDES SCHERRER DE SOUZA', 0, getIdBairro('Parque Residencial L', 'Serra', 'ES'));
@@ -68,7 +68,7 @@ INSERT INTO notificador(usuario_id, nome, cpf, id) VALUES (getIdUsuario('333.333
 INSERT INTO notificador(usuario_id, nome, cpf, id) VALUES (getIdUsuario('444.444.444-44'), 'Notificador3', '444.444.444-44',nextval('notificador_id_seq'));
 
 -- ## NOTIFICADOR_HOPITAL ## --
-INSERT INTO notificador_hospital(notificador_id, hospitais_instituicaoid) VALUES (getIdNotificador('Notificador'), getIdHospital('HOSPITAL DAS CLINICAS'));
+INSERT INTO notificador_hospital(notificador_id, hospitais_instituicaoid) VALUES (getIdNotificador('Notificador'), getIdHospital('RENAN DA SILVA SAURO'));
 INSERT INTO notificador_hospital(notificador_id, hospitais_instituicaoid) VALUES (getIdNotificador('Notificador'), getIdHospital('HOSPITAL ESTADUAL DR JAYME SANTOS NEVES'));
 INSERT INTO notificador_hospital(notificador_id, hospitais_instituicaoid) VALUES (getIdNotificador('Notificador1'), getIdHospital('HOSPITAL DAS CLINICAS'));
 INSERT INTO notificador_hospital(notificador_id, hospitais_instituicaoid) VALUES (getIdNotificador('Notificador2'), getIdHospital('HOSPITAL ESTADUAL DR JAYME SANTOS NEVES'));

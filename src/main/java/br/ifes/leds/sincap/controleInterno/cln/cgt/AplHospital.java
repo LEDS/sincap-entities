@@ -1,12 +1,15 @@
 package br.ifes.leds.sincap.controleInterno.cln.cgt;
 
+import br.ifes.leds.reuse.endereco.cgd.EnderecoRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.ifes.leds.sincap.controleInterno.cgd.HospitalRepository;
+import br.ifes.leds.sincap.controleInterno.cgd.TelefoneRepository;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Hospital;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Setor;
+import br.ifes.leds.sincap.controleInterno.cln.cdp.Telefone;
 import org.springframework.data.domain.Pageable;
 
 
@@ -14,18 +17,28 @@ import org.springframework.data.domain.Pageable;
 public class AplHospital {
 
 	@Autowired
-	private HospitalRepository repository;
+	private HospitalRepository hospitalRepository;
+        @Autowired
+	private EnderecoRepository enderecoRepository;
+        @Autowired
+	private TelefoneRepository telefoneRepository;
 	
 	public void cadastrar(Hospital hospital){
-		repository.save(hospital);
+            
+                for(Telefone telefone : hospital.getTelefones()){
+                    telefoneRepository.save(telefone);
+                }
+            
+                enderecoRepository.save(hospital.getEndereco());
+		hospitalRepository.save(hospital);
 	}
 	
 	public void update(Hospital hospital){
-		repository.save(hospital);
+		hospitalRepository.save(hospital);
 	}
 	
 	public void delete(Hospital hospital){
-		repository.delete(hospital);
+		hospitalRepository.delete(hospital);
 	}
 	
 	/*public List<Hospital> obterTodos(Sort ordem){
@@ -36,33 +49,33 @@ public class AplHospital {
 	//--foi um teste -- mas ele busca os dados usando como chave o nome
 	public List<Hospital> obter(String nome)
 	{
-		return repository.findByNome(nome);
+		return hospitalRepository.findByNome(nome);
 	}
         
 	public Hospital obter(Long id) {
-		return repository.findOne(id);
+		return hospitalRepository.findOne(id);
 	}
 
 	public List<Hospital> obter(Pageable pageable) {
-		return repository.findAll(pageable).getContent();
+		return hospitalRepository.findAll(pageable).getContent();
 	}
 	
 	public List<Hospital> obter() {
-		return repository.findAll();
+		return hospitalRepository.findAll();
 	}
 
 	public Long quantidade() {
-		return repository.count();
+		return hospitalRepository.count();
 	}
 
 	public void addSetor(Setor setor, Long idHospital) {
-		Hospital hospital = this.repository.findOne(idHospital);
+		Hospital hospital = this.hospitalRepository.findOne(idHospital);
 		hospital.addSetor(setor);
-		this.repository.save(hospital);
+		this.hospitalRepository.save(hospital);
 	}
 
 	public void removerSetor(Setor setor, Long idHospital) {
-		Hospital hospital = this.repository.findOne(idHospital);
+		Hospital hospital = this.hospitalRepository.findOne(idHospital);
 		hospital.removeSetor(setor);
 	}
 }

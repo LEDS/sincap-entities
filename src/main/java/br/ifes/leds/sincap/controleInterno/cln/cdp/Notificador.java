@@ -3,7 +3,6 @@ package br.ifes.leds.sincap.controleInterno.cln.cdp;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
@@ -17,14 +16,8 @@ import javax.persistence.ManyToMany;
 public class Notificador extends Funcionario {
 
 	@ManyToMany(fetch = FetchType.EAGER)
-	private Set<Hospital> hospitais = new HashSet<Hospital>();// conjunto dos
-																// hospitais que
-																// o notificador
-																// trabalha
-
-	@Column
-	private String cpf;
-
+	private Set<Hospital> hospitais = new HashSet<Hospital>();
+      
 	public Set<Hospital> getHospitais() {
 		return hospitais;
 	}
@@ -32,13 +25,4 @@ public class Notificador extends Funcionario {
 	public void setHospitais(Set<Hospital> hospitais) {
 		this.hospitais = hospitais;
 	}
-
-	public String getCpf() {
-		return cpf;
-	}
-
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
-	}
-
 }

@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -17,7 +18,7 @@ import javax.persistence.ManyToMany;
 @Entity
 public class Hospital extends InstituicaoNotificadora {
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
                 name = "HospitalSetor",
                 joinColumns = {@JoinColumn(name = "InstituicaoID")},

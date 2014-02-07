@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import br.ifes.leds.sincap.controleInterno.cgd.HospitalRepository;
 import br.ifes.leds.sincap.controleInterno.cgd.NotificadorRepository;
 import br.ifes.leds.sincap.controleInterno.cgd.SetorRepository;
-import br.ifes.leds.sincap.controleInterno.cgd.UsuarioRepository;
+import br.ifes.leds.sincap.controleInterno.cgd.FuncionarioRepository;
 import br.ifes.leds.sincap.controleInterno.cln.cgt.AplPrincipal;
 
 public class AplPrincipalTest extends AbstractionTest {
@@ -15,7 +15,7 @@ public class AplPrincipalTest extends AbstractionTest {
 	@Autowired
 	private AplPrincipal aplPrincipal = new AplPrincipal();
 	@Autowired
-	private UsuarioRepository usuarioService;
+	private FuncionarioRepository usuarioService;
 	@Autowired
 	private NotificadorRepository notificadorService;
 	@Autowired
