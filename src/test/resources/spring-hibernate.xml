@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/context 
+       http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+    <bean id="propertyConfigurer"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location">
+           <value>classpath:sincap.properties</value>
+        </property>
+    </bean>
+
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="${dataSource.driver_class}"/>
+        <property name="url" value="${dataSource.url}"/>
+        <property name="username" value="${dataSource.username}"/>
+        <property name="password" value="${dataSource.password}"/>
+    </bean>
+
+  <bean id="myEmf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+      <property name="dataSource" ref="dataSource" />
+      <property name="packagesToScan" value="br.ifes.leds.sincap.controleInterno.cln.cdp,br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp,br.ifes.leds.reuse.persistence,br.ifes.leds.reuse.endereco.cdp" />
+      <property name="jpaVendorAdapter">
+         <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
+      </property>
+      <property name="jpaProperties">
+         <props>
+         	<!-- soh utilizar create-drop para criar o banco, depois deixar como update-->
+            <prop key="hibernate.hbm2ddl.auto">update</prop>
+            <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</prop>
+            <prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</prop>
+            
+<!--             <prop key="hibernate.cache.use_second_level_cache">true</prop> -->
+<!-- 			<prop key="hibernate.cache.use_query_cache">true</prop> -->
+<!-- 		    <prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</prop> -->
+            
+            <!-- c3p0 configuration -->
+			<prop key="hibernate.c3p0.max_size">10</prop>
+			<prop key="hibernate.c3p0.min_size">2</prop>
+			<prop key="hibernate.c3p0.timeout">5000</prop>
+			<prop key="hibernate.c3p0.max_statements">10</prop>
+			<prop key="hibernate.c3p0.idle_test_period">3000</prop>
+			<prop key="hibernate.c3p0.acquire_increment">2</prop>
+
+			<!-- Debug configuration -->
+			<prop key="show_sql">true</prop>
+			<prop key="hibernate.generate_statistics">true</prop>
+			<prop key="hibernate.use_sql_comments">true</prop>
+            
+         </props>
+      </property>
+   </bean> 
+
+ 
+ <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+      <property name="entityManagerFactory" ref="myEmf" />
+   </bean>
+ 
+</beans>
