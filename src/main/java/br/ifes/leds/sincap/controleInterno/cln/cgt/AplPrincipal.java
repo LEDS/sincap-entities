@@ -28,10 +28,10 @@ public class AplPrincipal {
     private FuncionarioRepository funcionarioRepository;
     @Autowired
     private NotificadorRepository notificadorRepository;
-//    @Autowired
-//    private CaptadorRepository captadorRepository;
-//    @Autowired
-//    private AnalistaCNCDORepository analistaRepository;
+    @Autowired
+    private CaptadorRepository captadorRepository;
+    @Autowired
+    private AnalistaCNCDORepository analistaRepository;
 
     /**
      * Metodo para validar login do usuario
