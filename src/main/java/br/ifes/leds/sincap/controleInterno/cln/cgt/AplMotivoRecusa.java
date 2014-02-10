@@ -21,7 +21,7 @@ public class AplMotivoRecusa {
     
     // MOTIVO RECUSA
     public List<TipoMotivoRecusa> obterTodosContraindicacaoMedica() {
-        
+        return null;
     }
     
     // TIPO MOTIVO RECUSA
