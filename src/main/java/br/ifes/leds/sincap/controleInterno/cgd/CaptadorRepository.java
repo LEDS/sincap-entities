@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Repository
 @Transactional
-public interface CaptadorRepository extends JpaRepository<CaptadorRepository, Long> {
+public interface CaptadorRepository extends JpaRepository<Captador, Long> {
 
     /**
      * Metodo para retornar um usuario a partir do username.
