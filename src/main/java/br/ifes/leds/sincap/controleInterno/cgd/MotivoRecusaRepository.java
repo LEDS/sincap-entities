@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.ifes.leds.sincap.controleInterno.cln.cdp.MotivoRecusa;
+import java.util.List;
 
 /**
  * MotivoRecusaRepository.java
@@ -14,5 +15,6 @@ import br.ifes.leds.sincap.controleInterno.cln.cdp.MotivoRecusa;
 @Repository
 @Transactional
 public interface MotivoRecusaRepository extends JpaRepository<MotivoRecusa, Long> {
+    public List<MotivoRecusa> findByTipoMotivoRecusa(long id);    
 	
 }

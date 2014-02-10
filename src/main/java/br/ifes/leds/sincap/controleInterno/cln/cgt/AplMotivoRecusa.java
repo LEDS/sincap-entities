@@ -20,13 +20,15 @@ public class AplMotivoRecusa {
     MotivoRecusaRepository motivoRecusaRepository;
     
     // MOTIVO RECUSA
-    public List<TipoMotivoRecusa> obterTodosContraindicacaoMedica() {
-        return null;
+    public List<MotivoRecusa> obterTodosContraindicacaoMedica() {
+        // 2 -- id do Contra Indicação Médica
+        return motivoRecusaRepository.findByTipoMotivoRecusa(2);
     }
     
     // TIPO MOTIVO RECUSA
-    public List<TipoMotivoRecusa> obterTodosRecusaFamiliar() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<MotivoRecusa> obterTodosRecusaFamiliar() {
+        // 1 -- id do Contra Indicação Médica
+        return motivoRecusaRepository.findByTipoMotivoRecusa(1);
     }
     
     
