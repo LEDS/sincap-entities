@@ -105,7 +105,7 @@ public class NotificacaoTest extends AbstractionTest{
         Assert.assertNotSame(0, notificao.getObito().getQuartaCausaMortis().getId());
 
         Assert.assertNotNull(notificao.getCodigo());
-        Assert.assertNotNull(notificao.getDataNotificacao());
+        Assert.assertNotNull(notificao.getDataAbertura());
         
         
     }

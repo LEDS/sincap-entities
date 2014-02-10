@@ -49,7 +49,7 @@ public class AplNotificacao {
         
         //Gerando o codigo
         notificacao.setCodigo(genereateCode());        
-        notificacao.setDataNotificacao(Calendar.getInstance());
+        notificacao.setDataAbertura(Calendar.getInstance());
         notificacaoRepository.save(notificacao);        
     }
     

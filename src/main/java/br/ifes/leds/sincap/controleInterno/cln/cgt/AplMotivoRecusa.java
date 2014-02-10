@@ -25,11 +25,18 @@ public class AplMotivoRecusa {
         return motivoRecusaRepository.findByTipoMotivoRecusa(2);
     }
     
+    public MotivoRecusa salvar(MotivoRecusa motivoR){
+        return motivoRecusaRepository.save(motivoR);
+    }
+    
     // TIPO MOTIVO RECUSA
     public List<MotivoRecusa> obterTodosRecusaFamiliar() {
         // 1 -- id do Contra Indicação Médica
-        return motivoRecusaRepository.findByTipoMotivoRecusa(1);
+        TipoMotivoRecusa tipo = this.obterTipoMotivoRecusa(1);
+        return motivoRecusaRepository.findByTipoMotivoRecusa(1);//(tipo);
     }
     
-    
+    public TipoMotivoRecusa obterTipoMotivoRecusa(long id){
+        return tipoMotivoRecusaRepository.findOne(id);
+    }
 }
