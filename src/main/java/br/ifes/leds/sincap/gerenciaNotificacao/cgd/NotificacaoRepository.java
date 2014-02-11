@@ -22,9 +22,9 @@ public interface NotificacaoRepository extends JpaRepository <Notificacao, Long>
     
     
     
-        List<Notificacao> findByDataNotificacaoIsNull(Sort sort);
-        
-        List<Notificacao> findByDataNotificacaoIsNull(Sort sort, Pageable pageable);
+//        List<Notificacao> findByDataNotificacaoIsNull(Sort sort);
+//        
+//        List<Notificacao> findByDataNotificacaoIsNull(Sort sort, Pageable pageable);
 	
 //	/**
 //	 * Metodo para retornar uma lista de notificacoes relacionados as hospital dado, no intervalo de tempo de ocorrencia da notificao determinado.

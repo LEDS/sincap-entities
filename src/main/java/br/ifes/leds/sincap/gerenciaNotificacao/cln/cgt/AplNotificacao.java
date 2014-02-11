@@ -69,17 +69,6 @@ public class AplNotificacao {
         return obitoRepository.findOne(id);
     }
 
-    public void salvar(Notificacao notificacao) {
-
-        Obito obito = notificacao.getObito();
-        salvarObito(obito);
-
-        //Gerando o codigo
-        notificacao.setCodigo(genereateCode());
-        notificacao.setDataArquivamento(Calendar.getInstance());
-        notificacaoRepository.save(notificacao);
-    }
-
     private void salvarObito(Obito obito) {
         //Salvando o paciente
         Paciente paciente = obito.getPaciente();
@@ -94,15 +83,6 @@ public class AplNotificacao {
         obitoRepository.save(obito);
 
     }
-
-    private void salvarPaciente(Paciente paciente) {
-        //Salvando responsavel
-        Responsavel responsavel = paciente.getResponsavel();
-        responsavelRepository.save(responsavel);
-        pacienteRepository.save(paciente);
-        
-        
-    }
     
     private void salvarPaciente (Paciente paciente)
     {
@@ -114,26 +94,23 @@ public class AplNotificacao {
         responsavelRepository.save(responsavel);        
         pacienteRepository.save(paciente);
         
-        Sort sort = new Sort(Sort.Direction.ASC, "dataNotificacao");        
-        
-        return notificacaoRepository.findAll(sort);
     }
     
-     public List<Notificacao> retornarNotificacaoNaoArquivada(){
-        
-        Sort sort = new Sort(Sort.Direction.ASC, "dataNotificacao");
-         
-        return notificacaoRepository.findByDataNotificacaoIsNull(sort);
-    }
-     
-     public List<Notificacao> retornarNotificacaoNaoArquivada(int valorInicial, int qtd){
-        
-        Sort sort = new Sort(Sort.Direction.ASC, "dataNotificacao");
-        
-        Pageable pageable = new PageRequest(valorInicial, qtd);
-        
-        return notificacaoRepository.findByDataNotificacaoIsNull(sort, pageable);
-    }
+//     public List<Notificacao> retornarNotificacaoNaoArquivada(){
+//        
+//        Sort sort = new Sort(Sort.Direction.ASC, "dataNotificacao");
+//         
+//        return notificacaoRepository.findByDataNotificacaoIsNull(sort);
+//    }
+//     
+//     public List<Notificacao> retornarNotificacaoNaoArquivada(int valorInicial, int qtd){
+//        
+//        Sort sort = new Sort(Sort.Direction.ASC, "dataNotificacao");
+//        
+//        Pageable pageable = new PageRequest(valorInicial, qtd);
+//        
+//        return notificacaoRepository.findByDataNotificacaoIsNull(sort, pageable);
+//    }
     
     private Doacao salvarDoacao(Doacao doacao){
         
