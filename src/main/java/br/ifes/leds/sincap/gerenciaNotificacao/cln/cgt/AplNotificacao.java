@@ -65,6 +65,10 @@ public class AplNotificacao {
         notificacaoRepository.save(notificacao);        
     }
     
+    public List<Notificacao> obter() {
+        return notificacaoRepository.findAll();
+    }
+    
     public Obito getObito(Long id) {
         return obitoRepository.findOne(id);
     }
