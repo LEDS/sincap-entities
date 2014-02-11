@@ -11,18 +11,25 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import br.ifes.leds.reuse.persistence.ObjetoPersistente;
+import br.ifes.leds.sincap.controleInterno.cln.cdp.MotivoRecusa;
+import javax.persistence.ManyToMany;
 
 /**
- * Doacao.java
+ * Doacao.javax
  * @author 20091BSI0273
  * Classe que representa a doacao ou Termo de doacao de Orgaos, 
  */
 @Entity
 public class Doacao extends ObjetoPersistente {
 	
-    //@Column
-    //private boolean autorizada;	//se foi autorizado ou nao
-    // CRIAR UM MANY TO MANY PARA MOTIVORECUSA
+    @Column
+    private boolean autorizada;	//se foi autorizado ou nao
+    
+    @ManyToMany
+    private Set<MotivoRecusa> recusaFamiliar = new HashSet<MotivoRecusa>(); // motivos de recusa do tipo Recusa Familiar
+    
+    @ManyToMany
+    private Set<MotivoRecusa> contraIndicacaoMedica = new HashSet<MotivoRecusa>(); //motivos de recusa do tipo contra-indicacao medica
     
     @OneToMany
     private Set <Responsavel> responsaveis = new HashSet<Responsavel>();// responsavel do paciente que autorizou, 2 se for menor de idade
@@ -35,6 +42,38 @@ public class Doacao extends ObjetoPersistente {
 
     @Temporal(TemporalType.DATE)
     private Calendar dataEntrevista;
+
+    public boolean isAutorizada() {
+        return autorizada;
+    }
+
+    public void setAutorizada(boolean autorizada) {
+        this.autorizada = autorizada;
+    }
+
+    public Set<MotivoRecusa> getRecusaFamiliar() {
+        return recusaFamiliar;
+    }
+
+    public void setRecusaFamiliar(Set<MotivoRecusa> recusaFamiliar) {
+        this.recusaFamiliar = recusaFamiliar;
+    }
+
+    public Set<MotivoRecusa> getContraIndicacaoMedica() {
+        return contraIndicacaoMedica;
+    }
+
+    public void setContraIndicacaoMedica(Set<MotivoRecusa> contraIndicacaoMedica) {
+        this.contraIndicacaoMedica = contraIndicacaoMedica;
+    }
+
+    public Calendar getDataEntrevista() {
+        return dataEntrevista;
+    }
+
+    public void setDataEntrevista(Calendar dataEntrevista) {
+        this.dataEntrevista = dataEntrevista;
+    }
 
     public Captacao getCaptacao() {
             return captacao;

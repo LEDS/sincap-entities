@@ -25,8 +25,6 @@ public class AplMotivoRecusaTest extends AbstractionTest  {
         MotivoRecusa motivoR = new MotivoRecusa();
         TipoMotivoRecusa tipo = apl.obterTipoMotivoRecusa(1);
         
-        System.out.println(tipo.getNome());
-        
         motivoR.setNome("motivo teste");
         motivoR.setTipoMotivoRecusa(tipo);
         
@@ -37,8 +35,7 @@ public class AplMotivoRecusaTest extends AbstractionTest  {
     @Test
     public void buscarTodos(){
         int tamCM = apl.obterTodosContraindicacaoMedica().size();
-        Assert.assertNotSame(0, tamCM);
-        
+        Assert.assertNotSame(0, tamCM);        
         int tamRF = apl.obterTodosRecusaFamiliar().size();
         Assert.assertNotSame(0, tamRF);        
     }

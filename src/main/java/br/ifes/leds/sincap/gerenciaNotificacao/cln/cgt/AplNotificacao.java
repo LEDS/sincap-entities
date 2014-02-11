@@ -1,7 +1,10 @@
 package br.ifes.leds.sincap.gerenciaNotificacao.cln.cgt;
 
 
+import br.ifes.leds.sincap.controleInterno.cgd.MotivoRecusaRepository;
+import br.ifes.leds.sincap.gerenciaNotificacao.cgd.CaptacaoRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.CausaObitoRepository;
+import br.ifes.leds.sincap.gerenciaNotificacao.cgd.DoacaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,6 +12,7 @@ import br.ifes.leds.sincap.gerenciaNotificacao.cgd.NotificacaoRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ObitoRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.PacienteRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ResponsavelRepository;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Doacao;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Notificacao;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Obito;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Paciente;
@@ -39,12 +43,16 @@ public class AplNotificacao {
     
     @Autowired
     private CausaObitoRepository causaObitoRepository;
+    
+    @Autowired
+    private DoacaoRepository doacaoRepository;
+    
+    @Autowired
+    private MotivoRecusaRepository motivoRecusaRepository;
   
     public void salvar (Notificacao notificacao)
     {
-        
-        
-        Obito obito = notificacao.getObito();        
+        Obito obito = notificacao.getObito();
         salvarObito(obito);
         
         //Gerando o codigo
@@ -72,12 +80,23 @@ public class AplNotificacao {
     
     private void salvarPaciente (Paciente paciente)
     {
+        Doacao doacao = paciente.getDoacao();
+        this.salvarDoacao(doacao);
+        
         //Salvando responsavel
         Responsavel responsavel = paciente.getResponsavel();        
         responsavelRepository.save(responsavel);        
         pacienteRepository.save(paciente);
         
         
+    }
+    
+    private Doacao salvarDoacao(Doacao doacao){
+        
+        motivoRecusaRepository.save(doacao.getContraIndicacaoMedica());
+        //motivoRecusaRepository.save(doacao.getRecusaFamiliar());
+        
+        return doacaoRepository.save(doacao);
     }
     
     private String genereateCode()

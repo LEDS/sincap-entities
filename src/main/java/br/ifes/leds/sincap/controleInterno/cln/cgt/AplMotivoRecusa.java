@@ -22,7 +22,8 @@ public class AplMotivoRecusa {
     // MOTIVO RECUSA
     public List<MotivoRecusa> obterTodosContraindicacaoMedica() {
         // 2 -- id do Contra Indicação Médica
-        return motivoRecusaRepository.findByTipoMotivoRecusa(2);
+        TipoMotivoRecusa tipo = this.obterTipoMotivoRecusa(2);
+        return motivoRecusaRepository.findByTipoMotivoRecusa(tipo);
     }
     
     public MotivoRecusa salvar(MotivoRecusa motivoR){
@@ -33,10 +34,19 @@ public class AplMotivoRecusa {
     public List<MotivoRecusa> obterTodosRecusaFamiliar() {
         // 1 -- id do Contra Indicação Médica
         TipoMotivoRecusa tipo = this.obterTipoMotivoRecusa(1);
-        return motivoRecusaRepository.findByTipoMotivoRecusa(1);//(tipo);
+        return motivoRecusaRepository.findByTipoMotivoRecusa(tipo);
     }
     
+    public TipoMotivoRecusa salvar(TipoMotivoRecusa tipoMotivoR){
+        return tipoMotivoRecusaRepository.save(tipoMotivoR);
+    }
+    
+    // All    
     public TipoMotivoRecusa obterTipoMotivoRecusa(long id){
         return tipoMotivoRecusaRepository.findOne(id);
+    }
+
+    public MotivoRecusa obter(long id) {
+        return motivoRecusaRepository.findOne(id);
     }
 }
