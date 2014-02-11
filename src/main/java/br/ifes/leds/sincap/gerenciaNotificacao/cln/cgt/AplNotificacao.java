@@ -14,7 +14,11 @@ import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Obito;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Paciente;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Responsavel;
 import java.util.Calendar;
+import java.util.List;
 import java.util.UUID;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 /**
  * AplNotificacao.java
@@ -78,6 +82,29 @@ public class AplNotificacao {
         pacienteRepository.save(paciente);
         
         
+    }
+    
+    public List<Notificacao> retornarTodas(){
+        
+        Sort sort = new Sort(Sort.Direction.ASC, "dataNotificacao");        
+        
+        return notificacaoRepository.findAll(sort);
+    }
+    
+     public List<Notificacao> retornarNotificacaoNaoArquivada(){
+        
+        Sort sort = new Sort(Sort.Direction.ASC, "dataNotificacao");
+         
+        return notificacaoRepository.findByDataNotificacaoIsNull(sort);
+    }
+     
+     public List<Notificacao> retornarNotificacaoNaoArquivada(int valorInicial, int qtd){
+        
+        Sort sort = new Sort(Sort.Direction.ASC, "dataNotificacao");
+        
+        Pageable pageable = new PageRequest(valorInicial, qtd);
+        
+        return notificacaoRepository.findByDataNotificacaoIsNull(sort, pageable);
     }
     
     private String genereateCode()
