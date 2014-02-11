@@ -55,7 +55,7 @@ public class AplNotificacao {
 
         //Gerando o codigo
         notificacao.setCodigo(genereateCode());
-        notificacao.setDataNotificacao(Calendar.getInstance());
+        notificacao.setDataArquivamento(Calendar.getInstance());
         notificacaoRepository.save(notificacao);
     }
 
