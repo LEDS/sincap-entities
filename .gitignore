@@ -1,0 +1,7 @@
+# Arquivos da build do eclipse.
+/target
+
+# Arquivos de configuração do eclipse.
+.classpath
+.project
+.settings/
