@@ -114,8 +114,4 @@ public class AplNotificacao {
         return  UUID.randomUUID().toString();
     }
 
-    private String genereateCode() {
-        return UUID.randomUUID().toString();
-    }
-
 }
