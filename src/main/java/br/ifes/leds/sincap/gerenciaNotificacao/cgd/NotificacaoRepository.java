@@ -1,20 +1,14 @@
 package br.ifes.leds.sincap.gerenciaNotificacao.cgd;
 
-import java.util.Calendar;
 import java.util.List;
 
-import javax.persistence.QueryHint;
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.QueryHints;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.ifes.leds.sincap.controleInterno.cln.cdp.MotivoInviabilidade;
-import br.ifes.leds.sincap.controleInterno.cln.cdp.Notificador;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Notificacao;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 /**
  * NotificacaoRepository.java
@@ -24,6 +18,13 @@ import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Notificacao;
 @Repository
 @Transactional
 public interface NotificacaoRepository extends JpaRepository <Notificacao, Long> {
+    
+    
+    
+    
+        List<Notificacao> findByDataNotificacaoIsNull(Sort sort);
+        
+        List<Notificacao> findByDataNotificacaoIsNull(Sort sort, Pageable pageable);
 	
 //	/**
 //	 * Metodo para retornar uma lista de notificacoes relacionados as hospital dado, no intervalo de tempo de ocorrencia da notificao determinado.

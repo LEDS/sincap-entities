@@ -18,7 +18,11 @@ import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Obito;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Paciente;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Responsavel;
 import java.util.Calendar;
+import java.util.List;
 import java.util.UUID;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 /**
  * AplNotificacao.java
@@ -31,16 +35,16 @@ public class AplNotificacao {
 
     @Autowired
     private NotificacaoRepository notificacaoRepository;
-    
+
     @Autowired
     private ObitoRepository obitoRepository;
-    
+
     @Autowired
     private PacienteRepository pacienteRepository;
-    
+
     @Autowired
     private ResponsavelRepository responsavelRepository;
-    
+
     @Autowired
     private CausaObitoRepository causaObitoRepository;
     
@@ -61,19 +65,41 @@ public class AplNotificacao {
         notificacaoRepository.save(notificacao);        
     }
     
-    private void salvarObito (Obito obito)
-    {
+    public Obito getObito(Long id) {
+        return obitoRepository.findOne(id);
+    }
+
+    public void salvar(Notificacao notificacao) {
+
+        Obito obito = notificacao.getObito();
+        salvarObito(obito);
+
+        //Gerando o codigo
+        notificacao.setCodigo(genereateCode());
+        notificacao.setDataArquivamento(Calendar.getInstance());
+        notificacaoRepository.save(notificacao);
+    }
+
+    private void salvarObito(Obito obito) {
         //Salvando o paciente
         Paciente paciente = obito.getPaciente();
         salvarPaciente(paciente);
-        
+
         causaObitoRepository.save(obito.getPrimeiraCausaMortis());
         causaObitoRepository.save(obito.getSegundaCausaMortis());
         causaObitoRepository.save(obito.getTerceiraCausaMortis());
         causaObitoRepository.save(obito.getQuartaCausaMortis());
-        
+
         //Salvando o Obito
         obitoRepository.save(obito);
+
+    }
+
+    private void salvarPaciente(Paciente paciente) {
+        //Salvando responsavel
+        Responsavel responsavel = paciente.getResponsavel();
+        responsavelRepository.save(responsavel);
+        pacienteRepository.save(paciente);
         
         
     }
@@ -88,7 +114,25 @@ public class AplNotificacao {
         responsavelRepository.save(responsavel);        
         pacienteRepository.save(paciente);
         
+        Sort sort = new Sort(Sort.Direction.ASC, "dataNotificacao");        
         
+        return notificacaoRepository.findAll(sort);
+    }
+    
+     public List<Notificacao> retornarNotificacaoNaoArquivada(){
+        
+        Sort sort = new Sort(Sort.Direction.ASC, "dataNotificacao");
+         
+        return notificacaoRepository.findByDataNotificacaoIsNull(sort);
+    }
+     
+     public List<Notificacao> retornarNotificacaoNaoArquivada(int valorInicial, int qtd){
+        
+        Sort sort = new Sort(Sort.Direction.ASC, "dataNotificacao");
+        
+        Pageable pageable = new PageRequest(valorInicial, qtd);
+        
+        return notificacaoRepository.findByDataNotificacaoIsNull(sort, pageable);
     }
     
     private Doacao salvarDoacao(Doacao doacao){
@@ -103,6 +147,5 @@ public class AplNotificacao {
     {
         return  UUID.randomUUID().toString();
     }
-
 
 }
