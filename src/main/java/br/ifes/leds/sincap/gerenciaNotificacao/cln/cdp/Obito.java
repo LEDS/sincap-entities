@@ -40,6 +40,7 @@ public class Obito extends ObjetoPersistente {
     private CausaMortis quartaCausaMortis;//representa o motivo que ocasionou o obito ou causa de obito;
 
     @JoinColumn(nullable = true)
+    @OneToOne
     private Paciente paciente;// representa o paciente que morreu
 
     public Calendar getDataObito() {
