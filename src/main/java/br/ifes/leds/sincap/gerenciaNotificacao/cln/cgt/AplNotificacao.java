@@ -1,6 +1,5 @@
 package br.ifes.leds.sincap.gerenciaNotificacao.cln.cgt;
 
-
 import br.ifes.leds.sincap.controleInterno.cgd.MotivoRecusaRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.CaptacaoRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.CausaObitoRepository;
@@ -47,28 +46,27 @@ public class AplNotificacao {
 
     @Autowired
     private CausaObitoRepository causaObitoRepository;
-    
+
     @Autowired
     private DoacaoRepository doacaoRepository;
-    
+
     @Autowired
     private MotivoRecusaRepository motivoRecusaRepository;
-  
-    public void salvar (Notificacao notificacao)
-    {
+
+    public void salvar(Notificacao notificacao) {
         Obito obito = notificacao.getObito();
         salvarObito(obito);
-        
+
         //Gerando o codigo
-        notificacao.setCodigo(genereateCode());        
+        notificacao.setCodigo(genereateCode());
         notificacao.setDataAbertura(Calendar.getInstance());
-        notificacaoRepository.save(notificacao);        
+        notificacaoRepository.save(notificacao);
     }
-    
+
     public List<Notificacao> obter() {
         return notificacaoRepository.findAll();
     }
-    
+
     public Obito getObito(Long id) {
         return obitoRepository.findOne(id);
     }
@@ -87,46 +85,37 @@ public class AplNotificacao {
         obitoRepository.save(obito);
 
     }
-    
-    private void salvarPaciente (Paciente paciente)
-    {
+
+    private void salvarPaciente(Paciente paciente) {
         Doacao doacao = paciente.getDoacao();
         this.salvarDoacao(doacao);
-        
+
         //Salvando responsavel
-        Responsavel responsavel = paciente.getResponsavel();        
-        responsavelRepository.save(responsavel);        
+        Responsavel responsavel = paciente.getResponsavel();
+        responsavelRepository.save(responsavel);
         pacienteRepository.save(paciente);
-        
+
     }
-    
-//     public List<Notificacao> retornarNotificacaoNaoArquivada(){
-//        
-//        Sort sort = new Sort(Sort.Direction.ASC, "dataNotificacao");
-//         
-//        return notificacaoRepository.findByDataNotificacaoIsNull(sort);
-//    }
-//     
-//     public List<Notificacao> retornarNotificacaoNaoArquivada(int valorInicial, int qtd){
-//        
-//        Sort sort = new Sort(Sort.Direction.ASC, "dataNotificacao");
-//        
-//        Pageable pageable = new PageRequest(valorInicial, qtd);
-//        
-//        return notificacaoRepository.findByDataNotificacaoIsNull(sort, pageable);
-//    }
-    
-    private Doacao salvarDoacao(Doacao doacao){
-        
+
+    public List<Notificacao> retornarNotificacaoNaoArquivada(int valorInicial, int qtd) {
+
+        Sort sort = new Sort(Sort.Direction.ASC, "dataAbertura");
+
+        Pageable pageable = new PageRequest(valorInicial, qtd, sort);
+
+        return notificacaoRepository.findByDataArquivamentoIsNull(pageable);
+    }
+
+    private Doacao salvarDoacao(Doacao doacao) {
+
         motivoRecusaRepository.save(doacao.getContraIndicacaoMedica());
         //motivoRecusaRepository.save(doacao.getRecusaFamiliar());
-        
+
         return doacaoRepository.save(doacao);
     }
-    
-    private String genereateCode()
-    {
-        return  UUID.randomUUID().toString();
+
+    private String genereateCode() {
+        return UUID.randomUUID().toString();
     }
 
 }
