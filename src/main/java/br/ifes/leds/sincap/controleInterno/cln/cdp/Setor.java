@@ -6,10 +6,12 @@ import javax.persistence.Entity;
 import br.ifes.leds.reuse.persistence.ObjetoPersistente;
 import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import org.hibernate.annotations.Fetch;
 
 
 /**
@@ -25,8 +27,8 @@ public class Setor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToMany(mappedBy="setores")
-    Set<Hospital> hospital = new HashSet<Hospital>();
+    @ManyToMany(mappedBy="setores", fetch = FetchType.EAGER)
+    Set<Hospital> hospital = new HashSet<>();
     
     private String nome;
     
