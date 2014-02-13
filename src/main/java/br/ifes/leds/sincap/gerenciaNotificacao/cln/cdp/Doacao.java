@@ -12,6 +12,8 @@ import javax.persistence.TemporalType;
 
 import br.ifes.leds.reuse.persistence.ObjetoPersistente;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.MotivoRecusa;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.ManyToMany;
 
 /**
@@ -24,6 +26,9 @@ public class Doacao extends ObjetoPersistente {
 	
     @Column
     private boolean autorizada;	//se foi autorizado ou nao
+    
+    @Enumerated(EnumType.STRING)
+    private Parentesco parentesco;
     
     @ManyToMany
     private Set<MotivoRecusa> recusaFamiliar = new HashSet<MotivoRecusa>(); // motivos de recusa do tipo Recusa Familiar
@@ -42,7 +47,24 @@ public class Doacao extends ObjetoPersistente {
 
     @Temporal(TemporalType.DATE)
     private Calendar dataEntrevista;
+    
+    @Temporal(TemporalType.TIMESTAMP)
+    private Calendar hrEntrevista;
 
+    //Gets e Sets
+    public Calendar getHrEntrevista() {
+        return hrEntrevista;
+    }
+    public void setHrEntrevista(Calendar hrEntrevista) {
+        this.hrEntrevista = hrEntrevista;
+    }
+    public Parentesco getParentesco() {
+        return parentesco;
+    }
+
+    public void setParentesco(Parentesco parentesco) {
+        this.parentesco = parentesco;
+    }
     public boolean isAutorizada() {
         return autorizada;
     }

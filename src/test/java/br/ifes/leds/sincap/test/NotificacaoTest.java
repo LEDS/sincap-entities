@@ -6,20 +6,33 @@
 
 package br.ifes.leds.sincap.test;
 
-import br.ifes.leds.sincap.controleInterno.cgd.MotivoRecusaRepository;
+import br.ifes.leds.reuse.endereco.cdp.Bairro;
+import br.ifes.leds.reuse.endereco.cdp.Cidade;
+import br.ifes.leds.reuse.endereco.cdp.Endereco;
+import br.ifes.leds.reuse.endereco.cdp.Estado;
+import br.ifes.leds.reuse.endereco.cgd.BairroRepository;
+import br.ifes.leds.reuse.endereco.cgd.CidadeRepository;
+import br.ifes.leds.reuse.endereco.cgd.EnderecoRepository;
+import br.ifes.leds.reuse.endereco.cgd.EstadoRepository;
 import br.ifes.leds.sincap.controleInterno.cgd.NotificadorRepository;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.MotivoRecusa;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Notificador;
+import br.ifes.leds.sincap.controleInterno.cln.cdp.Telefone;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.TipoMotivoRecusa;
+import br.ifes.leds.sincap.controleInterno.cln.cdp.TipoTelefone;
 import br.ifes.leds.sincap.controleInterno.cln.cgt.AplMotivoRecusa;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ObitoRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CausaMortis;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Doacao;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoCivil;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Notificacao;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Obito;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Paciente;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Parentesco;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Responsavel;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Testemunha;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cgt.AplNotificacao;
+import java.util.ArrayList;
 
 import java.util.Calendar;
 import java.util.HashSet;
@@ -48,6 +61,18 @@ public class NotificacaoTest extends AbstractionTest{
     @Autowired
     private AplMotivoRecusa aplMotivoRecusa;
     
+    @Autowired
+    private BairroRepository bairroRepository;
+    
+    @Autowired
+    private CidadeRepository cidadeRepository;
+    
+    @Autowired
+    private EstadoRepository estadoRepository;
+    
+    @Autowired
+    private EnderecoRepository enderecoRepository;
+    
     private Notificacao notificao;
     
     @Before
@@ -63,9 +88,7 @@ public class NotificacaoTest extends AbstractionTest{
         //TODO -- colocr data e hora em variavel
         Obito obito = this.getObito();
 
-        notificao.setObito(obito); 
-        
-        
+        notificao.setObito(obito);
     }
     
     @Test
@@ -73,7 +96,38 @@ public class NotificacaoTest extends AbstractionTest{
     {
         aplNotificacao.salvar(notificao);
         
-        Assert.assertNotSame(0, notificao.getId());
+        Assert.assertNotNull(notificao.getObito().getPaciente().getDoacao().getTestemunhas());
+        for (Testemunha test : notificao.getObito().getPaciente().getDoacao().getTestemunhas()){
+            Assert.assertNotSame(0, test);
+        }
+        
+        Assert.assertNotNull(notificao.getObito().getPaciente().getDoacao().getResponsaveis());
+        for (Responsavel resp : notificao.getObito().getPaciente().getDoacao().getResponsaveis()){
+            Assert.assertNotSame(0, resp);
+        }
+        
+        Assert.assertNotNull(notificao.getObito().getPaciente().getDoacao().getRecusaFamiliar());
+        for (MotivoRecusa motivo : notificao.getObito().getPaciente().getDoacao().getRecusaFamiliar()){
+            Assert.assertNotSame(0, motivo);
+        }
+        
+        Assert.assertNotNull(notificao.getObito().getPaciente().getDoacao().getContraIndicacaoMedica());
+        for (MotivoRecusa motivo : notificao.getObito().getPaciente().getDoacao().getContraIndicacaoMedica()){
+            Assert.assertNotSame(0, motivo);
+        }
+        
+        Assert.assertNotNull(notificao.getObito().getPaciente().getDoacao());
+        Assert.assertNotSame(0, notificao.getObito().getPaciente().getDoacao().getId());
+      
+        Assert.assertNotNull(notificao.getObito().getPaciente().getEndereco());
+        Assert.assertNotSame(0, notificao.getObito().getPaciente().getEndereco().getId());
+        
+        Assert.assertNotNull(notificao.getObito().getPaciente().getResponsavel());
+        Assert.assertNotSame(0, notificao.getObito().getPaciente().getResponsavel().getId());
+        
+        Assert.assertNotNull(notificao.getObito().getPaciente());
+        Assert.assertNotSame(0, notificao.getObito().getPaciente().getId());
+        
         //Primeira causa mortis
         Assert.assertNotNull(notificao.getObito().getPrimeiraCausaMortis());
         Assert.assertNotSame(0, notificao.getObito().getPrimeiraCausaMortis().getId());
@@ -90,8 +144,10 @@ public class NotificacaoTest extends AbstractionTest{
         Assert.assertNotNull(notificao.getObito().getQuartaCausaMortis());
         Assert.assertNotSame(0, notificao.getObito().getQuartaCausaMortis().getId());
 
+        Assert.assertNotSame(0, notificao.getId());
         Assert.assertNotNull(notificao.getCodigo());
         Assert.assertNotNull(notificao.getDataAbertura());
+        
         
         //Doacao
         Doacao doacao = notificao.getObito().getPaciente().getDoacao();
@@ -126,10 +182,12 @@ public class NotificacaoTest extends AbstractionTest{
     
     private Paciente getPaciente(){
         Paciente paciente = new Paciente();
+        Doacao doacao = getDoacao();
+        
         paciente.setNome("Lucas Possatti");
         
         Responsavel responsavel = this.getResponsavel();
-        Doacao doacao = getDoacao();
+        paciente.setEndereco(this.getEndereco());
         paciente.setResponsavel(responsavel);
         paciente.setDoacao(doacao);
         
@@ -144,7 +202,20 @@ public class NotificacaoTest extends AbstractionTest{
         Doacao doacao = new Doacao();
         List<MotivoRecusa> contraIndicacao = this.getContraIndicacoes();
         Set <MotivoRecusa> listCIM = new HashSet<MotivoRecusa>(contraIndicacao);
+        
+        List<MotivoRecusa> recusaFamiliar = this.getRecusaFamiliar();
+        Set<MotivoRecusa> listRF = new HashSet<MotivoRecusa>(recusaFamiliar);
         doacao.setContraIndicacaoMedica(listCIM);
+        doacao.setRecusaFamiliar(listRF);
+        
+        doacao.setAutorizada(true);
+        
+        Set<Responsavel> responsaveis = this.getResponsavelDoacao();
+        Set<Testemunha> testemunhas = this.getTestemunhas();
+        //doacao.setCaptacao(this.getCaptacao);
+        
+        doacao.setResponsaveis(responsaveis);
+        doacao.setTestemunhas(testemunhas);
         
         return doacao;
     }
@@ -160,7 +231,111 @@ public class NotificacaoTest extends AbstractionTest{
         
         aplMotivoRecusa.salvar(motivoRecusa);
         
-        return aplMotivoRecusa.obterTodosContraindicacaoMedica();
+        return aplMotivoRecusa.obterTodosContraindicacaoMedica();        
+    }
+    
+    private List<MotivoRecusa> getRecusaFamiliar(){
+        TipoMotivoRecusa tipoMotivoRecusa = new TipoMotivoRecusa();
+        tipoMotivoRecusa.setNome("Motivo 1");
+        aplMotivoRecusa.salvar(tipoMotivoRecusa);
         
+        MotivoRecusa motivoRecusa = new MotivoRecusa();
+        motivoRecusa.setNome("Recusa Familiar");
+        motivoRecusa.setTipoMotivoRecusa(tipoMotivoRecusa);
+        
+        aplMotivoRecusa.salvar(motivoRecusa);
+        
+        return aplMotivoRecusa.obterTodosRecusaFamiliar();
+    }
+    
+    private Set<Responsavel> getResponsavelDoacao(){
+        Responsavel resp = new Responsavel();
+       Set<Responsavel> responsaveis = new HashSet<Responsavel>();
+       
+        
+        resp.setNome("Resp Doacao");
+        resp.setRg("258456321");
+        resp.setParentesco(Parentesco.IRMAOS);
+        resp.setEstadoCivil(EstadoCivil.DIVORCIADO);
+        
+        resp.setTelefones(this.getTelefones());
+        resp.setEndereco(this.getEndereco());
+        resp.setProfissao("Profissao");
+        resp.setNacionalidade("Brasil");
+       
+        responsaveis.add(resp);
+        return responsaveis;
+    }
+    
+    private List<Telefone> getTelefones(){
+        List<Telefone> telefones = new ArrayList<Telefone>();
+        Telefone tel1 = new Telefone();
+        Telefone tel2 = new Telefone();
+        
+        tel1.setNumero("1111-1111");
+        tel1.setTipo(TipoTelefone.RESIDENCIAL);
+        tel2.setNumero("2222-222");
+        tel2.setTipo(TipoTelefone.RESIDENCIAL);
+        
+        telefones.add(tel1);
+        telefones.add(tel2);
+        
+        return telefones;
+    }
+    
+    private Endereco getEndereco(){
+        Endereco ender = new Endereco();
+        
+        ender.setCEP("25812-225");
+        ender.setComplemento("Complemento");
+        ender.setLogradouro("Rua");
+        ender.setNumero("000");
+        ender.setBairro(this.getBairro());
+        ender.setCidade(this.getCidade());
+        ender.setEstado(this.getEstado());
+        
+        return ender;
+    }
+    
+    private Bairro getBairro(){
+        Bairro bairro = new Bairro();
+        bairro.setNome("Bairro1");
+        
+        bairroRepository.save(bairro);
+        
+        return bairro;
+    }
+    
+    private Cidade getCidade(){
+        Cidade cidade = new Cidade();
+        cidade.setNome("cidade1");
+        
+        cidadeRepository.save(cidade);
+        return cidade;
+    }
+    
+    private Estado getEstado(){
+        Estado estado = new Estado();
+        estado.setNome("Estado1");
+        estado.setSigla("ES");
+        
+        estadoRepository.save(estado);
+        
+        return estado;
+    }
+    
+    private Set<Testemunha> getTestemunhas(){
+        Set<Testemunha> testemunhas = new HashSet<Testemunha>();
+        Testemunha test1 = new Testemunha();
+        Testemunha test2 = new Testemunha();
+        test1.setNome("Nome Testemunha 1");
+        test2.setNome("Nome Testemunha 2");
+        
+        test1.setCpf("12345698741");
+        test2.setCpf("22345698741");
+        test1.setEndereco(this.getEndereco());
+        test2.setEndereco(this.getEndereco());
+        
+        return testemunhas;
     }
 }

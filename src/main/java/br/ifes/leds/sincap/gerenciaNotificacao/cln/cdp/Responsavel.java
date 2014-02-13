@@ -10,9 +10,7 @@ import br.ifes.leds.sincap.controleInterno.cln.cdp.Sexo;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Telefone;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import javax.persistence.Column;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -46,7 +44,18 @@ public class Responsavel extends Pessoa {
     @OneToOne
     private Endereco endereco; // Endereco do responsavel
     
-    // Gets e Sets    
+    @Column
+    private String nacionalidade;// nacionalidade do responsavel
+    
+    // Gets e Sets
+    public String getNacionalidade() {
+            return nacionalidade;
+    }
+
+    public void setNacionalidade(String nacionalidade) {
+        this.nacionalidade = nacionalidade;
+    }
+    
     public Sexo getSexo() {
             return sexo;
     }

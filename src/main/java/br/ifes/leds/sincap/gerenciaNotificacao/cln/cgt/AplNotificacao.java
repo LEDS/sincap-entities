@@ -1,7 +1,10 @@
 package br.ifes.leds.sincap.gerenciaNotificacao.cln.cgt;
 
+import br.ifes.leds.reuse.endereco.cdp.Endereco;
+import br.ifes.leds.reuse.endereco.cgd.EnderecoRepository;
 import br.ifes.leds.sincap.controleInterno.cgd.MotivoRecusaRepository;
-import br.ifes.leds.sincap.gerenciaNotificacao.cgd.CaptacaoRepository;
+import br.ifes.leds.sincap.controleInterno.cgd.TelefoneRepository;
+import br.ifes.leds.sincap.controleInterno.cln.cdp.Telefone;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.CausaObitoRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.DoacaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +14,7 @@ import br.ifes.leds.sincap.gerenciaNotificacao.cgd.NotificacaoRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ObitoRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.PacienteRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ResponsavelRepository;
+import br.ifes.leds.sincap.gerenciaNotificacao.cgd.TestemunhaRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Doacao;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Notificacao;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Obito;
@@ -18,6 +22,7 @@ import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Paciente;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Responsavel;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -52,6 +57,15 @@ public class AplNotificacao {
 
     @Autowired
     private MotivoRecusaRepository motivoRecusaRepository;
+    
+    @Autowired
+    private TestemunhaRepository testemunhaRepository;
+    
+    @Autowired
+    private EnderecoRepository enderecoRepository;
+    
+    @Autowired
+    private TelefoneRepository telefoneRepository;
 
     public void salvar(Notificacao notificacao) {
         Obito obito = notificacao.getObito();
@@ -80,7 +94,7 @@ public class AplNotificacao {
         causaObitoRepository.save(obito.getSegundaCausaMortis());
         causaObitoRepository.save(obito.getTerceiraCausaMortis());
         causaObitoRepository.save(obito.getQuartaCausaMortis());
-
+        
         //Salvando o Obito
         obitoRepository.save(obito);
 
@@ -92,9 +106,12 @@ public class AplNotificacao {
 
         //Salvando responsavel
         Responsavel responsavel = paciente.getResponsavel();
+        Endereco ender = paciente.getEndereco();
         responsavelRepository.save(responsavel);
+        enderecoRepository.save(ender);
         pacienteRepository.save(paciente);
-
+        
+        
     }
 
     public List<Notificacao> retornarNotificacaoNaoArquivada(int valorInicial, int qtd) {
@@ -109,8 +126,19 @@ public class AplNotificacao {
     private Doacao salvarDoacao(Doacao doacao) {
 
         motivoRecusaRepository.save(doacao.getContraIndicacaoMedica());
-        //motivoRecusaRepository.save(doacao.getRecusaFamiliar());
-
+        motivoRecusaRepository.save(doacao.getRecusaFamiliar());
+        Set<Responsavel> resp = doacao.getResponsaveis();
+        for (Responsavel responsavel : resp){
+            Endereco ender = responsavel.getEndereco();
+            List<Telefone> telefones = responsavel.getTelefones();
+            for (Telefone tel : telefones){
+                telefoneRepository.save(tel);
+            }
+            enderecoRepository.save(ender);
+        }
+        responsavelRepository.save(doacao.getResponsaveis());
+        testemunhaRepository.save(doacao.getTestemunhas());        
+        
         return doacaoRepository.save(doacao);
     }
 
