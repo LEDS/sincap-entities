@@ -97,7 +97,7 @@ public class AplNotificacao {
 
     }
 
-    public List<Notificacao> retornarNotificacaoNaoArquivada(int valorInicial, int qtd) {
+    public List<Notificacao> retornarNotificacaoNaoArquivada() {
         return notificacaoRepository.findByDataArquivamentoIsNullOrderByDataArquivamentoDesc();
     }
 
