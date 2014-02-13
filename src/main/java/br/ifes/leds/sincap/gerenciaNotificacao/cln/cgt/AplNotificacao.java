@@ -1,7 +1,6 @@
 package br.ifes.leds.sincap.gerenciaNotificacao.cln.cgt;
 
 import br.ifes.leds.sincap.controleInterno.cgd.MotivoRecusaRepository;
-import br.ifes.leds.sincap.gerenciaNotificacao.cgd.CaptacaoRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.CausaObitoRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.DoacaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +18,6 @@ import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Responsavel;
 import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 
 /**
  * AplNotificacao.java
@@ -62,9 +58,17 @@ public class AplNotificacao {
         notificacao.setDataAbertura(Calendar.getInstance());
         notificacaoRepository.save(notificacao);
     }
+    
+    public void arquivar (Notificacao notificacao) {
+        notificacaoRepository.save(notificacao);
+    }
 
     public List<Notificacao> obter() {
         return notificacaoRepository.findAll();
+    }
+     
+    public Notificacao getNotificacao(Long id) {
+        return notificacaoRepository.findOne(id);
     }
 
     public Obito getObito(Long id) {

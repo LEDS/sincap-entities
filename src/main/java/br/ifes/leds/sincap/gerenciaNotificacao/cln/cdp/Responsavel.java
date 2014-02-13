@@ -10,9 +10,8 @@ import br.ifes.leds.sincap.controleInterno.cln.cdp.Sexo;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Telefone;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import javax.persistence.Column;
-import javax.persistence.ManyToOne;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -40,8 +39,8 @@ public class Responsavel extends Pessoa {
     private String profissao;// profissao do responsavel
     
     // TODO telefone e endereco não devem de ser comentarios
-    @OneToMany
-    private List<Telefone> telefones =  new ArrayList<Telefone>(); // Lista de telefones do responsavel
+    @OneToMany(fetch = FetchType.EAGER)
+    private List<Telefone> telefones =  new ArrayList<>(); // Lista de telefones do responsavel
     
     @OneToOne
     private Endereco endereco; // Endereco do responsavel

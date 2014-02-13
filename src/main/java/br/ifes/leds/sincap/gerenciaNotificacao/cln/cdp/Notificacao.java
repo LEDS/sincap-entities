@@ -14,6 +14,7 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
 import br.ifes.leds.reuse.persistence.ObjetoPersistente;
+import br.ifes.leds.sincap.controleInterno.cln.cdp.InstituicaoNotificadora;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Notificador;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Setor;
 
@@ -50,6 +51,10 @@ public class Notificacao extends ObjetoPersistente {
     // notificando
     @OneToOne
     private Setor setor;
+    
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    private InstituicaoNotificadora instituicao;
 
     public Calendar getDataArquivamento() {
         return dataArquivamento;
@@ -99,4 +104,11 @@ public class Notificacao extends ObjetoPersistente {
         this.setor = setor;
     }
 
+    public InstituicaoNotificadora getInstituicao() {
+        return instituicao;
+    }
+
+    public void setInstituicao(InstituicaoNotificadora instituicao) {
+        this.instituicao = instituicao;
+    }
 }

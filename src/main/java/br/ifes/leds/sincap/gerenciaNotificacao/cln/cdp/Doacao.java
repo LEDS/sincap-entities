@@ -12,6 +12,7 @@ import javax.persistence.TemporalType;
 
 import br.ifes.leds.reuse.persistence.ObjetoPersistente;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.MotivoRecusa;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 
@@ -26,13 +27,13 @@ public class Doacao extends ObjetoPersistente {
     @Column
     private boolean autorizada;	//se foi autorizado ou nao
     
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<MotivoRecusa> recusaFamiliar = new HashSet<>(); // motivos de recusa do tipo Recusa Familiar
     
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<MotivoRecusa> contraIndicacaoMedica = new HashSet<>(); //motivos de recusa do tipo contra-indicacao medica
     
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private Set <Responsavel> responsaveis = new HashSet<>();// responsavel do paciente que autorizou, 2 se for menor de idade
 
     @OneToMany
