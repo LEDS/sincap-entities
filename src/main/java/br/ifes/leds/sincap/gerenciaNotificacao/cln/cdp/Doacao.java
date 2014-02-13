@@ -13,6 +13,7 @@ import javax.persistence.TemporalType;
 import br.ifes.leds.reuse.persistence.ObjetoPersistente;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.MotivoRecusa;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 
 /**
  * Doacao.javax
@@ -26,18 +27,18 @@ public class Doacao extends ObjetoPersistente {
     private boolean autorizada;	//se foi autorizado ou nao
     
     @ManyToMany
-    private Set<MotivoRecusa> recusaFamiliar = new HashSet<MotivoRecusa>(); // motivos de recusa do tipo Recusa Familiar
+    private Set<MotivoRecusa> recusaFamiliar = new HashSet<>(); // motivos de recusa do tipo Recusa Familiar
     
     @ManyToMany
-    private Set<MotivoRecusa> contraIndicacaoMedica = new HashSet<MotivoRecusa>(); //motivos de recusa do tipo contra-indicacao medica
+    private Set<MotivoRecusa> contraIndicacaoMedica = new HashSet<>(); //motivos de recusa do tipo contra-indicacao medica
     
     @OneToMany
-    private Set <Responsavel> responsaveis = new HashSet<Responsavel>();// responsavel do paciente que autorizou, 2 se for menor de idade
+    private Set <Responsavel> responsaveis = new HashSet<>();// responsavel do paciente que autorizou, 2 se for menor de idade
 
     @OneToMany
-    private Set<Testemunha> testemunhas = new HashSet<Testemunha>();// testemunhas da autorizacao da doacao
+    private Set<Testemunha> testemunhas = new HashSet<>();// testemunhas da autorizacao da doacao
 
-    @Column
+    @OneToOne
     private Captacao captacao;
 
     @Temporal(TemporalType.DATE)
