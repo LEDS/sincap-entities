@@ -100,6 +100,15 @@ public class AplNotificacao {
     public List<Notificacao> retornarNotificacaoNaoArquivada() {
         return notificacaoRepository.findByDataArquivamentoIsNullOrderByDataArquivamentoDesc();
     }
+    
+    public List<Notificacao> retornarNotificacaoNaoArquivada(int valorInicial, int quantidade, String campoOrdenacao) {
+    
+        Sort sort = new Sort(Sort.Direction.ASC, campoOrdenacao);
+        
+        Pageable pageable = new PageRequest(valorInicial, quantidade, sort);
+        
+        return notificacaoRepository.findByDataArquivamentoIsNull(null);
+    }
 
     private Doacao salvarDoacao(Doacao doacao) {
 

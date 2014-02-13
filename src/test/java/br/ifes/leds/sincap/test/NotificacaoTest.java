@@ -163,4 +163,11 @@ public class NotificacaoTest extends AbstractionTest{
         return aplMotivoRecusa.obterTodosContraindicacaoMedica();
         
     }
+    @Test
+    public void recuperarNotificacoesNaoArquivadas() {
+        
+        List<Notificacao> notificacoes = aplNotificacao.retornarNotificacaoNaoArquivada(0, 10, "dataAbertura");
+        
+        Assert.assertNotNull(notificacoes);
+    }
 }

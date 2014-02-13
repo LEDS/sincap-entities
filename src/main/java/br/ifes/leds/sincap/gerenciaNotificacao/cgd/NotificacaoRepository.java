@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Notificacao;
+import org.springframework.data.domain.Pageable;
 
 /**
  * NotificacaoRepository.java
@@ -18,6 +19,10 @@ import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Notificacao;
 public interface NotificacaoRepository extends JpaRepository <Notificacao, Long> {
     
         List<Notificacao> findByDataArquivamentoIsNullOrderByDataArquivamentoDesc();
+        
+        List<Notificacao> findByDataArquivamentoIsNull(Pageable pageable);
+        
+        List<Notificacao> findByDataArquivamentoIsNotNull(Pageable pageable);
 	
 //	/**
 //	 * Metodo para retornar uma lista de notificacoes relacionados as hospital dado, no intervalo de tempo de ocorrencia da notificao determinado.
