@@ -98,12 +98,7 @@ public class AplNotificacao {
     }
 
     public List<Notificacao> retornarNotificacaoNaoArquivada(int valorInicial, int qtd) {
-
-        Sort sort = new Sort(Sort.Direction.ASC, "dataAbertura");
-
-        Pageable pageable = new PageRequest(valorInicial, qtd, sort);
-
-        return notificacaoRepository.findByDataArquivamentoIsNull(pageable);
+        return notificacaoRepository.findByDataArquivamentoIsNullOrderByDataArquivamentoDesc();
     }
 
     private Doacao salvarDoacao(Doacao doacao) {
