@@ -1,5 +1,6 @@
  package br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp;
 
+import br.ifes.leds.reuse.endereco.cdp.Endereco;
 import java.util.Calendar;
 
 import javax.persistence.Column;
@@ -43,6 +44,9 @@ public class Paciente extends Pessoa {
     
     @Enumerated(EnumType.STRING)
     private Sexo sexo;// Sexo do paciente
+    
+    @OneToOne
+    private Endereco endereco;
 
     @OneToOne
     @JoinColumn(nullable = true)//TODO rever regra de negocio
@@ -63,9 +67,16 @@ public class Paciente extends Pessoa {
     
     @Column
     private String nacionalidade;// nacionalidade do paciente
-    
-    
+
+        
     //Gets e Sets
+    public Endereco getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
+    }
     public Sexo getSexo() {
         return sexo;
     }

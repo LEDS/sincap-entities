@@ -9,20 +9,21 @@ import javax.persistence.ManyToMany;
 
 /**
  * Notificador.java
- * 
+ *
  * @author 20091BSI0273 Classe que representa o notificador
  */
 @Entity
 public class Notificador extends Funcionario {
 
-	@ManyToMany(fetch = FetchType.EAGER)
-	private Set<Hospital> hospitais = new HashSet<Hospital>();
-      
-	public Set<Hospital> getHospitais() {
-		return hospitais;
-	}
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<InstituicaoNotificadora> instituicoesNotificadoras = new HashSet<InstituicaoNotificadora>();
 
-	public void setHospitais(Set<Hospital> hospitais) {
-		this.hospitais = hospitais;
-	}
+    public Set<InstituicaoNotificadora> getInstituicoesNotificadoras() {
+        return instituicoesNotificadoras;
+    }
+
+    public void setInstituicoesNotificadoras(Set<InstituicaoNotificadora> instituicoesNotificadoras) {
+        this.instituicoesNotificadoras = instituicoesNotificadoras;
+    }
+
 }

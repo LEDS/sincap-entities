@@ -12,29 +12,39 @@ import javax.persistence.TemporalType;
 
 import br.ifes.leds.reuse.persistence.ObjetoPersistente;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.MotivoRecusa;
+
 import javax.persistence.FetchType;
+
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 
 /**
  * Doacao.javax
- * @author 20091BSI0273
- * Classe que representa a doacao ou Termo de doacao de Orgaos, 
+ *
+ * @author 20091BSI0273 Classe que representa a doacao ou Termo de doacao de
+ * Orgaos,
  */
 @Entity
 public class Doacao extends ObjetoPersistente {
-	
+
     @Column
     private boolean autorizada;	//se foi autorizado ou nao
     
     @ManyToMany(fetch = FetchType.EAGER)
-    private Set<MotivoRecusa> recusaFamiliar = new HashSet<>(); // motivos de recusa do tipo Recusa Familiar
-    
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Set<MotivoRecusa> contraIndicacaoMedica = new HashSet<>(); //motivos de recusa do tipo contra-indicacao medica
+    private Set<MotivoRecusa> recusaFamiliar = new HashSet<>(); // motivos de recusa do tipo Recusa Familiar 
     
     @OneToMany(fetch = FetchType.EAGER)
     private Set <Responsavel> responsaveis = new HashSet<>();// responsavel do paciente que autorizou, 2 se for menor de idade
+
+
+    @Enumerated(EnumType.STRING)
+    private Parentesco parentesco;
+
+    @ManyToMany
+    private Set<MotivoRecusa> motivoRecusa = new HashSet<>(); // motivos de recusa do tipo Recusa Familiar
 
     @OneToMany
     private Set<Testemunha> testemunhas = new HashSet<>();// testemunhas da autorizacao da doacao
@@ -45,28 +55,32 @@ public class Doacao extends ObjetoPersistente {
     @Temporal(TemporalType.DATE)
     private Calendar dataEntrevista;
 
+    @Temporal(TemporalType.TIMESTAMP)
+    private Calendar hrEntrevista;
+
+    //Gets e Sets
+    public Calendar getHrEntrevista() {
+        return hrEntrevista;
+    }
+
+    public void setHrEntrevista(Calendar hrEntrevista) {
+        this.hrEntrevista = hrEntrevista;
+    }
+
+    public Parentesco getParentesco() {
+        return parentesco;
+    }
+
+    public void setParentesco(Parentesco parentesco) {
+        this.parentesco = parentesco;
+    }
+
     public boolean isAutorizada() {
         return autorizada;
     }
 
     public void setAutorizada(boolean autorizada) {
         this.autorizada = autorizada;
-    }
-
-    public Set<MotivoRecusa> getRecusaFamiliar() {
-        return recusaFamiliar;
-    }
-
-    public void setRecusaFamiliar(Set<MotivoRecusa> recusaFamiliar) {
-        this.recusaFamiliar = recusaFamiliar;
-    }
-
-    public Set<MotivoRecusa> getContraIndicacaoMedica() {
-        return contraIndicacaoMedica;
-    }
-
-    public void setContraIndicacaoMedica(Set<MotivoRecusa> contraIndicacaoMedica) {
-        this.contraIndicacaoMedica = contraIndicacaoMedica;
     }
 
     public Calendar getDataEntrevista() {
@@ -78,27 +92,47 @@ public class Doacao extends ObjetoPersistente {
     }
 
     public Captacao getCaptacao() {
-            return captacao;
+        return captacao;
     }
 
     public void setCaptacao(Captacao captacao) {
-            this.captacao = captacao;
+        this.captacao = captacao;
     }
 
     public Set<Responsavel> getResponsaveis() {
-            return responsaveis;
+        return responsaveis;
     }
 
     public void setResponsaveis(Set<Responsavel> responsaveis) {
-            this.responsaveis = responsaveis;
+        this.responsaveis = responsaveis;
     }
 
     public Set<Testemunha> getTestemunhas() {
-            return testemunhas;
+        return testemunhas;
     }
 
     public void setTestemunhas(Set<Testemunha> testemunhas) {
-            this.testemunhas = testemunhas;
+        this.testemunhas = testemunhas;
     }
-	
+
+    public Set<MotivoRecusa> getMotivoRecusa() {
+        return motivoRecusa;
+    }
+
+    public void setMotivoRecusa(Set<MotivoRecusa> motivoRecusa) {
+        this.motivoRecusa = motivoRecusa;
+    }
+
+    public void addMotivoRecusa(MotivoRecusa motivoRecusa){
+           this.motivoRecusa.add(motivoRecusa);
+    }
+    
+    public void addResponsavel(Responsavel responsavel){
+           this.responsaveis.add(responsavel);
+    }
+    
+    public void addTestemunha(Testemunha testemunha){
+           this.testemunhas.add(testemunha);
+    }
+
 }

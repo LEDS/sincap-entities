@@ -45,7 +45,18 @@ public class Responsavel extends Pessoa {
     @OneToOne
     private Endereco endereco; // Endereco do responsavel
     
-    // Gets e Sets    
+    @Column
+    private String nacionalidade;// nacionalidade do responsavel
+    
+    // Gets e Sets
+    public String getNacionalidade() {
+            return nacionalidade;
+    }
+
+    public void setNacionalidade(String nacionalidade) {
+        this.nacionalidade = nacionalidade;
+    }
+    
     public Sexo getSexo() {
             return sexo;
     }

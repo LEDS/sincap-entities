@@ -5,7 +5,6 @@ import java.util.Calendar;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
@@ -14,7 +13,6 @@ import javax.persistence.TemporalType;
 
 
 import br.ifes.leds.reuse.persistence.ObjetoPersistente;
-import javax.persistence.CascadeType;
 
 /**
  * Obito.java
