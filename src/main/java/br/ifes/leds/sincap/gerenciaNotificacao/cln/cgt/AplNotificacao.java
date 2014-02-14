@@ -18,6 +18,9 @@ import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Responsavel;
 import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 /**
  * AplNotificacao.java
