@@ -3,6 +3,8 @@ package br.ifes.leds.sincap.controleInterno.cln.cdp;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
 
@@ -27,7 +29,9 @@ public class Funcionario extends Pessoa {
     private boolean active;// ativo ou inativo
     @OneToMany
     private Set<Telefone> telefones;
-
+    @Enumerated(EnumType.STRING)
+    private TipoUsuario tipoUsuario;
+    
     public String getCpf() {
         return cpf;
     }
@@ -74,6 +78,14 @@ public class Funcionario extends Pessoa {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public TipoUsuario getTipoUsuario() {
+        return tipoUsuario;
+    }
+
+    public void setTipoUsuario(TipoUsuario tipoUsuario) {
+        this.tipoUsuario = tipoUsuario;
     }
     
     
