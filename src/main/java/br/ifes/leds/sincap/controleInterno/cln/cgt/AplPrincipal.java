@@ -10,9 +10,10 @@ import org.springframework.stereotype.Service;
 
 import br.ifes.leds.sincap.controleInterno.cgd.NotificadorRepository;
 import br.ifes.leds.sincap.controleInterno.cgd.FuncionarioRepository;
+import br.ifes.leds.sincap.controleInterno.cln.cdp.BancoOlhos;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Captador;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Funcionario;
-import br.ifes.leds.sincap.controleInterno.cln.cdp.Hospital;
+import br.ifes.leds.sincap.controleInterno.cln.cdp.InstituicaoNotificadora;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Notificador;
 
 /**
@@ -60,11 +61,22 @@ public class AplPrincipal {
 
     }
 
-    public Set<Hospital> obterHopitaisPorUsername(String username) throws Exception {
+    public Set<InstituicaoNotificadora> obterInstituicoesNotificadorasPorCpf(String username) throws Exception {
         
         Notificador notificador = this.notificadorRepository.findByCpf(username);
         if (notificador != null) {
-            return notificador.getHospitais();
+            return notificador.getInstituicoesNotificadoras();
+        } else {
+            throw new Exception("Nome de usuario nao existe");
+        }
+
+    }
+    
+    public BancoOlhos obterBancoOlhosPorCpf(String username) throws Exception {
+        
+        Captador captador = this.captadorRepository.findByCpf(username);
+        if (captador != null) {
+            return captador.getBancoOlhos();
         } else {
             throw new Exception("Nome de usuario nao existe");
         }
@@ -74,6 +86,11 @@ public class AplPrincipal {
     public Notificador obterNotificadorPorUsuarioUsername(String username) {
 
         return notificadorRepository.findByCpf(username);
+    }
+    
+    public Funcionario obterFuncionarioPorUsuarioUsername(String username) {
+
+        return funcionarioRepository.findByCpf(username);
     }
 
 }
