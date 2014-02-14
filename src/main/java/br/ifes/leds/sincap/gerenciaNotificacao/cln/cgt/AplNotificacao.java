@@ -107,6 +107,11 @@ public class AplNotificacao {
         //Salvando responsavel
         Responsavel responsavel = paciente.getResponsavel();
         Endereco ender = paciente.getEndereco();
+        List<Telefone> telefones = responsavel.getTelefones();
+        telefoneRepository.save(telefones);
+//        for(Telefone telefone : telefones){
+//            telefoneRepository.save(telefone);
+//        }
         responsavelRepository.save(responsavel);
         enderecoRepository.save(ender);
         pacienteRepository.save(paciente);
@@ -124,9 +129,7 @@ public class AplNotificacao {
     }
 
     private Doacao salvarDoacao(Doacao doacao) {
-
-        motivoRecusaRepository.save(doacao.getContraIndicacaoMedica());
-        motivoRecusaRepository.save(doacao.getRecusaFamiliar());
+      
         Set<Responsavel> resp = doacao.getResponsaveis();
         for (Responsavel responsavel : resp){
             Endereco ender = responsavel.getEndereco();

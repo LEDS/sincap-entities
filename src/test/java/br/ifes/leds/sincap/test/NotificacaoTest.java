@@ -106,13 +106,9 @@ public class NotificacaoTest extends AbstractionTest{
             Assert.assertNotSame(0, resp);
         }
         
-        Assert.assertNotNull(notificao.getObito().getPaciente().getDoacao().getRecusaFamiliar());
-        for (MotivoRecusa motivo : notificao.getObito().getPaciente().getDoacao().getRecusaFamiliar()){
-            Assert.assertNotSame(0, motivo);
-        }
-        
-        Assert.assertNotNull(notificao.getObito().getPaciente().getDoacao().getContraIndicacaoMedica());
-        for (MotivoRecusa motivo : notificao.getObito().getPaciente().getDoacao().getContraIndicacaoMedica()){
+             
+        Assert.assertNotNull(notificao.getObito().getPaciente().getDoacao().getMotivoRecusa());
+        for (MotivoRecusa motivo : notificao.getObito().getPaciente().getDoacao().getMotivoRecusa()){
             Assert.assertNotSame(0, motivo);
         }
         
@@ -201,12 +197,18 @@ public class NotificacaoTest extends AbstractionTest{
     private Doacao getDoacao(){
         Doacao doacao = new Doacao();
         List<MotivoRecusa> contraIndicacao = this.getContraIndicacoes();
-        Set <MotivoRecusa> listCIM = new HashSet<MotivoRecusa>(contraIndicacao);
+       
         
         List<MotivoRecusa> recusaFamiliar = this.getRecusaFamiliar();
-        Set<MotivoRecusa> listRF = new HashSet<MotivoRecusa>(recusaFamiliar);
-        doacao.setContraIndicacaoMedica(listCIM);
-        doacao.setRecusaFamiliar(listRF);
+       
+        for(MotivoRecusa motivoRecusa : recusaFamiliar){
+            doacao.addMotivoRecusa(motivoRecusa);
+        }
+        
+        for(MotivoRecusa motivoRecusa : contraIndicacao){
+            doacao.addMotivoRecusa(motivoRecusa);
+        }
+          
         
         doacao.setAutorizada(true);
         
@@ -333,8 +335,6 @@ public class NotificacaoTest extends AbstractionTest{
         
         test1.setCpf("12345698741");
         test2.setCpf("22345698741");
-        test1.setEndereco(this.getEndereco());
-        test2.setEndereco(this.getEndereco());
         
         return testemunhas;
     }
