@@ -23,7 +23,7 @@ public class AplMotivoRecusa {
     // MOTIVO RECUSA
     public List<MotivoRecusa> obterTodosContraindicacaoMedica() {
         // 2 -- id do Contra Indicação Médica
-        TipoMotivoRecusa tipo = this.obterTipoMotivoRecusa(2);
+        TipoMotivoRecusa tipo = this.obterTipoMotivoRecusa("Contra Indicação Médica");
         return motivoRecusaRepository.findByTipoMotivoRecusa(tipo);
     }
 

@@ -14,7 +14,9 @@ import br.ifes.leds.reuse.endereco.cgd.BairroRepository;
 import br.ifes.leds.reuse.endereco.cgd.CidadeRepository;
 import br.ifes.leds.reuse.endereco.cgd.EnderecoRepository;
 import br.ifes.leds.reuse.endereco.cgd.EstadoRepository;
+import br.ifes.leds.sincap.controleInterno.cgd.HospitalRepository;
 import br.ifes.leds.sincap.controleInterno.cgd.NotificadorRepository;
+import br.ifes.leds.sincap.controleInterno.cln.cdp.Hospital;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.MotivoRecusa;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Notificador;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Telefone;
@@ -73,6 +75,9 @@ public class NotificacaoTest extends AbstractionTest{
     @Autowired
     private EnderecoRepository enderecoRepository;
     
+    @Autowired
+    private HospitalRepository hospitalRepository;
+    
     private Notificacao notificao;
     
     @Before
@@ -80,10 +85,13 @@ public class NotificacaoTest extends AbstractionTest{
     {
         notificao = new Notificacao();
         
+        Hospital hospital = hospitalRepository.findAll().get(0);
+        
         Notificador notificador = new Notificador();
         notificador.setCpf("12345");
         notificadorRepository.save(notificador);        
         notificao.setNotificador(notificador);
+        notificao.setInstituicao(hospital);
        
         //TODO -- colocr data e hora em variavel
         Obito obito = this.getObito();

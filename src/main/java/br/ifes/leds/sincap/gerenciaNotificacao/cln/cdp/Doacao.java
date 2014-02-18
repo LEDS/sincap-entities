@@ -33,9 +33,6 @@ public class Doacao extends ObjetoPersistente {
     @Column
     private boolean autorizada;	//se foi autorizado ou nao
     
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Set<MotivoRecusa> recusaFamiliar = new HashSet<>(); // motivos de recusa do tipo Recusa Familiar 
-    
     @OneToMany(fetch = FetchType.EAGER)
     private Set <Responsavel> responsaveis = new HashSet<>();// responsavel do paciente que autorizou, 2 se for menor de idade
 
