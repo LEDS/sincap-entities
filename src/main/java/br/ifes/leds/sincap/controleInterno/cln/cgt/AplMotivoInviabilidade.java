@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.ifes.leds.reuse.ledsExceptions.CRUDExceptions.MotivoInviabilidadeEmUsoException;
 import br.ifes.leds.reuse.ledsExceptions.CRUDExceptions.MotivoInviabilidadeExistenteException;
 import br.ifes.leds.sincap.controleInterno.cgd.MotivoInviabilidadeRepository;
 import br.ifes.leds.sincap.controleInterno.cgd.TipoMotivoInviabilidadeRepository;
@@ -17,35 +16,35 @@ import br.ifes.leds.sincap.gerenciaNotificacao.cgd.NotificacaoRepository;
 public class AplMotivoInviabilidade {
 
     @Autowired
-    TipoMotivoInviabilidadeRepository TipoMotivoInviabilidadeRepository;
+    TipoMotivoInviabilidadeRepository tipoMotivoInviabilidadeRepository;
 
     @Autowired
-    MotivoInviabilidadeRepository repos;
+    MotivoInviabilidadeRepository motivoInviabilidadeRepository;
 
     @Autowired
     NotificacaoRepository notificacaoRepository;
 
     public List<TipoMotivoInviabilidade> getTipoMotivoInviabilidade()
     {
-            return TipoMotivoInviabilidadeRepository.findAll();
+            return tipoMotivoInviabilidadeRepository.findAll();
     }
 
     public void adicionar(MotivoInviabilidade novoMotivoInviabilidade) throws MotivoInviabilidadeExistenteException
     {
             String nome = novoMotivoInviabilidade.getNome().toUpperCase().trim();
 
-            MotivoInviabilidade motivoInviabilidade = repos.findByNome(nome);
+            MotivoInviabilidade motivoInviabilidade = motivoInviabilidadeRepository.findByNome(nome);
 
             if (motivoInviabilidade != null) throw new MotivoInviabilidadeExistenteException();
 
             novoMotivoInviabilidade.setNome(nome);
 
-            repos.save(novoMotivoInviabilidade);
+            motivoInviabilidadeRepository.save(novoMotivoInviabilidade);
     }
 
     public void editar(MotivoInviabilidade motivoInviabilidade)
     {
-            this.repos.save(motivoInviabilidade);
+            this.motivoInviabilidadeRepository.save(motivoInviabilidade);
     }
 
 //	public void excluir(MotivoInviabilidade motivoInviabilidade) throws MotivoInviabilidadeEmUsoException
@@ -58,27 +57,27 @@ public class AplMotivoInviabilidade {
 	
     public List<MotivoInviabilidade> buscarPorTipoMotivoInviabilidade(TipoMotivoInviabilidade tipoMotivoInviabilidade)
     {
-            return repos.findByTipoMotivoInviabilidade(tipoMotivoInviabilidade);
+            return motivoInviabilidadeRepository.findByTipoMotivoInviabilidade(tipoMotivoInviabilidade);
     }
 
     public List<MotivoInviabilidade> buscarPorTipoMotivoInviabilidadeId(Long id)
     {
-            return repos.findByTipoMotivoInviabilidadeId(id);
+            return motivoInviabilidadeRepository.findByTipoMotivoInviabilidadeId(id);
     }
 
     public List<MotivoInviabilidade> obter()
     {
-            return repos.findAll();
+            return motivoInviabilidadeRepository.findAll();
     }
 
     public MotivoInviabilidade buscar(String nome)
     {
-            return repos.findByNome(nome);
+            return motivoInviabilidadeRepository.findByNome(nome);
     }
 
     public MotivoInviabilidade buscar(Long id)
     {
-            return repos.findById(id);
+            return motivoInviabilidadeRepository.findById(id);
     }
 	
 }

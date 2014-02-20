@@ -5,6 +5,7 @@ import br.ifes.leds.reuse.endereco.cgd.EnderecoRepository;
 import br.ifes.leds.sincap.controleInterno.cgd.MotivoRecusaRepository;
 import br.ifes.leds.sincap.controleInterno.cgd.TelefoneRepository;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Telefone;
+import br.ifes.leds.sincap.gerenciaNotificacao.cgd.CaptacaoRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.CausaObitoRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.DoacaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ObitoRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.PacienteRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ResponsavelRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.TestemunhaRepository;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Captacao;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Doacao;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Notificacao;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Obito;
@@ -66,6 +68,9 @@ public class AplNotificacao {
     
     @Autowired
     private TelefoneRepository telefoneRepository;
+    
+    @Autowired
+    private CaptacaoRepository captacaoRepository;
 
     public void salvar(Notificacao notificacao) {
         Obito obito = notificacao.getObito();
@@ -141,7 +146,9 @@ public class AplNotificacao {
     }
 
     private Doacao salvarDoacao(Doacao doacao) {
-      
+        
+        Captacao captacao = doacao.getCaptacao();
+        
         Set<Responsavel> resp = doacao.getResponsaveis();
         for (Responsavel responsavel : resp){
             Endereco ender = responsavel.getEndereco();
@@ -151,6 +158,8 @@ public class AplNotificacao {
             }
             enderecoRepository.save(ender);
         }
+        
+        captacaoRepository.save(captacao);
         responsavelRepository.save(doacao.getResponsaveis());
         testemunhaRepository.save(doacao.getTestemunhas());        
         
