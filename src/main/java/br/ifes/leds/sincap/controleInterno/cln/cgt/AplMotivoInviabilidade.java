@@ -1,5 +1,6 @@
 package br.ifes.leds.sincap.controleInterno.cln.cgt;
 
+import br.ifes.leds.reuse.ledsExceptions.CRUDExceptions.MotivoInviabilidadeEmUsoException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import br.ifes.leds.sincap.controleInterno.cgd.MotivoInviabilidadeRepository;
 import br.ifes.leds.sincap.controleInterno.cgd.TipoMotivoInviabilidadeRepository;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.MotivoInviabilidade;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.TipoMotivoInviabilidade;
+import br.ifes.leds.sincap.gerenciaNotificacao.cgd.CaptacaoRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.NotificacaoRepository;
 
 @Service
@@ -20,64 +22,61 @@ public class AplMotivoInviabilidade {
 
     @Autowired
     MotivoInviabilidadeRepository motivoInviabilidadeRepository;
+    
+    @Autowired
+    CaptacaoRepository captacaoRepository;
 
     @Autowired
     NotificacaoRepository notificacaoRepository;
 
-    public List<TipoMotivoInviabilidade> getTipoMotivoInviabilidade()
-    {
-            return tipoMotivoInviabilidadeRepository.findAll();
+    public List<TipoMotivoInviabilidade> getTipoMotivoInviabilidade() {
+        return tipoMotivoInviabilidadeRepository.findAll();
     }
 
-    public void adicionar(MotivoInviabilidade novoMotivoInviabilidade) throws MotivoInviabilidadeExistenteException
-    {
-            String nome = novoMotivoInviabilidade.getNome().toUpperCase().trim();
+    public void adicionar(MotivoInviabilidade novoMotivoInviabilidade) throws MotivoInviabilidadeExistenteException {
+        String nome = novoMotivoInviabilidade.getNome().toUpperCase().trim();
 
-            MotivoInviabilidade motivoInviabilidade = motivoInviabilidadeRepository.findByNome(nome);
+        MotivoInviabilidade motivoInviabilidade = motivoInviabilidadeRepository.findByNome(nome);
 
-            if (motivoInviabilidade != null) throw new MotivoInviabilidadeExistenteException();
+        if (motivoInviabilidade != null) {
+            throw new MotivoInviabilidadeExistenteException();
+        }
 
-            novoMotivoInviabilidade.setNome(nome);
+        novoMotivoInviabilidade.setNome(nome);
 
-            motivoInviabilidadeRepository.save(novoMotivoInviabilidade);
+        motivoInviabilidadeRepository.save(novoMotivoInviabilidade);
     }
 
-    public void editar(MotivoInviabilidade motivoInviabilidade)
-    {
-            this.motivoInviabilidadeRepository.save(motivoInviabilidade);
+    public void editar(MotivoInviabilidade motivoInviabilidade) {
+        this.motivoInviabilidadeRepository.save(motivoInviabilidade);
     }
 
-//	public void excluir(MotivoInviabilidade motivoInviabilidade) throws MotivoInviabilidadeEmUsoException
-//	{
-//		if(this.notificacaoRepository.findByMotivoInviabilidade(motivoInviabilidade).isEmpty())
-//			this.repos.delete(motivoInviabilidade.getId());
-//		else
-//			throw new MotivoInviabilidadeEmUsoException();
-//	}
-	
-    public List<MotivoInviabilidade> buscarPorTipoMotivoInviabilidade(TipoMotivoInviabilidade tipoMotivoInviabilidade)
-    {
-            return motivoInviabilidadeRepository.findByTipoMotivoInviabilidade(tipoMotivoInviabilidade);
+    public void excluir(MotivoInviabilidade motivoInviabilidade) throws MotivoInviabilidadeEmUsoException {
+        if (this.captacaoRepository.findByMotivosInviabilidade(motivoInviabilidade).isEmpty()) {
+            this.motivoInviabilidadeRepository.delete(motivoInviabilidade.getId());
+        } else {
+            throw new MotivoInviabilidadeEmUsoException();
+        }
     }
 
-    public List<MotivoInviabilidade> buscarPorTipoMotivoInviabilidadeId(Long id)
-    {
-            return motivoInviabilidadeRepository.findByTipoMotivoInviabilidadeId(id);
+    public List<MotivoInviabilidade> buscarPorTipoMotivoInviabilidade(TipoMotivoInviabilidade tipoMotivoInviabilidade) {
+        return motivoInviabilidadeRepository.findByTipoMotivoInviabilidade(tipoMotivoInviabilidade);
     }
 
-    public List<MotivoInviabilidade> obter()
-    {
-            return motivoInviabilidadeRepository.findAll();
+    public List<MotivoInviabilidade> buscarPorTipoMotivoInviabilidadeId(Long id) {
+        return motivoInviabilidadeRepository.findByTipoMotivoInviabilidadeId(id);
     }
 
-    public MotivoInviabilidade buscar(String nome)
-    {
-            return motivoInviabilidadeRepository.findByNome(nome);
+    public List<MotivoInviabilidade> obter() {
+        return motivoInviabilidadeRepository.findAll();
     }
 
-    public MotivoInviabilidade buscar(Long id)
-    {
-            return motivoInviabilidadeRepository.findById(id);
+    public MotivoInviabilidade buscar(String nome) {
+        return motivoInviabilidadeRepository.findByNome(nome);
     }
-	
+
+    public MotivoInviabilidade buscar(Long id) {
+        return motivoInviabilidadeRepository.findById(id);
+    }
+
 }

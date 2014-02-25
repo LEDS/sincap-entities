@@ -1,5 +1,6 @@
 package br.ifes.leds.sincap.gerenciaNotificacao.cgd;
 
+import br.ifes.leds.sincap.controleInterno.cln.cdp.InstituicaoNotificadora;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -23,6 +24,8 @@ public interface NotificacaoRepository extends JpaRepository <Notificacao, Long>
         List<Notificacao> findByDataArquivamentoIsNull(Pageable pageable);
         
         List<Notificacao> findByDataArquivamentoIsNotNull(Pageable pageable);
+        
+        List<Notificacao> findByInstituicaoId(Long id);
 	
 //	/**
 //	 * Metodo para retornar uma lista de notificacoes relacionados as hospital dado, no intervalo de tempo de ocorrencia da notificao determinado.

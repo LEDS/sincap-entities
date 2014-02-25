@@ -16,6 +16,7 @@ import br.ifes.leds.reuse.endereco.cgd.EstadoRepository;
 import br.ifes.leds.sincap.controleInterno.cgd.HospitalRepository;
 import br.ifes.leds.sincap.controleInterno.cgd.NotificadorRepository;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Hospital;
+import br.ifes.leds.sincap.controleInterno.cln.cdp.Instituicao;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.MotivoInviabilidade;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.MotivoRecusa;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Notificador;
@@ -375,5 +376,17 @@ public class NotificacaoTest extends AbstractionTest {
         captacao.setMotivosInviabilidade(motivosInviabilidades);        
         
         return captacao;
+    }
+    
+    @Test
+    public void retornaNotificacoesPorInstituicao(){
+        
+        salvar();
+        Instituicao instituicao = notificao.getInstituicao();
+        Assert.assertNotNull(instituicao);
+        Assert.assertNotSame(0, instituicao.getId());
+        List<Notificacao> notificacoes = aplNotificacao.retornarNotificacao(instituicao.getId());
+        Assert.assertNotNull(notificacoes);
+        Assert.assertNotSame(0, notificacoes.size());
     }
 }

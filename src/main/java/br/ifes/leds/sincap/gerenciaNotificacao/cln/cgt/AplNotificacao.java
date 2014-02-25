@@ -58,9 +58,6 @@ public class AplNotificacao {
     private DoacaoRepository doacaoRepository;
 
     @Autowired
-    private MotivoRecusaRepository motivoRecusaRepository;
-    
-    @Autowired
     private TestemunhaRepository testemunhaRepository;
     
     @Autowired
@@ -168,6 +165,11 @@ public class AplNotificacao {
 
     private String genereateCode() {
         return UUID.randomUUID().toString();
+    }
+    
+    public List<Notificacao> retornarNotificacao (Long idHospital)
+    {
+        return notificacaoRepository.findByInstituicaoId(idHospital);
     }
 
 }

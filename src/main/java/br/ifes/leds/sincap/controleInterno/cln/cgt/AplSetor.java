@@ -6,12 +6,14 @@
 
 package br.ifes.leds.sincap.controleInterno.cln.cgt;
 
+import br.ifes.leds.reuse.ledsExceptions.CRUDExceptions.SetorEmUsoException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.ifes.leds.reuse.ledsExceptions.CRUDExceptions.SetorExistenteException;
+import br.ifes.leds.sincap.controleInterno.cgd.HospitalRepository;
 import br.ifes.leds.sincap.controleInterno.cgd.SetorRepository;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Hospital;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Setor;
@@ -23,54 +25,63 @@ import br.ifes.leds.sincap.controleInterno.cln.cdp.Setor;
 @Service
 public class AplSetor {
     @Autowired
-    private SetorRepository repository;
+    private SetorRepository setorRepository;
+    
+    @Autowired
+    private HospitalRepository hospitalRepository;
     
     
     public List<Setor> buscar(Hospital hospital)
     {
-        return this.repository.findByHospital(hospital);
+        return this.setorRepository.findByHospital(hospital);
     }
     
     public List<Setor> buscar(Long idHospital)
     {
-        return this.repository.findByHospitalId(idHospital);
+        return this.setorRepository.findByHospitalId(idHospital);
     }
     
     public void addHospital(Hospital hospital, Long idSetor)
     {
-        Setor setor = this.repository.findOne(idSetor);
+        Setor setor = this.setorRepository.findOne(idSetor);
         setor.addHospital(hospital);
-        this.repository.save(setor);
+        this.setorRepository.save(setor);
     }
     
     public void removeHospital(Hospital hospital, Long idSetor)
     {
-        Setor setor = this.repository.findOne(idSetor);
+        Setor setor = this.setorRepository.findOne(idSetor);
         setor.removeHospital(hospital);
     }
     
     public Setor buscarSetor(Long idSetor){
-    	return this.repository.findOne(idSetor);
+    	return this.setorRepository.findOne(idSetor);
     }
     
     public void adicionar(Setor setor) throws SetorExistenteException{
     	
     	String nomeSetor = setor.getNome().toUpperCase().trim();
 		
-		Setor setorBanco = repository.findByNome(nomeSetor);
+		Setor setorBanco = setorRepository.findByNome(nomeSetor);
 		
 		if (setorBanco != null) throw new SetorExistenteException();
 				
 		setor.setNome(nomeSetor);
 		
-		repository.save(setor);
+		setorRepository.save(setor);
     }
     
     public List<Setor> obter(){
-    	return this.repository.findAll();
+    	return this.setorRepository.findAll();
     }
     
-    public void excluir(Long id){
-    	this.repository.delete(id);
+    public void excluir(Long id) throws SetorEmUsoException{
+        
+        Setor setor = setorRepository.findOne(id);
+        
+        if(hospitalRepository.findBySetores(setor).isEmpty())
+            this.setorRepository.delete(id);
+        else
+            throw new SetorEmUsoException();
     }
 }
