@@ -68,4 +68,6 @@ public interface NotificacaoRepository extends JpaRepository <Notificacao, Long>
 //		
 //	/* Metodo para encontrar notificacoes com determinado MotivoInviabilidade*/
 //	public List<Notificacao> findByMotivoInviabilidadeId(Long Id);
+
+    public List<Notificacao> findByDataArquivamentoIsNotNullOrderByDataAberturaDesc();
 }

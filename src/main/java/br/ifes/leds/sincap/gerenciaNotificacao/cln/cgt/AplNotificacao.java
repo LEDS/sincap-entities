@@ -132,7 +132,11 @@ public class AplNotificacao {
     public List<Notificacao> retornarNotificacaoNaoArquivada() {
         return notificacaoRepository.findByDataArquivamentoIsNullOrderByDataAberturaDesc();
     }
-    
+
+    public List<Notificacao> retornarNotificacaoArquivada() {
+        return notificacaoRepository.findByDataArquivamentoIsNotNullOrderByDataAberturaDesc();
+    }
+
     public List<Notificacao> retornarNotificacaoNaoArquivada(int valorInicial, int quantidade, String campoOrdenacao) {
     
         Sort sort = new Sort(Sort.Direction.ASC, campoOrdenacao);
