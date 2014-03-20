@@ -59,13 +59,13 @@ public class AplNotificacao {
 
     @Autowired
     private TestemunhaRepository testemunhaRepository;
-    
+
     @Autowired
     private EnderecoRepository enderecoRepository;
-    
+
     @Autowired
     private TelefoneRepository telefoneRepository;
-    
+
     @Autowired
     private CaptacaoRepository captacaoRepository;
 
@@ -78,15 +78,15 @@ public class AplNotificacao {
         notificacao.setDataAbertura(Calendar.getInstance());
         notificacaoRepository.save(notificacao);
     }
-    
-    public void arquivar (Notificacao notificacao) {
+
+    public void arquivar(Notificacao notificacao) {
         notificacaoRepository.save(notificacao);
     }
 
     public List<Notificacao> obter() {
         return notificacaoRepository.findAll();
     }
-     
+
     public Notificacao getNotificacao(Long id) {
         return notificacaoRepository.findOne(id);
     }
@@ -104,7 +104,7 @@ public class AplNotificacao {
         causaObitoRepository.save(obito.getSegundaCausaMortis());
         causaObitoRepository.save(obito.getTerceiraCausaMortis());
         causaObitoRepository.save(obito.getQuartaCausaMortis());
-        
+
         //Salvando o Obito
         obitoRepository.save(obito);
 
@@ -125,8 +125,7 @@ public class AplNotificacao {
         responsavelRepository.save(responsavel);
         enderecoRepository.save(ender);
         pacienteRepository.save(paciente);
-        
-        
+
     }
 
     public List<Notificacao> retornarNotificacaoNaoArquivada() {
@@ -138,41 +137,44 @@ public class AplNotificacao {
     }
 
     public List<Notificacao> retornarNotificacaoNaoArquivada(int valorInicial, int quantidade, String campoOrdenacao) {
-    
+
         Sort sort = new Sort(Sort.Direction.ASC, campoOrdenacao);
-        
+
         Pageable pageable = new PageRequest(valorInicial, quantidade, sort);
-        
+
         return notificacaoRepository.findByDataArquivamentoIsNull(null);
     }
 
+    public List<Notificacao> retornarTodasNotificacoes() {
+        return notificacaoRepository.findByDataAberturaIsNotNullOrderByDataAberturaDesc();
+    }
+
     private Doacao salvarDoacao(Doacao doacao) {
-        
+
         Captacao captacao = doacao.getCaptacao();
-        
+
         Set<Responsavel> resp = doacao.getResponsaveis();
-        for (Responsavel responsavel : resp){
+        for (Responsavel responsavel : resp) {
             Endereco ender = responsavel.getEndereco();
             List<Telefone> telefones = responsavel.getTelefones();
-            for (Telefone tel : telefones){
+            for (Telefone tel : telefones) {
                 telefoneRepository.save(tel);
             }
             enderecoRepository.save(ender);
         }
-        
+
         captacaoRepository.save(captacao);
         responsavelRepository.save(doacao.getResponsaveis());
-        testemunhaRepository.save(doacao.getTestemunhas());        
-        
+        testemunhaRepository.save(doacao.getTestemunhas());
+
         return doacaoRepository.save(doacao);
     }
 
     private String genereateCode() {
         return UUID.randomUUID().toString();
     }
-    
-    public List<Notificacao> retornarNotificacao (Long idHospital)
-    {
+
+    public List<Notificacao> retornarNotificacao(Long idHospital) {
         return notificacaoRepository.findByInstituicaoId(idHospital);
     }
 
