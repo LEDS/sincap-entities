@@ -17,6 +17,7 @@ import br.ifes.leds.reuse.persistence.ObjetoPersistente;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.InstituicaoNotificadora;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Notificador;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Setor;
+import javax.persistence.FetchType;
 
 /**
  * Notificacao.java
@@ -45,14 +46,14 @@ public class Notificacao extends ObjetoPersistente {
     @Cascade({CascadeType.SAVE_UPDATE})
     private Obito obito;// representa o obito que esta sendo notificado
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
     private Notificador notificador;// representa o notificador que esta
     // notificando
     @OneToOne
     private Setor setor;
     
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
     private InstituicaoNotificadora instituicao;
 
