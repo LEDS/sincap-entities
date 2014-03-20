@@ -171,5 +171,10 @@ public class AplNotificacao {
     {
         return notificacaoRepository.findByInstituicaoId(idHospital);
     }
+    
+    public List<Notificacao> retornarNotificacaoPorData(Calendar DataAberturaIni, Calendar DataAberturaFim)
+    {
+        return notificacaoRepository.findByDataArquivamentoBetween(DataAberturaIni, DataAberturaFim);
+    }
 
 }
