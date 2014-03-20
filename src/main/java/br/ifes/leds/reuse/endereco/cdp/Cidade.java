@@ -22,7 +22,7 @@ public class Cidade extends ObjetoPersistente {
     @Column
     private String nome;
     
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.LAZY)
     @Cascade(CascadeType.SAVE_UPDATE)
     private Set<Bairro> bairros;
     
