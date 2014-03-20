@@ -15,6 +15,8 @@ import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Entity
 public class Estado extends ObjetoPersistente {
@@ -27,6 +29,7 @@ public class Estado extends ObjetoPersistente {
     
     @OneToMany(fetch = FetchType.LAZY)
     @Cascade(CascadeType.SAVE_UPDATE)
+    @Fetch(FetchMode.JOIN)
     private Set<Cidade> cidades;
     
     public String getSigla() {
