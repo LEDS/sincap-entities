@@ -21,6 +21,8 @@ public interface NotificacaoRepository extends JpaRepository <Notificacao, Long>
     
         List<Notificacao> findByDataArquivamentoIsNullOrderByDataArquivamentoDesc();
         
+        List<Notificacao> findByDataArquivamentoIsNullOrderByDataAberturaDesc();
+        
         List<Notificacao> findByDataArquivamentoIsNull(Pageable pageable);
         
         List<Notificacao> findByDataArquivamentoIsNotNull(Pageable pageable);

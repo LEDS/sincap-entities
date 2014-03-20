@@ -130,7 +130,7 @@ public class AplNotificacao {
     }
 
     public List<Notificacao> retornarNotificacaoNaoArquivada() {
-        return notificacaoRepository.findByDataArquivamentoIsNullOrderByDataArquivamentoDesc();
+        return notificacaoRepository.findByDataArquivamentoIsNullOrderByDataAberturaDesc();
     }
     
     public List<Notificacao> retornarNotificacaoNaoArquivada(int valorInicial, int quantidade, String campoOrdenacao) {
