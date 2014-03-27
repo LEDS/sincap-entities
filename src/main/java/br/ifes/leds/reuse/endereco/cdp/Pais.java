@@ -9,20 +9,22 @@ package br.ifes.leds.reuse.endereco.cdp;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import br.ifes.leds.reuse.persistence.ObjetoPersistente;
-import java.util.List;
 import java.util.Set;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Entity
 public class Pais extends ObjetoPersistente {
     @Column
     private String nome;
     
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany
     @Cascade(CascadeType.SAVE_UPDATE)
+    @Fetch(FetchMode.JOIN)
     private Set<Estado> estados;
     
     public String getNome() {

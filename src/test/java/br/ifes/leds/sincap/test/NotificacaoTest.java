@@ -172,7 +172,7 @@ public class NotificacaoTest extends AbstractionTest {
     public void salvarPorEtapa(){
         aplNotificacao.salvarEtapaObito(notificacao);
         aplNotificacao.salvarEtapaDoacao(notificacao);
-        aplNotificacao.salvarEtapaCaptação(notificacao);
+        aplNotificacao.salvarEtapaCaptacao(notificacao);
         
         Assert.assertNotNull(notificacao.getObito().getPaciente().getDoacao().getTestemunhas());
         for (Testemunha test : notificacao.getObito().getPaciente().getDoacao().getTestemunhas()) {

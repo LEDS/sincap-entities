@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.Set;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Entity
 public class Cidade extends ObjetoPersistente {
@@ -22,8 +24,9 @@ public class Cidade extends ObjetoPersistente {
     @Column
     private String nome;
     
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany
     @Cascade(CascadeType.SAVE_UPDATE)
+    @Fetch(FetchMode.JOIN)
     private Set<Bairro> bairros;
     
     public String getNome() {
