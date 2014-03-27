@@ -72,11 +72,31 @@ public class AplNotificacao {
     public void salvar(Notificacao notificacao) {
         Obito obito = notificacao.getObito();
         salvarObito(obito);
+        
+        Doacao doacao = obito.getPaciente().getDoacao();        
+        this.salvarCaptacao(doacao);
 
         //Gerando o codigo
         notificacao.setCodigo(genereateCode());
         notificacao.setDataAbertura(Calendar.getInstance());
         notificacaoRepository.save(notificacao);
+    }
+    
+    public void salvarEtapaObito(Notificacao notificacao) {
+        this.salvarObito(notificacao.getObito());
+        
+        //Gerando o codigo
+        notificacao.setCodigo(genereateCode());
+        notificacao.setDataAbertura(Calendar.getInstance());
+        notificacaoRepository.save(notificacao);
+    }
+
+    public void salvarEtapaDoacao(Notificacao notificacao) {
+        this.salvarDoacao(notificacao.getObito().getPaciente().getDoacao());
+    }
+
+    public void salvarEtapaCaptação(Notificacao notificacao) {
+        this.salvarCaptacao(notificacao.getObito().getPaciente().getDoacao());
     }
     
     public void arquivar (Notificacao notificacao) {
@@ -99,6 +119,9 @@ public class AplNotificacao {
         //Salvando o paciente
         Paciente paciente = obito.getPaciente();
         salvarPaciente(paciente);
+        
+        Responsavel resp = obito.getResponsavel();
+        salvarResponsalveObito(resp);
 
         causaObitoRepository.save(obito.getPrimeiraCausaMortis());
         causaObitoRepository.save(obito.getSegundaCausaMortis());
@@ -125,8 +148,10 @@ public class AplNotificacao {
         responsavelRepository.save(responsavel);
         enderecoRepository.save(ender);
         pacienteRepository.save(paciente);
-        
-        
+    }
+    
+    private void salvarResponsalveObito(Responsavel resp){
+        responsavelRepository.save(resp);
     }
 
     public List<Notificacao> retornarNotificacaoNaoArquivada() {
@@ -142,9 +167,9 @@ public class AplNotificacao {
         return notificacaoRepository.findByDataArquivamentoIsNull(null);
     }
 
-    private Doacao salvarDoacao(Doacao doacao) {
+        private Doacao salvarDoacao(Doacao doacao) {
         
-        Captacao captacao = doacao.getCaptacao();
+        //Captacao captacao = doacao.getCaptacao();
         
         Set<Responsavel> resp = doacao.getResponsaveis();
         for (Responsavel responsavel : resp){
@@ -156,11 +181,19 @@ public class AplNotificacao {
             enderecoRepository.save(ender);
         }
         
-        captacaoRepository.save(captacao);
+        //captacaoRepository.save(captacao);
         responsavelRepository.save(doacao.getResponsaveis());
         testemunhaRepository.save(doacao.getTestemunhas());        
         
         return doacaoRepository.save(doacao);
+    }
+    
+    private Captacao salvarCaptacao(Doacao doacao){
+       captacaoRepository.save(doacao.getCaptacao());
+       
+       doacaoRepository.save(doacao);
+       
+       return doacao.getCaptacao();
     }
 
     private String genereateCode() {

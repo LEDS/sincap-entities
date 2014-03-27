@@ -265,6 +265,12 @@
             <version>1.0.1.Final</version>
             <type>jar</type>
         </dependency>
+        <dependency>
+            <groupId>br.ifes.leds.sincap</groupId>
+            <artifactId>SincapInterfaceWeb</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <type>war</type>
+        </dependency>
     </dependencies>
 
 
