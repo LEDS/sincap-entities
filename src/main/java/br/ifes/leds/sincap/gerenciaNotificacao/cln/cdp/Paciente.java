@@ -48,10 +48,11 @@ public class Paciente extends Pessoa {
     @OneToOne
     private Endereco endereco;
 
-    @OneToOne
-    @JoinColumn(nullable = true)//TODO rever regra de negocio
-    @Cascade({CascadeType.SAVE_UPDATE})
-    private Responsavel responsavel;// representa o responsavel pelo paciente
+//  DESNECESSAIO
+//    @OneToOne
+//    @JoinColumn(nullable = true)//TODO rever regra de negocio
+//    @Cascade({CascadeType.SAVE_UPDATE})
+//    private Responsavel responsavel;// representa o responsavel pelo paciente
 
     @Column
     private String rg;// rg do paciente
@@ -125,13 +126,6 @@ public class Paciente extends Pessoa {
     }
     public void setTipoPaciente(TipoPaciente tipoPaciente) {
         this.tipoPaciente = tipoPaciente;
-    }
-    
-    public Responsavel getResponsavel() {
-        return responsavel;
-    }
-    public void setResponsavel(Responsavel responsavel) {
-        this.responsavel = responsavel;
     }
     
     public Calendar getDataNascimento() {

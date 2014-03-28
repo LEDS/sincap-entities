@@ -136,21 +136,19 @@ public class AplNotificacao {
     private void salvarPaciente(Paciente paciente) {
         Doacao doacao = paciente.getDoacao();
         this.salvarDoacao(doacao);
-
-        //Salvando responsavel
-        Responsavel responsavel = paciente.getResponsavel();
+        
         Endereco ender = paciente.getEndereco();
-        List<Telefone> telefones = responsavel.getTelefones();
-        telefoneRepository.save(telefones);
-//        for(Telefone telefone : telefones){
-//            telefoneRepository.save(telefone);
-//        }
-        responsavelRepository.save(responsavel);
+        
         enderecoRepository.save(ender);
         pacienteRepository.save(paciente);
     }
     
     private void salvarResponsalveObito(Responsavel resp){
+        Endereco ender = resp.getEndereco();
+        List<Telefone> tels = resp.getTelefones();
+        
+        telefoneRepository.save(tels);
+        //enderecoRepository.save(ender);
         responsavelRepository.save(resp);
     }
 

@@ -129,9 +129,6 @@ public class NotificacaoTest extends AbstractionTest {
         Assert.assertNotNull(notificacao.getObito().getPaciente().getEndereco());
         Assert.assertNotSame(0, notificacao.getObito().getPaciente().getEndereco().getId());
 
-        Assert.assertNotNull(notificacao.getObito().getPaciente().getResponsavel());
-        Assert.assertNotSame(0, notificacao.getObito().getPaciente().getResponsavel().getId());
-
         Assert.assertNotNull(notificacao.getObito().getPaciente());
         Assert.assertNotSame(0, notificacao.getObito().getPaciente().getId());
         
@@ -194,9 +191,6 @@ public class NotificacaoTest extends AbstractionTest {
 
         Assert.assertNotNull(notificacao.getObito().getPaciente().getEndereco());
         Assert.assertNotSame(0, notificacao.getObito().getPaciente().getEndereco().getId());
-
-        Assert.assertNotNull(notificacao.getObito().getPaciente().getResponsavel());
-        Assert.assertNotSame(0, notificacao.getObito().getPaciente().getResponsavel().getId());
 
         Assert.assertNotNull(notificacao.getObito().getPaciente());
         Assert.assertNotSame(0, notificacao.getObito().getPaciente().getId());
@@ -271,9 +265,7 @@ public class NotificacaoTest extends AbstractionTest {
         /*que sacanagem, cara! kkkkkkkkkkkkkkkkkkk*/
         paciente.setNome("Lucas Possatti");
 
-        Responsavel responsavel = this.getResponsavel();
         paciente.setEndereco(this.getEndereco());
-        paciente.setResponsavel(responsavel);
         paciente.setDoacao(doacao);
 
         return paciente;
