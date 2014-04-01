@@ -84,86 +84,151 @@ public class NotificacaoTest extends AbstractionTest {
     @Autowired
     private HospitalRepository hospitalRepository;
 
-    private Notificacao notificao;
+    private Notificacao notificacao;
 
     @Before
     public void before() {
-        notificao = new Notificacao();
+        notificacao = new Notificacao();
 
         Hospital hospital = hospitalRepository.findAll().get(0);
 
         Notificador notificador = new Notificador();
         notificador.setCpf("12345");
         notificadorRepository.save(notificador);
-        notificao.setNotificador(notificador);
-        notificao.setInstituicao(hospital);
+        notificacao.setNotificador(notificador);
+        notificacao.setInstituicao(hospital);
 
         //TODO -- colocr data e hora em variavel
         Obito obito = this.getObito();
 
-        notificao.setObito(obito);
+        notificacao.setObito(obito);
     }
 
     @Test
     public void salvar() {
-        aplNotificacao.salvar(notificao);
+        aplNotificacao.salvar(notificacao);
 
-        Assert.assertNotNull(notificao.getObito().getPaciente().getDoacao().getTestemunhas());
-        for (Testemunha test : notificao.getObito().getPaciente().getDoacao().getTestemunhas()) {
+        Assert.assertNotNull(notificacao.getObito().getPaciente().getDoacao().getTestemunhas());
+        for (Testemunha test : notificacao.getObito().getPaciente().getDoacao().getTestemunhas()) {
             Assert.assertNotSame(0, test);
         }
 
-        Assert.assertNotNull(notificao.getObito().getPaciente().getDoacao().getResponsaveis());
-        for (Responsavel resp : notificao.getObito().getPaciente().getDoacao().getResponsaveis()) {
+        Assert.assertNotNull(notificacao.getObito().getPaciente().getDoacao().getResponsaveis());
+        for (Responsavel resp : notificacao.getObito().getPaciente().getDoacao().getResponsaveis()) {
             Assert.assertNotSame(0, resp);
         }
 
-        Assert.assertNotNull(notificao.getObito().getPaciente().getDoacao().getMotivoRecusa());
-        for (MotivoRecusa motivo : notificao.getObito().getPaciente().getDoacao().getMotivoRecusa()) {
+        Assert.assertNotNull(notificacao.getObito().getPaciente().getDoacao().getMotivoRecusa());
+        for (MotivoRecusa motivo : notificacao.getObito().getPaciente().getDoacao().getMotivoRecusa()) {
             Assert.assertNotSame(0, motivo);
         }
 
-        Assert.assertNotNull(notificao.getObito().getPaciente().getDoacao());
-        Assert.assertNotSame(0, notificao.getObito().getPaciente().getDoacao().getId());
+        Assert.assertNotNull(notificacao.getObito().getPaciente().getDoacao());
+        Assert.assertNotSame(0, notificacao.getObito().getPaciente().getDoacao().getId());
 
-        Assert.assertNotNull(notificao.getObito().getPaciente().getEndereco());
-        Assert.assertNotSame(0, notificao.getObito().getPaciente().getEndereco().getId());
+        Assert.assertNotNull(notificacao.getObito().getPaciente().getEndereco());
+        Assert.assertNotSame(0, notificacao.getObito().getPaciente().getEndereco().getId());
 
-        Assert.assertNotNull(notificao.getObito().getPaciente().getResponsavel());
-        Assert.assertNotSame(0, notificao.getObito().getPaciente().getResponsavel().getId());
-
-        Assert.assertNotNull(notificao.getObito().getPaciente());
-        Assert.assertNotSame(0, notificao.getObito().getPaciente().getId());
+        Assert.assertNotNull(notificacao.getObito().getPaciente());
+        Assert.assertNotSame(0, notificacao.getObito().getPaciente().getId());
+        
+        // Responsavel Obito
+        Responsavel resp = notificacao.getObito().getResponsavel();
+        Assert.assertNotSame(0, resp.getId());
 
         //Primeira causa mortis
-        Assert.assertNotNull(notificao.getObito().getPrimeiraCausaMortis());
-        Assert.assertNotSame(0, notificao.getObito().getPrimeiraCausaMortis().getId());
+        Assert.assertNotNull(notificacao.getObito().getPrimeiraCausaMortis());
+        Assert.assertNotSame(0, notificacao.getObito().getPrimeiraCausaMortis().getId());
 
         //Segunda causa mortis
-        Assert.assertNotNull(notificao.getObito().getSegundaCausaMortis());
-        Assert.assertNotSame(0, notificao.getObito().getSegundaCausaMortis().getId());
+        Assert.assertNotNull(notificacao.getObito().getSegundaCausaMortis());
+        Assert.assertNotSame(0, notificacao.getObito().getSegundaCausaMortis().getId());
 
         //Terceira causa mortis
-        Assert.assertNotNull(notificao.getObito().getTerceiraCausaMortis());
-        Assert.assertNotSame(0, notificao.getObito().getTerceiraCausaMortis().getId());
+        Assert.assertNotNull(notificacao.getObito().getTerceiraCausaMortis());
+        Assert.assertNotSame(0, notificacao.getObito().getTerceiraCausaMortis().getId());
 
         //Quarta causa mortis
-        Assert.assertNotNull(notificao.getObito().getQuartaCausaMortis());
-        Assert.assertNotSame(0, notificao.getObito().getQuartaCausaMortis().getId());
+        Assert.assertNotNull(notificacao.getObito().getQuartaCausaMortis());
+        Assert.assertNotSame(0, notificacao.getObito().getQuartaCausaMortis().getId());
 
-        Assert.assertNotSame(0, notificao.getId());
-        Assert.assertNotNull(notificao.getCodigo());
-        Assert.assertNotNull(notificao.getDataAbertura());
+        Assert.assertNotSame(0, notificacao.getId());
+        Assert.assertNotNull(notificacao.getCodigo());
+        Assert.assertNotNull(notificacao.getDataAbertura());
 
         //Doacao
-        Doacao doacao = notificao.getObito().getPaciente().getDoacao();
+        Doacao doacao = notificacao.getObito().getPaciente().getDoacao();
         Assert.assertNotSame(0, doacao.getId());
 
         //Captacao
-        Assert.assertNotNull(notificao.getObito().getPaciente().getDoacao().getCaptacao());
-        Assert.assertNotSame(0, notificao.getObito().getPaciente().getDoacao().getCaptacao().getId());
-
+        Assert.assertNotNull(notificacao.getObito().getPaciente().getDoacao().getCaptacao());
+        Assert.assertNotSame(0, notificacao.getObito().getPaciente().getDoacao().getCaptacao().getId());
     }
+    
+    @Test
+    public void salvarPorEtapa(){
+        aplNotificacao.salvarEtapaObito(notificacao);
+        aplNotificacao.salvarEtapaDoacao(notificacao);
+        aplNotificacao.salvarEtapaCaptacao(notificacao);
+        
+        Assert.assertNotNull(notificacao.getObito().getPaciente().getDoacao().getTestemunhas());
+        for (Testemunha test : notificacao.getObito().getPaciente().getDoacao().getTestemunhas()) {
+            Assert.assertNotSame(0, test);
+        }
+
+        Assert.assertNotNull(notificacao.getObito().getPaciente().getDoacao().getResponsaveis());
+        for (Responsavel resp : notificacao.getObito().getPaciente().getDoacao().getResponsaveis()) {
+            Assert.assertNotSame(0, resp);
+        }
+
+        Assert.assertNotNull(notificacao.getObito().getPaciente().getDoacao().getMotivoRecusa());
+        for (MotivoRecusa motivo : notificacao.getObito().getPaciente().getDoacao().getMotivoRecusa()) {
+            Assert.assertNotSame(0, motivo);
+        }
+
+        Assert.assertNotNull(notificacao.getObito().getPaciente().getDoacao());
+        Assert.assertNotSame(0, notificacao.getObito().getPaciente().getDoacao().getId());
+
+        Assert.assertNotNull(notificacao.getObito().getPaciente().getEndereco());
+        Assert.assertNotSame(0, notificacao.getObito().getPaciente().getEndereco().getId());
+
+        Assert.assertNotNull(notificacao.getObito().getPaciente());
+        Assert.assertNotSame(0, notificacao.getObito().getPaciente().getId());
+
+        //Primeira causa mortis
+        Assert.assertNotNull(notificacao.getObito().getPrimeiraCausaMortis());
+        Assert.assertNotSame(0, notificacao.getObito().getPrimeiraCausaMortis().getId());
+
+        //Segunda causa mortis
+        Assert.assertNotNull(notificacao.getObito().getSegundaCausaMortis());
+        Assert.assertNotSame(0, notificacao.getObito().getSegundaCausaMortis().getId());
+
+        //Terceira causa mortis
+        Assert.assertNotNull(notificacao.getObito().getTerceiraCausaMortis());
+        Assert.assertNotSame(0, notificacao.getObito().getTerceiraCausaMortis().getId());
+
+        //Quarta causa mortis
+        Assert.assertNotNull(notificacao.getObito().getQuartaCausaMortis());
+        Assert.assertNotSame(0, notificacao.getObito().getQuartaCausaMortis().getId());
+
+        Assert.assertNotSame(0, notificacao.getId());
+        Assert.assertNotNull(notificacao.getCodigo());
+        Assert.assertNotNull(notificacao.getDataAbertura());
+
+        //Doacao
+        Doacao doacao = notificacao.getObito().getPaciente().getDoacao();
+        Assert.assertNotSame(0, doacao.getId());
+        
+        // Responsavel Obito
+        Responsavel resp = notificacao.getObito().getResponsavel();
+        Assert.assertNotSame(0, resp.getId());
+
+        //Captacao
+        Assert.assertNotNull(notificacao.getObito().getPaciente().getDoacao().getCaptacao());
+        Assert.assertNotSame(0, notificacao.getObito().getPaciente().getDoacao().getCaptacao().getId());
+    }
+    
+    
 
     private Obito getObito() {
         Obito obito = new Obito();
@@ -182,7 +247,9 @@ public class NotificacaoTest extends AbstractionTest {
         causaMortis4.setDescricao("teste4");
 
         Paciente paciente = this.getPaciente();
+        Responsavel resp = this.getResponsavel();
         obito.setPaciente(paciente);
+        obito.setResponsavel(resp);
         obito.setPrimeiraCausaMortis(causaMortis1);
         obito.setSegundaCausaMortis(causaMortis2);
         obito.setTerceiraCausaMortis(causaMortis3);
@@ -198,16 +265,28 @@ public class NotificacaoTest extends AbstractionTest {
         /*que sacanagem, cara! kkkkkkkkkkkkkkkkkkk*/
         paciente.setNome("Lucas Possatti");
 
-        Responsavel responsavel = this.getResponsavel();
         paciente.setEndereco(this.getEndereco());
-        paciente.setResponsavel(responsavel);
         paciente.setDoacao(doacao);
 
         return paciente;
     }
 
     private Responsavel getResponsavel() {
-        return new Responsavel();
+        Responsavel resp = new Responsavel();
+        Telefone tel = new Telefone();
+        List<Telefone> tels = new ArrayList<Telefone>();
+        
+        tel.setDdd("27");
+        tel.setTipo(TipoTelefone.CELULAR);
+        tel.setNumero("8888-8888");
+        
+        tels.add(tel);
+        
+        resp.setNome("Nome Responsavel");
+        resp.setRg("1111111111");
+        resp.setTelefones(tels);
+        
+        return resp;
     }
 
     private Doacao getDoacao() {
@@ -378,15 +457,15 @@ public class NotificacaoTest extends AbstractionTest {
         return captacao;
     }
     
-    @Test
-    public void retornaNotificacoesPorInstituicao(){
-        
-        salvar();
-        Instituicao instituicao = notificao.getInstituicao();
-        Assert.assertNotNull(instituicao);
-        Assert.assertNotSame(0, instituicao.getId());
-        List<Notificacao> notificacoes = aplNotificacao.retornarNotificacao(instituicao.getId());
-        Assert.assertNotNull(notificacoes);
-        Assert.assertNotSame(0, notificacoes.size());
-    }
+//    @Test
+//    public void retornaNotificacoesPorInstituicao(){
+//        
+//        salvar();
+//        Instituicao instituicao = notificacao.getInstituicao();
+//        Assert.assertNotNull(instituicao);
+//        Assert.assertNotSame(0, instituicao.getId());
+//        List<Notificacao> notificacoes = aplNotificacao.retornarNotificacao(instituicao.getId());
+//        Assert.assertNotNull(notificacoes);
+//        Assert.assertNotSame(0, notificacoes.size());
+//    }
 }

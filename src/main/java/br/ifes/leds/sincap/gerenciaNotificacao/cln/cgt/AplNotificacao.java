@@ -72,14 +72,34 @@ public class AplNotificacao {
     public void salvar(Notificacao notificacao) {
         Obito obito = notificacao.getObito();
         salvarObito(obito);
+        
+        Doacao doacao = obito.getPaciente().getDoacao();        
+        this.salvarCaptacao(doacao);
 
         //Gerando o codigo
         notificacao.setCodigo(genereateCode());
         notificacao.setDataAbertura(Calendar.getInstance());
         notificacaoRepository.save(notificacao);
     }
+    
+    public void salvarEtapaObito(Notificacao notificacao) {
+        this.salvarObito(notificacao.getObito());
+        
+        //Gerando o codigo
+        notificacao.setCodigo(genereateCode());
+        notificacao.setDataAbertura(Calendar.getInstance());
+        notificacaoRepository.save(notificacao);
+    }
 
-    public void arquivar(Notificacao notificacao) {
+    public void salvarEtapaDoacao(Notificacao notificacao) {
+        this.salvarDoacao(notificacao.getObito().getPaciente().getDoacao());
+    }
+
+    public void salvarEtapaCaptacao(Notificacao notificacao) {
+        this.salvarCaptacao(notificacao.getObito().getPaciente().getDoacao());
+    }
+    
+    public void arquivar (Notificacao notificacao) {
         notificacaoRepository.save(notificacao);
     }
 
@@ -99,6 +119,9 @@ public class AplNotificacao {
         //Salvando o paciente
         Paciente paciente = obito.getPaciente();
         salvarPaciente(paciente);
+        
+        Responsavel resp = obito.getResponsavel();
+        salvarResponsalveObito(resp);
 
         causaObitoRepository.save(obito.getPrimeiraCausaMortis());
         causaObitoRepository.save(obito.getSegundaCausaMortis());
@@ -113,19 +136,20 @@ public class AplNotificacao {
     private void salvarPaciente(Paciente paciente) {
         Doacao doacao = paciente.getDoacao();
         this.salvarDoacao(doacao);
-
-        //Salvando responsavel
-        Responsavel responsavel = paciente.getResponsavel();
+        
         Endereco ender = paciente.getEndereco();
-        List<Telefone> telefones = responsavel.getTelefones();
-        telefoneRepository.save(telefones);
-//        for(Telefone telefone : telefones){
-//            telefoneRepository.save(telefone);
-//        }
-        responsavelRepository.save(responsavel);
+        
         enderecoRepository.save(ender);
         pacienteRepository.save(paciente);
-
+    }
+    
+    private void salvarResponsalveObito(Responsavel resp){
+        Endereco ender = resp.getEndereco();
+        List<Telefone> tels = resp.getTelefones();
+        
+        telefoneRepository.save(tels);
+        //enderecoRepository.save(ender);
+        responsavelRepository.save(resp);
     }
 
     public List<Notificacao> retornarNotificacaoNaoArquivada() {
@@ -162,12 +186,20 @@ public class AplNotificacao {
             }
             enderecoRepository.save(ender);
         }
-
+        
         captacaoRepository.save(captacao);
         responsavelRepository.save(doacao.getResponsaveis());
         testemunhaRepository.save(doacao.getTestemunhas());
 
         return doacaoRepository.save(doacao);
+    }
+    
+    private Captacao salvarCaptacao(Doacao doacao){
+       captacaoRepository.save(doacao.getCaptacao());
+       
+       doacaoRepository.save(doacao);
+       
+       return doacao.getCaptacao();
     }
 
     private String genereateCode() {
