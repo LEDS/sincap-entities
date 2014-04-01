@@ -180,7 +180,7 @@ public class AplNotificacao {
     
     public List<Notificacao> retornarNotificacaoPorData(Calendar DataAberturaIni, Calendar DataAberturaFim)
     {
-        return notificacaoRepository.findByDataArquivamentoBetween(DataAberturaIni, DataAberturaFim);
+        return notificacaoRepository.findByDataAberturaBetween(DataAberturaIni, DataAberturaFim);
     }
 
 }

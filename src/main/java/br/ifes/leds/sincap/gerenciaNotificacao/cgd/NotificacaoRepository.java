@@ -30,7 +30,7 @@ public interface NotificacaoRepository extends JpaRepository <Notificacao, Long>
         
         List<Notificacao> findByInstituicaoId(Long id);
         
-        List<Notificacao> findByDataArquivamentoBetween(Calendar dataAberturaInicio, Calendar dataAberturaFim);
+        List<Notificacao> findByDataAberturaBetween(Calendar dataAberturaInicio, Calendar dataAberturaFim);
 	
 //	/**
 //	 * Metodo para retornar uma lista de notificacoes relacionados as hospital dado, no intervalo de tempo de ocorrencia da notificao determinado.
