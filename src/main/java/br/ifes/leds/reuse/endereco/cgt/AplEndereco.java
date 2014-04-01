@@ -198,10 +198,10 @@ public class AplEndereco {
      * @return Lista de Estado, relacionados ao pais do nome dado.
      */
     public List<Estado> obterEstadosPorNomePais(String paisNome){
-        Pais pais = this.paisRepository.findDistinctByNomeIgnoreCase(paisNome);
-        List<Estado> estados = new ArrayList<Estado>();
-        estados.addAll(pais.getEstados());
-        return estados;
+//        Pais pais = this.paisRepository.findDistinctByNomeIgnoreCase(paisNome);
+//        List<Estado> estados = new ArrayList<>();
+//        estados.addAll(pais.getEstados());
+        return this.estadoRepository.findByNomePais(paisNome);
     }
 
     /* PAIS */
