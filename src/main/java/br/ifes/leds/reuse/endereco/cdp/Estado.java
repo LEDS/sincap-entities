@@ -8,10 +8,8 @@ package br.ifes.leds.reuse.endereco.cdp;
 
 import javax.persistence.Entity;
 import br.ifes.leds.reuse.persistence.ObjetoPersistente;
-import java.util.List;
 import java.util.Set;
 import javax.persistence.Column;
-import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -29,7 +27,7 @@ public class Estado extends ObjetoPersistente {
     
     @OneToMany
     @Cascade(CascadeType.SAVE_UPDATE)
-    @Fetch(FetchMode.JOIN)
+    @Fetch(FetchMode.SELECT)
     private Set<Cidade> cidades;
     
     public String getSigla() {
