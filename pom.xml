@@ -266,12 +266,6 @@
             <type>jar</type>
         </dependency>
         <dependency>
-            <groupId>br.ifes.leds.sincap</groupId>
-            <artifactId>SincapInterfaceWeb</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-            <type>war</type>
-        </dependency>
-        <dependency>
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
             <version>2.3</version>
