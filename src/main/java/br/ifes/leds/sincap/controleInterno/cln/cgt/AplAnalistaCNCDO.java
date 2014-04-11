@@ -4,14 +4,15 @@
  * and open the template in the editor.
  */
 
-package br.ifes.leds.sincap.controleInterno.cln.cdp;
+package br.ifes.leds.sincap.controleInterno.cln.cgt;
 
-import javax.persistence.Entity;
+import org.springframework.stereotype.Service;
+
 /**
  *
- * @author 20121BSI0252
+ * @author 20112BSI0083
  */
-@Entity
-public class AnalistaCNCDO extends Funcionario{
+@Service
+public class AplAnalistaCNCDO {
     
 }

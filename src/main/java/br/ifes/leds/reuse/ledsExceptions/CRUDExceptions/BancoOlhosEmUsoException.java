@@ -4,14 +4,12 @@
  * and open the template in the editor.
  */
 
-package br.ifes.leds.sincap.controleInterno.cln.cdp;
+package br.ifes.leds.reuse.ledsExceptions.CRUDExceptions;
 
-import javax.persistence.Entity;
 /**
  *
- * @author 20121BSI0252
+ * @author 20112BSI0083
  */
-@Entity
-public class AnalistaCNCDO extends Funcionario{
+public class BancoOlhosEmUsoException extends Exception{
     
 }
