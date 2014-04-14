@@ -16,7 +16,7 @@ import javax.persistence.ManyToMany;
 public class Notificador extends Funcionario {
 
     @ManyToMany(fetch = FetchType.EAGER)
-    private Set<InstituicaoNotificadora> instituicoesNotificadoras = new HashSet<InstituicaoNotificadora>();
+    private Set<InstituicaoNotificadora> instituicoesNotificadoras = new HashSet<>();
 
     public Set<InstituicaoNotificadora> getInstituicoesNotificadoras() {
         return instituicoesNotificadoras;

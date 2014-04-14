@@ -5,7 +5,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
 
 /**
@@ -24,9 +23,9 @@ public class Funcionario extends Pessoa {
     @Column
     private String email;
     @Column
-    private String senha;// password ou senha
+    private String senha;
     @Column
-    private boolean active;// ativo ou inativo
+    private boolean active;
     @OneToMany
     private Set<Telefone> telefones;
     @Enumerated(EnumType.STRING)
