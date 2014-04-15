@@ -5,8 +5,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
+import javax.persistence.PrimaryKeyJoinColumn;
 
 /**
  * Funcionario
@@ -15,7 +15,8 @@ import javax.persistence.OneToMany;
  * Pessoa
  */
 @Entity
-public class Funcionario extends Pessoa {
+@PrimaryKeyJoinColumn(name="id")
+public abstract class Funcionario extends Pessoa {
 
     @Column
     private String cpf;

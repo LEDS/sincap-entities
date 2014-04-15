@@ -4,6 +4,8 @@ import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 
 import br.ifes.leds.reuse.persistence.ObjetoPersistente;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 
 /**
  * Pessoa.java
@@ -11,6 +13,7 @@ import br.ifes.leds.reuse.persistence.ObjetoPersistente;
  * Classe abstrata que representa uma Pessoa, herda de objetoPersistente.
  */
 @MappedSuperclass
+@Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Pessoa extends ObjetoPersistente {
     
 	@Column
