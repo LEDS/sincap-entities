@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.OneToMany;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 /**
  * Funcionario
@@ -27,6 +29,7 @@ public class Funcionario extends Pessoa {
     @Column
     private boolean active;
     @OneToMany
+    @Fetch(FetchMode.JOIN)
     private Set<Telefone> telefones;
     @Enumerated(EnumType.STRING)
     private TipoUsuario tipoUsuario;

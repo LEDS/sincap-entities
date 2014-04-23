@@ -33,8 +33,16 @@ public class AplNotificador {
         notificadorRepository.save(notificador);
     }
 
+    public void delete(Long notificador) {
+        notificadorRepository.delete(notificador);
+    }
+
     public Notificador obterNotificador(String cpf) {
         return notificadorRepository.findByCpf(cpf);
+    }
+
+    public Notificador obterNotificador(Long id) {
+        return notificadorRepository.findOne(id);
     }
 
     public List<Notificador> obterTodosNotificadores() {
