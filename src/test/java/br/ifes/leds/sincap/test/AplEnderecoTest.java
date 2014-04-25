@@ -13,6 +13,7 @@ public class AplEnderecoTest extends AbstractionTest {
 	@Autowired
 	private AplEndereco aplEndereco;
 
+        
 	
 	@Test
 	public void obterEstadoNomePais()
@@ -42,6 +43,7 @@ public class AplEnderecoTest extends AbstractionTest {
 		Assert.notEmpty(this.aplEndereco.obterEstadosPorPais(pais.getId()));		
 	}
 	*/
+        
 	@Test
 	public void obterCidadesPorEstado() throws Exception{
                 List<Estado> estados = aplEndereco.obterEstadosPorNomePais("Brasil");                
@@ -49,6 +51,7 @@ public class AplEnderecoTest extends AbstractionTest {
 		Assert.assertNotNull(this.aplEndereco.obterCidadesPorEstado(estado.getId()));	
 	
 	}
+        
 	/*
 	@Test
 	public void testObterMunicipiosPorObjetoEstado() throws Exception{

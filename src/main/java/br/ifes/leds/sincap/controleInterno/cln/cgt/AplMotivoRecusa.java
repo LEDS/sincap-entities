@@ -54,4 +54,14 @@ public class AplMotivoRecusa {
     public MotivoRecusa obter(long id) {
         return motivoRecusaRepository.findOne(id);
     }
+    
+    public List<MotivoRecusa> obter()
+    {
+        return motivoRecusaRepository.findAll();
+    }
+    
+    public void excluir(MotivoRecusa motivoRecusa)
+    {
+        motivoRecusaRepository.delete(motivoRecusa);
+    }
 }

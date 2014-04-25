@@ -33,7 +33,9 @@
          <props>
          	<!-- soh utilizar create-drop para criar o banco, depois deixar como update-->
             <prop key="hibernate.hbm2ddl.auto">update</prop>
-            <prop key="hibernate.hbm2ddl.import_files">\00_SQLSCRIPT_ENDERECO_v5.sql, \01_SQLSCRIPT_USUARIOS_v2.sql</prop>
+            <prop key="hibernate.hbm2ddl.import_files">
+                /resources/01_SQLSCRIPT_USUARIOS_v2.sql
+            </prop>
             <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</prop>
             <prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</prop>
             

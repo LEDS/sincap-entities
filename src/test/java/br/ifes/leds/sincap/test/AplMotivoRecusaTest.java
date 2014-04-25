@@ -34,9 +34,6 @@ public class AplMotivoRecusaTest extends AbstractionTest  {
     
     @Test
     public void buscarTodos(){        
-        int tamCM = apl.obterTodosContraindicacaoMedica().size();
-        Assert.assertNotSame(0, tamCM);        
-        int tamRF = apl.obterTodosRecusaFamiliar().size();
-        Assert.assertNotSame(0, tamRF);        
+        Assert.assertNotNull(apl.obter());
     }
 }

@@ -1,6 +1,5 @@
 package br.ifes.leds.sincap.controleInterno.cln.cgt;
 
-import br.ifes.leds.sincap.controleInterno.cgd.AnalistaCNCDORepository;
 import br.ifes.leds.sincap.controleInterno.cgd.CaptadorRepository;
 import java.util.Set;
 
@@ -31,8 +30,8 @@ public class AplPrincipal {
     private NotificadorRepository notificadorRepository;
     @Autowired
     private CaptadorRepository captadorRepository;
-    @Autowired
-    private AnalistaCNCDORepository analistaRepository;
+    
+    
 
     /**
      * Metodo para validar login do usuario

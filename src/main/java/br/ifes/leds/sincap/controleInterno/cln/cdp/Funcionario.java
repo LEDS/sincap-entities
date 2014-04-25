@@ -16,7 +16,7 @@ import javax.persistence.PrimaryKeyJoinColumn;
  */
 @Entity
 @PrimaryKeyJoinColumn(name="id")
-public abstract class Funcionario extends Pessoa {
+public class Funcionario extends Pessoa {
 
     @Column
     private String cpf;
@@ -30,6 +30,7 @@ public abstract class Funcionario extends Pessoa {
     private boolean active;// ativo ou inativo
     @OneToMany
     private Set<Telefone> telefones;
+   
     @Enumerated(EnumType.STRING)
     private TipoUsuario tipoUsuario;
     
