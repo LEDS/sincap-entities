@@ -10,7 +10,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import br.ifes.leds.reuse.persistence.ObjetoPersistente;
 import java.util.Set;
-import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -24,7 +23,7 @@ public class Pais extends ObjetoPersistente {
     
     @OneToMany
     @Cascade(CascadeType.SAVE_UPDATE)
-    @Fetch(FetchMode.JOIN)
+    @Fetch(FetchMode.SELECT)
     private Set<Estado> estados;
     
     public String getNome() {

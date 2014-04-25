@@ -7,6 +7,8 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 /**
  * Funcionario
@@ -15,7 +17,7 @@ import javax.persistence.PrimaryKeyJoinColumn;
  * Pessoa
  */
 @Entity
-@PrimaryKeyJoinColumn(name="id")
+@PrimaryKeyJoinColumn(name = "id")
 public class Funcionario extends Pessoa {
 
     @Column
@@ -25,15 +27,16 @@ public class Funcionario extends Pessoa {
     @Column
     private String email;
     @Column
-    private String senha;// password ou senha
+    private String senha;
     @Column
-    private boolean active;// ativo ou inativo
+    private boolean active;
     @OneToMany
+    @Fetch(FetchMode.JOIN)
     private Set<Telefone> telefones;
-   
+
     @Enumerated(EnumType.STRING)
     private TipoUsuario tipoUsuario;
-    
+
     public String getCpf() {
         return cpf;
     }
@@ -89,6 +92,5 @@ public class Funcionario extends Pessoa {
     public void setTipoUsuario(TipoUsuario tipoUsuario) {
         this.tipoUsuario = tipoUsuario;
     }
-    
-    
+
 }

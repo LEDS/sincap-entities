@@ -79,10 +79,10 @@ public class AplEndereco {
      * @return Lista de bairros relacionados ao cidade dado.
      */
     public List<Bairro> obterBairrosPorCidade (Long cidadeId){	
-        Cidade cidade = this.cidadeRepository.findOne(cidadeId);
-        List<Bairro> bairros = new ArrayList<Bairro>();
-        bairros.addAll(cidade.getBairros());
-        return bairros;
+//        Cidade cidade = this.cidadeRepository.findOne(cidadeId);
+//        List<Bairro> bairros = new ArrayList<Bairro>();
+//        bairros.addAll(cidade.getBairros());
+        return this.bairroRepository.findByIdCidade(cidadeId);
     }
 
     /* CIDADE */
@@ -129,10 +129,10 @@ public class AplEndereco {
      * @return Lista de cidades do estado dado.
      */
     public List<Cidade> obterCidadesPorEstado(Long estadoId){
-        Estado estado = estadoRepository.findOne(estadoId);
-        List<Cidade> cidades = new ArrayList<Cidade>();
-        cidades.addAll(estado.getCidades());
-        return cidades;
+//        Estado estado = estadoRepository.findOne(estadoId);
+//        List<Cidade> cidades = new ArrayList<Cidade>();
+//        cidades.addAll(estado.getCidades());
+        return this.cidadeRepository.findByIdEstado(estadoId);
     }
 
 //    /**
@@ -198,10 +198,10 @@ public class AplEndereco {
      * @return Lista de Estado, relacionados ao pais do nome dado.
      */
     public List<Estado> obterEstadosPorNomePais(String paisNome){
-        Pais pais = this.paisRepository.findDistinctByNomeIgnoreCase(paisNome);
-        List<Estado> estados = new ArrayList<Estado>();
-        estados.addAll(pais.getEstados());
-        return estados;
+//        Pais pais = this.paisRepository.findDistinctByNomeIgnoreCase(paisNome);
+//        List<Estado> estados = new ArrayList<>();
+//        estados.addAll(pais.getEstados());
+        return this.estadoRepository.findByNomePais(paisNome);
     }
 
     /* PAIS */
