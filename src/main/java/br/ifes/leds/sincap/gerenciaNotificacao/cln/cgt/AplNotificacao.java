@@ -4,6 +4,7 @@ import br.ifes.leds.reuse.endereco.cdp.Endereco;
 import br.ifes.leds.reuse.endereco.cgd.EnderecoRepository;
 import br.ifes.leds.sincap.controleInterno.cgd.MotivoRecusaRepository;
 import br.ifes.leds.sincap.controleInterno.cgd.TelefoneRepository;
+import br.ifes.leds.sincap.controleInterno.cln.cdp.MotivoRecusa;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Telefone;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.CaptacaoRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.CausaObitoRepository;
@@ -22,6 +23,7 @@ import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Notificacao;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Obito;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Paciente;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Responsavel;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Set;
@@ -214,5 +216,11 @@ public class AplNotificacao {
     {
         return notificacaoRepository.findByDataAberturaBetween(DataAberturaIni, DataAberturaFim);
     }
-
+    
+    public boolean motivoRecusaEmUso(MotivoRecusa m)
+    {
+        List<Doacao> doacoes = new ArrayList<>();
+        doacoes = doacaoRepository.findByMotivoRecusa(m);
+        return doacoes.isEmpty();
+    }
 }
