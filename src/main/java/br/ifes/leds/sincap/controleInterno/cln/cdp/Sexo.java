@@ -7,5 +7,5 @@ package br.ifes.leds.sincap.controleInterno.cln.cdp;
  * Estao mapeados no bando de dados como ENUMERATED, logo nao pode-se mudar a ordem deles.
  */
 public enum Sexo {
-	FEMININO, MASCULINO
+    FEMININO, MASCULINO
 }

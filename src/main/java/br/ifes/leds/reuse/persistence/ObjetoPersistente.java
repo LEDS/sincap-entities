@@ -7,11 +7,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import lombok.Getter;
+import lombok.Setter;
 /**
  * ObjetoPersistente.java
  * @author 20091BSI0273
  * Classe que representa um objeto persistente, ou seja, persistido no bd, arquivo, etc.
  */
+@Setter
+@Getter
 @MappedSuperclass
 public abstract class ObjetoPersistente implements Serializable {
 
@@ -23,14 +27,6 @@ public abstract class ObjetoPersistente implements Serializable {
 	@Column
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}	
 	
     @Override
     public boolean equals(Object obj) {

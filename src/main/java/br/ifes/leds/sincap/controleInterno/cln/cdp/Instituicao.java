@@ -5,18 +5,22 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import br.ifes.leds.reuse.endereco.cdp.Endereco;
 import java.util.Set;
 import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Instituicao.java
  *
  * @author 20091BSI0273 Classe abstrata que representa uma Instituicao,
  */
+@Setter
+@Getter
 @MappedSuperclass
 public abstract class Instituicao {
 
@@ -24,73 +28,25 @@ public abstract class Instituicao {
     @Column(name = "InstituicaoID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column
-    private String nome;//nome da instituicao segundo o site cnes
-    @Column
-    private String fantasia;//nome da instituicao segundo o site cnes
-    @Column
-    private String sigla;//sigla do nome da instituicao
-    @Column
-    private String email;//email da instituicao
-    @OneToOne
-    private Endereco endereco;//endereco da instituicao
-
-    @OneToMany(fetch = FetchType.EAGER)
-    private Set<Telefone> telefones;//Telefone da instituicao
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public Endereco getEndereco() {
-        return endereco;
-    }
-
-    public void setEndereco(Endereco endereco) {
-        this.endereco = endereco;
-    }
-
-    public Set<Telefone> getTelefones() {
-        return telefones;
-    }
-
-    public void setTelefones(Set<Telefone> telefones) {
-        this.telefones = telefones;
-    }
-
-    public String getSigla() {
-        return sigla;
-    }
-
-    public void setSigla(String sigla) {
-        this.sigla = sigla;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
     
-    public void setFantasia(String fantasia){
-        this.fantasia = fantasia;
-    }
-
-    public String getFantasia(){
-        return this.fantasia;
-    }
+    @Column
+    private String nome;
+    
+    @Column
+    private String cnes;
+    
+    @Column
+    private String email;
+    
+    @Column
+    private String fantasia;
+    
+    @OneToOne
+    private Endereco endereco;
+    
+    @OneToOne
+    private Telefone telefone;
+    
+    @OneToMany(fetch = FetchType.EAGER)
+    private Set<Funcionario> funcionarios;
 }

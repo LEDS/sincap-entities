@@ -8,21 +8,19 @@ package br.ifes.leds.sincap.controleInterno.cln.cdp;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  *
  * @author 20121BSI0252
  */
+@Getter
+@Setter
 @Entity
+@Table(name="Captador")
 public class Captador extends Funcionario{
     @OneToOne
     private BancoOlhos bancoOlhos;
-
-    public BancoOlhos getBancoOlhos() {
-        return bancoOlhos;
-    }
-
-    public void setBancoOlhos(BancoOlhos bancoOlhos) {
-        this.bancoOlhos = bancoOlhos;
-    }
 }

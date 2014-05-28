@@ -9,42 +9,30 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Hospital.java
  *
  * @author 20091BSI0273 Classe que representa o hospital
  */
+@Getter
+@Setter
 @Entity
 public class Hospital extends InstituicaoNotificadora {
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-                name = "HospitalSetor",
+                name = "Hospital",
                 joinColumns = {@JoinColumn(name = "InstituicaoID")},
                 inverseJoinColumns = {@JoinColumn(name = "setorID")}
               )
     private Set<Setor> setores = new HashSet<Setor>();
     
     @Column
-    private String cnes;//codigo que identifica o estabelecimento de saude
-
-    public String getCnes() {
-        return cnes;
-    }
-
-    public void setCnes(String cnes) {
-        this.cnes = cnes;
-    }
-
-    public Set<Setor> getSetores() {
-        return setores;
-    }
-
-    public void setSetores(Set<Setor> setores) {
-        this.setores = setores;
-    }
-        
+    private String cnes;
+    
     public void addSetor(Setor setor)
     {
         this.setores.add(setor);
@@ -54,7 +42,4 @@ public class Hospital extends InstituicaoNotificadora {
     {
         this.setores.remove(setor);
     }
-
-	
-    
 }

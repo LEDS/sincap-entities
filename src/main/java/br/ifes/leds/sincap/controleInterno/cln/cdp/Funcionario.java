@@ -1,14 +1,12 @@
 package br.ifes.leds.sincap.controleInterno.cln.cdp;
 
+import static com.sun.jmx.snmp.EnumRowStatus.active;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Funcionario
@@ -16,81 +14,27 @@ import org.hibernate.annotations.FetchMode;
  * @author 20091BSI0273 Classe abstrata que representa um Funcionario, herda de
  * Pessoa
  */
+@Setter
+@Getter
 @Entity
 @PrimaryKeyJoinColumn(name = "id")
 public class Funcionario extends Pessoa {
-
+    
     @Column
-    private String cpf;
-    @Column
-    private String documentoSocial;
-    @Column
-    private String email;
+    private String login;
+    
     @Column
     private String senha;
+    
     @Column
-    private boolean active;
-    @OneToMany
-    @Fetch(FetchMode.JOIN)
-    private Set<Telefone> telefones;
-
-    @Enumerated(EnumType.STRING)
-    private TipoUsuario tipoUsuario;
-
-    public String getCpf() {
-        return cpf;
-    }
-
-    public String getDocumentoSocial() {
-        return documentoSocial;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
-
-    public void setDocumentoSocial(String documentoSocial) {
-        this.documentoSocial = documentoSocial;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public Set<Telefone> getTelefones() {
-        return telefones;
-    }
-
-    public void setTelefones(Set<Telefone> telefones) {
-        this.telefones = telefones;
-    }
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
-
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
-    public TipoUsuario getTipoUsuario() {
-        return tipoUsuario;
-    }
-
-    public void setTipoUsuario(TipoUsuario tipoUsuario) {
-        this.tipoUsuario = tipoUsuario;
-    }
-
+    private boolean ativo;
+    
+    @Column
+    private String cpf;
+    
+    @Column
+    private String documentoSocial;
+    
+    @Column
+    private String email;
 }

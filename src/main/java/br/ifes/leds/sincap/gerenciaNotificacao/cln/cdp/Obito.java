@@ -9,104 +9,51 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
-
-
 import br.ifes.leds.reuse.persistence.ObjetoPersistente;
+import br.ifes.leds.sincap.controleInterno.cln.cdp.Setor;
+import javax.persistence.Column;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Obito.java
  * @author 20091BSI0273
  * Classe que representa o obito de um paciente
  */
+
+@Setter
+@Getter
 @Entity
 public class Obito extends ObjetoPersistente {
 	
-    @Temporal(TemporalType.DATE)
-    private Calendar dataObito;//representa data e horario do obito
-
-    @Enumerated (EnumType.ORDINAL)
-    private Encaminhamento encaminhamento;// representa se o corpo foi encaminhado ou nao e para onde.
-
-    @OneToOne
-    private CausaMortis primeiraCausaMortis;//representa o motivo que ocasionou o obito ou causa de obito;
-    @OneToOne
-    private CausaMortis segundaCausaMortis;//representa o motivo que ocasionou o obito ou causa de obito;
-    @OneToOne
-    private CausaMortis terceiraCausaMortis;//representa o motivo que ocasionou o obito ou causa de obito;
-    @OneToOne
-    private CausaMortis quartaCausaMortis;//representa o motivo que ocasionou o obito ou causa de obito;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Calendar dataObito; //Data e horario do obito
     
-    @JoinColumn(nullable = true)
-    @OneToOne
-    private Responsavel responsavel;// responsavel pelo obito
-
-    @JoinColumn(nullable = true)
-    @OneToOne
-    private Paciente paciente;// representa o paciente que morreu
-
-    public Responsavel getResponsavel() {
-        return responsavel;
-    }
-
-    public void setResponsavel(Responsavel responsavel) {
-        this.responsavel = responsavel;
-    }
+    @Temporal(TemporalType.TIMESTAMP)
+    private Calendar dataEvento; //Data e horario da notificação obito
     
-    public Calendar getDataObito() {
-        return dataObito;
-    }
+    @Column
+    private boolean aptoDoacao;
 
-    public void setDataObito(Calendar dataObito) {
-        this.dataObito = dataObito;
-    }
+    @Enumerated (EnumType.STRING)
+    private CorpoEncaminhamento corpoEncaminhamento;
 
-    public Encaminhamento getEncaminhamento() {
-        return encaminhamento;
-    }
+    @OneToOne
+    private CausaMortis primeiraCausaMortis;
+    
+    @OneToOne
+    private CausaMortis segundaCausaMortis;
+    
+    @OneToOne
+    private CausaMortis terceiraCausaMortis;
+    
+    @OneToOne
+    private CausaMortis quartaCausaMortis;
 
-    public void setEncaminhamento(Encaminhamento encaminhamento) {
-        this.encaminhamento = encaminhamento;
-    }
-
-    public CausaMortis getPrimeiraCausaMortis() {
-        return primeiraCausaMortis;
-    }
-
-    public void setPrimeiraCausaMortis(CausaMortis primeiraCausaMortis) {
-        this.primeiraCausaMortis = primeiraCausaMortis;
-    }
-
-    public CausaMortis getSegundaCausaMortis() {
-        return segundaCausaMortis;
-    }
-
-    public void setSegundaCausaMortis(CausaMortis segundaCausaMortis) {
-        this.segundaCausaMortis = segundaCausaMortis;
-    }
-
-    public CausaMortis getTerceiraCausaMortis() {
-        return terceiraCausaMortis;
-    }
-
-    public void setTerceiraCausaMortis(CausaMortis terceiraCausaMortis) {
-        this.terceiraCausaMortis = terceiraCausaMortis;
-    }
-
-    public CausaMortis getQuartaCausaMortis() {
-        return quartaCausaMortis;
-    }
-
-    public void setQuartaCausaMortis(CausaMortis quartaCausaMortis) {
-        this.quartaCausaMortis = quartaCausaMortis;
-    }
-
-    public Paciente getPaciente() {
-        return paciente;
-    }
-
-    public void setPaciente(Paciente paciente) {
-        this.paciente = paciente;
-    }
-
+    @JoinColumn(nullable = false)
+    @OneToOne
+    private Paciente paciente;
+    
+    @OneToOne
+    private Setor setor;
 }

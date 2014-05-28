@@ -6,29 +6,19 @@
 
 package br.ifes.leds.sincap.controleInterno.cln.cdp;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.PrimaryKeyJoinColumn;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 /**
  *
  * @author 20121BSI0252
  */
+@Getter
+@Setter
 @Entity
 @PrimaryKeyJoinColumn(name="id")
+@Table(name="AnalistaCNCDO")
 public class AnalistaCNCDO extends Funcionario{
-    
-    @Column
-    private int x;
-
-    public int getX() {
-        return x;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-    
-    
-    
 }
