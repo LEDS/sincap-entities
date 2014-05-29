@@ -22,9 +22,6 @@ import lombok.Setter;
 public class Funcionario extends Pessoa {
 
     @Column
-    private String login;
-    
-    @Column
     private String senha;
     
     @Column
