@@ -13,7 +13,4 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class BancoOlhos extends Instituicao {
-    @Column
-    private String cnes; //codigo que identifica o estabelecimento de saude
-}
+public class BancoOlhos extends Instituicao {}

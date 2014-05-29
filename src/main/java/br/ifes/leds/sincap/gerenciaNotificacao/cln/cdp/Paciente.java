@@ -12,6 +12,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Pessoa;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Sexo;
+import javax.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -53,9 +54,6 @@ public class Paciente extends Pessoa {
     @Enumerated(EnumType.STRING)
     private Sexo sexo;
     
-    @OneToOne
-    private Endereco endereco;
-
     @Enumerated (EnumType.STRING)
     private TipoPaciente tipoPaciente;// tipo de paciente ex: crianca, adulto, nao-identificado, recem-nasciso
     

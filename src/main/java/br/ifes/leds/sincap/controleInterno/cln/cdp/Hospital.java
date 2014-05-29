@@ -24,14 +24,14 @@ public class Hospital extends InstituicaoNotificadora {
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-                name = "Hospital",
+                name = "HospitalSetor",
                 joinColumns = {@JoinColumn(name = "InstituicaoID")},
                 inverseJoinColumns = {@JoinColumn(name = "setorID")}
               )
     private Set<Setor> setores = new HashSet<Setor>();
     
     @Column
-    private String cnes;
+    private String sigla;
     
     public void addSetor(Setor setor)
     {

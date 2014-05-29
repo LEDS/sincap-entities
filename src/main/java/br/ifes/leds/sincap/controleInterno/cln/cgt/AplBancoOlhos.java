@@ -11,7 +11,7 @@ import br.ifes.leds.sincap.controleInterno.cgd.TelefoneRepository;
 import br.ifes.leds.sincap.controleInterno.cgd.BancoOlhosRepository;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.BancoOlhos;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Telefone;
-import br.ifes.leds.sincap.gerenciaNotificacao.cgd.NotificacaoRepository;
+import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ProcessoNotificacaoRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -30,15 +30,10 @@ public class AplBancoOlhos {
     @Autowired
     EnderecoRepository enderecoRepository;
     @Autowired
-    NotificacaoRepository notificacaoRepository;
+    ProcessoNotificacaoRepository notificacaoRepository;
         
     
     public void cadastrar(BancoOlhos bancoOlhos) {
-
-        for (Telefone telefone : bancoOlhos.getTelefones()) {
-            telefoneRepository.save(telefone);
-        }
-
         enderecoRepository.save(bancoOlhos.getEndereco());
         bancoOlhosRepository.save(bancoOlhos);
     }
@@ -47,14 +42,14 @@ public class AplBancoOlhos {
         bancoOlhosRepository.save(bancoOlhos);
     }
 
-    public void delete(Long id) throws BancoOlhosEmUsoException {
-
-        if (notificacaoRepository.findByInstituicaoId(id).isEmpty()) {
-            bancoOlhosRepository.delete(id);
-        } else {
-            throw new BancoOlhosEmUsoException();
-        }
-    }
+//    public void delete(Long id) throws BancoOlhosEmUsoException {
+//
+//        if (notificacaoRepository.findByInstituicaoId(id).isEmpty()) {
+//            bancoOlhosRepository.delete(id);
+//        } else {
+//            throw new BancoOlhosEmUsoException();
+//        }
+//    }
 
     public List<BancoOlhos> obter(String nome) {
         return bancoOlhosRepository.findByNome(nome);

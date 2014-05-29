@@ -82,15 +82,10 @@ public class AplHospitalTest extends AbstractionTest {
         hospital.setFantasia("Hospital Test 1 Fantasia");
         hospital.setCnes("123456789");
         hospital.setSigla("HT1");
-        telefone.setTipo(TipoTelefone.COMERCIAL);
-        telefone.setDdd("11");
+
         telefone.setNumero("11111111");
-        telefones.add(telefone);
-        telefone.setTipo(TipoTelefone.FAX);
-        telefone.setDdd("2");
-        telefone.setNumero("22222222");
-        telefones.add(telefone);
-        hospital.setTelefones(telefones);
+        
+        hospital.setTelefone(telefone);
         hospital.setEmail("hospitaltest1@saude.com.br");
         
         return hospital;
@@ -101,7 +96,7 @@ public class AplHospitalTest extends AbstractionTest {
         
         Endereco endereco = new Endereco();
         
-        endereco.setCEP("12345678");
+        endereco.setCep("12345678");
         endereco.setEstado(aplEndereco.obterEstadosPorID(new Long(1)));
         endereco.setCidade(aplEndereco.obterCidadePorID(new Long(1)));
         endereco.setBairro(aplEndereco.obterBairroPorID(new Long(1)));

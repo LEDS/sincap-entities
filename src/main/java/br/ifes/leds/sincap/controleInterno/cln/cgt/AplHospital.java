@@ -11,7 +11,7 @@ import br.ifes.leds.sincap.controleInterno.cgd.TelefoneRepository;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Hospital;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Setor;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Telefone;
-import br.ifes.leds.sincap.gerenciaNotificacao.cgd.NotificacaoRepository;
+import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ProcessoNotificacaoRepository;
 import org.springframework.data.domain.Pageable;
 
 @Service
@@ -24,14 +24,11 @@ public class AplHospital {
     @Autowired
     private TelefoneRepository telefoneRepository;
     @Autowired
-    private NotificacaoRepository notificacaoRepository;
+    private ProcessoNotificacaoRepository notificacaoRepository;
 
     public void cadastrar(Hospital hospital) {
 
-        for (Telefone telefone : hospital.getTelefones()) {
-            telefoneRepository.save(telefone);
-        }
-
+        telefoneRepository.save(hospital.getTelefone());
         enderecoRepository.save(hospital.getEndereco());
         hospitalRepository.save(hospital);
     }
@@ -40,14 +37,14 @@ public class AplHospital {
         hospitalRepository.save(hospital);
     }
 
-    public void delete(Long id) throws HospitalEmUsoException {
-
-        if (notificacaoRepository.findByInstituicaoId(id).isEmpty()) {
-            hospitalRepository.delete(id);
-        } else {
-            throw new HospitalEmUsoException();
-        }
-    }
+//    public void delete(Long id) throws HospitalEmUsoException {
+//
+//        if (notificacaoRepository.findByInstituicaoId(id).isEmpty()) {
+//            hospitalRepository.delete(id);
+//        } else {
+//            throw new HospitalEmUsoException();
+//        }
+//    }
 
     /*public List<Hospital> obterTodos(Sort ordem){
      return repository.findAll(ordem);

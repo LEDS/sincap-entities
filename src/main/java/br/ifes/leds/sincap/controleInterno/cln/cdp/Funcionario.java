@@ -1,9 +1,10 @@
 package br.ifes.leds.sincap.controleInterno.cln.cdp;
 
-import static com.sun.jmx.snmp.EnumRowStatus.active;
-import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.PrimaryKeyJoinColumn;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,9 +18,9 @@ import lombok.Setter;
 @Setter
 @Getter
 @Entity
-@PrimaryKeyJoinColumn(name = "id")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Funcionario extends Pessoa {
-    
+
     @Column
     private String login;
     

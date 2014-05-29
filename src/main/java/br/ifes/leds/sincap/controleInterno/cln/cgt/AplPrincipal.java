@@ -48,7 +48,7 @@ public class AplPrincipal {
 
         if (user != null && user.getCpf().equals(cpf) && user.getSenha().equals(password)) {
 
-            if (user.isActive()) {
+            if (user.isAtivo()) {
                 return user;
             } else {
                 throw new Exception("Usuario Inativo, contate o administrador do sistema.");

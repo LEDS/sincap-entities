@@ -5,6 +5,7 @@ import br.ifes.leds.sincap.controleInterno.cln.cdp.Funcionario;
 import java.util.Calendar;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
@@ -39,6 +40,6 @@ public class Entrevista extends ObjetoPersistente {
     @OneToOne
     private Testemunha testemunha2;
     
-    @OneToMany
+    @ManyToOne
     private Funcionario funcionario;
 }

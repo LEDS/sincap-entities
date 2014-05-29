@@ -20,8 +20,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @MappedSuperclass
-@Inheritance(strategy = InheritanceType.JOINED)
-public abstract class Pessoa extends ObjetoPersistente {
+public abstract class Pessoa extends ObjetoPersistente{
     
 	@Column
 	private String nome;

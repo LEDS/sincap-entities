@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.FetchType;
+import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import lombok.Getter;
@@ -47,7 +48,4 @@ public class Responsavel extends Pessoa {
     
     @OneToOne
     private Telefone telefone2;
-    
-    @OneToOne
-    private Endereco endereco;
 }

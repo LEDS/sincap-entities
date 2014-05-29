@@ -26,10 +26,7 @@ public class AplNotificador {
     TelefoneRepository telefoneRepository;
 
     public void salvarNotificador(Notificador notificador) {
-        for (Telefone telefone : notificador.getTelefones()) {
-            telefoneRepository.save(telefone);
-        }
-
+        telefoneRepository.save(notificador.getTelefone());
         notificadorRepository.save(notificador);
     }
 

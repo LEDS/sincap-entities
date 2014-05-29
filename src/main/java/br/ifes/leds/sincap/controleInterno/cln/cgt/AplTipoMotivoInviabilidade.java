@@ -10,8 +10,6 @@ import java.util.List;
 
 import br.ifes.leds.sincap.controleInterno.cgd.TipoMotivoInviabilidadeRepository;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.TipoMotivoInviabilidade;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Notificacao;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

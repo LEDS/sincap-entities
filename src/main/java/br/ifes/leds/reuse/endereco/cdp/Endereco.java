@@ -40,5 +40,6 @@ public class Endereco  extends ObjetoPersistente {
     @OneToOne
     private Estado estado;
     
+    @Column
     private String cep;
 }

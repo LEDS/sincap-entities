@@ -8,7 +8,7 @@ package br.ifes.leds.sincap.controleInterno.cln.cdp;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.PrimaryKeyJoinColumn;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,7 +19,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name="Captador")
+@PrimaryKeyJoinColumn(name="id")
 public class Captador extends Funcionario{
     @OneToOne
     private BancoOlhos bancoOlhos;

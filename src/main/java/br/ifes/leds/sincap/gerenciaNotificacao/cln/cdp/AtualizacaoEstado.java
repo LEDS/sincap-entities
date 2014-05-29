@@ -7,7 +7,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,15 +18,14 @@ import lombok.Setter;
 @Setter
 @Getter
 @Entity
-public class AtualizacaoEstado extends ObjetoPersistente {
+public class AtualizacaoEstado extends ObjetoPersistente {    
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private Long id;
     
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    
-    @OneToOne
+    @ManyToOne
     private EstadoNotificacao estadoNotificacao;
     
-    @OneToOne
+    @ManyToOne
     private Funcionario funcionario;
 }

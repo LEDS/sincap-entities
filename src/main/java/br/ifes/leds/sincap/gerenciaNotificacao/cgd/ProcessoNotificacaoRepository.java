@@ -1,13 +1,12 @@
 package br.ifes.leds.sincap.gerenciaNotificacao.cgd;
 
-import br.ifes.leds.sincap.controleInterno.cln.cdp.InstituicaoNotificadora;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Notificacao;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.ProcessoNotificacao;
 import java.util.Calendar;
 import org.springframework.data.domain.Pageable;
 
@@ -18,19 +17,17 @@ import org.springframework.data.domain.Pageable;
  */
 @Repository
 @Transactional
-public interface NotificacaoRepository extends JpaRepository <Notificacao, Long> {
+public interface ProcessoNotificacaoRepository extends JpaRepository <ProcessoNotificacao, Long> {
     
-        List<Notificacao> findByDataArquivamentoIsNullOrderByDataArquivamentoDesc();
+        List<ProcessoNotificacao> findByDataArquivamentoIsNullOrderByDataArquivamentoDesc();
         
-        List<Notificacao> findByDataArquivamentoIsNullOrderByDataAberturaDesc();
+        List<ProcessoNotificacao> findByDataArquivamentoIsNullOrderByDataAberturaDesc();
         
-        List<Notificacao> findByDataArquivamentoIsNull(Pageable pageable);
+        List<ProcessoNotificacao> findByDataArquivamentoIsNull(Pageable pageable);
         
-        List<Notificacao> findByDataArquivamentoIsNotNull(Pageable pageable);
+        List<ProcessoNotificacao> findByDataArquivamentoIsNotNull(Pageable pageable);
         
-        List<Notificacao> findByInstituicaoId(Long id);
-        
-        List<Notificacao> findByDataAberturaBetween(Calendar dataAberturaInicio, Calendar dataAberturaFim);
+        List<ProcessoNotificacao> findByDataAberturaBetween(Calendar dataAberturaInicio, Calendar dataAberturaFim);
 	
 //	/**
 //	 * Metodo para retornar uma lista de notificacoes relacionados as hospital dado, no intervalo de tempo de ocorrencia da notificao determinado.
@@ -72,7 +69,7 @@ public interface NotificacaoRepository extends JpaRepository <Notificacao, Long>
 //	/* Metodo para encontrar notificacoes com determinado MotivoInviabilidade*/
 //	public List<Notificacao> findByMotivoInviabilidadeId(Long Id);
 
-    public List<Notificacao> findByDataArquivamentoIsNotNullOrderByDataAberturaDesc();
+    public List<ProcessoNotificacao> findByDataArquivamentoIsNotNullOrderByDataAberturaDesc();
 
-    public List<Notificacao> findByDataAberturaIsNotNullOrderByDataAberturaDesc();
+    public List<ProcessoNotificacao> findByDataAberturaIsNotNullOrderByDataAberturaDesc();
 }

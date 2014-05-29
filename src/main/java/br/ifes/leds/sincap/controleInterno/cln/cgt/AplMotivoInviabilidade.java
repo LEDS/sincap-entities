@@ -12,7 +12,7 @@ import br.ifes.leds.sincap.controleInterno.cgd.TipoMotivoInviabilidadeRepository
 import br.ifes.leds.sincap.controleInterno.cln.cdp.MotivoInviabilidade;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.TipoMotivoInviabilidade;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.CaptacaoRepository;
-import br.ifes.leds.sincap.gerenciaNotificacao.cgd.NotificacaoRepository;
+import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ProcessoNotificacaoRepository;
 
 @Service
 public class AplMotivoInviabilidade {
@@ -23,11 +23,11 @@ public class AplMotivoInviabilidade {
     @Autowired
     MotivoInviabilidadeRepository motivoInviabilidadeRepository;
     
-    @Autowired
-    CaptacaoRepository captacaoRepository;
+    //@Autowired
+    //CaptacaoRepository captacaoRepository;
 
     @Autowired
-    NotificacaoRepository notificacaoRepository;
+    ProcessoNotificacaoRepository notificacaoRepository;
 
     public List<TipoMotivoInviabilidade> getTipoMotivoInviabilidade() {
         return tipoMotivoInviabilidadeRepository.findAll();
@@ -51,13 +51,13 @@ public class AplMotivoInviabilidade {
         this.motivoInviabilidadeRepository.save(motivoInviabilidade);
     }
 
-    public void excluir(MotivoInviabilidade motivoInviabilidade) throws MotivoInviabilidadeEmUsoException {
-        if (this.captacaoRepository.findByMotivosInviabilidade(motivoInviabilidade).isEmpty()) {
-            this.motivoInviabilidadeRepository.delete(motivoInviabilidade.getId());
-        } else {
-            throw new MotivoInviabilidadeEmUsoException();
-        }
-    }
+//    public void excluir(MotivoInviabilidade motivoInviabilidade) throws MotivoInviabilidadeEmUsoException {
+//        if (this.captacaoRepository.findByMotivosInviabilidade(motivoInviabilidade).isEmpty()) {
+//            this.motivoInviabilidadeRepository.delete(motivoInviabilidade.getId());
+//        } else {
+//            throw new MotivoInviabilidadeEmUsoException();
+//        }
+//    }
 
     public List<MotivoInviabilidade> buscarPorTipoMotivoInviabilidade(TipoMotivoInviabilidade tipoMotivoInviabilidade) {
         return motivoInviabilidadeRepository.findByTipoMotivoInviabilidade(tipoMotivoInviabilidade);

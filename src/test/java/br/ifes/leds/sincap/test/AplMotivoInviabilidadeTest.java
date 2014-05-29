@@ -11,7 +11,7 @@ import br.ifes.leds.reuse.ledsExceptions.CRUDExceptions.MotivoInviabilidadeExist
 import br.ifes.leds.sincap.controleInterno.cln.cdp.MotivoInviabilidade;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.TipoMotivoInviabilidade;
 import br.ifes.leds.sincap.controleInterno.cln.cgt.AplMotivoInviabilidade;
-import br.ifes.leds.sincap.gerenciaNotificacao.cgd.NotificacaoRepository;
+import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ProcessoNotificacaoRepository;
 
 
 public class AplMotivoInviabilidadeTest extends AbstractionTest{
@@ -19,7 +19,7 @@ public class AplMotivoInviabilidadeTest extends AbstractionTest{
 	@Autowired
 	AplMotivoInviabilidade apl;
 	@Autowired
-	NotificacaoRepository notif;
+	ProcessoNotificacaoRepository notif;
 	
 	
 	@Test

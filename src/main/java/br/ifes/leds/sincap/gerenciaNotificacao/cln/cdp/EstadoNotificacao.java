@@ -18,9 +18,9 @@ import lombok.Setter;
 @Entity
 public class EstadoNotificacao extends ObjetoPersistente {
     
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private Long id;
     
     @Column
     private String nome;
