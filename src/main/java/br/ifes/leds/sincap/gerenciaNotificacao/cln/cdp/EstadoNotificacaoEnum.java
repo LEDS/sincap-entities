@@ -5,7 +5,7 @@ package br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp;
  * @author 20102bsi0553
  */
 public enum EstadoNotificacaoEnum {
-    AGUARDANDOANALISE("Aguardando Analisa"),
+    AGUARDANDOANALISE("Aguardando Analise"),
     EMANALISE("Em Analise"),
     NOTIFICACAOANALISADA("Notificacao Analisada"),
     AGUARDANDOENTREVISTA("Aguardando Entrevista"),
