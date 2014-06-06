@@ -56,4 +56,6 @@ public class Obito extends ObjetoPersistente {
     
     @OneToOne
     private Setor setor;
+    
+    private TipoObito tipoObito;
 }
