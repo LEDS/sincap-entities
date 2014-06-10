@@ -1,6 +1,5 @@
 package br.ifes.leds.sincap.controleInterno.cln.cgt;
 
-import br.ifes.leds.reuse.ledsExceptions.CRUDExceptions.MotivoInviabilidadeEmUsoException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,6 @@ import br.ifes.leds.sincap.controleInterno.cgd.MotivoInviabilidadeRepository;
 import br.ifes.leds.sincap.controleInterno.cgd.TipoMotivoInviabilidadeRepository;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.MotivoInviabilidade;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.TipoMotivoInviabilidade;
-import br.ifes.leds.sincap.gerenciaNotificacao.cgd.CaptacaoRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ProcessoNotificacaoRepository;
 
 @Service

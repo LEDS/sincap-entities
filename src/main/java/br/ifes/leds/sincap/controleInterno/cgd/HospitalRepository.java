@@ -18,7 +18,7 @@ import br.ifes.leds.sincap.controleInterno.cln.cdp.Setor;
 @Transactional
 public interface HospitalRepository extends JpaRepository<Hospital, Long> {
 
-    public List<Hospital> findByNome(String nome);
+    public Hospital findByNome(String nome);
     public List<Hospital> findByCnes(String cnes);
     public Hospital findById(Long id); 
     public List<Hospital> findBySetores(Setor setor);

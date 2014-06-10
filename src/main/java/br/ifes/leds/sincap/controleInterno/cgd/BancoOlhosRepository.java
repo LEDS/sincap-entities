@@ -6,7 +6,6 @@
 package br.ifes.leds.sincap.controleInterno.cgd;
 
 import br.ifes.leds.sincap.controleInterno.cln.cdp.BancoOlhos;
-import br.ifes.leds.sincap.controleInterno.cln.cdp.Hospital;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -19,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 @Transactional
 public interface BancoOlhosRepository extends JpaRepository<BancoOlhos, Long> {
-    public List<BancoOlhos> findByNome(String nome);
+    public BancoOlhos findByNome(String nome);
     public List<BancoOlhos> findByCnes(String cnes);
     public BancoOlhos findById(Long id); 
 }
