@@ -1,6 +1,6 @@
 package br.ifes.leds.sincap.gerenciaNotificacao.cgd;
 
-import br.ifes.leds.sincap.controleInterno.cln.cdp.MotivoInviabilidade;
+import br.ifes.leds.sincap.controleInterno.cln.cdp.Captador;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,7 +16,6 @@ import java.util.List;
 @Repository
 @Transactional
 public interface CaptacaoRepository extends JpaRepository<Captacao, Long> {
-    
-    List<Captacao> findByMotivosInviabilidade(MotivoInviabilidade motivoInviabilidade);
+    public List<Captacao> findByCaptador(Captador captador);
 
 }

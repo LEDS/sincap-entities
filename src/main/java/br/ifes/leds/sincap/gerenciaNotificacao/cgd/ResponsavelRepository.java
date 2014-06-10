@@ -20,6 +20,6 @@ public interface ResponsavelRepository extends JpaRepository<Responsavel, Long> 
 	 * @param rg, String que representa o RG do responsavel
 	 * @return
 	 */
-	public Responsavel findByRg(String rg);
+	public Responsavel findByDocumentoSocial(String documentoSocial);
 
 }

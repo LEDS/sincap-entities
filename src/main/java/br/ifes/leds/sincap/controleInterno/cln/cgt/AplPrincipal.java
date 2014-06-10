@@ -38,7 +38,7 @@ public class AplPrincipal {
      *
      * @param cpf
      * @param password
-     * @return
+     * @return user - Objeto Usuário
      * @throws Exception
      */
     public Funcionario validarLogin(String cpf, String password) throws Exception {
@@ -60,9 +60,9 @@ public class AplPrincipal {
 
     }
 
-    public Set<InstituicaoNotificadora> obterInstituicoesNotificadorasPorCpf(String username) throws Exception {
+    public Set<InstituicaoNotificadora> obterInstituicoesNotificadorasPorCpf(String cpf) throws Exception {
         
-        Notificador notificador = this.notificadorRepository.findByCpf(username);
+        Notificador notificador = this.notificadorRepository.findByCpf(cpf);
         if (notificador != null) {
             return notificador.getInstituicoesNotificadoras();
         } else {
@@ -71,9 +71,9 @@ public class AplPrincipal {
 
     }
     
-    public BancoOlhos obterBancoOlhosPorCpf(String username) throws Exception {
+    public BancoOlhos obterBancoOlhosPorCpf(String cpf) throws Exception {
         
-        Captador captador = this.captadorRepository.findByCpf(username);
+        Captador captador = this.captadorRepository.findByCpf(cpf);
         if (captador != null) {
             return captador.getBancoOlhos();
         } else {
