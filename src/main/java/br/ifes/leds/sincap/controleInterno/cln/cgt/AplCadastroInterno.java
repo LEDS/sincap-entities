@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import br.ifes.leds.sincap.controleInterno.cgd.SetorRepository;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.MotivoRecusa;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Setor;
-import br.ifes.leds.sincap.gerenciaNotificacao.cgd.CausaObitoRepository;
+import br.ifes.leds.sincap.gerenciaNotificacao.cgd.CausaMortisRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CausaMortis;
 import org.springframework.data.domain.Sort;
 
@@ -20,7 +20,7 @@ public class AplCadastroInterno {
 	@Autowired
 	private SetorRepository setorRepository;
 	@Autowired
-	private CausaObitoRepository causaObitoRepository;
+	private CausaMortisRepository causaObitoRepository;
         @Autowired
         private MotivoRecusaRepository motivoRecusaRepository;
         

@@ -28,7 +28,6 @@ import br.ifes.leds.sincap.controleInterno.cln.cgt.AplMotivoRecusa;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ObitoRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Captacao;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CausaMortis;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Doacao;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoCivil;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.ProcessoNotificacao;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Obito;

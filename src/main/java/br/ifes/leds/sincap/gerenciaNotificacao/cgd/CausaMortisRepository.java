@@ -9,10 +9,10 @@ import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CausaMortis;
 /**
  * CausaMortisRepository.java
  * @author 20091BSI0273
- * Interface que representa o repositorio de MotivoObito.
+ * Interface que representa o repositorio de Motivo de Obito.
  */
 @Repository
 @Transactional
-public interface CausaObitoRepository extends JpaRepository<CausaMortis,Long> {
+public interface CausaMortisRepository extends JpaRepository<CausaMortis,Long> {
 
 }

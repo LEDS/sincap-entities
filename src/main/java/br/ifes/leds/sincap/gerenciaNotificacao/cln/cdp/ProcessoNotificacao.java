@@ -14,9 +14,7 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
 import br.ifes.leds.reuse.persistence.ObjetoPersistente;
-import br.ifes.leds.sincap.controleInterno.cln.cdp.InstituicaoNotificadora;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Notificador;
-import br.ifes.leds.sincap.controleInterno.cln.cdp.Setor;
 import java.util.List;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
@@ -74,4 +72,13 @@ public class ProcessoNotificacao extends ObjetoPersistente {
     
     @OneToOne
     private CausaNaoDoacao causaNaoDoacao;
+    
+
+    public boolean aptoDoacao() {
+        return this.obito.isAptoDoacao();
+    }
+
+    public boolean doacaoAutorizado() {
+        return this.entrevista.isDoacaoAutorizada();
+    }
 }

@@ -55,11 +55,5 @@ public class Paciente extends Pessoa {
     private Sexo sexo;
     
     @Enumerated (EnumType.STRING)
-    private TipoPaciente tipoPaciente;// tipo de paciente ex: crianca, adulto, nao-identificado, recem-nasciso
-    
-    @Enumerated (EnumType.STRING)
-    private EstadoCivil EstadoCivil; // tipo de estados civis ex: SOLTEIRO, CASADO, DIVORCIADO, VIUVO
-
-    @OneToOne
-    private Doacao doacao;
+    private EstadoCivil EstadoCivil;
 }
