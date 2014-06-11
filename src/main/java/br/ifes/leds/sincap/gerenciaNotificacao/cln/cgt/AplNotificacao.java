@@ -74,17 +74,18 @@ public class AplNotificacao {
     @Autowired
     private AtualizacaoEstadoRepository atualizacaoEstadoRepository;
     
-    /*
-    * Metodo que salva uma notificação
-    * @param notificacao ProcessoNotificacao - Notificacao que sera salva
-    * @return long - Retorna o id do obito salvo
+    /**
+     * 
+     * Metodo que salva uma notificação
+     * @param notificacao ProcessoNotificacao - Notificacao que sera salva
+     * @param funcionario
+     * @return long - Retorna o id do obito salvo
     */
-    public long cadastrar(ProcessoNotificacao notificacao, Funcionario funcionario) {
+    public long salvar(ProcessoNotificacao notificacao) {
         Obito obito = notificacao.getObito();
         this.salvarEtapaObito(obito);
         
         AtualizacaoEstado novoEstado = new AtualizacaoEstado();
-        novoEstado.setFuncionario(funcionario);
         novoEstado.setEstadoNotificacao(EstadoNotificacaoEnum.AGUARDANDOANALISE);
         
         notificacao.getHistorico().add(novoEstado);
@@ -110,9 +111,9 @@ public class AplNotificacao {
     }
     
     
-    /*
+    /**
     * Metodo que salva uma notificação
-    * @param historico List<AtualizacaoEstado> - Lista de Atualizacoes de estados
+    * @param historico List - Lista de Atualizacoes de estados
     */
     public void salvarHistorico(List<AtualizacaoEstado> historico){
         if(!historico.isEmpty()){
@@ -122,7 +123,7 @@ public class AplNotificacao {
         }
     }
 
-    /*
+    /**
     * Metodo que salva o obito de uma notificação
     * @param obito Obito - Obito que sera salvo
     * @return long - Id do obito salvo
@@ -143,7 +144,7 @@ public class AplNotificacao {
         return obito.getId();
     }
     
-    /*
+    /**
     * Metodo que salva o paciente de um obito
     * @param paciente Paciente - Paciente que sera salvo
     * @return long - Id do paciente salvo
@@ -159,7 +160,7 @@ public class AplNotificacao {
         return paciente.getId();
     }
     
-    /*
+    /**
     * Metodo que salva a entrevista de uma notificacao
     * @param entrevista Entrevista - Entrevista que sera salva
     * @return long - Id do paciente salvo
@@ -182,7 +183,7 @@ public class AplNotificacao {
         return entrevista.getId();
     }
     
-    /*
+    /**
     * Metodo que salva o responsavel de uma entrevista
     * @param responsavel Responsavel - Responsavel que sera salvo
     * @return long - Id do responsavel salvo
@@ -201,7 +202,7 @@ public class AplNotificacao {
         return responsavel.getId();
     }
     
-    /*
+    /**
     * Metodo que salva a captacao de uma notificacao
     * @param captacao Captacao - Captacao que sera salvo
     * @return long - Id da captacao salvo
@@ -214,7 +215,7 @@ public class AplNotificacao {
         return captacao.getId();
     }
     
-    /*
+    /**
     * Metodo que arquiva uma notificacao
     * @param notificacao Notificacao - Notificacao que sofera o arquivamoento
     */
@@ -223,14 +224,15 @@ public class AplNotificacao {
         notificacaoRepository.save(notificacao);
     }
 
-    /*
+    /**
     * Metodo para obeter todas as notificacoes
+     * @return List - Lista com todos as notificacoes
     */
     public List<ProcessoNotificacao> obter() {
         return notificacaoRepository.findAll();
     }
 
-    /*
+    /**
     * Metodo que salva a captacao de uma notificacao
     * @param id long - Id da notificacao que sera buscada
     * @return ProcessoNotificacao - Notificacao buscada
@@ -239,17 +241,17 @@ public class AplNotificacao {
         return notificacaoRepository.findOne(id);
     }
 
-    /*
+    /**
     * Metodo que busca todas as notificacoes nao arquivadas
-    * @return List<ProcessoNotificacao> - Lista de notificacoes
+    * @return List - Lista de notificacoes
     */
     public List<ProcessoNotificacao> retornarNotificacaoNaoArquivada() {
         return notificacaoRepository.findByDataArquivamentoIsNullOrderByDataAberturaDesc();
     }
     
-    /*
+    /**
     * Metodo que busca todas as notificacoes arquivadas
-    * @return List<ProcessoNotificacao> - Lista de notificacoes
+    * @return List - Lista de notificacoes
     */
     public List<ProcessoNotificacao> retornarNotificacaoArquivada() {
         return notificacaoRepository.findByDataArquivamentoIsNotNullOrderByDataAberturaDesc();
@@ -268,11 +270,11 @@ public class AplNotificacao {
         return notificacaoRepository.findByDataAberturaIsNotNullOrderByDataAberturaDesc();
     }    
     
-    /*
+    /**
     * Metodo que busca todas as notificacoes por data inicio e final
     * @param DataAberturaIni Calendar - Data inicial da busca
     * @param DataAberturaFim Calendar - Data final da busca
-    * @return List<ProcessoNotificacao> - Lista de notificacoes
+    * @return List - Lista de notificacoes
     */
     public List<ProcessoNotificacao> retornarNotificacaoPorData(Calendar DataAberturaIni, Calendar DataAberturaFim)
     {
