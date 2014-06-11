@@ -22,7 +22,7 @@ public interface PacienteRepository extends JpaRepository<Paciente, Long> {
 	 * @param rg, String que representa o rg do Paciente
 	 * @return
 	 */
-	public Paciente findByRg(String rg);
+	public Paciente findByDocumentoSocial(String documentoSocial);
 	
 	/**
 	 * Metodo para retornar uma lista de pacientes a partir de parte do nome do paciente e da mae do paciente.

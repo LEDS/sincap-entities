@@ -17,6 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Repository
 @Transactional
-public interface AnalistaCNCDORepository extends JpaRepository<AnalistaCNCDO, Long>{
-    
+public interface AnalistaCNCDORepository extends JpaRepository<AnalistaCNCDO, Long>{    
+    public AnalistaCNCDO findByCpf(String cpf);
 }

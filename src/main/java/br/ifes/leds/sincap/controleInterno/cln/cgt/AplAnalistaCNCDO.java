@@ -6,9 +6,8 @@
 
 package br.ifes.leds.sincap.controleInterno.cln.cgt;
 
-import br.ifes.leds.sincap.controleInterno.cgd.FuncionarioRepository;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.AnalistaCNCDO;
-import br.ifes.leds.sincap.controleInterno.cln.cdp.Funcionario;
+import br.ifes.leds.sincap.gerenciaNotificacao.cgd.AnalistaCNCDORepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,21 +19,40 @@ import org.springframework.stereotype.Service;
 public class AplAnalistaCNCDO {
     
     @Autowired
-    FuncionarioRepository funcionarioRepository;
+    AnalistaCNCDORepository analistaCNCDORepository;
     
-    public Funcionario obter(String cpf)
+    /** Método para obter um analista pelo seu id.
+      * @param id - id do analista.
+      * @return Objeto Analista.
+      */
+    public AnalistaCNCDO obter(Long id)
     {
-        return funcionarioRepository.findByCpf(cpf);
+        return analistaCNCDORepository.findOne(id);
     }
     
-    public void salvar(Funcionario analistaCNCDO)
+    /** Método para obter um analista pelo seu CPF.
+     * @param cpf - cpf do Analista.
+      * @return Objeto Funcionário.
+      */
+    public AnalistaCNCDO obter(String cpf)
     {
-        funcionarioRepository.save(analistaCNCDO);
+        return analistaCNCDORepository.findByCpf(cpf);
     }
     
-    public void excluir(Funcionario analistaCNCDO)
+    /** Método para salvar um analista.
+      * @param analistaCNCDO - objeto Analista.
+      */
+    public void salvar(AnalistaCNCDO analistaCNCDO)
     {
-        funcionarioRepository.delete(analistaCNCDO);
+        analistaCNCDORepository.save(analistaCNCDO);
+    }
+    
+    /** Método para excluir um analista.
+      * @param analistaCNCDO - objeto Analista.
+      */
+    public void excluir(AnalistaCNCDO analistaCNCDO)
+    {
+        analistaCNCDORepository.delete(analistaCNCDO);
     }
     
 }

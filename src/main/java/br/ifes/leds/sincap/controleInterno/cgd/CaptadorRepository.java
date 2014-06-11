@@ -25,5 +25,6 @@ public interface CaptadorRepository extends JpaRepository<Captador, Long> {
      * @return, Usuario relacionado ao username dado.
      */
     public Captador findByCpf(String cpf);
+    public Captador findById(Long id);
 
 }

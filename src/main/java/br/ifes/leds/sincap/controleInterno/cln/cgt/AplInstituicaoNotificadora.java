@@ -15,11 +15,19 @@ public class AplInstituicaoNotificadora {
 
     @Autowired
     private InstituicaoNotificadoraRepository instituicaoNotificadoraRepository;
-
+    
+    /**
+     * Método responsável por buscar todas as intituições notificadoras.
+     * @return Lista de todas instituições Notificadoras.
+     */
     public List<InstituicaoNotificadora> obterTodasInstituicoesNotificadoras() {
         return instituicaoNotificadoraRepository.findAll();
     }
-
+    
+    /**
+     * Método responsável por buscar uma intituição notificadora pelo seu id.
+     * @return Objeto instituição Notificadora.
+     */
     public InstituicaoNotificadora obter(Long idInstituicao) {
         return instituicaoNotificadoraRepository.findOne(idInstituicao);
     }
