@@ -40,9 +40,11 @@ public class ProcessoNotificacao extends ObjetoPersistente {
     private String codigo;
 
     @Temporal(TemporalType.TIMESTAMP)
+    @Column(nullable = true)
     private Calendar dataAbertura;
 
     @Temporal(TemporalType.TIMESTAMP)
+    @Column(nullable = true)
     private Calendar dataArquivamento;
     
     @Column
@@ -61,12 +63,12 @@ public class ProcessoNotificacao extends ObjetoPersistente {
     private Obito obito;
     
     @OneToOne
-    @JoinColumn(nullable = false)
+    @JoinColumn(nullable = true)
     @Cascade({CascadeType.SAVE_UPDATE})
     private Entrevista entrevista;
 
     @OneToOne
-    @JoinColumn(nullable = false)
+    @JoinColumn(nullable = true)
     @Cascade({CascadeType.SAVE_UPDATE})
     private Captacao captacao;
     
