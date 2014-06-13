@@ -85,6 +85,10 @@ public class NotificacaoTest extends AbstractionTest {
 
     private ProcessoNotificacao notificacao;
 
+    @Test
+    public void teste(){
+        Assert.assertTrue(true);
+    }
 //    @Before
 //    public void before() {
 //        notificacao = new ProcessoNotificacao();

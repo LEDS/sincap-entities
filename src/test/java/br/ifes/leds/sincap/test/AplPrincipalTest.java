@@ -11,9 +11,9 @@ import br.ifes.leds.sincap.controleInterno.cgd.HospitalRepository;
 import br.ifes.leds.sincap.controleInterno.cgd.NotificadorRepository;
 import br.ifes.leds.sincap.controleInterno.cgd.SetorRepository;
 import br.ifes.leds.sincap.controleInterno.cgd.TelefoneRepository;
+import br.ifes.leds.sincap.controleInterno.cgd.UsuarioRepository;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.BancoOlhos;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Captador;
-import br.ifes.leds.sincap.controleInterno.cln.cdp.Funcionario;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.InstituicaoNotificadora;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Notificador;
 import br.ifes.leds.sincap.controleInterno.cln.cgt.AplPrincipal;
@@ -28,47 +28,23 @@ public class AplPrincipalTest extends AbstractionTest {
 	@Autowired
 	private AplPrincipal aplPrincipal;
 	@Autowired
-	private FuncionarioRepository funcionarioRepository;
-	@Autowired
 	private NotificadorRepository notificadorRepository;
         @Autowired
-	private BancoOlhosRepository bancoOlhosRepository;
-        @Autowired
 	private CaptadorRepository captadorRepository;
-	@Autowired
-	private HospitalRepository hospitalRepository;
-	@Autowired
-	private SetorRepository setorRepository;
-        @Autowired
-        private TelefoneRepository telefoneRepository;
-        @Autowired
-        private EnderecoRepository enderecoRepository;
-        @Autowired
-        private BairroRepository bairroRepository;
-        @Autowired
-        private CidadeRepository cidadeRepository;
-        @Autowired
-        private EstadoRepository estadoRepository;
 	
-        private Funcionario funcionario;
         private Notificador notificador;
         private Captador captador;
-        private BancoOlhos banco;
 	
-	 
-        @Before
-        /** Método para preencher os dados nescessários para a os testes da Apl Principal.
+        
+        /**
+        * Metodo que responsavel por criar os objetos nescessários na realização dos testes.
         */
+        @Before
         public void criaObjetosPrincipal(){
-            funcionario = new Funcionario();
             notificador = new Notificador();
             captador = new Captador();
-            
-            funcionario = funcionarioRepository.findByCpf("111.111.111-11");
             notificador = notificadorRepository.findByCpf("111.111.111-11");
-            captador = captadorRepository.findByCpf("222.222.222-22");
-//            captador.setBancoOlhos(bancoOlhosRepository.findById(new Long(1)));
-//            captadorRepository.
+            captador = captadorRepository.findById(new Long(2));
         }
 	 
         /**
@@ -97,7 +73,7 @@ public class AplPrincipalTest extends AbstractionTest {
          */
         
         @Test    
-        public void obterBancoOlhosPorCpf() throws Exception{
+        public void obterBancoOlhosPorCpf() throws Exception {
            Assert.assertNotNull(aplPrincipal.obterBancoOlhosPorCpf(captador.getCpf()));
         }
 }

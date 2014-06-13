@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import br.ifes.leds.sincap.controleInterno.cgd.NotificadorRepository;
 import br.ifes.leds.sincap.controleInterno.cgd.FuncionarioRepository;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.BancoOlhos;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Captador;
@@ -27,15 +26,13 @@ public class AplPrincipal {
     @Autowired
     private FuncionarioRepository funcionarioRepository;
     @Autowired
-    private NotificadorRepository notificadorRepository;
-    @Autowired
     private CaptadorRepository captadorRepository;
-    
+    @Autowired
+    private AplNotificador aplNotificador;
     
 
     /**
-     * Metodo para validar login do usuario
-     *
+     * Metodo para validar login do usuario.
      * @param cpf
      * @param password
      * @return user - Objeto Usuário
@@ -60,9 +57,16 @@ public class AplPrincipal {
 
     }
 
+    /**
+    * Método para a obtenção de um conjunto de instituições notificadoras atraves do CPF do Notificador.
+     * @param cpf - CPF do Notificador
+     * @return Conjunto de Instituições notificadoras
+    * @throws Exception
+    */
+    
     public Set<InstituicaoNotificadora> obterInstituicoesNotificadorasPorCpf(String cpf) throws Exception {
         
-        Notificador notificador = this.notificadorRepository.findByCpf(cpf);
+        Notificador notificador = aplNotificador.obterNotificador(cpf);
         if (notificador != null) {
             return notificador.getInstituicoesNotificadoras();
         } else {
@@ -70,6 +74,13 @@ public class AplPrincipal {
         }
 
     }
+    
+    /**
+    * Método para a obtenção de um Banco de Olhos atraves do CPF do Capador.
+     * @param cpf - CPF do Captador.
+     * @return Banco de olhos do Captador.
+    * @throws Exception
+    */
     
     public BancoOlhos obterBancoOlhosPorCpf(String cpf) throws Exception {
         
@@ -81,15 +92,4 @@ public class AplPrincipal {
         }
 
     }
-
-    public Notificador obterNotificadorPorUsuarioUsername(String username) {
-
-        return notificadorRepository.findByCpf(username);
-    }
-    
-    public Funcionario obterFuncionarioPorUsuarioUsername(String username) {
-
-        return funcionarioRepository.findByCpf(username);
-    }
-
 }
