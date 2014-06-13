@@ -3,7 +3,6 @@ package br.ifes.leds.sincap.gerenciaNotificacao.cln.cgt;
 import br.ifes.leds.reuse.endereco.cdp.Endereco;
 import br.ifes.leds.reuse.endereco.cgd.EnderecoRepository;
 import br.ifes.leds.sincap.controleInterno.cgd.TelefoneRepository;
-import br.ifes.leds.sincap.controleInterno.cln.cdp.Funcionario;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Telefone;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.AtualizacaoEstadoRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.CaptacaoRepository;
@@ -78,7 +77,6 @@ public class AplNotificacao {
      * 
      * Metodo que salva uma notificação
      * @param notificacao ProcessoNotificacao - Notificacao que sera salva
-     * @param funcionario
      * @return long - Retorna o id do obito salvo
     */
     public long salvar(ProcessoNotificacao notificacao) {
@@ -94,19 +92,25 @@ public class AplNotificacao {
         
         if(notificacao.aptoDoacao()){
             Entrevista entrevista = notificacao.getEntrevista();
-            this.salvarEtapaEntrevista(entrevista);
             
-            if(notificacao.doacaoAutorizado()){
-                Captacao captacao = notificacao.getCaptacao();
-                this.salvarEtapaCaptacao(captacao);
+            if(entrevista != null){
+                this.salvarEtapaEntrevista(entrevista);
+                
+                if(notificacao.doacaoAutorizado()){
+                    Captacao captacao = notificacao.getCaptacao();
+                    
+                    if(captacao != null){
+                        this.salvarEtapaCaptacao(captacao);
+                    }
+                }
             }
         }
 
         //Gerando o codigo
         notificacao.setCodigo(genereateCode());
         notificacao.setDataAbertura(Calendar.getInstance());
-        notificacaoRepository.save(notificacao);
         
+        notificacaoRepository.save(notificacao);        
         return notificacao.getId();
     }
     
