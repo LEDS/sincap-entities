@@ -1,13 +1,11 @@
 package br.ifes.leds.sincap.controleInterno.cln.cgt;
 
-import br.ifes.leds.sincap.controleInterno.cgd.MotivoRecusaRepository;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.ifes.leds.sincap.controleInterno.cgd.SetorRepository;
-import br.ifes.leds.sincap.controleInterno.cln.cdp.MotivoRecusa;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Setor;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.CausaMortisRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CausaMortis;
@@ -21,8 +19,6 @@ public class AplCadastroInterno {
 	private SetorRepository setorRepository;
 	@Autowired
 	private CausaMortisRepository causaObitoRepository;
-        @Autowired
-        private MotivoRecusaRepository motivoRecusaRepository;
         
         //TODO Add sorte para ordenar os elementos da lista
 	
@@ -41,13 +37,4 @@ public class AplCadastroInterno {
 	public CausaMortis obterCausaObitoPorId(Long id){
 		return this.causaObitoRepository.findOne(id);
 	}
-   
-        public List<MotivoRecusa> obterTodosRecusaFamiliar(){
-            
-            Sort sort = new Sort(Sort.Direction.ASC, "nome");
-            
-            return this.motivoRecusaRepository.findAll(sort);
-        }
-	
-//	
 }

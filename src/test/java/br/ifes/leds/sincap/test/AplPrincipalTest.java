@@ -1,18 +1,7 @@
 package br.ifes.leds.sincap.test;
 
-import br.ifes.leds.reuse.endereco.cgd.BairroRepository;
-import br.ifes.leds.reuse.endereco.cgd.CidadeRepository;
-import br.ifes.leds.reuse.endereco.cgd.EnderecoRepository;
-import br.ifes.leds.reuse.endereco.cgd.EstadoRepository;
-import br.ifes.leds.sincap.controleInterno.cgd.BancoOlhosRepository;
 import br.ifes.leds.sincap.controleInterno.cgd.CaptadorRepository;
-import br.ifes.leds.sincap.controleInterno.cgd.FuncionarioRepository;
-import br.ifes.leds.sincap.controleInterno.cgd.HospitalRepository;
 import br.ifes.leds.sincap.controleInterno.cgd.NotificadorRepository;
-import br.ifes.leds.sincap.controleInterno.cgd.SetorRepository;
-import br.ifes.leds.sincap.controleInterno.cgd.TelefoneRepository;
-import br.ifes.leds.sincap.controleInterno.cgd.UsuarioRepository;
-import br.ifes.leds.sincap.controleInterno.cln.cdp.BancoOlhos;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Captador;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.InstituicaoNotificadora;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Notificador;
