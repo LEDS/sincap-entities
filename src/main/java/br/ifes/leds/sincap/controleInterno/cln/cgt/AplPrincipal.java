@@ -8,11 +8,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.ifes.leds.sincap.controleInterno.cgd.FuncionarioRepository;
+import br.ifes.leds.sincap.controleInterno.cln.cdp.AnalistaCNCDO;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.BancoOlhos;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Captador;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Funcionario;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.InstituicaoNotificadora;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Notificador;
+import br.ifes.leds.sincap.gerenciaNotificacao.cgd.AnalistaCNCDORepository;
 
 /**
  * AplPrincipal.java
@@ -28,7 +30,9 @@ public class AplPrincipal {
     @Autowired
     private CaptadorRepository captadorRepository;
     @Autowired
-    private AplNotificador aplNotificador;
+    private AnalistaCNCDORepository analistaCNCDORepository;
+    @Autowired
+    private AplNotificador aplNotificador;    
     
 
     /**
@@ -91,5 +95,25 @@ public class AplPrincipal {
             throw new Exception("Nome de usuario nao existe");
         }
 
+    }
+
+    public Funcionario obterFuncionarioPorFuncao(String cpf) {
+        /*
+        TODO - Refatorar o codigo para criar as Apls 
+        para cada tipo de funcionario. Ou,
+        criar uma AplFuncionario com todos os repositorios        
+        */
+        Funcionario funcionario = null;
+        funcionario = analistaCNCDORepository.findByCpf(cpf);
+        
+        if(funcionario == null){
+            funcionario = captadorRepository.findByCpf(cpf);
+            
+            if(funcionario == null)            {
+                funcionario = aplNotificador.obterNotificador(cpf);
+            }
+        }
+        
+        return funcionario;
     }
 }
