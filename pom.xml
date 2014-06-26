@@ -13,6 +13,7 @@
         <ehcache.version>2.6.6</ehcache.version>
         <slf4j.version>1.6.1</slf4j.version>
         <aspectj.version>1.6.9</aspectj.version>
+        <dozer.version>5.4.0</dozer.version>
         <!-- Codificacao -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -26,7 +27,14 @@
             <artifactId>lombok</artifactId> 
             <version>1.12.6</version> 
             <scope>provided</scope> 
-        </dependency> 
+        </dependency>
+         
+        <!-- Dozer -->
+        <dependency>
+            <groupId>net.sf.dozer</groupId>
+            <artifactId>dozer</artifactId>
+            <version>${dozer.version}</version>
+        </dependency>
         
         <dependency>
             <groupId>postgresql</groupId>
