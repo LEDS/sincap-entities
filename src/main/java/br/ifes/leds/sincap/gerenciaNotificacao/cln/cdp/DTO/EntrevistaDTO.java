@@ -6,10 +6,17 @@
 
 package br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTO;
 
+import br.ifes.leds.reuse.endereco.cdp.Endereco;
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  *
  * @author Breno
  */
+
+@Getter
+@Setter
 public class EntrevistaDTO {
     //Dados para o cabeçalho do formulário
     private String processoNotificacaoCodigo;
@@ -29,22 +36,18 @@ public class EntrevistaDTO {
     private String dataEntrevista;
     private String horaEntrevista;
     
-    //Representa o endereco do paciente
-    private String enderecoCEP;
-    private String enderecoLogradouro;
-    private String enderecoNumero;
-    private String enderecoBairro;
-    private String enderecoCidade;
-    private String enderecoUF;
+    //Representa o endereco do responsável legal
+    private Endereco endereco;
     
-    //Representa os outros dados pessoais do paciente
-    private String pacienteDocumentoSocial;
-    private String pacienteParentesco;
-    private String pacienteEstadoCivil;
-    private String pacienteTelefone1;
-    private String pacienteTelefone2;
-    private String pacienteProfissao;
-    private String pacienteNacionalidade;
+    //Representa os outros dados pessoais do responsável legal
+    private Long responsavelId;
+    private String responsavelLegalDocumentoSocial;
+    private String responsavelLegalParentesco;
+    private String responsavelLegalEstadoCivil; 
+    private String responsavelLegalTelefone1;
+    private String responsavelLegalTelefone2;
+    private String responsavelLegalProfissao;
+    private String responsavelLegalNacionalidade;
     
     
     //Representa os dados da primeira testemunha
@@ -54,4 +57,5 @@ public class EntrevistaDTO {
     //Representa os dados da primeira testemunha
     private String testemunha2Nome;
     private String testemunha2CPF;
+
 }
