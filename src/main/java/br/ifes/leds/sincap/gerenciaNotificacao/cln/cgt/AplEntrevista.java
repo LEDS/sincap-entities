@@ -11,6 +11,8 @@ import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTO.EntrevistaDTO;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.ProcessoNotificacao;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Responsavel;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Testemunha;
+import java.text.ParseException;
+import java.util.Calendar;
 
 /**
  * Classe que gera o DTO e administra os dados da Entrevista do Processo de Doacao
@@ -30,6 +32,7 @@ public class AplEntrevista {
         ProcessoNotificacao processoNotificacao = aplNotificacao.getNotificacao(processoNotificacaoId);
         
         //Dados de cabecalho:
+        dto.setProcessoNotificacaoId(processoNotificacaoId);
         dto.setProcessoNotificacaoCodigo(processoNotificacao.getCodigo());
         dto.setPacienteNome(processoNotificacao.getObito().getPaciente().getNome());
         
@@ -57,6 +60,7 @@ public class AplEntrevista {
         Responsavel rl = processoNotificacao.getEntrevista().getResponsavel();
         
         dto.setEndereco(rl.getEndereco());
+        
         dto.setResponsavelId(rl.getId());
         dto.setResponsavelLegalDocumentoSocial(rl.getDocumentoSocial());
         dto.setResponsavelLegalEstadoCivil(rl.getEstadoCivil().toString());
@@ -77,13 +81,20 @@ public class AplEntrevista {
         dto.setTestemunha1Nome(testemunha2.getNome());
     }
     
-    
-    
     private void fillDataHora(ProcessoNotificacao processoNotificacao, EntrevistaDTO dto)
     {
         String data = "", hora = "";
         utility.calendarToString(processoNotificacao.getEntrevista().getDataEntrevista(), data, hora);
         dto.setDataEntrevista(data);
         dto.setHoraEntrevista(hora);
+    }
+    
+    
+    //Definir entrevista a partir de um DTO
+    private void setDataHora(ProcessoNotificacao processoNotificacao, EntrevistaDTO dto) throws ParseException
+    {
+        Calendar dataEntrevista = Calendar.getInstance();
+        utility.stringToCalendar(dto.getDataEntrevista(), dto.getHoraEntrevista(), dataEntrevista);
+        processoNotificacao.getEntrevista().setDataEntrevista(dataEntrevista);
     }
 }

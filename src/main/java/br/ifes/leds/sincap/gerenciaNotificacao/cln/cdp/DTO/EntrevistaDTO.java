@@ -19,6 +19,7 @@ import lombok.Setter;
 @Setter
 public class EntrevistaDTO {
     //Dados para o cabeçalho do formulário
+    private Long processoNotificacaoId;
     private String processoNotificacaoCodigo;
     private String pacienteNome;
     
@@ -51,10 +52,12 @@ public class EntrevistaDTO {
     
     
     //Representa os dados da primeira testemunha
+    private Long testemunha1Id;
     private String testemunha1Nome;
     private String testemunha1CPF;
     
     //Representa os dados da primeira testemunha
+    private Long testemunha2Id;
     private String testemunha2Nome;
     private String testemunha2CPF;
 
