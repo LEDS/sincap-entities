@@ -9,6 +9,6 @@
 
     <mapping>
         <class-a>br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Paciente</class-a>
-        <class-b>br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTP.PacienteDTO</class-b>
+        <class-b>br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTO.PacienteDTO</class-b>
     </mapping>
 </mappings>
