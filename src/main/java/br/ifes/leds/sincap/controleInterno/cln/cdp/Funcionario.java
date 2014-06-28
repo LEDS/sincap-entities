@@ -2,10 +2,9 @@ package br.ifes.leds.sincap.controleInterno.cln.cdp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.PrimaryKeyJoinColumn;
+
 import lombok.Getter;
 import lombok.Setter;
 

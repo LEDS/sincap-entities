@@ -5,17 +5,17 @@
  */
 
 package br.ifes.leds.sincap.controleInterno.cln.cgt;
-import br.ifes.leds.reuse.endereco.cgd.EnderecoRepository;
-import br.ifes.leds.reuse.ledsExceptions.CRUDExceptions.BancoOlhosEmUsoException;
-import br.ifes.leds.sincap.controleInterno.cgd.TelefoneRepository;
-import br.ifes.leds.sincap.controleInterno.cgd.BancoOlhosRepository;
-import br.ifes.leds.sincap.controleInterno.cln.cdp.BancoOlhos;
-import br.ifes.leds.sincap.controleInterno.cln.cdp.Telefone;
-import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ProcessoNotificacaoRepository;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import br.ifes.leds.reuse.endereco.cgd.EnderecoRepository;
+import br.ifes.leds.sincap.controleInterno.cgd.BancoOlhosRepository;
+import br.ifes.leds.sincap.controleInterno.cgd.TelefoneRepository;
+import br.ifes.leds.sincap.controleInterno.cln.cdp.BancoOlhos;
+import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ProcessoNotificacaoRepository;
 
 /**
  *

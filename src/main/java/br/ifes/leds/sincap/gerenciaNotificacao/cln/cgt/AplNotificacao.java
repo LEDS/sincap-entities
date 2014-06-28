@@ -1,5 +1,12 @@
 package br.ifes.leds.sincap.gerenciaNotificacao.cln.cgt;
 
+import java.util.Calendar;
+import java.util.List;
+import java.util.UUID;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import br.ifes.leds.reuse.endereco.cdp.Endereco;
 import br.ifes.leds.reuse.endereco.cgd.EnderecoRepository;
 import br.ifes.leds.sincap.controleInterno.cgd.TelefoneRepository;
@@ -22,14 +29,6 @@ import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Paciente;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.ProcessoNotificacao;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Responsavel;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Testemunha;
-import java.util.Calendar;
-import java.util.List;
-import java.util.UUID;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Service;
 
 /**
  * AplNotificacao.java
@@ -263,11 +262,7 @@ public class AplNotificacao {
 
     public List<ProcessoNotificacao> retornarNotificacaoNaoArquivada(int valorInicial, int quantidade, String campoOrdenacao) {
 
-        Sort sort = new Sort(Sort.Direction.ASC, campoOrdenacao);
-
-        Pageable pageable = new PageRequest(valorInicial, quantidade, sort);
-
-        return notificacaoRepository.findByDataArquivamentoIsNull(null);
+                return notificacaoRepository.findByDataArquivamentoIsNull(null);
     }
 
     public List<ProcessoNotificacao> retornarTodasNotificacoes() {
@@ -282,9 +277,10 @@ public class AplNotificacao {
     */
     public List<ProcessoNotificacao> retornarNotificacaoPorData(Calendar DataAberturaIni, Calendar DataAberturaFim)
     {
-        return notificacaoRepository.findByDataAberturaBetween(DataAberturaIni, DataAberturaFim);
+        return notificacaoRepository.findByDataAberturaBetween(DataAberturaIni,
+                DataAberturaFim);
     }
-    
+
     private String genereateCode() {
         return UUID.randomUUID().toString();
     }

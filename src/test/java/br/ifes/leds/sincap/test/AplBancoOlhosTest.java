@@ -6,6 +6,11 @@
 
 package br.ifes.leds.sincap.test;
 
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import br.ifes.leds.reuse.endereco.cdp.Endereco;
 import br.ifes.leds.reuse.endereco.cgd.BairroRepository;
 import br.ifes.leds.reuse.endereco.cgd.CidadeRepository;
@@ -15,11 +20,6 @@ import br.ifes.leds.sincap.controleInterno.cgd.TelefoneRepository;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.BancoOlhos;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Telefone;
 import br.ifes.leds.sincap.controleInterno.cln.cgt.AplBancoOlhos;
-import java.util.List;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *

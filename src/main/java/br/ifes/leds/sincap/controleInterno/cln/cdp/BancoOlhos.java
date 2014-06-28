@@ -1,7 +1,7 @@
 package br.ifes.leds.sincap.controleInterno.cln.cdp;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
+
 import lombok.Getter;
 import lombok.Setter;
 

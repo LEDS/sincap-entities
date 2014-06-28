@@ -1,12 +1,13 @@
 package br.ifes.leds.reuse.endereco.cgd;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
 import br.ifes.leds.reuse.endereco.cdp.Bairro;
-import java.util.List;
-import static javax.management.Query.value;
-import org.springframework.data.jpa.repository.Query;
 
 /**
  * BairroRepository.java

@@ -6,8 +6,6 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import javax.management.RuntimeOperationsException;
-
 import junit.framework.Assert;
 
 import org.apache.log4j.Logger;

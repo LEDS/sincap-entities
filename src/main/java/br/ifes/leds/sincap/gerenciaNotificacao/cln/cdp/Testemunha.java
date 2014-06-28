@@ -1,11 +1,11 @@
 package br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp;
 
-import javax.persistence.Entity;
-import br.ifes.leds.sincap.controleInterno.cln.cdp.Pessoa;
 import javax.persistence.Column;
-import javax.persistence.Id;
+import javax.persistence.Entity;
+
 import lombok.Getter;
 import lombok.Setter;
+import br.ifes.leds.sincap.controleInterno.cln.cdp.Pessoa;
 
 /**
  * Testemunha.java

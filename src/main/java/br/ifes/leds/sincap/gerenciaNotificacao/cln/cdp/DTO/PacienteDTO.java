@@ -4,10 +4,7 @@ import java.util.Calendar;
 
 import lombok.Getter;
 import lombok.Setter;
-import br.ifes.leds.reuse.endereco.cdp.Bairro;
-import br.ifes.leds.reuse.endereco.cdp.Cidade;
 import br.ifes.leds.reuse.endereco.cdp.Endereco;
-import br.ifes.leds.reuse.endereco.cdp.Estado;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Sexo;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Telefone;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoCivil;

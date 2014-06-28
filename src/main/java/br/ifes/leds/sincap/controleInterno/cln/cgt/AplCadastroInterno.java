@@ -9,7 +9,6 @@ import br.ifes.leds.sincap.controleInterno.cgd.SetorRepository;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Setor;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.CausaMortisRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CausaMortis;
-import org.springframework.data.domain.Sort;
 
 @Service
 public class AplCadastroInterno {

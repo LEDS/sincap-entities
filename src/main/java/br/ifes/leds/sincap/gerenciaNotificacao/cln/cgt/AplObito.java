@@ -1,7 +1,6 @@
 package br.ifes.leds.sincap.gerenciaNotificacao.cln.cgt;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.dozer.Mapper;
