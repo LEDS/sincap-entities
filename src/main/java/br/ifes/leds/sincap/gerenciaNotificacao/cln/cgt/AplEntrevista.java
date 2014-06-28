@@ -26,7 +26,7 @@ public class AplEntrevista {
     AplNotificacao aplNotificacao = new AplNotificacao();
 
     //
-    Utility utility = Utility.getInstance();
+    Utility utility = Utility.INSTANCE;
 
     public EntrevistaDTO getEntrevista(Long processoNotificacaoId) {
         EntrevistaDTO dto = new EntrevistaDTO();

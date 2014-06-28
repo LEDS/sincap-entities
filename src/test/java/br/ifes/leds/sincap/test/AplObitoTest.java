@@ -1,14 +1,10 @@
 package br.ifes.leds.sincap.test;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.List;
 
 import junit.framework.Assert;
 
-import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +16,7 @@ import br.ifes.leds.reuse.endereco.cdp.Estado;
 import br.ifes.leds.reuse.endereco.cdp.Pais;
 import br.ifes.leds.reuse.endereco.cgt.AplEndereco;
 import br.ifes.leds.reuse.utility.Factory;
+import br.ifes.leds.reuse.utility.Utility;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Sexo;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Telefone;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoCivil;
@@ -32,6 +29,7 @@ public class AplObitoTest extends AbstractionTest {
     private AplObito aplObito;
     @Autowired
     private AplEndereco aplEndereco;
+    private Utility utility = Utility.INSTANCE;
 
     private final Factory fabrica = Factory.INSTANCE;
     private PacienteDTO pacienteDTO;
@@ -66,21 +64,17 @@ public class AplObitoTest extends AbstractionTest {
     public void savarPacienteTest() throws Exception {
         aplObito.salvarPaciente(pacienteDTO);
 
-        PacienteDTO pacienteTest = this.getObjectByMethod(
-                aplObito.obterTodosPacientes(),
-                PacienteDTO.class.getDeclaredMethod("getNome"), this.nome);
+        PacienteDTO pacienteTest = utility.getObjectByMethod(aplObito.obterTodosPacientes(), PacienteDTO.class.getDeclaredMethod("getNome"), this.nome);
 
         Assert.assertNotNull(pacienteTest.getId());
         Assert.assertNotNull(pacienteTest.getEndereco());
         Assert.assertNotNull(pacienteTest.getTelefone());
 
         Assert.assertEquals(this.nome, pacienteTest.getNome());
-        Assert.assertEquals(this.documentoSocial,
-                pacienteTest.getDocumentoSocial());
+        Assert.assertEquals(this.documentoSocial, pacienteTest.getDocumentoSocial());
         Assert.assertEquals(this.nacionalidade, pacienteTest.getNacionalidade());
         Assert.assertEquals(this.nomeMae, pacienteTest.getNomeMae());
-        Assert.assertEquals(this.numeroProntuario,
-                pacienteTest.getNumeroProntuario());
+        Assert.assertEquals(this.numeroProntuario, pacienteTest.getNumeroProntuario());
         Assert.assertEquals(this.numeroSUS, pacienteTest.getNumeroSUS());
         Assert.assertEquals(this.profissao, pacienteTest.getProfissao());
     }
@@ -135,50 +129,19 @@ public class AplObitoTest extends AbstractionTest {
         this.preencherPaisEstadoCidadeBairro(endereco);
     }
 
-    private void preencherPaisEstadoCidadeBairro(Endereco endereco)
-            throws Exception {
+    private void preencherPaisEstadoCidadeBairro(Endereco endereco) throws Exception {
 
         Pais brasil = aplEndereco.obterPaisPorNome("Brasil");
 
-        Estado es = this.getObjectByMethod(
-                aplEndereco.obterEstadosPorPais(brasil.getId()),
-                Estado.class.getDeclaredMethod("getSigla"), "ES");
+        Estado es = utility.getObjectByMethod(aplEndereco.obterEstadosPorPais(brasil.getId()), Estado.class.getDeclaredMethod("getSigla"), "ES");
 
-        Cidade serra = this.getObjectByMethod(
-                aplEndereco.obterCidadesPorEstado(es.getId()),
-                Cidade.class.getDeclaredMethod("getNome"), "Serra");
+        Cidade serra = utility.getObjectByMethod(aplEndereco.obterCidadesPorEstado(es.getId()), Cidade.class.getDeclaredMethod("getNome"), "Serra");
 
-        Bairro laranjeiras = this.getObjectByMethod(
-                aplEndereco.obterBairrosPorCidade(serra.getId()),
-                Bairro.class.getDeclaredMethod("getNome"), "Laranjeiras");
+        Bairro laranjeiras = utility.getObjectByMethod(aplEndereco.obterBairrosPorCidade(serra.getId()), Bairro.class.getDeclaredMethod("getNome"), "Laranjeiras");
 
         endereco.setEstado(es);
         endereco.setCidade(serra);
         endereco.setBairro(laranjeiras);
     }
 
-    /**
-     * Pesquisa um objeto em uma lista baseado em um método.
-     * 
-     * @param lista
-     *            A lista de objetos a ser pesquisada
-     * @param metodo
-     *            Uma classe {@code Method} com o método a ser
-     * @param nome
-     * @return
-     */
-    private <T> T getObjectByMethod(List<T> lista, Method metodo, Object nome) {
-        try {
-            for (T obj : lista) {
-                if (metodo.invoke(obj).equals(nome)) {
-                    return obj;
-                }
-            }
-        } catch (IllegalAccessException | IllegalArgumentException
-                | InvocationTargetException e) {
-            Logger.getLogger("getObjectByMethod").error(
-                    "Couldn't get object by method.");
-        }
-        return null;
-    }
 }
