@@ -21,7 +21,7 @@
     <bean id="mapper" class="org.dozer.DozerBeanMapper">
         <property name="mappingFiles">
             <list>
-                <value>dozer-bean-mappings.xml</value>
+                <value>dozerBeanMapping.xml</value>
             </list>
         </property>
     </bean>
