@@ -5,11 +5,14 @@ import java.lang.reflect.Method;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.dozer.DozerBeanMapperSingletonWrapper;
+import org.dozer.Mapper;
 
 /**
  *
@@ -18,6 +21,8 @@ import org.apache.log4j.Logger;
 public enum Utility {
 
     INSTANCE;
+
+    private final Mapper mapper = DozerBeanMapperSingletonWrapper.getInstance();
 
     /**
      *
@@ -51,6 +56,25 @@ public enum Utility {
         } else {
             return (long) 0;
         }
+    }
+
+    /**
+     * Mapeia uma lista de um tipo para outro.
+     * 
+     * @param listaOrigem
+     *            A lista a ser mapeada.
+     * @param classeDestino
+     *            O tipo destino a ser mapeado.
+     * @return Uma lista do tipo definido no {@code classeDestino}.
+     */
+    public <K, T> List<T> mapList(List<K> listaOrigem, Class<T> classeDestino) {
+        List<T> listaDestino = new ArrayList<>();
+
+        for (K origem : listaOrigem) {
+            listaDestino.add(mapper.map(origem, classeDestino));
+        }
+
+        return listaDestino;
     }
 
     /**
