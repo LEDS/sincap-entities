@@ -6,8 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import br.ifes.leds.sincap.controleInterno.cln.cdp.dto.HospitalDTO;
-import br.ifes.leds.sincap.controleInterno.cln.cdp.dto.SetorDTO;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CausaMortis;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CorpoEncaminhamento;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoObito;
@@ -28,7 +26,7 @@ public class ObitoDTO {
     private CausaMortis terceiraCausaMortis;
     private CausaMortis quartaCausaMortis;
     private PacienteDTO paciente;
-    private SetorDTO setor;
-    private HospitalDTO hospital;
+    private Long setor;
+    private Long hospital;
     private TipoObito tipoObito;
 }

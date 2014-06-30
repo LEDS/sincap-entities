@@ -12,8 +12,28 @@
         <class-b>br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTO.PacienteDTO</class-b>
     </mapping>
     <mapping>
+        <class-a>br.ifes.leds.reuse.endereco.cdp.Endereco</class-a>
+        <class-b>br.ifes.leds.reuse.endereco.cdp.dto.EnderecoDTO</class-b>
+        <field>
+            <a>estado.id</a>
+            <b>estado</b>
+        </field>
+        <field>
+            <a>cidade.id</a>
+            <b>cidade</b>
+        </field>
+        <field>
+            <a>bairro.id</a>
+            <b>bairro</b>
+        </field>
+    </mapping>
+    <mapping>
         <class-a>br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Obito</class-a>
         <class-b>br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTO.ObitoDTO</class-b>
+        <field>
+            <a>setor.id</a>
+            <b>setor</b>
+        </field>
     </mapping>
     <mapping>
         <class-a>br.ifes.leds.sincap.controleInterno.cln.cdp.Setor</class-a>

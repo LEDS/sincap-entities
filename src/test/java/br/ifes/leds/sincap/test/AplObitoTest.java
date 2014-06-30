@@ -13,17 +13,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import br.ifes.leds.reuse.endereco.cdp.Bairro;
 import br.ifes.leds.reuse.endereco.cdp.Cidade;
-import br.ifes.leds.reuse.endereco.cdp.Endereco;
 import br.ifes.leds.reuse.endereco.cdp.Estado;
 import br.ifes.leds.reuse.endereco.cdp.Pais;
+import br.ifes.leds.reuse.endereco.cdp.dto.EnderecoDTO;
 import br.ifes.leds.reuse.endereco.cgt.AplEndereco;
 import br.ifes.leds.reuse.utility.Factory;
 import br.ifes.leds.reuse.utility.Utility;
 import br.ifes.leds.sincap.controleInterno.cgd.HospitalRepository;
+import br.ifes.leds.sincap.controleInterno.cgd.SetorRepository;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Hospital;
+import br.ifes.leds.sincap.controleInterno.cln.cdp.Setor;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Sexo;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Telefone;
-import br.ifes.leds.sincap.controleInterno.cln.cdp.dto.HospitalDTO;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CausaMortis;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CorpoEncaminhamento;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoCivil;
@@ -40,6 +41,8 @@ public class AplObitoTest extends AbstractionTest {
     @Autowired
     private HospitalRepository hospitalRepository;
     @Autowired
+    private SetorRepository setorRepository;
+    @Autowired
     private Mapper mapper;
 
     private final Utility utility;
@@ -54,7 +57,7 @@ public class AplObitoTest extends AbstractionTest {
     private PacienteDTO pacienteDTO;
     private String nome;
     private Telefone telefone;
-    private Endereco endereco;
+    private EnderecoDTO endereco;
     private Calendar dataInternacao;
     private Calendar dataNascimento;
     private String profissao;
@@ -80,7 +83,7 @@ public class AplObitoTest extends AbstractionTest {
     public void before() throws Exception {
         this.obitoDTO = fabrica.criaObjeto(ObitoDTO.class);
         this.pacienteDTO = fabrica.criaObjeto(PacienteDTO.class);
-        this.endereco = fabrica.criaObjeto(Endereco.class);
+        this.endereco = fabrica.criaObjeto(EnderecoDTO.class);
         this.telefone = fabrica.criaObjeto(Telefone.class);
         this.dataInternacao = new GregorianCalendar();
         this.dataNascimento = new GregorianCalendar();
@@ -119,6 +122,7 @@ public class AplObitoTest extends AbstractionTest {
         Assert.assertEquals(this.numeroProntuario, pacienteTest.getNumeroProntuario());
         Assert.assertEquals(this.numeroSUS, pacienteTest.getNumeroSUS());
         Assert.assertEquals(this.profissao, pacienteTest.getProfissao());
+        Assert.assertEquals(this.endereco.getBairro(), pacienteTest.getEndereco().getBairro());
     }
 
     @Test
@@ -128,7 +132,9 @@ public class AplObitoTest extends AbstractionTest {
         ObitoDTO obitoTest = aplObito.obterTodosObitos().get(0);
 
         Assert.assertNotNull(obitoTest);
+        Assert.assertNotNull(obitoTest.getSetor());
         Assert.assertNotNull(obitoTest.getPaciente().getId());
+        Assert.assertEquals(endereco.getCep(), obitoTest.getPaciente().getEndereco().getCep());
         Assert.assertEquals("Primeira Causa Mortis", obitoTest.getPrimeiraCausaMortis().getNome());
         Assert.assertEquals("Segunda Causa Mortis", obitoTest.getSegundaCausaMortis().getNome());
         Assert.assertEquals("Terceira Causa Mortis", obitoTest.getTerceiraCausaMortis().getNome());
@@ -178,20 +184,22 @@ public class AplObitoTest extends AbstractionTest {
 
     private void preencherDadosObito() {
         Hospital hospital = hospitalRepository.findAll().get(0);
+        Setor setor = setorRepository.findAll().get(0);
 
         this.obitoDTO.setPaciente(pacienteDTO);
         this.obitoDTO.setAptoDoacao(true);
         this.obitoDTO.setCorpoEncaminhamento(CorpoEncaminhamento.IML);
         this.obitoDTO.setDataEvento(new GregorianCalendar(2014, 5, 27, 18, 30));
         this.obitoDTO.setDataObito(new GregorianCalendar(2014, 5, 27, 22, 55));
-        this.obitoDTO.setHospital(mapper.map(hospital, HospitalDTO.class));
+        this.obitoDTO.setHospital(hospital.getId());
+        this.obitoDTO.setSetor(setor.getId());
         this.obitoDTO.setPrimeiraCausaMortis(new CausaMortis("Primeira Causa Mortis"));
         this.obitoDTO.setSegundaCausaMortis(new CausaMortis("Segunda Causa Mortis"));
         this.obitoDTO.setTerceiraCausaMortis(new CausaMortis("Terceira Causa Mortis"));
         this.obitoDTO.setQuartaCausaMortis(new CausaMortis("Quarta Causa Mortis"));
     }
 
-    private void preencherEndereco(Endereco endereco) {
+    private void preencherEndereco(EnderecoDTO endereco) {
 
         endereco.setCep("29182527");
         endereco.setComplemento("");
@@ -200,16 +208,16 @@ public class AplObitoTest extends AbstractionTest {
         this.preencherPaisEstadoCidadeBairro(endereco);
     }
 
-    private void preencherPaisEstadoCidadeBairro(Endereco endereco) {
+    private void preencherPaisEstadoCidadeBairro(EnderecoDTO endereco) {
 
         Pais brasil = aplEndereco.obterPaisPorNome("Brasil");
         Estado es = utility.getObjectByMethod(aplEndereco.obterEstadosPorPais(brasil.getId()), getSiglaEstado, "ES");
         Cidade serra = utility.getObjectByMethod(aplEndereco.obterCidadesPorEstado(es.getId()), getNomeCidade, "Serra");
         Bairro laranjeiras = utility.getObjectByMethod(aplEndereco.obterBairrosPorCidade(serra.getId()), getNomeBairro, "Laranjeiras");
 
-        endereco.setEstado(es);
-        endereco.setCidade(serra);
-        endereco.setBairro(laranjeiras);
+        endereco.setEstado(es.getId());
+        endereco.setCidade(serra.getId());
+        endereco.setBairro(laranjeiras.getId());
     }
 
 }
