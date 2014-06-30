@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mappings xmlns="http://dozer.sourceforge.net" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://dozer.sourceforge.net
+          xsi:schemaLocation="http://dozer.sourceforge.net
           http://dozer.sourceforge.net/schema/beanmapping.xsd">
 
     <configuration>
@@ -46,6 +46,10 @@
     <mapping>
         <class-a>br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.AtualizacaoEstado</class-a>
         <class-b>br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTO.AtualizacaoEstadoDTO</class-b>
+    </mapping>
+    <mapping>    
+        <class-a>br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Entrevista</class-a>
+        <class-b>br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTO.EntrevistaDTO</class-b>
         <field>
             <a>funcionario.id</a>
             <b>funcionario</b>
@@ -58,5 +62,13 @@
             <a>causaNaoDoacao.id</a>
             <b>causaNaoDoacao</b>
         </field>
+    </mapping>
+    <mapping>
+        <class-a>br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Testemunha</class-a>
+        <class-b>br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTO.TestemunhaDTO</class-b>
+    </mapping>
+    <mapping>
+        <class-a>br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Responsavel</class-a>
+        <class-b>br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTO.ResponsavelDTO</class-b>
     </mapping>
 </mappings>

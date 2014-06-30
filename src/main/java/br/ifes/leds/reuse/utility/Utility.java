@@ -50,7 +50,7 @@ public enum Utility {
         calendar.setTime(convertedDataHora);
     }
 
-    public Long getLongBoolean(boolean attribute) {
+    public Long booleanToLong(boolean attribute) {
         if (attribute) {
             return (long) 1;
         } else {
