@@ -5,18 +5,18 @@ package br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp;
  * @author 20102bsi0553
  */
 public enum EstadoNotificacaoEnum {
-    AGUARDANDOANALISE("Aguardando Analise"),
-    EMANALISE("Em Analise"),
-    NOTIFICACAOANALISADA("Notificacao Analisada"),
+    AGUARDANDOANALISEOBITO("Aguardando Análise de Óbito"),
+    EMANALISEOBITO("Em Análise de Óbito"),
     AGUARDANDOENTREVISTA("Aguardando Entrevista"),
-    ENTREVISTAREALIZADA("Entrevista Realizada"),
-    ANALISEENTREVISTA("Analise Entrevista"),
+    AGUARDANDOANALISEENTREVISTA("Aguardando Análise Entrevista"),
+    EMANALISEENTREVISTA("Em Analise da Entrevista"),
     AGUARDANDOCAPTACAO("Aguardando Captacao"),
-    EMCAPTACAO("Em Captacao"),
+    AGUARDANDOANALISECAPTACAO("Aguardando Análise da Captacao"),
+    EMANALISECAPTACAO("Em Análise de Captação"),
     AGUARDANDOARQUIVAMENTO("Aguardando Arquivamento"),
     NOTIFICACAOARQUIVADA("Notificacao Arquivada");
     
-    private String nome;
+    private final String nome;
 
     private EstadoNotificacaoEnum(String nome) {
         this.nome = nome;

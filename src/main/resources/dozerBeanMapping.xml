@@ -43,4 +43,20 @@
         <class-a>br.ifes.leds.sincap.controleInterno.cln.cdp.Hospital</class-a>
         <class-b>br.ifes.leds.sincap.controleInterno.cln.cdp.dto.HospitalDTO</class-b>
     </mapping>
+    <mapping>
+        <class-a>br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.AtualizacaoEstado</class-a>
+        <class-b>br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTO.AtualizacaoEstadoDTO</class-b>
+        <field>
+            <a>funcionario.id</a>
+            <b>funcionario</b>
+        </field>
+    </mapping>
+    <mapping>
+        <class-a>br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.ProcessoNotificacao</class-a>
+        <class-b>br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTO.ProcessoNotificacaoDTO</class-b>
+        <field>
+            <a>causaNaoDoacao.id</a>
+            <b>causaNaoDoacao</b>
+        </field>
+    </mapping>
 </mappings>
