@@ -1,14 +1,12 @@
 package br.ifes.leds.sincap.controleInterno.cln.cgt;
 
-import br.ifes.leds.sincap.controleInterno.cgd.CaptadorRepository;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import br.ifes.leds.sincap.controleInterno.cgd.CaptadorRepository;
 import br.ifes.leds.sincap.controleInterno.cgd.FuncionarioRepository;
-import br.ifes.leds.sincap.controleInterno.cln.cdp.AnalistaCNCDO;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.BancoOlhos;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Captador;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Funcionario;
@@ -32,11 +30,11 @@ public class AplPrincipal {
     @Autowired
     private AnalistaCNCDORepository analistaCNCDORepository;
     @Autowired
-    private AplNotificador aplNotificador;    
-    
+    private AplNotificador aplNotificador;
 
     /**
      * Metodo para validar login do usuario.
+     *
      * @param cpf
      * @param password
      * @return user - Objeto Usuário
@@ -45,7 +43,6 @@ public class AplPrincipal {
     public Funcionario validarLogin(String cpf, String password) throws Exception {
 
         Funcionario user = funcionarioRepository.findByCpf(cpf);
-        Pageable pageable;
 
         if (user != null && user.getCpf().equals(cpf) && user.getSenha().equals(password)) {
 
@@ -62,14 +59,15 @@ public class AplPrincipal {
     }
 
     /**
-    * Método para a obtenção de um conjunto de instituições notificadoras atraves do CPF do Notificador.
+     * Método para a obtenção de um conjunto de instituições notificadoras
+     * atraves do CPF do Notificador.
+     *
      * @param cpf - CPF do Notificador
      * @return Conjunto de Instituições notificadoras
-    * @throws Exception
-    */
-    
+     * @throws Exception
+     */
     public Set<InstituicaoNotificadora> obterInstituicoesNotificadorasPorCpf(String cpf) throws Exception {
-        
+
         Notificador notificador = aplNotificador.obterNotificador(cpf);
         if (notificador != null) {
             return notificador.getInstituicoesNotificadoras();
@@ -78,16 +76,16 @@ public class AplPrincipal {
         }
 
     }
-    
+
     /**
-    * Método para a obtenção de um Banco de Olhos atraves do CPF do Capador.
+     * Método para a obtenção de um Banco de Olhos atraves do CPF do Capador.
+     *
      * @param cpf - CPF do Captador.
      * @return Banco de olhos do Captador.
-    * @throws Exception
-    */
-    
+     * @throws Exception
+     */
     public BancoOlhos obterBancoOlhosPorCpf(String cpf) throws Exception {
-        
+
         Captador captador = this.captadorRepository.findByCpf(cpf);
         if (captador != null) {
             return captador.getBancoOlhos();
@@ -99,21 +97,21 @@ public class AplPrincipal {
 
     public Funcionario obterFuncionarioPorFuncao(String cpf) {
         /*
-        TODO - Refatorar o codigo para criar as Apls 
-        para cada tipo de funcionario. Ou,
-        criar uma AplFuncionario com todos os repositorios        
-        */
+         TODO - Refatorar o codigo para criar as Apls 
+         para cada tipo de funcionario. Ou,
+         criar uma AplFuncionario com todos os repositorios        
+         */
         Funcionario funcionario = null;
         funcionario = analistaCNCDORepository.findByCpf(cpf);
-        
-        if(funcionario == null){
+
+        if (funcionario == null) {
             funcionario = captadorRepository.findByCpf(cpf);
-            
-            if(funcionario == null)            {
+
+            if (funcionario == null) {
                 funcionario = aplNotificador.obterNotificador(cpf);
             }
         }
-        
+
         return funcionario;
     }
 }

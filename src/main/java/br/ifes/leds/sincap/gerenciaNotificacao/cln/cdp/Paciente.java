@@ -1,20 +1,18 @@
  package br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp;
 
-import br.ifes.leds.reuse.endereco.cdp.Endereco;
 import java.util.Calendar;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import br.ifes.leds.sincap.controleInterno.cln.cdp.Pessoa;
-import br.ifes.leds.sincap.controleInterno.cln.cdp.Sexo;
-import javax.persistence.Id;
+
 import lombok.Getter;
 import lombok.Setter;
+import br.ifes.leds.sincap.controleInterno.cln.cdp.Pessoa;
+import br.ifes.leds.sincap.controleInterno.cln.cdp.Sexo;
 
 
 /**

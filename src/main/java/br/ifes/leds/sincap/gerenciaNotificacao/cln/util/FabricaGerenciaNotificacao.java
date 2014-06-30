@@ -22,7 +22,7 @@ public class FabricaGerenciaNotificacao {
 
     public synchronized ObjetoPersistente getObjeto(String nomeObjeto) throws ClassNotFoundException {
         try {
-            Class c = null;
+            Class<?> c = null;
 
             c = Class.forName(path + nomeObjeto);
 

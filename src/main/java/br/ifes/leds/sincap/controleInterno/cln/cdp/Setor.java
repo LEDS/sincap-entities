@@ -13,34 +13,32 @@ import javax.persistence.ManyToMany;
 import lombok.Getter;
 import lombok.Setter;
 
-
 /**
  * Setor.java
  *
  * @author 20091BSI0273 Classe que representa um setor hospitalar em que ocorreu
- * um obito
+ *         um obito
  */
 @Setter
 @Getter
 @Entity
 public class Setor {
+
     @Id
-    @Column (name="setorID")
+    @Column(name = "setorID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToMany(mappedBy="setores", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "setores", fetch = FetchType.EAGER)
     Set<Hospital> hospital = new HashSet<>();
-    
+
     private String nome;
-    
-    public void addHospital(Hospital hospital)
-    {
+
+    public void addHospital(Hospital hospital) {
         this.hospital.add(hospital);
     }
-    
-    public void removeHospital(Hospital hospital)
-    {
+
+    public void removeHospital(Hospital hospital) {
         this.hospital.remove(hospital);
     }
 }
