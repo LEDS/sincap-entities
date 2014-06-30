@@ -101,7 +101,7 @@ public class AplPrincipal {
          para cada tipo de funcionario. Ou,
          criar uma AplFuncionario com todos os repositorios        
          */
-        Funcionario funcionario = null;
+        Funcionario funcionario;
         funcionario = analistaCNCDORepository.findByCpf(cpf);
 
         if (funcionario == null) {
