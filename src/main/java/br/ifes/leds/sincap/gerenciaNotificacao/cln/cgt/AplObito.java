@@ -71,7 +71,7 @@ public class AplObito {
         salvarPaciente(paciente);
     }
 
-    private void salvarPaciente(Paciente paciente) {
+    public void salvarPaciente(Paciente paciente) {
         telefoneRepository.save(paciente.getTelefone());
         enderecoRepository.save(paciente.getEndereco());
         pacienteRepository.save(paciente);
@@ -107,13 +107,11 @@ public class AplObito {
      */
     public void salvarObito(ObitoDTO obitoDTO) {
         Obito obito = mapper.map(obitoDTO, Obito.class);
-
-        salvarPaciente(obito.getPaciente());
-
         salvarObito(obito);
     }
 
-    private void salvarObito(Obito obito) {
+    public void salvarObito(Obito obito) {
+        salvarPaciente(obito.getPaciente());
         causaMortisRepository.save(obito.getPrimeiraCausaMortis());
         causaMortisRepository.save(obito.getSegundaCausaMortis());
         causaMortisRepository.save(obito.getTerceiraCausaMortis());
