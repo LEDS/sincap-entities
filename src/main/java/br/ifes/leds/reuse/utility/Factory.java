@@ -18,14 +18,16 @@ public enum Factory {
 
     INSTANCE;
 
+    public static Factory getInstance() {
+        return INSTANCE;
+    }
+
     public <T> T criaObjeto(Class<T> tipoObjeto) {
         try {
             return (T) tipoObjeto.getConstructor().newInstance();
-        } catch (InstantiationException | IllegalAccessException
-                | IllegalArgumentException | InvocationTargetException
-                | NoSuchMethodException | SecurityException ex) {
-            Logger.getLogger(Factory.class.getName()).log(Level.SEVERE, null,
-                    ex);
+        } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException
+                | SecurityException ex) {
+            Logger.getLogger(Factory.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
 

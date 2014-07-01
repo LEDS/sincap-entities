@@ -24,6 +24,10 @@ public enum Utility {
 
     private final Mapper mapper = DozerBeanMapperSingletonWrapper.getInstance();
 
+    public static Utility getInstance() {
+        return INSTANCE;
+    }
+
     /**
      *
      * @author 20112bsi0083

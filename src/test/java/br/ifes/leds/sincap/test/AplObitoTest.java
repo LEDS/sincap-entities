@@ -44,9 +44,10 @@ public class AplObitoTest extends AbstractionTest {
     private SetorRepository setorRepository;
     @Autowired
     private Mapper mapper;
-
-    private final Utility utility;
-    private final Factory fabrica;
+    @Autowired
+    private Utility utility;
+    @Autowired
+    private Factory fabrica;
 
     private final Method getNomePacienteDTO;
     private final Method getSiglaEstado;
@@ -70,9 +71,6 @@ public class AplObitoTest extends AbstractionTest {
     private EstadoCivil estadoCivil;
 
     public AplObitoTest() throws NoSuchMethodException, SecurityException {
-        utility = Utility.INSTANCE;
-        fabrica = Factory.INSTANCE;
-
         getNomePacienteDTO = PacienteDTO.class.getDeclaredMethod("getNome");
         getSiglaEstado = Estado.class.getDeclaredMethod("getSigla");
         getNomeCidade = Cidade.class.getDeclaredMethod("getNome");

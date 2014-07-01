@@ -32,7 +32,8 @@ public class AplObito {
     private Mapper mapper;
     @Autowired
     private CausaMortisRepository causaMortisRepository;
-    private Utility utility = Utility.INSTANCE;
+    @Autowired
+    private Utility utility;
 
     /**
      * Obtém todos os pacientes.
