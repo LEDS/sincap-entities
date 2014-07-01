@@ -31,6 +31,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class PacienteData {
+
     @Autowired
     private PacienteRepository pacienteRepository;
     @Autowired
@@ -45,7 +46,7 @@ public class PacienteData {
     EstadoRepository estadoRepository;
     @Autowired
     private Factory fabrica;
-    
+
     private Paciente paciente;
     private Sexo sexo;
     private EstadoCivil estadoCivil;
@@ -57,52 +58,68 @@ public class PacienteData {
     private Endereco endereco;
     private Telefone telefone;
     private Listas list = Listas.INSTANCE;
-    
-    public void criaPacienteRandom(DataFactory df,Integer qtdPac){
-        for (int i = 0; i < qtdPac; i++){
-           
-            
-            paciente = fabrica.criaObjeto(Paciente.class);
-            dataNascimento = Calendar.getInstance();
-            dataInternacao = Calendar.getInstance();
-            listaProfissao = list.getListProf();
-            listaSexo = list.getListSex();
-            listaEstadoCivil = list.getListEst();
-            endereco = fabrica.criaObjeto(Endereco.class);
-            telefone = fabrica.criaObjeto(Telefone.class);
-            
-            //Dados do Paciente.
-            paciente.setNome(df.getName());
-            paciente.setNomeMae(df.getName());
-            paciente.setNacionalidade("Brasileiro");
-            paciente.setEstadoCivil(df.getItem(listaEstadoCivil));
-            paciente.setSexo(df.getItem(listaSexo));
-            dataNascimento.setTime(df.getBirthDate());
-            paciente.setDataNascimento(dataNascimento);
-            dataInternacao.setTime(df.getDateBetween(df.getDate(2000,01,01), df.getDate(2014,01,01)));
-            paciente.setDataInternacao(dataInternacao);
-            paciente.setDocumentoSocial(df.getNumberText(9));
-            paciente.setNumeroProntuario(df.getNumberText(7));
-            paciente.setNumeroSUS(df.getNumberText(7));
-            paciente.setProfissao(df.getItem(listaProfissao));
-            
-            //Endereco
-            endereco.setLogradouro(df.getStreetName());
-            endereco.setEstado(estadoRepository.findOne(new Long(1)));
-            endereco.setCidade(cidadeRepository.findOne(new Long(1)));
-            endereco.setBairro(bairroRepository.findOne(new Long(1)));
-            endereco.setNumero(df.getNumberText(5));
-            endereco.setComplemento(df.getStreetSuffix());
-            endereco.setCep(df.getNumberText(8));
-            paciente.setEndereco(endereco); 
+
+    public void criaPacienteRandom(DataFactory df, Integer qtdPac) {
+        for (int i = 0; i < qtdPac; i++) {
+
+            criarPaciente(df);
             enderecoRepository.save(endereco);
-            
-            //Telefone
-            telefone.setNumero(df.getNumberText(8)); 
-            paciente.setTelefone(telefone); 
+
             telefoneRepository.save(telefone);
-            
+
             pacienteRepository.save(paciente);
-        }    
+        }
+    }
+
+    public Paciente criarPaciente(DataFactory df) {
+        paciente = fabrica.criaObjeto(Paciente.class);
+        dataNascimento = Calendar.getInstance();
+        dataInternacao = Calendar.getInstance();
+        listaProfissao = list.getListProf();
+        listaSexo = list.getListSex();
+        listaEstadoCivil = list.getListEst();
+        endereco = fabrica.criaObjeto(Endereco.class);
+        telefone = fabrica.criaObjeto(Telefone.class);
+
+        gerarDadosPaciente(df);
+
+        gerarDadosEndereco(df);
+
+        // Telefone
+        telefone.setNumero("(" + df.getNumberText(2) + ")"
+                + df.getNumberText(4) + "-" + df.getNumberText(4));
+        paciente.setTelefone(telefone);
+
+        return paciente;
+    }
+
+    private void gerarDadosEndereco(DataFactory df) {
+        // Endereco
+        endereco.setLogradouro(df.getStreetName());
+        endereco.setEstado(estadoRepository.findOne(new Long(1)));
+        endereco.setCidade(cidadeRepository.findOne(new Long(1)));
+        endereco.setBairro(bairroRepository.findOne(new Long(1)));
+        endereco.setNumero(df.getNumberText(5));
+        endereco.setComplemento(df.getStreetSuffix());
+        endereco.setCep(df.getNumberText(8));
+        paciente.setEndereco(endereco);
+    }
+
+    private void gerarDadosPaciente(DataFactory df) {
+        // Dados do Paciente.
+        paciente.setNome(df.getName());
+        paciente.setNomeMae(df.getName());
+        paciente.setNacionalidade("Brasileiro");
+        paciente.setEstadoCivil(df.getItem(listaEstadoCivil));
+        paciente.setSexo(df.getItem(listaSexo));
+        dataNascimento.setTime(df.getBirthDate());
+        paciente.setDataNascimento(dataNascimento);
+        dataInternacao.setTime(df.getDateBetween(df.getDate(2000, 01, 01),
+                df.getDate(2014, 01, 01)));
+        paciente.setDataInternacao(dataInternacao);
+        paciente.setDocumentoSocial(df.getNumberText(9));
+        paciente.setNumeroProntuario(df.getNumberText(7));
+        paciente.setNumeroSUS(df.getNumberText(7));
+        paciente.setProfissao(df.getItem(listaProfissao));
     }
 }

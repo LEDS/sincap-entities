@@ -31,6 +31,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class ResponsavelData {
+
     @Autowired
     private ResponsavelRepository responsavelRepository;
     @Autowired
@@ -45,7 +46,7 @@ public class ResponsavelData {
     EstadoRepository estadoRepository;
     @Autowired
     private Factory fabrica;
-    
+
     private Responsavel responsavel;
     private Sexo sexo;
     private EstadoCivil estadoCivil;
@@ -58,50 +59,64 @@ public class ResponsavelData {
     private Endereco endereco;
     private Telefone telefone;
     private Listas list = Listas.INSTANCE;
-    
-    public void criaResponsavelRandom(DataFactory df,Integer qtdRes){
-        for (int i = 0; i < qtdRes; i++){
-           
-            
-            responsavel = fabrica.criaObjeto(Responsavel.class);
-            dataNascimento = Calendar.getInstance();
-            dataInternacao = Calendar.getInstance();
-            listaProfissao = list.getListProf();
-            listaSexo = list.getListSex();
-            listaEstadoCivil = list.getListEst();
-            listaParentesco = list.getListPar();
-            endereco = fabrica.criaObjeto(Endereco.class);
-            telefone = fabrica.criaObjeto(Telefone.class);
-            
-            //Dados do Paciente.
-            responsavel.setNome(df.getName());
-            responsavel.setNacionalidade("Brasileiro");
-            responsavel.setEstadoCivil(df.getItem(listaEstadoCivil));
-            responsavel.setSexo(df.getItem(listaSexo));
-            dataNascimento.setTime(df.getBirthDate());
-            dataInternacao.setTime(df.getDateBetween(df.getDate(2000,01,01), df.getDate(2014,01,01)));
-            responsavel.setDocumentoSocial(df.getNumberText(9));
-            responsavel.setProfissao(df.getItem(listaProfissao));
-            responsavel.setParentesco(df.getItem(listaParentesco));
-            
-            //Endereco
-            endereco.setLogradouro(df.getStreetName());
-            endereco.setEstado(estadoRepository.findOne(new Long(1)));
-            endereco.setCidade(cidadeRepository.findOne(new Long(1)));
-            endereco.setBairro(bairroRepository.findOne(new Long(1)));
-            endereco.setNumero(df.getNumberText(5));
-            endereco.setComplemento(df.getStreetSuffix());
-            endereco.setCep(df.getNumberText(8));
-            responsavel.setEndereco(endereco); 
+
+    public void criaResponsavelRandom(DataFactory df, Integer qtdRes) {
+        for (int i = 0; i < qtdRes; i++) {
+
+            criarResponsavel(df);
             enderecoRepository.save(endereco);
-            
-            //Telefone
-            telefone.setNumero(df.getNumberText(8)); 
-            responsavel.setTelefone(telefone); 
+
             telefoneRepository.save(telefone);
-            
+
             responsavelRepository.save(responsavel);
-        }    
+        }
     }
-    
+
+    public Responsavel criarResponsavel(DataFactory df) {
+        responsavel = fabrica.criaObjeto(Responsavel.class);
+        dataNascimento = Calendar.getInstance();
+        dataInternacao = Calendar.getInstance();
+        listaProfissao = list.getListProf();
+        listaSexo = list.getListSex();
+        listaEstadoCivil = list.getListEst();
+        listaParentesco = list.getListPar();
+        endereco = fabrica.criaObjeto(Endereco.class);
+        telefone = fabrica.criaObjeto(Telefone.class);
+
+        gerarDadosResponsavel(df);
+
+        gerarDadosEndereco(df);
+        // Telefone
+        telefone.setNumero(df.getNumberText(8));
+        responsavel.setTelefone(telefone);
+
+        return responsavel;
+    }
+
+    private void gerarDadosEndereco(DataFactory df) {
+        // Endereco
+        endereco.setLogradouro(df.getStreetName());
+        endereco.setEstado(estadoRepository.findOne(new Long(1)));
+        endereco.setCidade(cidadeRepository.findOne(new Long(1)));
+        endereco.setBairro(bairroRepository.findOne(new Long(1)));
+        endereco.setNumero(df.getNumberText(5));
+        endereco.setComplemento(df.getStreetSuffix());
+        endereco.setCep(df.getNumberText(8));
+        responsavel.setEndereco(endereco);
+    }
+
+    private void gerarDadosResponsavel(DataFactory df) {
+        // Dados do Paciente.
+        responsavel.setNome(df.getName());
+        responsavel.setNacionalidade("Brasileiro");
+        responsavel.setEstadoCivil(df.getItem(listaEstadoCivil));
+        responsavel.setSexo(df.getItem(listaSexo));
+        dataNascimento.setTime(df.getBirthDate());
+        dataInternacao.setTime(df.getDateBetween(df.getDate(2000, 01, 01),
+                df.getDate(2014, 01, 01)));
+        responsavel.setDocumentoSocial(df.getNumberText(9));
+        responsavel.setProfissao(df.getItem(listaProfissao));
+        responsavel.setParentesco(df.getItem(listaParentesco));
+    }
+
 }
