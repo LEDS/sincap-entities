@@ -7,6 +7,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.ifes.leds.reuse.ledsExceptions.CRUDExceptions.ViolacaoDeRIException;
 import br.ifes.leds.reuse.utility.Utility;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.AtualizacaoEstadoRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ProcessoNotificacaoRepository;
@@ -14,6 +15,7 @@ import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.AtualizacaoEstado;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTO.ProcessoNotificacaoDTO;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoNotificacaoEnum;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.ProcessoNotificacao;
+
 import org.dozer.Mapper;
 
 /**
@@ -43,8 +45,9 @@ public class AplProcessoNotificacao {
      * @param processoNotificacaoDTO
      *            - ProcessoNotificacao - Notificacao que sera salva
      * @return long - Retorna o id do ProcessoNotificacao salvo
+     * @throws ViolacaoDeRIException
      */
-    public long salvarNovaNotificacao(ProcessoNotificacaoDTO processoNotificacaoDTO) {
+    public long salvarNovaNotificacao(ProcessoNotificacaoDTO processoNotificacaoDTO) throws ViolacaoDeRIException {
         ProcessoNotificacao notificacao = mapper.map(processoNotificacaoDTO, ProcessoNotificacao.class);
 
         aplObito.salvarObito(notificacao.getObito());
