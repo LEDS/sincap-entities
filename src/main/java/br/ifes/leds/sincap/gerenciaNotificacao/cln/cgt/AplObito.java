@@ -67,12 +67,11 @@ public class AplObito {
     public void salvarPaciente(PacienteDTO pacienteDTO) {
         Paciente paciente = mapper.map(pacienteDTO, Paciente.class);
 
-        // TODO Validar os dados recebidos.
-
         salvarPaciente(paciente);
     }
 
     public void salvarPaciente(Paciente paciente) {
+        // TODO Validar os dados recebidos.
         telefoneRepository.save(paciente.getTelefone());
         enderecoRepository.save(paciente.getEndereco());
         pacienteRepository.save(paciente);
