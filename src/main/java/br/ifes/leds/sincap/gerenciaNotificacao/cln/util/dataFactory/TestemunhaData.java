@@ -74,8 +74,9 @@ public class TestemunhaData {
         endereco.setCep(df.getNumberText(8));
         testemunha.setEndereco(endereco);
         
-        //Telefone
-        telefone.setNumero("("+df.getNumberText(2)+")"+df.getNumberText(8)); 
+        // Telefone
+        telefone.setNumero("(" + df.getNumberText(2) + ")"
+                + df.getNumberText(4) + "-" + df.getNumberText(4));
         testemunha.setTelefone(telefone);
         
         return testemunha;

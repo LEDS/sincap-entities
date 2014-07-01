@@ -28,6 +28,6 @@ public abstract class Pessoa extends ObjetoPersistente{
         private Telefone telefone;
         
         @OneToOne
-        @JoinColumn(nullable = false)
+        @JoinColumn(nullable = true)
         private Endereco endereco;
 }

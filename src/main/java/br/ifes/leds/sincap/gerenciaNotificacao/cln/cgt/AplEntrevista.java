@@ -5,6 +5,7 @@
  */
 package br.ifes.leds.sincap.gerenciaNotificacao.cln.cgt;
 
+import br.ifes.leds.reuse.endereco.cgd.EnderecoRepository;
 import java.util.List;
 
 import org.dozer.Mapper;
@@ -13,6 +14,8 @@ import org.springframework.stereotype.Service;
 
 import br.ifes.leds.reuse.ledsExceptions.CRUDExceptions.ViolacaoDeRIException;
 import br.ifes.leds.reuse.utility.Utility;
+import br.ifes.leds.sincap.controleInterno.cgd.TelefoneRepository;
+import br.ifes.leds.sincap.controleInterno.cln.cdp.Telefone;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.EntrevistaRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ResponsavelRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.TestemunhaRepository;
@@ -38,6 +41,10 @@ public class AplEntrevista {
     ResponsavelRepository responsavelRepository;
     @Autowired
     TestemunhaRepository testemunhaRepository;
+    @Autowired
+    TelefoneRepository telefoneRepository;
+    @Autowired
+    EnderecoRepository enderecoRepository;
 
     public List<EntrevistaDTO> getAllEntrevistas() {
         return utility.mapList(entrevistaRepository.findAll(), EntrevistaDTO.class);
@@ -56,8 +63,17 @@ public class AplEntrevista {
     public void setEntrevista(Entrevista entrevista) throws ViolacaoDeRIException {
         if (entrevista.isDoacaoAutorizada()) {
             if (entrevistaValida(entrevista)) {
+                
+                enderecoRepository.save(entrevista.getResponsavel().getEndereco());
+                telefoneRepository.save(entrevista.getResponsavel().getTelefone());
+                if(entrevista.getResponsavel().getTelefone2() != null)
+                    telefoneRepository.save(entrevista.getResponsavel().getTelefone2());
                 responsavelRepository.save(entrevista.getResponsavel());
+                
+                telefoneRepository.save(entrevista.getTestemunha1().getTelefone());
                 testemunhaRepository.save(entrevista.getTestemunha1());
+                
+                telefoneRepository.save(entrevista.getTestemunha2().getTelefone());
                 testemunhaRepository.save(entrevista.getTestemunha2());
                 // TODO: Validar todos os dados cadastrais
             } else {

@@ -5,6 +5,7 @@
  */
 package br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTO;
 
+import br.ifes.leds.sincap.controleInterno.cln.cdp.Telefone;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,4 +24,5 @@ public class TestemunhaDTO {
     private Long id;
     private String cpf;
     private String nome;
+    private Telefone telefone;
 }

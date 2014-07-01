@@ -31,8 +31,6 @@ public class AplObitoTest extends AbstractionTest {
     @Autowired
     private AplObito aplObito;
     @Autowired
-    private AplEndereco aplEndereco;
-    @Autowired
     private HospitalRepository hospitalRepository;
     @Autowired
     private SetorRepository setorRepository;
@@ -51,7 +49,7 @@ public class AplObitoTest extends AbstractionTest {
 
     private ObitoDTO obitoDTO;
     private PacienteDTO pacienteDTO;
-
+    
     public AplObitoTest() throws NoSuchMethodException, SecurityException {
         getNomePacienteDTO = PacienteDTO.class.getDeclaredMethod("getNome");
     }
@@ -63,6 +61,27 @@ public class AplObitoTest extends AbstractionTest {
                 PacienteDTO.class);
 
         preencherDadosObito();
+    }
+    
+    private void preencherDadosObito() {
+        Hospital hospital = hospitalRepository.findAll().get(0);
+        Setor setor = setorRepository.findAll().get(0);
+
+        this.obitoDTO.setPaciente(pacienteDTO);
+        this.obitoDTO.setAptoDoacao(true);
+        this.obitoDTO.setCorpoEncaminhamento(CorpoEncaminhamento.IML);
+        this.obitoDTO.setDataEvento(new GregorianCalendar(2014, 5, 27, 18, 30));
+        this.obitoDTO.setDataObito(new GregorianCalendar(2014, 5, 27, 22, 55));
+        this.obitoDTO.setHospital(hospital.getId());
+        this.obitoDTO.setSetor(setor.getId());
+        this.obitoDTO.setPrimeiraCausaMortis(new CausaMortis(
+                "Primeira Causa Mortis"));
+        this.obitoDTO.setSegundaCausaMortis(new CausaMortis(
+                "Segunda Causa Mortis"));
+        this.obitoDTO.setTerceiraCausaMortis(new CausaMortis(
+                "Terceira Causa Mortis"));
+        this.obitoDTO.setQuartaCausaMortis(new CausaMortis(
+                "Quarta Causa Mortis"));
     }
 
     @Test
@@ -79,7 +98,7 @@ public class AplObitoTest extends AbstractionTest {
     }
 
     @Test
-    public void savarPacienteTest() throws ViolacaoDeRIException {
+    public void salvarPacienteTest() throws ViolacaoDeRIException {
         aplObito.salvarPaciente(pacienteDTO);
 
         PacienteDTO pacienteTest = utility.getObjectByMethod(
@@ -128,25 +147,6 @@ public class AplObitoTest extends AbstractionTest {
                 .getQuartaCausaMortis().getNome());
     }
 
-    private void preencherDadosObito() {
-        Hospital hospital = hospitalRepository.findAll().get(0);
-        Setor setor = setorRepository.findAll().get(0);
-
-        this.obitoDTO.setPaciente(pacienteDTO);
-        this.obitoDTO.setAptoDoacao(true);
-        this.obitoDTO.setCorpoEncaminhamento(CorpoEncaminhamento.IML);
-        this.obitoDTO.setDataEvento(new GregorianCalendar(2014, 5, 27, 18, 30));
-        this.obitoDTO.setDataObito(new GregorianCalendar(2014, 5, 27, 22, 55));
-        this.obitoDTO.setHospital(hospital.getId());
-        this.obitoDTO.setSetor(setor.getId());
-        this.obitoDTO.setPrimeiraCausaMortis(new CausaMortis(
-                "Primeira Causa Mortis"));
-        this.obitoDTO.setSegundaCausaMortis(new CausaMortis(
-                "Segunda Causa Mortis"));
-        this.obitoDTO.setTerceiraCausaMortis(new CausaMortis(
-                "Terceira Causa Mortis"));
-        this.obitoDTO.setQuartaCausaMortis(new CausaMortis(
-                "Quarta Causa Mortis"));
-    }
+    
 
 }

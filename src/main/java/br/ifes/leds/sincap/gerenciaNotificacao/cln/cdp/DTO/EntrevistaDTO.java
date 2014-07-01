@@ -20,7 +20,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EntrevistaDTO {
-
     //Dados para o cabeçalho do formulário
     private boolean doacaoAutorizada;
     private Calendar dataEntrevista; //Data e horario do entrevista
