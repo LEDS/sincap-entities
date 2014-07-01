@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.ifes.leds.reuse.endereco.cgd.EnderecoRepository;
+import br.ifes.leds.reuse.ledsExceptions.CRUDExceptions.ViolacaoDeRIException;
 import br.ifes.leds.reuse.utility.Utility;
+import br.ifes.leds.reuse.utility.Validator;
 import br.ifes.leds.sincap.controleInterno.cgd.TelefoneRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.CausaMortisRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ObitoRepository;
@@ -34,6 +36,8 @@ public class AplObito {
     private CausaMortisRepository causaMortisRepository;
     @Autowired
     private Utility utility;
+    @Autowired
+    private Validator validator;
 
     /**
      * Obtém todos os pacientes.
@@ -63,18 +67,31 @@ public class AplObito {
      * 
      * @param pacienteDTO
      *            O objeto que representa o paciente.
+     * @throws ViolacaoDeRIException
      */
-    public void salvarPaciente(PacienteDTO pacienteDTO) {
+    public void salvarPaciente(PacienteDTO pacienteDTO)
+            throws ViolacaoDeRIException {
         Paciente paciente = mapper.map(pacienteDTO, Paciente.class);
 
         salvarPaciente(paciente);
     }
 
-    public void salvarPaciente(Paciente paciente) {
-        // TODO Validar os dados recebidos.
+    public void salvarPaciente(Paciente paciente) throws ViolacaoDeRIException {
+        if (!validarDadosPaciente(paciente)) {
+            throw new ViolacaoDeRIException(
+                    "Os dados do paciente são inválidos!");
+        }
+
         telefoneRepository.save(paciente.getTelefone());
         enderecoRepository.save(paciente.getEndereco());
         pacienteRepository.save(paciente);
+    }
+
+    private boolean validarDadosPaciente(Paciente paciente) {
+        return validator.validarNome(paciente.getNome())
+                && validator.validarNome(paciente.getNomeMae())
+                && validator
+                        .validarTelefone(paciente.getTelefone().getNumero());
     }
 
     /**
@@ -104,13 +121,14 @@ public class AplObito {
      * 
      * @param obitoDTO
      *            O objeto que representa o óbito.
+     * @throws ViolacaoDeRIException
      */
-    public void salvarObito(ObitoDTO obitoDTO) {
+    public void salvarObito(ObitoDTO obitoDTO) throws ViolacaoDeRIException {
         Obito obito = mapper.map(obitoDTO, Obito.class);
         salvarObito(obito);
     }
 
-    public void salvarObito(Obito obito) {
+    public void salvarObito(Obito obito) throws ViolacaoDeRIException {
         salvarPaciente(obito.getPaciente());
         causaMortisRepository.save(obito.getPrimeiraCausaMortis());
         causaMortisRepository.save(obito.getSegundaCausaMortis());

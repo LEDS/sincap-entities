@@ -17,6 +17,7 @@ import br.ifes.leds.reuse.endereco.cdp.Estado;
 import br.ifes.leds.reuse.endereco.cdp.Pais;
 import br.ifes.leds.reuse.endereco.cdp.dto.EnderecoDTO;
 import br.ifes.leds.reuse.endereco.cgt.AplEndereco;
+import br.ifes.leds.reuse.ledsExceptions.CRUDExceptions.ViolacaoDeRIException;
 import br.ifes.leds.reuse.utility.Factory;
 import br.ifes.leds.reuse.utility.Utility;
 import br.ifes.leds.sincap.controleInterno.cgd.HospitalRepository;
@@ -93,7 +94,7 @@ public class AplObitoTest extends AbstractionTest {
     }
 
     @Test
-    public void obterPacienteTest() {
+    public void obterPacienteTest() throws ViolacaoDeRIException {
         aplObito.salvarPaciente(pacienteDTO);
 
         PacienteDTO pacienteTmp = utility.getObjectByMethod(aplObito.obterTodosPacientes(), getNomePacienteDTO, this.nome);
@@ -104,7 +105,7 @@ public class AplObitoTest extends AbstractionTest {
     }
 
     @Test
-    public void savarPacienteTest() {
+    public void savarPacienteTest() throws ViolacaoDeRIException {
         aplObito.salvarPaciente(pacienteDTO);
 
         PacienteDTO pacienteTest = utility.getObjectByMethod(aplObito.obterTodosPacientes(), getNomePacienteDTO, this.nome);
@@ -124,7 +125,7 @@ public class AplObitoTest extends AbstractionTest {
     }
 
     @Test
-    public void salvarObitoTest() {
+    public void salvarObitoTest() throws ViolacaoDeRIException {
         aplObito.salvarObito(obitoDTO);
 
         ObitoDTO obitoTest = aplObito.obterTodosObitos().get(0);
@@ -141,7 +142,7 @@ public class AplObitoTest extends AbstractionTest {
 
     private void gerarDadosPaciente() {
         this.nome = "José do Teste";
-        this.telefone.setNumero("2733225640");
+        this.telefone.setNumero("(27)3322-5640");
 
         // 3 Março de 1974
         this.dataNascimento.set(Calendar.YEAR, 1974);
