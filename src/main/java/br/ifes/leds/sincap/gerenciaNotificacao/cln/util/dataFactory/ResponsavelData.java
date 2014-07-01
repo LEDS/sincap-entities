@@ -87,7 +87,8 @@ public class ResponsavelData {
 
         gerarDadosEndereco(df);
         // Telefone
-        telefone.setNumero(df.getNumberText(8));
+        telefone.setNumero("(" + df.getNumberText(2) + ")"
+                + df.getNumberText(4) + "-" + df.getNumberText(4));
         responsavel.setTelefone(telefone);
 
         return responsavel;
