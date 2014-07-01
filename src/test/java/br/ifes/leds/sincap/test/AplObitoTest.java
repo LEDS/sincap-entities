@@ -11,7 +11,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import br.ifes.leds.reuse.endereco.cgt.AplEndereco;
 import br.ifes.leds.reuse.ledsExceptions.CRUDExceptions.ViolacaoDeRIException;
 import br.ifes.leds.reuse.utility.Factory;
 import br.ifes.leds.reuse.utility.Utility;
@@ -49,7 +48,7 @@ public class AplObitoTest extends AbstractionTest {
 
     private ObitoDTO obitoDTO;
     private PacienteDTO pacienteDTO;
-    
+
     public AplObitoTest() throws NoSuchMethodException, SecurityException {
         getNomePacienteDTO = PacienteDTO.class.getDeclaredMethod("getNome");
     }
@@ -62,7 +61,7 @@ public class AplObitoTest extends AbstractionTest {
 
         preencherDadosObito();
     }
-    
+
     private void preencherDadosObito() {
         Hospital hospital = hospitalRepository.findAll().get(0);
         Setor setor = setorRepository.findAll().get(0);
@@ -146,7 +145,5 @@ public class AplObitoTest extends AbstractionTest {
         Assert.assertEquals("Quarta Causa Mortis", obitoTest
                 .getQuartaCausaMortis().getNome());
     }
-
-    
 
 }

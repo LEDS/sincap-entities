@@ -6,6 +6,16 @@
 
 package br.ifes.leds.sincap.test;
 
+import java.util.GregorianCalendar;
+
+import junit.framework.Assert;
+
+import org.dozer.Mapper;
+import org.fluttercode.datafactory.impl.DataFactory;
+import org.junit.Before;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import br.ifes.leds.reuse.endereco.cgt.AplEndereco;
 import br.ifes.leds.reuse.ledsExceptions.CRUDExceptions.ViolacaoDeRIException;
 import br.ifes.leds.reuse.utility.Factory;
@@ -15,18 +25,9 @@ import br.ifes.leds.sincap.controleInterno.cln.cdp.Funcionario;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTO.EntrevistaDTO;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTO.ResponsavelDTO;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTO.TestemunhaDTO;
-import org.dozer.Mapper;
-import org.fluttercode.datafactory.impl.DataFactory;
-import org.junit.Before;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cgt.AplEntrevista;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.util.dataFactory.ResponsavelData;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.util.dataFactory.TestemunhaData;
-import java.lang.reflect.Method;
-import java.util.GregorianCalendar;
-import junit.framework.Assert;
-import org.junit.Test;
 
 /**
  *
@@ -52,19 +53,19 @@ public class AplEntrevistaTest extends AbstractionTest{
     private Factory factory;
     @Autowired
     private FuncionarioRepository funcionarioRepository;
-    
-    private final Method getNomeResponsavelDTO;
-    private final Method getNomeTestemunhaDTO;
+    // TODO Fazer testes de obter entrevista. 
+//    private final Method getNomeResponsavelDTO;
+//    private final Method getNomeTestemunhaDTO;
     
     private EntrevistaDTO entrevistaDTO;
     private ResponsavelDTO responsavelDTO;
     private TestemunhaDTO testemunhaDTO1;
     private TestemunhaDTO testemunhaDTO2;
     
-    public AplEntrevistaTest() throws NoSuchMethodException, SecurityException {
-        getNomeResponsavelDTO = ResponsavelDTO.class.getDeclaredMethod("getNome");
-        getNomeTestemunhaDTO = TestemunhaDTO.class.getDeclaredMethod("getNome");
-    }
+//    public AplEntrevistaTest() throws NoSuchMethodException, SecurityException {
+//        getNomeResponsavelDTO = ResponsavelDTO.class.getDeclaredMethod("getNome");
+//        getNomeTestemunhaDTO = TestemunhaDTO.class.getDeclaredMethod("getNome");
+//    }
     
     @Before
     public void before()

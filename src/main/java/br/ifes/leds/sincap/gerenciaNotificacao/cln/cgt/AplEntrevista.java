@@ -5,17 +5,16 @@
  */
 package br.ifes.leds.sincap.gerenciaNotificacao.cln.cgt;
 
-import br.ifes.leds.reuse.endereco.cgd.EnderecoRepository;
 import java.util.List;
 
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.ifes.leds.reuse.endereco.cgd.EnderecoRepository;
 import br.ifes.leds.reuse.ledsExceptions.CRUDExceptions.ViolacaoDeRIException;
 import br.ifes.leds.reuse.utility.Utility;
 import br.ifes.leds.sincap.controleInterno.cgd.TelefoneRepository;
-import br.ifes.leds.sincap.controleInterno.cln.cdp.Telefone;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.EntrevistaRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ResponsavelRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.TestemunhaRepository;

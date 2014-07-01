@@ -20,35 +20,38 @@ public class DataFactoryMain {
 
     public static void main(String[] args) {
 
-        ApplicationContext context
-                = new ClassPathXmlApplicationContext("spring-context.xml");
+        ApplicationContext context = new ClassPathXmlApplicationContext(
+                "spring-context.xml");
 
         BeanFactory factory = context;
 
-        NotificadorData nd = (NotificadorData) factory.getBean("notificadorData");
-        AnalistaCNCDOData ad = (AnalistaCNCDOData) factory.getBean("analistaCNCDOData");
-        CaptadorData cd = (CaptadorData) factory.getBean("captadorData");
-        HospitalData hd = (HospitalData) factory.getBean("hospitalData");
-        SetorData sd = (SetorData) factory.getBean("setorData");
-        BancoOlhosData bd = (BancoOlhosData) factory.getBean("bancoOlhosData");
-        PacienteData pd = (PacienteData) factory.getBean("pacienteData");
-        ResponsavelData rd = (ResponsavelData) factory.getBean("responsavelData");
+        // NotificadorData nd = (NotificadorData)
+        // factory.getBean("notificadorData");
+        // AnalistaCNCDOData ad = (AnalistaCNCDOData)
+        // factory.getBean("analistaCNCDOData");
+        // CaptadorData cd = (CaptadorData) factory.getBean("captadorData");
+        // HospitalData hd = (HospitalData) factory.getBean("hospitalData");
+        // SetorData sd = (SetorData) factory.getBean("setorData");
+        // BancoOlhosData bd = (BancoOlhosData)
+        // factory.getBean("bancoOlhosData");
+        // PacienteData pd = (PacienteData) factory.getBean("pacienteData");
+        // ResponsavelData rd = (ResponsavelData)
+        // factory.getBean("responsavelData");
         TestemunhaData td = (TestemunhaData) factory.getBean("testemunhaData");
-        
+
         DataFactory df = new DataFactory();
         df.randomize((int) System.currentTimeMillis());
 
-        
-        //nd.criaNotificadorRandom(df,1);
-        //hd.criaHospitalRandom(df, 5);
-        //sd.criaSetorRandom();
-        //sd.associaSetorHospital();
-//        bd.criaBancoOlhosRandom(df, 5);
-//        ad.criaAnalistaRandom(df, 5);
-//        cd.criaCaptadorRandom(df, 10);
-//        pd.criaPacienteRandom(df, 5);
-//        rd.criaResponsavelRandom(df, 5);
-          td.criaTestemunhaRandom(df, 5);
+        // nd.criaNotificadorRandom(df,1);
+        // hd.criaHospitalRandom(df, 5);
+        // sd.criaSetorRandom();
+        // sd.associaSetorHospital();
+        // bd.criaBancoOlhosRandom(df, 5);
+        // ad.criaAnalistaRandom(df, 5);
+        // cd.criaCaptadorRandom(df, 10);
+        // pd.criaPacienteRandom(df, 5);
+        // rd.criaResponsavelRandom(df, 5);
+        td.criaTestemunhaRandom(df, 5);
     }
 
 }

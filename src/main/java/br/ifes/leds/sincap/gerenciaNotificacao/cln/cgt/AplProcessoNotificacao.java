@@ -4,6 +4,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
 
+import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,11 +13,8 @@ import br.ifes.leds.reuse.utility.Utility;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.AtualizacaoEstadoRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ProcessoNotificacaoRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.AtualizacaoEstado;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTO.ProcessoNotificacaoDTO;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoNotificacaoEnum;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.ProcessoNotificacao;
-
-import org.dozer.Mapper;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTO.ProcessoNotificacaoDTO;
 
 /**
  * AplProcessoNotificacao.java
@@ -51,11 +49,6 @@ public class AplProcessoNotificacao {
         ProcessoNotificacao notificacao = mapper.map(processoNotificacaoDTO, ProcessoNotificacao.class);
 
         aplObito.salvarObito(notificacao.getObito());
-
-        AtualizacaoEstado novoEstado = new AtualizacaoEstado();
-        novoEstado.setEstadoNotificacao(EstadoNotificacaoEnum.AGUARDANDOANALISEOBITO);
-
-        notificacao.getHistorico().add(novoEstado);
 
         this.salvarHistorico(notificacao.getHistorico());
 
@@ -112,7 +105,7 @@ public class AplProcessoNotificacao {
      *            - Processo de notificacao DTO
      * @return - Returna o processo de notificacao salvo
      */
-    public long AtualizarEstadoProcessoNotificacao(ProcessoNotificacaoDTO processoNotificacaoDTO) {
+    public long atualizarEstadoProcessoNotificacao(ProcessoNotificacaoDTO processoNotificacaoDTO) {
         ProcessoNotificacao notificacao = mapper.map(processoNotificacaoDTO, ProcessoNotificacao.class);
         this.salvarHistorico(notificacao.getHistorico());
 
