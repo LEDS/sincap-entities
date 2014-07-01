@@ -6,11 +6,11 @@
 
 package br.ifes.leds.sincap.test;
 
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTO.EntrevistaDTO;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Entrevista;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cgt.AplEntrevista;
 import org.junit.Before;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Entrevista;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cgt.AplEntrevista;
 
 /**
  *

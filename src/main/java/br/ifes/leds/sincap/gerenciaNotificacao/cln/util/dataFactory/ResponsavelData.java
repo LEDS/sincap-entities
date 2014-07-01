@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package br.ifes.leds.sincap.gerenciaNotificacao.cln.util.dataFactory;
 
 import br.ifes.leds.reuse.endereco.cdp.Endereco;
@@ -48,8 +42,6 @@ public class ResponsavelData {
     private Factory fabrica;
 
     private Responsavel responsavel;
-    private Sexo sexo;
-    private EstadoCivil estadoCivil;
     private Calendar dataNascimento;
     private Calendar dataInternacao;
     private List<String> listaProfissao;

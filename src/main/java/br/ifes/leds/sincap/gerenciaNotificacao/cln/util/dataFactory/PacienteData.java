@@ -6,6 +6,13 @@
 
 package br.ifes.leds.sincap.gerenciaNotificacao.cln.util.dataFactory;
 
+import java.util.Calendar;
+import java.util.List;
+
+import org.fluttercode.datafactory.impl.DataFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import br.ifes.leds.reuse.endereco.cdp.Endereco;
 import br.ifes.leds.reuse.endereco.cgd.BairroRepository;
 import br.ifes.leds.reuse.endereco.cgd.CidadeRepository;
@@ -18,12 +25,6 @@ import br.ifes.leds.sincap.controleInterno.cln.cdp.Telefone;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.PacienteRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoCivil;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Paciente;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import org.fluttercode.datafactory.impl.DataFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 /**
  *
@@ -48,8 +49,6 @@ public class PacienteData {
     private Factory fabrica;
 
     private Paciente paciente;
-    private Sexo sexo;
-    private EstadoCivil estadoCivil;
     private Calendar dataNascimento;
     private Calendar dataInternacao;
     private List<String> listaProfissao;
