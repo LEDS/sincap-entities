@@ -1,34 +1,26 @@
 package br.ifes.leds.sincap.test;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
+import org.dozer.Mapper;
+import org.fluttercode.datafactory.impl.DataFactory;
+import org.junit.Before;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import br.ifes.leds.reuse.endereco.cdp.Bairro;
-import br.ifes.leds.reuse.endereco.cdp.Cidade;
-import br.ifes.leds.reuse.endereco.cdp.Endereco;
-import br.ifes.leds.reuse.endereco.cdp.Estado;
-import br.ifes.leds.reuse.endereco.cgd.BairroRepository;
-import br.ifes.leds.reuse.endereco.cgd.CidadeRepository;
-import br.ifes.leds.reuse.endereco.cgd.EstadoRepository;
 import br.ifes.leds.sincap.controleInterno.cgd.NotificadorRepository;
 import br.ifes.leds.sincap.controleInterno.cgd.SetorRepository;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Notificador;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Setor;
-import br.ifes.leds.sincap.controleInterno.cln.cdp.Sexo;
-import br.ifes.leds.sincap.controleInterno.cln.cdp.Telefone;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.AtualizacaoEstado;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CausaMortis;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CorpoEncaminhamento;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoCivil;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoNotificacaoEnum;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Obito;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Paciente;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.ProcessoNotificacao;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoObito;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTO.AtualizacaoEstadoDTO;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTO.ObitoDTO;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTO.PacienteDTO;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTO.ProcessoNotificacaoDTO;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cgt.AplProcessoNotificacao;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.util.dataFactory.PacienteData;
 
 /**
  *
@@ -38,26 +30,22 @@ public class AplProcessoNotificacaoTest {
 
     @Autowired
     private AplProcessoNotificacao aplProcessoNotificacao;
-
     @Autowired
     private NotificadorRepository notificadorRepository;
-
-    @Autowired
-    private BairroRepository bairroRepository;
-
-    @Autowired
-    private CidadeRepository cidadeRepository;
-
-    @Autowired
-    private EstadoRepository estadoRepository;
-
     @Autowired
     private SetorRepository setorRepository;
+    @Autowired
+    private Mapper mapper;
+    @Autowired
+    private PacienteData pacienteData;
+    @Autowired
+    private DataFactory df;
 
-    private ProcessoNotificacao notificacao;
+    private ProcessoNotificacaoDTO notificacao;
 
+    @Before
     public void before() {
-        notificacao = new ProcessoNotificacao();
+        notificacao = new ProcessoNotificacaoDTO();
 
         this.notificacao.setDataAbertura(Calendar.getInstance());
         this.notificacao.setArquivado(false);
@@ -66,27 +54,23 @@ public class AplProcessoNotificacaoTest {
         this.getObito(this.notificacao);
 
         Notificador notificador = notificadorRepository.findAll().get(0);
-        this.notificacao.setNotificador(notificador);
+        this.notificacao.setNotificador(notificador.getId());
     }
 
-    private void getEstadoNotificacao(ProcessoNotificacao notificacao) {
+    private void getEstadoNotificacao(ProcessoNotificacaoDTO notificacao) {
         Notificador notificador = notificadorRepository.findAll().get(0);
 
-        if (notificacao.getHistorico() == null) {
-            List<AtualizacaoEstado> listEstados = new ArrayList<>();
-            notificacao.setHistorico(listEstados);
-        }
-
-        AtualizacaoEstado novoEstado = new AtualizacaoEstado();
-        novoEstado.setFuncionario(notificador);
+        AtualizacaoEstadoDTO novoEstado = new AtualizacaoEstadoDTO();
+        novoEstado.setFuncionario(notificador.getId());
         // FIXME: Verificar o valor correto do Enum
-        novoEstado.setEstadoNotificacao(EstadoNotificacaoEnum.AGUARDANDOANALISEOBITO);
+        novoEstado
+                .setEstadoNotificacao(EstadoNotificacaoEnum.AGUARDANDOANALISEOBITO);
 
         notificacao.getHistorico().add(novoEstado);
     }
 
-    private void getObito(ProcessoNotificacao notificacao) {
-        Obito obito = new Obito();
+    private void getObito(ProcessoNotificacaoDTO notificacao) {
+        ObitoDTO obito = notificacao.getObito();
         Setor setor = setorRepository.findAll().get(0);
 
         obito.setTipoObito(TipoObito.PCR);
@@ -94,15 +78,14 @@ public class AplProcessoNotificacaoTest {
         obito.setDataObito(Calendar.getInstance());
         obito.setCorpoEncaminhamento(CorpoEncaminhamento.NAO_ENCAMINHADO);
         obito.setAptoDoacao(true);
-        obito.setSetor(setor);
+        obito.setSetor(setor.getId());
 
         this.getCausasMortis(obito);
-        this.getPaciente(obito);
-
-        notificacao.setObito(obito);
+        obito.setPaciente(mapper.map(pacienteData.criarPaciente(df),
+                PacienteDTO.class));
     }
 
-    private void getCausasMortis(Obito obito) {
+    private void getCausasMortis(ObitoDTO obito) {
         CausaMortis causa1 = new CausaMortis();
         CausaMortis causa2 = new CausaMortis();
         CausaMortis causa3 = new CausaMortis();
@@ -117,44 +100,4 @@ public class AplProcessoNotificacaoTest {
         obito.setTerceiraCausaMortis(causa3);
         obito.setQuartaCausaMortis(causa4);
     }
-
-    private void getPaciente(Obito obito) {
-        Paciente paciente = new Paciente();
-        Telefone tel = new Telefone();
-        tel.setNumero("27 91111 1111");
-
-        paciente.setDataInternacao(Calendar.getInstance());
-        paciente.setDataNascimento(Calendar.getInstance());
-        paciente.setDocumentoSocial("2123123123");
-        paciente.setEstadoCivil(EstadoCivil.DIVORCIADO);
-        paciente.setNacionalidade("Brasileiro");
-        paciente.setNomeMae("Nome da Mãe");
-        paciente.setNumeroProntuario("123654987");
-        paciente.setNumeroSUS("852456963147");
-        paciente.setProfissao("Profissao");
-        paciente.setSexo(Sexo.MASCULINO);
-        paciente.setNome("Nome do Paciente");
-        paciente.setTelefone(tel);
-
-        this.getEndereco(paciente);
-
-        obito.setPaciente(paciente);
-    }
-
-    private void getEndereco(Paciente paciente) {
-        Endereco endereco = new Endereco();
-        Estado estado = estadoRepository.findAll().get(0);
-        Cidade cidade = cidadeRepository.findByIdEstado(estado.getId()).get(0);
-        Bairro bairro = bairroRepository.findByIdCidade(cidade.getId()).get(0);
-
-        endereco.setCep("123654-321");
-        endereco.setLogradouro("Rua X");
-        endereco.setNumero("25");
-        endereco.setBairro(bairro);
-        endereco.setCidade(cidade);
-        endereco.setEstado(estado);
-
-        paciente.setEndereco(endereco);
-    }
-
 }
