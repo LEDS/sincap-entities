@@ -6,8 +6,10 @@
 package br.ifes.leds.sincap.gerenciaNotificacao.cln.util.dataFactory;
 
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Sexo;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CorpoEncaminhamento;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoCivil;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Parentesco;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoObito;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,9 +22,12 @@ public enum Listas {
     INSTANCE;
     
     private final List<String> listaProfissoes;
+    private final List<String> listCausaMortis;
     private final List<Sexo> listaSexo;
     private final List<EstadoCivil> listaEstado;
     private final List<Parentesco> listaParentesco;
+    private final List<CorpoEncaminhamento> listCorpoEncaminhamento;
+    private final List<TipoObito> listTipoObito;
 
     private Listas() {
         listaProfissoes = new ArrayList<>();
@@ -99,8 +104,47 @@ public enum Listas {
         listaParentesco.add(Parentesco.IRMAOS);
         listaParentesco.add(Parentesco.PAIS);
         listaParentesco.add(Parentesco.TIOS);
+        
+        listCorpoEncaminhamento = new ArrayList<>();
+        
+        listCorpoEncaminhamento.add(CorpoEncaminhamento.IML);
+        listCorpoEncaminhamento.add(CorpoEncaminhamento.NAO_ENCAMINHADO);
+        listCorpoEncaminhamento.add(CorpoEncaminhamento.SVO);
+        
+        
+        listCausaMortis = new ArrayList<>();
+        
+        listCausaMortis.add("Nascimento Prematuro");
+        listCausaMortis.add("Acidente de Trânsito");
+        listCausaMortis.add("Diabetes");
+        listCausaMortis.add("Câncer nos Pulmões");
+        listCausaMortis.add("Câncer na Traquéia ");
+        listCausaMortis.add("Câncer nos Brônquios");
+        listCausaMortis.add("HIV/AIDS");
+        listCausaMortis.add("Diarréia");
+        listCausaMortis.add("Doença Pulmonar Obstrutiva Crônica");
+        listCausaMortis.add("Pneumonia");
+        listCausaMortis.add("Infarto");
+        listCausaMortis.add("Cardiopatia Isquêmica");
+        
+        listTipoObito = new ArrayList<>();
+        
+        listTipoObito.add(TipoObito.ME);
+        listTipoObito.add(TipoObito.PCR);
     }
-
+    
+    
+    public List<TipoObito> getListTipoObito(){
+        return listTipoObito;
+    }
+    
+    public List<String> getListCausaMortis(){
+        return listCausaMortis;
+    }
+    public List<CorpoEncaminhamento> getListCorp(){
+        return listCorpoEncaminhamento;
+    }
+    
     public List<String> getListProf() {
         return listaProfissoes;
     }
