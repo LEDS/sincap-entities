@@ -45,12 +45,14 @@ public class CaptadorData {
     CaptadorRepository captadorRepository;
     @Autowired
     BancoOlhosRepository bancoOlhosRepository;
-
+    @Autowired
+    private Factory fabrica;
+    
     private Endereco endereco;
     private Captador captador;
     private Telefone telefone;
     private List<BancoOlhos> listBancoOlhos;
-    private final Factory fabrica = Factory.INSTANCE;
+    
 
     public void criaCaptadorRandom(DataFactory df, Integer qtdCap) {
         for (int i = 0; i < qtdCap; i++) {

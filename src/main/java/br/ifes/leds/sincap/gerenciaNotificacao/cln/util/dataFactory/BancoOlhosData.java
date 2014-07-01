@@ -38,11 +38,13 @@ public class BancoOlhosData {
     private BancoOlhosRepository bancoOlhosRepository;
     @Autowired
     private TelefoneRepository telefoneRepository;
+    @Autowired
+    private Factory fabrica;
     
     private BancoOlhos bancoOlhos;
     private Endereco endereco;
     private Telefone telefone;
-    private final Factory fabrica = Factory.INSTANCE;
+    
     
     public void criaBancoOlhosRandom(DataFactory df, Integer qtdBan){
         for (int i = 0; i < qtdBan; i++){

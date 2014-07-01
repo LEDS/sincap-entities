@@ -38,11 +38,13 @@ public class AnalistaCNCDOData {
     private EstadoRepository estadoRepository;
     @Autowired
     private AnalistaCNCDORepository analistaCNCDORepository;
+    @Autowired
+    private  Factory fabrica;
     
     private Telefone telefone;
     private Endereco endereco;
     private AnalistaCNCDO analista;
-    private final Factory fabrica = Factory.INSTANCE;
+    
     
     
     public void criaAnalistaRandom(DataFactory df, Integer qtdAna){

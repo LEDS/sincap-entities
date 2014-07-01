@@ -38,11 +38,13 @@ public class NotificadorData {
     EstadoRepository estadoRepository;
     @Autowired
     AplNotificador aplNotificador;
+    @Autowired
+    private Factory fabrica;
     
     private Endereco endereco;
     private Notificador notificador;
     private Telefone telefone;
-    private final Factory fabrica = Factory.INSTANCE;
+    
         
     public void criaNotificadorRandom(DataFactory df,Integer qtdNot){
         for (int i = 0; i < qtdNot; i++){

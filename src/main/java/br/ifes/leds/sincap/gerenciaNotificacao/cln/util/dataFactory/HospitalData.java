@@ -36,11 +36,13 @@ public class HospitalData {
     EstadoRepository estadoRepository;
     @Autowired
     AplHospital aplHospital;
+    @Autowired
+    private Factory fabrica;
     
     private Hospital hospital;
     private Telefone telefone;
     private Endereco endereco;
-    private final Factory fabrica = Factory.INSTANCE;
+    
     
     public void criaHospitalRandom(DataFactory df,Integer qtdHos){
         

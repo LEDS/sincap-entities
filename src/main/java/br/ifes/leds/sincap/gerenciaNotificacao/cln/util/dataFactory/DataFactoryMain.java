@@ -31,6 +31,8 @@ public class DataFactoryMain {
         HospitalData hd = (HospitalData) factory.getBean("hospitalData");
         SetorData sd = (SetorData) factory.getBean("setorData");
         BancoOlhosData bd = (BancoOlhosData) factory.getBean("bancoOlhosData");
+        PacienteData pd = (PacienteData) factory.getBean("pacienteData");
+        ResponsavelData rd = (ResponsavelData) factory.getBean("responsavelData");
         
         DataFactory df = new DataFactory();
         df.randomize((int) System.currentTimeMillis());
@@ -43,6 +45,8 @@ public class DataFactoryMain {
 //        bd.criaBancoOlhosRandom(df, 5);
 //        ad.criaAnalistaRandom(df, 5);
 //        cd.criaCaptadorRandom(df, 10);
+//        pd.criaPacienteRandom(df, 5);
+        rd.criaResponsavelRandom(df, 5);
     }
 
 }

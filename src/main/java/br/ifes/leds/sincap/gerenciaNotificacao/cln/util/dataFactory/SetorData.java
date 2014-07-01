@@ -29,12 +29,14 @@ public class SetorData {
     private AplHospital aplHospital;
     @Autowired
     private SetorRepository setorRepository;
+    @Autowired
+    private Factory fabrica;
     
     private Setor setor;
     private List<String> listaSetor;
     private List<Hospital> listaHospital;
     private List<Setor> listaObjetoSetor;
-    private final Factory fabrica = Factory.INSTANCE;
+    
     
     
     public void criaSetorRandom() {
