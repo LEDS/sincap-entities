@@ -7,6 +7,7 @@ import java.util.GregorianCalendar;
 import junit.framework.Assert;
 
 import org.dozer.Mapper;
+import org.fluttercode.datafactory.impl.DataFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,8 @@ public class AplObitoTest extends AbstractionTest {
     private Utility utility;
     @Autowired
     private Factory fabrica;
+    @Autowired
+    private DataFactory dataFactory;
 
     private final Method getNomePacienteDTO;
     private final Method getSiglaEstado;
@@ -97,7 +100,8 @@ public class AplObitoTest extends AbstractionTest {
     public void obterPacienteTest() throws ViolacaoDeRIException {
         aplObito.salvarPaciente(pacienteDTO);
 
-        PacienteDTO pacienteTmp = utility.getObjectByMethod(aplObito.obterTodosPacientes(), getNomePacienteDTO, this.nome);
+        PacienteDTO pacienteTmp = utility.getObjectByMethod(
+                aplObito.obterTodosPacientes(), getNomePacienteDTO, this.nome);
         Long idTest = pacienteTmp.getId();
 
         Assert.assertNotNull(aplObito.obterPaciente(idTest));
@@ -108,20 +112,24 @@ public class AplObitoTest extends AbstractionTest {
     public void savarPacienteTest() throws ViolacaoDeRIException {
         aplObito.salvarPaciente(pacienteDTO);
 
-        PacienteDTO pacienteTest = utility.getObjectByMethod(aplObito.obterTodosPacientes(), getNomePacienteDTO, this.nome);
+        PacienteDTO pacienteTest = utility.getObjectByMethod(
+                aplObito.obterTodosPacientes(), getNomePacienteDTO, this.nome);
 
         Assert.assertNotNull(pacienteTest.getId());
         Assert.assertNotNull(pacienteTest.getEndereco());
         Assert.assertNotNull(pacienteTest.getTelefone());
 
         Assert.assertEquals(this.nome, pacienteTest.getNome());
-        Assert.assertEquals(this.documentoSocial, pacienteTest.getDocumentoSocial());
+        Assert.assertEquals(this.documentoSocial,
+                pacienteTest.getDocumentoSocial());
         Assert.assertEquals(this.nacionalidade, pacienteTest.getNacionalidade());
         Assert.assertEquals(this.nomeMae, pacienteTest.getNomeMae());
-        Assert.assertEquals(this.numeroProntuario, pacienteTest.getNumeroProntuario());
+        Assert.assertEquals(this.numeroProntuario,
+                pacienteTest.getNumeroProntuario());
         Assert.assertEquals(this.numeroSUS, pacienteTest.getNumeroSUS());
         Assert.assertEquals(this.profissao, pacienteTest.getProfissao());
-        Assert.assertEquals(this.endereco.getBairro(), pacienteTest.getEndereco().getBairro());
+        Assert.assertEquals(this.endereco.getBairro(), pacienteTest
+                .getEndereco().getBairro());
     }
 
     @Test
@@ -133,11 +141,16 @@ public class AplObitoTest extends AbstractionTest {
         Assert.assertNotNull(obitoTest);
         Assert.assertNotNull(obitoTest.getSetor());
         Assert.assertNotNull(obitoTest.getPaciente().getId());
-        Assert.assertEquals(endereco.getCep(), obitoTest.getPaciente().getEndereco().getCep());
-        Assert.assertEquals("Primeira Causa Mortis", obitoTest.getPrimeiraCausaMortis().getNome());
-        Assert.assertEquals("Segunda Causa Mortis", obitoTest.getSegundaCausaMortis().getNome());
-        Assert.assertEquals("Terceira Causa Mortis", obitoTest.getTerceiraCausaMortis().getNome());
-        Assert.assertEquals("Quarta Causa Mortis", obitoTest.getQuartaCausaMortis().getNome());
+        Assert.assertEquals(endereco.getCep(), obitoTest.getPaciente()
+                .getEndereco().getCep());
+        Assert.assertEquals("Primeira Causa Mortis", obitoTest
+                .getPrimeiraCausaMortis().getNome());
+        Assert.assertEquals("Segunda Causa Mortis", obitoTest
+                .getSegundaCausaMortis().getNome());
+        Assert.assertEquals("Terceira Causa Mortis", obitoTest
+                .getTerceiraCausaMortis().getNome());
+        Assert.assertEquals("Quarta Causa Mortis", obitoTest
+                .getQuartaCausaMortis().getNome());
     }
 
     private void gerarDadosPaciente() {
@@ -192,10 +205,14 @@ public class AplObitoTest extends AbstractionTest {
         this.obitoDTO.setDataObito(new GregorianCalendar(2014, 5, 27, 22, 55));
         this.obitoDTO.setHospital(hospital.getId());
         this.obitoDTO.setSetor(setor.getId());
-        this.obitoDTO.setPrimeiraCausaMortis(new CausaMortis("Primeira Causa Mortis"));
-        this.obitoDTO.setSegundaCausaMortis(new CausaMortis("Segunda Causa Mortis"));
-        this.obitoDTO.setTerceiraCausaMortis(new CausaMortis("Terceira Causa Mortis"));
-        this.obitoDTO.setQuartaCausaMortis(new CausaMortis("Quarta Causa Mortis"));
+        this.obitoDTO.setPrimeiraCausaMortis(new CausaMortis(
+                "Primeira Causa Mortis"));
+        this.obitoDTO.setSegundaCausaMortis(new CausaMortis(
+                "Segunda Causa Mortis"));
+        this.obitoDTO.setTerceiraCausaMortis(new CausaMortis(
+                "Terceira Causa Mortis"));
+        this.obitoDTO.setQuartaCausaMortis(new CausaMortis(
+                "Quarta Causa Mortis"));
     }
 
     private void preencherEndereco(EnderecoDTO endereco) {
@@ -210,9 +227,15 @@ public class AplObitoTest extends AbstractionTest {
     private void preencherPaisEstadoCidadeBairro(EnderecoDTO endereco) {
 
         Pais brasil = aplEndereco.obterPaisPorNome("Brasil");
-        Estado es = utility.getObjectByMethod(aplEndereco.obterEstadosPorPais(brasil.getId()), getSiglaEstado, "ES");
-        Cidade serra = utility.getObjectByMethod(aplEndereco.obterCidadesPorEstado(es.getId()), getNomeCidade, "Serra");
-        Bairro laranjeiras = utility.getObjectByMethod(aplEndereco.obterBairrosPorCidade(serra.getId()), getNomeBairro, "Laranjeiras");
+        Estado es = utility.getObjectByMethod(
+                aplEndereco.obterEstadosPorPais(brasil.getId()),
+                getSiglaEstado, "ES");
+        Cidade serra = utility.getObjectByMethod(
+                aplEndereco.obterCidadesPorEstado(es.getId()), getNomeCidade,
+                "Serra");
+        Bairro laranjeiras = utility.getObjectByMethod(
+                aplEndereco.obterBairrosPorCidade(serra.getId()),
+                getNomeBairro, "Laranjeiras");
 
         endereco.setEstado(es.getId());
         endereco.setCidade(serra.getId());
