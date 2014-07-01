@@ -37,7 +37,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  *
  * @author 20102BSI0553
  */
-public class AplNotificacaoTest {
+public class AplProcessoNotificacaoTest {
 
     @Autowired
     private AplProcessoNotificacao aplProcessoNotificacao;
