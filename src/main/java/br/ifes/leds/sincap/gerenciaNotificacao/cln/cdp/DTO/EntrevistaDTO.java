@@ -20,10 +20,13 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EntrevistaDTO {
-    //Dados para o cabeçalho do formulário
+
+    private Long id;
+    // Dados para o cabeçalho do formulário
     private boolean doacaoAutorizada;
-    private Calendar dataEntrevista; //Data e horario do entrevista
-    private Calendar dataEvento; //Data e horario da notificação Doacao(entrevista)
+    private Calendar dataEntrevista; // Data e horario do entrevista
+    private Calendar dataCadastro; // Data e horario da notificação
+                                   // Doacao(entrevista)
     private ResponsavelDTO responsavel;
     private TestemunhaDTO testemunha1;
     private TestemunhaDTO testemunha2;

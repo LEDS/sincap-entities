@@ -15,12 +15,10 @@ import lombok.Setter;
 @Setter
 public class ProcessoNotificacaoDTO {
 
-    @Getter(lazy = true)
-    private final List<AtualizacaoEstadoDTO> historico = new ArrayList<>();
-    @Getter(lazy = true)
-    private final ObitoDTO obito = new ObitoDTO();
-    @Getter(lazy = true)
-    private final EntrevistaDTO entrevista = new EntrevistaDTO();
+    private Long id;
+    private List<AtualizacaoEstadoDTO> historico = new ArrayList<>();
+    private ObitoDTO obito = new ObitoDTO();
+    private EntrevistaDTO entrevista;
     private String codigo;
     private Calendar dataAbertura;
     private Calendar dataArquivamento;

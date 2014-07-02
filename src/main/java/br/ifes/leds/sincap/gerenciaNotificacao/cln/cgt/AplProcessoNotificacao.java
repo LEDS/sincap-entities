@@ -53,9 +53,7 @@ public class AplProcessoNotificacao {
                 ProcessoNotificacao.class);
 
         aplObito.salvarObito(notificacao.getObito());
-        notificacao.getEntrevista().setFuncionario(null);
         notificacao.setCausaNaoDoacao(null);
-        aplEntrevista.setEntrevista(notificacao.getEntrevista());
 
         this.salvarHistorico(notificacao.getHistorico());
 
@@ -74,12 +72,14 @@ public class AplProcessoNotificacao {
      * 
      * @param processoNotificacaoDTO
      * @return
+     * @throws ViolacaoDeRIException
      */
-    public long salvarEntrevista(ProcessoNotificacaoDTO processoNotificacaoDTO) {
+    public long salvarEntrevista(ProcessoNotificacaoDTO processoNotificacaoDTO)
+            throws ViolacaoDeRIException {
         ProcessoNotificacao notificacao = mapper.map(processoNotificacaoDTO,
                 ProcessoNotificacao.class);
 
-        // aplEntrevista.salvarEntrevista(notificacao.getEntrevista());
+        aplEntrevista.setEntrevista(notificacao.getEntrevista());
         this.salvarHistorico(notificacao.getHistorico());
         notificacaoRepository.save(notificacao);
 

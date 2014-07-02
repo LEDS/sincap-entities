@@ -86,7 +86,7 @@ public class AplEntrevistaTest extends AbstractionTest{
         Funcionario funcionario = funcionarioRepository.findAll().get(0);
         
         this.entrevistaDTO.setDataEntrevista(new GregorianCalendar(2014, 5, 27, 18, 30));
-        this.entrevistaDTO.setDataEvento(new GregorianCalendar(2014, 5, 27, 22, 55));
+        this.entrevistaDTO.setDataCadastro(new GregorianCalendar(2014, 5, 27, 22, 55));
         this.entrevistaDTO.setDoacaoAutorizada(true);
         this.entrevistaDTO.setFuncionario(funcionario.getId());
         this.entrevistaDTO.setResponsavel(responsavelDTO);

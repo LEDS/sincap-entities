@@ -11,6 +11,8 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import br.ifes.leds.reuse.ledsExceptions.CRUDExceptions.ViolacaoDeRIException;
+import br.ifes.leds.reuse.utility.Factory;
+import br.ifes.leds.reuse.utility.Utility;
 import br.ifes.leds.sincap.controleInterno.cgd.NotificadorRepository;
 import br.ifes.leds.sincap.controleInterno.cgd.SetorRepository;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Notificador;
@@ -20,11 +22,15 @@ import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CorpoEncaminhamento;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoNotificacaoEnum;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoObito;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTO.AtualizacaoEstadoDTO;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTO.EntrevistaDTO;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTO.ObitoDTO;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTO.PacienteDTO;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTO.ProcessoNotificacaoDTO;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cgt.AplProcessoNotificacao;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.util.dataFactory.EntrevistaData;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.util.dataFactory.PacienteData;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.util.dataFactory.ResponsavelData;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.util.dataFactory.TestemunhaData;
 
 /**
  *
@@ -43,7 +49,17 @@ public class AplProcessoNotificacaoTest extends AbstractionTest {
     @Autowired
     private PacienteData pacienteData;
     @Autowired
+    private EntrevistaData entrevistaData;
+    @Autowired
+    private ResponsavelData responsavelData;
+    @Autowired
+    private TestemunhaData testemunhaData;
+    @Autowired
     private DataFactory df;
+    @Autowired
+    private Factory factory;
+    @Autowired
+    private Utility utility;
 
     private ProcessoNotificacaoDTO notificacao;
 
@@ -66,7 +82,6 @@ public class AplProcessoNotificacaoTest extends AbstractionTest {
 
         AtualizacaoEstadoDTO novoEstado = new AtualizacaoEstadoDTO();
         novoEstado.setFuncionario(notificador.getId());
-        // FIXME: Verificar o valor correto do Enum
         novoEstado
                 .setEstadoNotificacao(EstadoNotificacaoEnum.AGUARDANDOANALISEOBITO);
 
@@ -117,4 +132,55 @@ public class AplProcessoNotificacaoTest extends AbstractionTest {
         Assert.assertTrue(notificacoes.size() > 0);
     }
 
+    @Test
+    public void atualizarEstadoProcessoNotificacaoTest()
+            throws ViolacaoDeRIException {
+        AtualizacaoEstadoDTO atualizacao = factory
+                .criaObjeto(AtualizacaoEstadoDTO.class);
+
+        ProcessoNotificacaoDTO notificacaoTemp = adicionarEstadoProcessoNotificacao(atualizacao);
+
+        Assert.assertEquals(EstadoNotificacaoEnum.AGUARDANDOANALISEOBITO,
+                notificacaoTemp.getHistorico().get(0).getEstadoNotificacao());
+        Assert.assertEquals(EstadoNotificacaoEnum.EMANALISEOBITO,
+                notificacaoTemp.getHistorico().get(1).getEstadoNotificacao());
+    }
+
+    @Test
+    public void salvarEntrevistaTest() throws ViolacaoDeRIException {
+        adicionarEntrevista();
+
+        Assert.assertNotNull(notificacao.getEntrevista());
+        Assert.assertNotNull(notificacao.getEntrevista().getId());
+    }
+
+    private void adicionarEntrevista() throws ViolacaoDeRIException {
+        responsavelData.criaResponsavelRandom(df, 30);
+        testemunhaData.criaTestemunhaRandom(df, 30);
+        EntrevistaDTO entrevista = mapper.map(
+                entrevistaData.criaEntrevista(df), EntrevistaDTO.class);
+        Long id = aplProcessoNotificacao.salvarNovaNotificacao(notificacao);
+        notificacao = aplProcessoNotificacao.obter(id);
+
+        notificacao.setEntrevista(entrevista);
+
+        id = aplProcessoNotificacao.salvarEntrevista(notificacao);
+        notificacao = aplProcessoNotificacao.obter(id);
+    }
+
+    private ProcessoNotificacaoDTO adicionarEstadoProcessoNotificacao(
+            AtualizacaoEstadoDTO atualizacao) throws ViolacaoDeRIException {
+        Long id = aplProcessoNotificacao.salvarNovaNotificacao(notificacao);
+        ProcessoNotificacaoDTO notificacaoTemp = aplProcessoNotificacao
+                .obter(id);
+
+        atualizacao.setFuncionario(notificacao.getNotificador());
+        atualizacao.setEstadoNotificacao(EstadoNotificacaoEnum.EMANALISEOBITO);
+
+        notificacaoTemp.getHistorico().add(atualizacao);
+        id = aplProcessoNotificacao
+                .atualizarEstadoProcessoNotificacao(notificacaoTemp);
+        notificacaoTemp = aplProcessoNotificacao.obter(id);
+        return notificacaoTemp;
+    }
 }
