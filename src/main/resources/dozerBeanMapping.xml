@@ -46,6 +46,10 @@
     <mapping>
         <class-a>br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.AtualizacaoEstado</class-a>
         <class-b>br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTO.AtualizacaoEstadoDTO</class-b>
+        <field>
+            <a>funcionario.id</a>
+            <b>funcionario</b>
+        </field>
     </mapping>
     <mapping>    
         <class-a>br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Entrevista</class-a>
@@ -61,6 +65,10 @@
         <field>
             <a>causaNaoDoacao.id</a>
             <b>causaNaoDoacao</b>
+        </field>
+        <field>
+            <a>notificador.id</a>
+            <b>notificador</b>
         </field>
     </mapping>
     <mapping>

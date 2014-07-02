@@ -1,12 +1,16 @@
 package br.ifes.leds.sincap.test;
 
 import java.util.Calendar;
+import java.util.List;
 
 import org.dozer.Mapper;
 import org.fluttercode.datafactory.impl.DataFactory;
+import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import br.ifes.leds.reuse.ledsExceptions.CRUDExceptions.ViolacaoDeRIException;
 import br.ifes.leds.sincap.controleInterno.cgd.NotificadorRepository;
 import br.ifes.leds.sincap.controleInterno.cgd.SetorRepository;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Notificador;
@@ -26,7 +30,7 @@ import br.ifes.leds.sincap.gerenciaNotificacao.cln.util.dataFactory.PacienteData
  *
  * @author 20102BSI0553
  */
-public class AplProcessoNotificacaoTest {
+public class AplProcessoNotificacaoTest extends AbstractionTest {
 
     @Autowired
     private AplProcessoNotificacao aplProcessoNotificacao;
@@ -100,4 +104,17 @@ public class AplProcessoNotificacaoTest {
         obito.setTerceiraCausaMortis(causa3);
         obito.setQuartaCausaMortis(causa4);
     }
+
+    @Test
+    public void recuperarNotificacoesNaoArquivadas()
+            throws ViolacaoDeRIException {
+
+        aplProcessoNotificacao.salvarNovaNotificacao(notificacao);
+
+        List<ProcessoNotificacaoDTO> notificacoes = aplProcessoNotificacao
+                .retornarNotificacaoNaoArquivada();
+
+        Assert.assertTrue(notificacoes.size() > 0);
+    }
+
 }

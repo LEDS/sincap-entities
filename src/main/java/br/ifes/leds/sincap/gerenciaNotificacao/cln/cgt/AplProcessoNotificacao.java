@@ -45,10 +45,17 @@ public class AplProcessoNotificacao {
      * @return long - Retorna o id do ProcessoNotificacao salvo
      * @throws ViolacaoDeRIException
      */
-    public long salvarNovaNotificacao(ProcessoNotificacaoDTO processoNotificacaoDTO) throws ViolacaoDeRIException {
-        ProcessoNotificacao notificacao = mapper.map(processoNotificacaoDTO, ProcessoNotificacao.class);
+    public long salvarNovaNotificacao(
+            ProcessoNotificacaoDTO processoNotificacaoDTO)
+            throws ViolacaoDeRIException {
+
+        ProcessoNotificacao notificacao = mapper.map(processoNotificacaoDTO,
+                ProcessoNotificacao.class);
 
         aplObito.salvarObito(notificacao.getObito());
+        notificacao.getEntrevista().setFuncionario(null);
+        notificacao.setCausaNaoDoacao(null);
+        aplEntrevista.setEntrevista(notificacao.getEntrevista());
 
         this.salvarHistorico(notificacao.getHistorico());
 
@@ -69,7 +76,8 @@ public class AplProcessoNotificacao {
      * @return
      */
     public long salvarEntrevista(ProcessoNotificacaoDTO processoNotificacaoDTO) {
-        ProcessoNotificacao notificacao = mapper.map(processoNotificacaoDTO, ProcessoNotificacao.class);
+        ProcessoNotificacao notificacao = mapper.map(processoNotificacaoDTO,
+                ProcessoNotificacao.class);
 
         // aplEntrevista.salvarEntrevista(notificacao.getEntrevista());
         this.salvarHistorico(notificacao.getHistorico());
@@ -85,7 +93,8 @@ public class AplProcessoNotificacao {
      * @return
      */
     public long salvarCaptacao(ProcessoNotificacaoDTO processoNotificacaoDTO) {
-        ProcessoNotificacao notificacao = mapper.map(processoNotificacaoDTO, ProcessoNotificacao.class);
+        ProcessoNotificacao notificacao = mapper.map(processoNotificacaoDTO,
+                ProcessoNotificacao.class);
 
         // aplCaptacao.salvarCaptacao(notificacao.getCaptacao());
         this.salvarHistorico(notificacao.getHistorico());
@@ -105,8 +114,10 @@ public class AplProcessoNotificacao {
      *            - Processo de notificacao DTO
      * @return - Returna o processo de notificacao salvo
      */
-    public long atualizarEstadoProcessoNotificacao(ProcessoNotificacaoDTO processoNotificacaoDTO) {
-        ProcessoNotificacao notificacao = mapper.map(processoNotificacaoDTO, ProcessoNotificacao.class);
+    public long atualizarEstadoProcessoNotificacao(
+            ProcessoNotificacaoDTO processoNotificacaoDTO) {
+        ProcessoNotificacao notificacao = mapper.map(processoNotificacaoDTO,
+                ProcessoNotificacao.class);
         this.salvarHistorico(notificacao.getHistorico());
 
         notificacaoRepository.save(notificacao);
@@ -134,7 +145,8 @@ public class AplProcessoNotificacao {
      * @return Uma lista de {@code ProcessoNotificacaoDTO}.
      */
     public List<ProcessoNotificacaoDTO> obterTodasNotificacoes() {
-        return utility.mapList(notificacaoRepository.findAll(), ProcessoNotificacaoDTO.class);
+        return utility.mapList(notificacaoRepository.findAll(),
+                ProcessoNotificacaoDTO.class);
     }
 
     /**
@@ -156,7 +168,8 @@ public class AplProcessoNotificacao {
      * @return
      */
     public ProcessoNotificacaoDTO obter(Long id) {
-        ProcessoNotificacao processoNotificacao = notificacaoRepository.findOne(id);
+        ProcessoNotificacao processoNotificacao = notificacaoRepository
+                .findOne(id);
 
         return mapper.map(processoNotificacao, ProcessoNotificacaoDTO.class);
     }
@@ -167,9 +180,11 @@ public class AplProcessoNotificacao {
      * @return List - Lista de notificacoes
      */
     public List<ProcessoNotificacaoDTO> retornarNotificacaoNaoArquivada() {
-        List<ProcessoNotificacao> processoNotificacaos = notificacaoRepository.findByDataArquivamentoIsNullOrderByDataAberturaDesc();
+        List<ProcessoNotificacao> processoNotificacaos = notificacaoRepository
+                .findByDataArquivamentoIsNullOrderByDataAberturaDesc();
 
-        return utility.mapList(processoNotificacaos, ProcessoNotificacaoDTO.class);
+        return utility.mapList(processoNotificacaos,
+                ProcessoNotificacaoDTO.class);
     }
 
     /**
@@ -178,9 +193,11 @@ public class AplProcessoNotificacao {
      * @return List - Lista de notificacoes
      */
     public List<ProcessoNotificacaoDTO> retornarNotificacaoArquivada() {
-        List<ProcessoNotificacao> processoNotificacaos = notificacaoRepository.findByDataArquivamentoIsNotNullOrderByDataAberturaDesc();
+        List<ProcessoNotificacao> processoNotificacaos = notificacaoRepository
+                .findByDataArquivamentoIsNotNullOrderByDataAberturaDesc();
 
-        return utility.mapList(processoNotificacaos, ProcessoNotificacaoDTO.class);
+        return utility.mapList(processoNotificacaos,
+                ProcessoNotificacaoDTO.class);
     }
 
     /**
@@ -192,10 +209,13 @@ public class AplProcessoNotificacao {
      *            Calendar - Data final da busca
      * @return List - Lista de notificacoes
      */
-    public List<ProcessoNotificacaoDTO> retornarNotificacaoPorData(Calendar DataAberturaIni, Calendar DataAberturaFim) {
-        List<ProcessoNotificacao> processoNotificacaos = notificacaoRepository.findByDataAberturaBetween(DataAberturaIni, DataAberturaFim);
+    public List<ProcessoNotificacaoDTO> retornarNotificacaoPorData(
+            Calendar DataAberturaIni, Calendar DataAberturaFim) {
+        List<ProcessoNotificacao> processoNotificacaos = notificacaoRepository
+                .findByDataAberturaBetween(DataAberturaIni, DataAberturaFim);
 
-        return utility.mapList(processoNotificacaos, ProcessoNotificacaoDTO.class);
+        return utility.mapList(processoNotificacaos,
+                ProcessoNotificacaoDTO.class);
     }
 
     private String genereateCode() {
