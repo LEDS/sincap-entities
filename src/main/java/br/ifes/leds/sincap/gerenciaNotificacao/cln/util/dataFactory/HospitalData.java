@@ -53,8 +53,8 @@ public class HospitalData {
             endereco = fabrica.criaObjeto(Endereco.class);
 
             /*Preenche a aba dados Gerais*/
-            df.randomize((int) System.currentTimeMillis());
-            hospital.setNome("Hospital "+ df.getRandomText(3,15));
+            //df.randomize((int) System.currentTimeMillis());
+            hospital.setNome("Hospital "+ df.getName());
             hospital.setFantasia(hospital.getNome());
             hospital.setCnes(df.getNumberText(9));
             hospital.setSigla(df.getRandomChars(3));

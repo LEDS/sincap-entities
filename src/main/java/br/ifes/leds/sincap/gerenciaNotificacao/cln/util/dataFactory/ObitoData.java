@@ -13,8 +13,10 @@ import br.ifes.leds.sincap.gerenciaNotificacao.cgd.CausaMortisRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ObitoRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.PacienteRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CausaMortis;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CorpoEncaminhamento;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Obito;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Paciente;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoObito;
 import java.util.Calendar;
 import java.util.List;
 import org.fluttercode.datafactory.impl.DataFactory;
@@ -46,6 +48,8 @@ public class ObitoData {
     private List<CausaMortis> listCausa;
     private List<Setor> listSetor;
     private List<Paciente> listPaciente;
+    private List<CorpoEncaminhamento> listcorpoEncaminhamento;
+    private List<TipoObito> listTipoObito;
     
     public void criaObitoRandom(DataFactory df, Integer qtdObt){
         for (int i = 0; i < qtdObt; i++){
@@ -60,13 +64,14 @@ public class ObitoData {
         obito = fabrica.criaObjeto(Obito.class);
         dataObito = Calendar.getInstance();
         dataEvento = Calendar.getInstance();
+        listcorpoEncaminhamento = list.getListCorp();
+        listTipoObito = list.getListTipoObito();
         
         obito.setAptoDoacao(df.chance(50));
-        obito.setCorpoEncaminhamento(df.getItem(list.getListCorp()));
+        obito.setCorpoEncaminhamento(df.getItem(listcorpoEncaminhamento));
         dataObito.setTime(df.getDateBetween(df.getDate(2000, 01, 01), df.getDate(2014, 12, 30)));
         obito.setDataObito(dataObito);
-        dataEvento = dataObito;
-        dataEvento.add(Calendar.HOUR,df.getNumberBetween(1, 24));
+        dataEvento.setTime(df.getDateBetween(dataObito.getTime(), df.getDate(2014, 12, 30)));
         obito.setDataEvento(dataEvento);
         listCausa = causaMortisRepository.findAll();
         obito.setPrimeiraCausaMortis(df.getItem(listCausa));
@@ -75,8 +80,7 @@ public class ObitoData {
         obito.setQuartaCausaMortis(df.getItem(listCausa));
         listSetor = setorRepository.findAll();
         obito.setSetor(df.getItem(listSetor));
-        obito.setPaciente(null);
-        obito.setTipoObito(df.getItem(list.getListTipoObito()));
+        obito.setTipoObito(df.getItem(listTipoObito));
         listPaciente = pacienteRepository.findAll();
         obito.setPaciente(df.getItem(listPaciente));
         

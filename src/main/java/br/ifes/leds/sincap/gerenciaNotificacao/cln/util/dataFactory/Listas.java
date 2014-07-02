@@ -28,6 +28,7 @@ public enum Listas {
     private final List<Parentesco> listaParentesco;
     private final List<CorpoEncaminhamento> listCorpoEncaminhamento;
     private final List<TipoObito> listTipoObito;
+    private final List<String> listTipoNaoDoacao;
 
     private Listas() {
         listaProfissoes = new ArrayList<>();
@@ -131,8 +132,18 @@ public enum Listas {
         
         listTipoObito.add(TipoObito.ME);
         listTipoObito.add(TipoObito.PCR);
+        
+        listTipoNaoDoacao = new ArrayList<>();
+        
+        listTipoNaoDoacao.add("Recusa Familiar");
+        listTipoNaoDoacao.add("Problemas Logísticos");
+        listTipoNaoDoacao.add("Problemas Estruturais");
+        listTipoNaoDoacao.add("Contra-indicação Médica");
     }
     
+    public List<String> getListTipoNaoDoacao(){
+        return listTipoNaoDoacao;
+    }
     
     public List<TipoObito> getListTipoObito(){
         return listTipoObito;

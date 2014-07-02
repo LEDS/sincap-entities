@@ -41,7 +41,7 @@ public class EntrevistaData {
     
     private Entrevista entrevista;
     private Calendar dataEntrevista;
-    private Calendar dataEvento;
+    private Calendar dataCadastro;
     private List<Responsavel> listResponsavel;
     private List<Testemunha> listTestemunha;
     private List<Funcionario> listFuncionario;
@@ -56,13 +56,12 @@ public class EntrevistaData {
     public Entrevista criaEntrevista(DataFactory df) {
         entrevista = fabrica.criaObjeto(Entrevista.class);
         dataEntrevista = Calendar.getInstance();
-        dataEvento = Calendar.getInstance();
+        dataCadastro = Calendar.getInstance();
         
-        dataEntrevista.setTime(df.getDateBetween(df.getDate(2000, 01, 01), df.getDate(2014, 12, 30)));
+        dataCadastro.setTime(df.getDateBetween(df.getDate(2000, 01, 01), df.getDate(2014, 12, 30)));
+        entrevista.setDataCadastro(dataCadastro);
+        dataEntrevista.setTime(df.getDateBetween(dataCadastro.getTime(), df.getDate(2014, 12, 30)));
         entrevista.setDataEntrevista(dataEntrevista);
-        /*Verificar com o Marcos se a o que seria a data do evento.*/
-        dataEvento.setTime(df.getDateBetween(dataEntrevista.getTime(), df.getDate(2014, 12, 30)));
-        entrevista.setDataEvento(dataEvento);
         listResponsavel = responsavelRepository.findAll();
         entrevista.setResponsavel(df.getItem(listResponsavel));
         listTestemunha = testemunhaRepository.findAll();

@@ -24,10 +24,10 @@ import br.ifes.leds.sincap.controleInterno.cln.cdp.Funcionario;
 public class Entrevista extends ObjetoPersistente {
     
     @Temporal(TemporalType.TIMESTAMP)
-    private Calendar dataEntrevista; //Data e horario do entrevista
+    private Calendar dataCadastro; //Data e horario do cadastro entrevista.
     
     @Temporal(TemporalType.TIMESTAMP)
-    private Calendar dataEvento; //Data e horario da notificação Doacao(entrevista)
+    private Calendar dataEntrevista; //Data e horario de quando a entrevista foi realizada.
     
     @Column
     private boolean doacaoAutorizada;

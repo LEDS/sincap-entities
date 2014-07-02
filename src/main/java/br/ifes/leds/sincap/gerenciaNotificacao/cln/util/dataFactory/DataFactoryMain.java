@@ -41,24 +41,29 @@ public class DataFactoryMain {
         EntrevistaData ed = (EntrevistaData) factory.getBean("entrevistaData");
         CausaMortisData cmd = (CausaMortisData) factory.getBean("causaMortisData");
         ObitoData obd = (ObitoData) factory.getBean("obitoData");
+        CausaNaoDoacaoData cnd = (CausaNaoDoacaoData) factory.getBean("causaNaoDoacaoData");
+        TipoNaoDoacaoData tpn = (TipoNaoDoacaoData) factory.getBean("tipoNaoDoacaoData");
         
         DataFactory df = new DataFactory();
         df.randomize((int) System.currentTimeMillis());
 
         
-        //nd.criaNotificadorRandom(df,1);
-        //hd.criaHospitalRandom(df, 5);
-        //sd.criaSetorRandom();
-        //sd.associaSetorHospital();
-//        bd.criaBancoOlhosRandom(df, 5);
-//        ad.criaAnalistaRandom(df, 5);
-//        cd.criaCaptadorRandom(df, 10);
-//        pd.criaPacienteRandom(df, 5);
-//        rd.criaResponsavelRandom(df, 5);
-//          td.criaTestemunhaRandom(df, 5);
-//        ed.criaEntrevistaRandom(df, 6);
-//        cmd.criaCausaMortisRandom(df, 5);
-        obd.criaObitoRandom(df, 5);
+//        nd.criaNotificadorRandom(df,30);
+//        hd.criaHospitalRandom(df, 30);
+//        sd.criaSetorRandom();
+//        sd.associaSetorHospital();
+//        bd.criaBancoOlhosRandom(df, 30);
+//        ad.criaAnalistaRandom(df, 30);
+//        cd.criaCaptadorRandom(df, 30);
+//        pd.criaPacienteRandom(df, 30);
+//        rd.criaResponsavelRandom(df, 30);
+//        td.criaTestemunhaRandom(df, 30);
+//        ed.criaEntrevistaRandom(df, 30);
+//        cmd.criaCausaMortisRandom(df, 30);
+//        obd.criaObitoRandom(df, 30);
+        tpn.criaTipoNaoDoacao();
+        cnd.criaCausaNaoDoacaoRandom(df, 10);
+        
     }
 
 }
