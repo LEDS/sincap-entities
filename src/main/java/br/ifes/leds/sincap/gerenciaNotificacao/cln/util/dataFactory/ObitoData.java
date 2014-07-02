@@ -72,7 +72,7 @@ public class ObitoData {
         dataObito.setTime(df.getDateBetween(df.getDate(2000, 01, 01), df.getDate(2014, 12, 30)));
         obito.setDataObito(dataObito);
         dataEvento.setTime(df.getDateBetween(dataObito.getTime(), df.getDate(2014, 12, 30)));
-        obito.setDataEvento(dataEvento);
+        obito.setDataCadastro(dataEvento);
         listCausa = causaMortisRepository.findAll();
         obito.setPrimeiraCausaMortis(df.getItem(listCausa));
         obito.setSegundaCausaMortis(df.getItem(listCausa));

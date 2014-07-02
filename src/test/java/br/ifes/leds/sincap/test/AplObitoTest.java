@@ -69,7 +69,7 @@ public class AplObitoTest extends AbstractionTest {
         this.obitoDTO.setPaciente(pacienteDTO);
         this.obitoDTO.setAptoDoacao(true);
         this.obitoDTO.setCorpoEncaminhamento(CorpoEncaminhamento.IML);
-        this.obitoDTO.setDataEvento(new GregorianCalendar(2014, 5, 27, 18, 30));
+        this.obitoDTO.setDataCadastro(new GregorianCalendar(2014, 5, 27, 18, 30));
         this.obitoDTO.setDataObito(new GregorianCalendar(2014, 5, 27, 22, 55));
         this.obitoDTO.setHospital(hospital.getId());
         this.obitoDTO.setSetor(setor.getId());

@@ -30,7 +30,7 @@ public class Obito extends ObjetoPersistente {
     private Calendar dataObito; //Data e horario do obito
     
     @Temporal(TemporalType.TIMESTAMP)
-    private Calendar dataEvento; //Data e horario da notificação obito
+    private Calendar dataCadastro; //Data e horario da notificação de obito
     
     @Column
     private boolean aptoDoacao;

@@ -18,7 +18,7 @@ public class ObitoDTO {
 
     private Long id;
     private Calendar dataObito;
-    private Calendar dataEvento;
+    private Calendar dataCadastro;
     private boolean aptoDoacao;
     private CorpoEncaminhamento corpoEncaminhamento;
     private CausaMortis primeiraCausaMortis;

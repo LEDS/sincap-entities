@@ -93,7 +93,7 @@ public class AplProcessoNotificacaoTest extends AbstractionTest {
         Setor setor = setorRepository.findAll().get(0);
 
         obito.setTipoObito(TipoObito.PCR);
-        obito.setDataEvento(Calendar.getInstance());
+        obito.setDataCadastro(Calendar.getInstance());
         obito.setDataObito(Calendar.getInstance());
         obito.setCorpoEncaminhamento(CorpoEncaminhamento.NAO_ENCAMINHADO);
         obito.setAptoDoacao(true);

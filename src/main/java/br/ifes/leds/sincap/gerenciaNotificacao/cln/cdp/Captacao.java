@@ -29,7 +29,7 @@ public class Captacao extends ObjetoPersistente {
     private Calendar dataCaptacao; //Data e horario do captacao
     
     @Temporal(TemporalType.TIMESTAMP)
-    private Calendar dataEvento; //Data e horario da notificação de captacao
+    private Calendar dataCadastro; //Data e horario da notificação de captacao
     
     @OneToOne
     private Captador captador;
