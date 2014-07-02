@@ -30,7 +30,6 @@ public class CausaNaoDoacaoData {
     private Factory fabrica;
     private CausaNaoDoacao causaNaoDoacao;
     private List<TipoNaoDoacao> listTipoNaoDoacao;
-    private Listas list = Listas.INSTANCE;
     
     
     
