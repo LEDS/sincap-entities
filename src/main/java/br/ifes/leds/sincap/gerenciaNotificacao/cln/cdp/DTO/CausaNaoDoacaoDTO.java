@@ -13,5 +13,5 @@ public class CausaNaoDoacaoDTO {
 
     private Long id;
     private String nome;
-    private String tipoNaoDoacao;
+    private Long tipoNaoDoacao;
 }

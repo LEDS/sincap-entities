@@ -83,7 +83,7 @@
         <class-a>br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CausaNaoDoacao</class-a>
         <class-b>br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTO.CausaNaoDoacaoDTO</class-b>
         <field>
-            <a>tipoNaoDoacao.nome</a>
+            <a>tipoNaoDoacao.id</a>
             <b>tipoNaoDoacao</b>
         </field>
     </mapping>

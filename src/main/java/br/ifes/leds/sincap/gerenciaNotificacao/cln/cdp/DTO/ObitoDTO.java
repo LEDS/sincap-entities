@@ -17,6 +17,7 @@ import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoObito;
 public class ObitoDTO {
 
     private Long id;
+    private PacienteDTO paciente = new PacienteDTO();
     private Calendar dataObito;
     private Calendar dataCadastro;
     private boolean aptoDoacao;
@@ -25,7 +26,6 @@ public class ObitoDTO {
     private CausaMortis segundaCausaMortis;
     private CausaMortis terceiraCausaMortis;
     private CausaMortis quartaCausaMortis;
-    private PacienteDTO paciente;
     private Long setor;
     private Long hospital;
     private TipoObito tipoObito;

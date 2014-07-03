@@ -21,7 +21,7 @@ public class CausaNaoDoacao extends ObjetoPersistente{
     @Column
     private String nome;
     
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(nullable = false)
     private TipoNaoDoacao tipoNaoDoacao;    
     
