@@ -13,6 +13,7 @@ import br.ifes.leds.reuse.utility.Utility;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.AtualizacaoEstadoRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ProcessoNotificacaoRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.AtualizacaoEstado;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoNotificacaoEnum;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.ProcessoNotificacao;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTO.ProcessoNotificacaoDTO;
 
@@ -215,6 +216,23 @@ public class AplProcessoNotificacao {
                 .findByDataAberturaBetween(DataAberturaIni, DataAberturaFim);
 
         return utility.mapList(processoNotificacaos,
+                ProcessoNotificacaoDTO.class);
+    }
+
+    /**
+     * Metodo que busca todas as notificacoes, pegando apenas as que estão no
+     * estado atual indicado.
+     *
+     * @param estado
+     *            Estado que será usado para filtrar as notificações.
+     * @return Notificações filtras pelo estado atual.
+     */
+    public List<ProcessoNotificacaoDTO> retornarNotificacaoPorEstadoAtual(
+            EstadoNotificacaoEnum estado) {
+        List<ProcessoNotificacao> processosNotificacao = notificacaoRepository
+                .findByLastEstadoNotificao(estado);
+
+        return utility.mapList(processosNotificacao,
                 ProcessoNotificacaoDTO.class);
     }
 
