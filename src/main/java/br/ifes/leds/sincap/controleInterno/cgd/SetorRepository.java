@@ -30,7 +30,7 @@ public interface SetorRepository extends JpaRepository<Setor, Long>{
 	 * @param hospitalId
 	 * @return
 	 */
-	public List<Setor> findByHospitalId(Long hospitalId);
+	public List<Setor> findByHospitalIdOrderByNomeAsc(Long hospitalId);
 	
 	/**
 	 * Metodo para retornar um setor pelo seu nome

@@ -5,35 +5,50 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.ifes.leds.reuse.utility.Utility;
 import br.ifes.leds.sincap.controleInterno.cgd.SetorRepository;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Setor;
+import br.ifes.leds.sincap.controleInterno.cln.cdp.dto.SetorDTO;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.CausaMortisRepository;
+import br.ifes.leds.sincap.gerenciaNotificacao.cgd.CausaNaoDoacaoRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CausaMortis;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CausaNaoDoacao;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTO.CausaNaoDoacaoDTO;
 
 @Service
 public class AplCadastroInterno {
 
+    @Autowired
+    private SetorRepository setorRepository;
+    @Autowired
+    private CausaMortisRepository causaObitoRepository;
+    @Autowired
+    private CausaNaoDoacaoRepository causaNaoDoacaoRepository;
+    @Autowired
+    private Utility utility;
 
-	@Autowired
-	private SetorRepository setorRepository;
-	@Autowired
-	private CausaMortisRepository causaObitoRepository;
-        
-        //TODO Add sorte para ordenar os elementos da lista
-	
-	public Setor obterSetorPorId(Long id){
-		return this.setorRepository.findOne(id);
-	}
-	
-	public List<Setor> obterSetorPorHospital(Long hospitalId){
-		return this.setorRepository.findByHospitalId(hospitalId); 
-	}
-	/* Causas de Obito */
-	public List<CausaMortis> obterTodosCausaObito(){
-		return this.causaObitoRepository.findAll();
-	}
-	
-	public CausaMortis obterCausaObitoPorId(Long id){
-		return this.causaObitoRepository.findOne(id);
-	}
+    public Setor obterSetorPorId(Long id) {
+        return this.setorRepository.findOne(id);
+    }
+
+    public List<SetorDTO> obterSetorPorHospital(Long hospitalId) {
+        List<Setor> listaSetores = this.setorRepository
+                .findByHospitalIdOrderByNomeAsc(hospitalId);
+        return utility.mapList(listaSetores, SetorDTO.class);
+    }
+
+    public List<CausaNaoDoacaoDTO> obterTodosCausaNaoDoacao() {
+        List<CausaNaoDoacao> listaCausas = this.causaNaoDoacaoRepository
+                .findAll();
+        return utility.mapList(listaCausas, CausaNaoDoacaoDTO.class);
+    }
+
+    /* Causas de Obito */
+    public List<CausaMortis> obterTodosCausaObito() {
+        return this.causaObitoRepository.findAll();
+    }
+
+    public CausaMortis obterCausaObitoPorId(Long id) {
+        return this.causaObitoRepository.findOne(id);
+    }
 }

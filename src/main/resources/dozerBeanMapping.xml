@@ -79,4 +79,12 @@
         <class-a>br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Responsavel</class-a>
         <class-b>br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTO.ResponsavelDTO</class-b>
     </mapping>
+    <mapping>
+        <class-a>br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CausaNaoDoacao</class-a>
+        <class-b>br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTO.CausaNaoDoacaoDTO</class-b>
+        <field>
+            <a>tipoNaoDoacao.nome</a>
+            <b>tipoNaoDoacao</b>
+        </field>
+    </mapping>
 </mappings>
