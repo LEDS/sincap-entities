@@ -55,7 +55,8 @@ public class AplProcessoNotificacao {
 
         aplObito.salvarObito(notificacao.getObito());
         notificacao.setCausaNaoDoacao(null);
-
+        notificacao.setEntrevista(null);
+        
         this.salvarHistorico(notificacao.getHistorico());
 
         notificacao.setDataAbertura(Calendar.getInstance());

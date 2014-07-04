@@ -47,7 +47,18 @@ public enum Utility {
         hora = formatoHora.format(calendar.getTime());
     }
 
-    public Calendar stringToCalendar(String data, String hora) throws ParseException {
+    public String calendarHoraToString(Calendar hora) {
+        DateFormat formatHora = new SimpleDateFormat("HH:mm");
+        return formatHora.format(hora.getTime());
+    }
+
+    public String calendarDataToString(Calendar hora) {
+        DateFormat formatData = new SimpleDateFormat("dd/MM/yyyy");
+        return formatData.format(hora.getTime());
+    }
+
+    public Calendar stringToCalendar(String data, String hora)
+            throws ParseException {
         Calendar calendar = Calendar.getInstance();
         DateFormat formatoDataHora = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         String dataHora = data + " " + hora;
@@ -121,8 +132,10 @@ public enum Utility {
                     return obj;
                 }
             }
-        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-            Logger.getLogger("getObjectByMethod").error("Couldn't get object by method.");
+        } catch (IllegalAccessException | IllegalArgumentException
+                | InvocationTargetException e) {
+            Logger.getLogger("getObjectByMethod").error(
+                    "Couldn't get object by method.");
         }
         return null;
     }

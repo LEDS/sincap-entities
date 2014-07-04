@@ -13,8 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import br.ifes.leds.reuse.ledsExceptions.CRUDExceptions.ViolacaoDeRIException;
 import br.ifes.leds.reuse.utility.Factory;
 import br.ifes.leds.reuse.utility.Utility;
+import br.ifes.leds.sincap.controleInterno.cgd.HospitalRepository;
 import br.ifes.leds.sincap.controleInterno.cgd.NotificadorRepository;
 import br.ifes.leds.sincap.controleInterno.cgd.SetorRepository;
+import br.ifes.leds.sincap.controleInterno.cln.cdp.Hospital;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Notificador;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Setor;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CausaMortis;
@@ -40,6 +42,8 @@ public class AplProcessoNotificacaoTest extends AbstractionTest {
 
     @Autowired
     private AplProcessoNotificacao aplProcessoNotificacao;
+    @Autowired
+    private HospitalRepository hospitalRepository;
     @Autowired
     private NotificadorRepository notificadorRepository;
     @Autowired
@@ -91,6 +95,7 @@ public class AplProcessoNotificacaoTest extends AbstractionTest {
     private void getObito(ProcessoNotificacaoDTO notificacao) {
         ObitoDTO obito = notificacao.getObito();
         Setor setor = setorRepository.findAll().get(0);
+        Hospital hospital = hospitalRepository.findAll().get(0);
 
         obito.setTipoObito(TipoObito.PCR);
         obito.setDataCadastro(Calendar.getInstance());
@@ -98,6 +103,7 @@ public class AplProcessoNotificacaoTest extends AbstractionTest {
         obito.setCorpoEncaminhamento(CorpoEncaminhamento.NAO_ENCAMINHADO);
         obito.setAptoDoacao(true);
         obito.setSetor(setor.getId());
+        obito.setHospital(hospital.getId());
 
         this.getCausasMortis(obito);
         obito.setPaciente(mapper.map(pacienteData.criarPaciente(df),

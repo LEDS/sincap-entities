@@ -34,6 +34,10 @@
             <a>setor.id</a>
             <b>setor</b>
         </field>
+        <field>
+            <a>hospital.id</a>
+            <b>hospital</b>
+        </field>
     </mapping>
     <mapping>
         <class-a>br.ifes.leds.sincap.controleInterno.cln.cdp.Setor</class-a>
