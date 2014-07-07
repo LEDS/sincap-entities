@@ -79,7 +79,7 @@ public class AplProcessoNotificacao {
         ProcessoNotificacao notificacao = mapper.map(processoNotificacaoDTO,
                 ProcessoNotificacao.class);
 
-        aplEntrevista.setEntrevista(notificacao.getEntrevista());
+        aplEntrevista.salvarEntrevista(notificacao.getEntrevista());
         this.salvarHistorico(notificacao.getHistorico());
         notificacaoRepository.save(notificacao);
 

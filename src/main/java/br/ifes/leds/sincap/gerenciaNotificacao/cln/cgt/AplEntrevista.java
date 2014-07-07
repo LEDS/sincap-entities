@@ -54,12 +54,12 @@ public class AplEntrevista {
         return mapper.map(entrevista, EntrevistaDTO.class);
     }
 
-    public void setEntrevista(EntrevistaDTO entrevistaDTO) throws ViolacaoDeRIException {
+    public void salvarEntrevista(EntrevistaDTO entrevistaDTO) throws ViolacaoDeRIException {
         Entrevista entrevista = mapper.map(entrevistaDTO, Entrevista.class);
-        setEntrevista(entrevista);
+        salvarEntrevista(entrevista);
     }
 
-    public void setEntrevista(Entrevista entrevista) throws ViolacaoDeRIException {
+    public void salvarEntrevista(Entrevista entrevista) throws ViolacaoDeRIException {
         if (entrevista.isDoacaoAutorizada()) {
             if (entrevistaValida(entrevista)) {
                 

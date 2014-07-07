@@ -97,7 +97,7 @@ public class AplEntrevistaTest extends AbstractionTest{
     @Test
     public void salvarEntrevistaTest() throws ViolacaoDeRIException
     {
-        aplEntrevista.setEntrevista(this.entrevistaDTO);
+        aplEntrevista.salvarEntrevista(this.entrevistaDTO);
         
         EntrevistaDTO entrevistaTest = aplEntrevista.getAllEntrevistas().get(0);
         
