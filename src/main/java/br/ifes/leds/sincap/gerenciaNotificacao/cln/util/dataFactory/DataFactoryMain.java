@@ -42,7 +42,6 @@ public class DataFactoryMain {
         CausaMortisData cmd = (CausaMortisData) factory.getBean("causaMortisData");
         ObitoData obd = (ObitoData) factory.getBean("obitoData");
         CausaNaoDoacaoData cnd = (CausaNaoDoacaoData) factory.getBean("causaNaoDoacaoData");
-        TipoNaoDoacaoData tpn = (TipoNaoDoacaoData) factory.getBean("tipoNaoDoacaoData");
         
         DataFactory df = new DataFactory();
         df.randomize((int) System.currentTimeMillis());
@@ -61,7 +60,6 @@ public class DataFactoryMain {
 //        ed.criaEntrevistaRandom(df, 30);
 //        cmd.criaCausaMortisRandom(df, 30);
 //        obd.criaObitoRandom(df, 30);
-        tpn.criaTipoNaoDoacao();
         cnd.criaCausaNaoDoacaoRandom(df, 10);
         
     }

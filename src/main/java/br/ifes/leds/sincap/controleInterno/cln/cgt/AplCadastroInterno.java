@@ -13,6 +13,7 @@ import br.ifes.leds.sincap.gerenciaNotificacao.cgd.CausaMortisRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.CausaNaoDoacaoRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CausaMortis;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CausaNaoDoacao;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoNaoDoacao;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTO.CausaNaoDoacaoDTO;
 
 @Service
@@ -37,9 +38,13 @@ public class AplCadastroInterno {
         return utility.mapList(listaSetores, SetorDTO.class);
     }
 
-    public List<CausaNaoDoacaoDTO> obterTodosCausaNaoDoacao() {
+    public List<CausaNaoDoacaoDTO> obterCausaNaoDoacaoContraIndMedica() {
+        return obterCausaNaoDoacao(TipoNaoDoacao.CONTRAINDICACAO_MEDICA);
+    }
+
+    public List<CausaNaoDoacaoDTO> obterCausaNaoDoacao(TipoNaoDoacao tipo) {
         List<CausaNaoDoacao> listaCausas = this.causaNaoDoacaoRepository
-                .findAll();
+                .findByTipoNaoDoacao(tipo);
         return utility.mapList(listaCausas, CausaNaoDoacaoDTO.class);
     }
 

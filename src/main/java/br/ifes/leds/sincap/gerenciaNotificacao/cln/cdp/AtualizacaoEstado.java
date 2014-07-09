@@ -23,15 +23,15 @@ import lombok.Setter;
 @Getter
 @Entity
 public class AtualizacaoEstado extends ObjetoPersistente {    
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    private Long id;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Calendar dataModificacao;
 
     @Enumerated (EnumType.STRING)
     private EstadoNotificacaoEnum estadoNotificacao;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Calendar dataAtualizacaos;
     
     @ManyToOne
     private Funcionario funcionario;
