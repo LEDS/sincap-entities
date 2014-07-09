@@ -130,7 +130,7 @@ public class AplProcessoNotificacaoTest extends AbstractionTest {
     public void recuperarNotificacoesNaoArquivadas()
             throws ViolacaoDeRIException {
 
-        aplProcessoNotificacao.salvarNovaNotificacao(notificacao);
+        aplProcessoNotificacao.salvarNovaNotificacao(notificacao, notificacao.getNotificador());
 
         List<ProcessoNotificacaoDTO> notificacoes = aplProcessoNotificacao
                 .retornarNotificacaoNaoArquivada();
@@ -158,6 +158,8 @@ public class AplProcessoNotificacaoTest extends AbstractionTest {
 
         Assert.assertNotNull(notificacao.getEntrevista());
         Assert.assertNotNull(notificacao.getEntrevista().getId());
+        
+        Assert.assertNotNull(notificacao.getHistorico());
     }
 
     private void adicionarEntrevista() throws ViolacaoDeRIException {
@@ -165,18 +167,18 @@ public class AplProcessoNotificacaoTest extends AbstractionTest {
         testemunhaData.criaTestemunhaRandom(df, 30);
         EntrevistaDTO entrevista = mapper.map(
                 entrevistaData.criaEntrevista(df), EntrevistaDTO.class);
-        Long id = aplProcessoNotificacao.salvarNovaNotificacao(notificacao);
+        Long id = aplProcessoNotificacao.salvarNovaNotificacao(notificacao, notificacao.getNotificador());
         notificacao = aplProcessoNotificacao.obter(id);
 
         notificacao.setEntrevista(entrevista);
 
-        id = aplProcessoNotificacao.salvarEntrevista(notificacao);
+        id = aplProcessoNotificacao.salvarEntrevista(notificacao, notificacao.getNotificador());
         notificacao = aplProcessoNotificacao.obter(id);
     }
 
     private ProcessoNotificacaoDTO adicionarEstadoProcessoNotificacao(
             AtualizacaoEstadoDTO atualizacao) throws ViolacaoDeRIException {
-        Long id = aplProcessoNotificacao.salvarNovaNotificacao(notificacao);
+        Long id = aplProcessoNotificacao.salvarNovaNotificacao(notificacao, notificacao.getNotificador());
         ProcessoNotificacaoDTO notificacaoTemp = aplProcessoNotificacao
                 .obter(id);
 

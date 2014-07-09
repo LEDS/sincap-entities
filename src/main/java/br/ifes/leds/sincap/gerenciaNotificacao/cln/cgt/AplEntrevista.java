@@ -54,12 +54,12 @@ public class AplEntrevista {
         return mapper.map(entrevista, EntrevistaDTO.class);
     }
 
-    public void setEntrevista(EntrevistaDTO entrevistaDTO) throws ViolacaoDeRIException {
+    public void salvarEntrevista(EntrevistaDTO entrevistaDTO) throws ViolacaoDeRIException {
         Entrevista entrevista = mapper.map(entrevistaDTO, Entrevista.class);
-        setEntrevista(entrevista);
+        salvarEntrevista(entrevista);
     }
 
-    public void setEntrevista(Entrevista entrevista) throws ViolacaoDeRIException {
+    public void salvarEntrevista(Entrevista entrevista) throws ViolacaoDeRIException {
         if (entrevista.isDoacaoAutorizada()) {
             if (entrevistaValida(entrevista)) {
                 
@@ -88,5 +88,9 @@ public class AplEntrevista {
         b = b && (entrevista.getTestemunha1() != null);
         b = b && (entrevista.getTestemunha2() != null);
         return b;
+    }
+
+    public void salvarEntrevistaEntrevista(EntrevistaDTO entrevistaDTO) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
