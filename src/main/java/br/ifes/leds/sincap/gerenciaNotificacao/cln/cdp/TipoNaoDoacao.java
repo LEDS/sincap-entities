@@ -1,20 +1,10 @@
 package br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp;
 
-import br.ifes.leds.reuse.persistence.ObjetoPersistente;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import lombok.Getter;
-import lombok.Setter;
-
 /**
  *
  * @author Marcos Dias
  */
-@Getter
-@Setter
-@Entity
-public class TipoNaoDoacao  extends ObjetoPersistente{
-    
-    @Column
-    private String nome;
+public enum TipoNaoDoacao {
+
+    PROBLEMAS_LOGISTICOS, PROBLEMAS_ESTRUTURAIS, RECUSA_FAMILIAR, CONTRAINDICACAO_MEDICA;
 }

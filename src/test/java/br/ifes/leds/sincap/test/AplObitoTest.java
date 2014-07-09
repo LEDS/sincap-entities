@@ -128,8 +128,14 @@ public class AplObitoTest extends AbstractionTest {
     @Test
     public void salvarObitoTest() throws ViolacaoDeRIException {
         aplObito.salvarObito(obitoDTO);
-
-        ObitoDTO obitoTest = aplObito.obterTodosObitos().get(0);
+        
+        /*
+         * Quando o banco já está preenchido, os testes rodam em cima desse banco,
+         * logo, foi necessario usar essa recurso abaixo para que nao haja erros
+         * independente do estado do banco.
+         */
+        int quantidadeObitos = aplObito.obterTodosObitos().size();
+        ObitoDTO obitoTest = aplObito.obterTodosObitos().get(quantidadeObitos - 1);
 
         Assert.assertNotNull(obitoTest);
         Assert.assertNotNull(obitoTest.getSetor());

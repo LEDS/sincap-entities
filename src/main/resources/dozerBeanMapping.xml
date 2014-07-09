@@ -34,6 +34,10 @@
             <a>setor.id</a>
             <b>setor</b>
         </field>
+        <field>
+            <a>hospital.id</a>
+            <b>hospital</b>
+        </field>
     </mapping>
     <mapping>
         <class-a>br.ifes.leds.sincap.controleInterno.cln.cdp.Setor</class-a>
@@ -82,9 +86,5 @@
     <mapping>
         <class-a>br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CausaNaoDoacao</class-a>
         <class-b>br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTO.CausaNaoDoacaoDTO</class-b>
-        <field>
-            <a>tipoNaoDoacao.id</a>
-            <b>tipoNaoDoacao</b>
-        </field>
     </mapping>
 </mappings>

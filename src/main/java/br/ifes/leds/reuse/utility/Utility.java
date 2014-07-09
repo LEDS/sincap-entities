@@ -41,17 +41,39 @@ public enum Utility {
      *            se refere ao valor de DTO.hora
      */
     public void calendarToString(Calendar calendar, String data, String hora) {
-        SimpleDateFormat formatoHora = new SimpleDateFormat("hh:mm");
+        SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm");
         SimpleDateFormat formatoData = new SimpleDateFormat("dd/MM/yyyy");
         data = formatoData.format(calendar.getTime());
         hora = formatoHora.format(calendar.getTime());
     }
 
-    public void stringToCalendar(String data, String hora, Calendar calendar) throws ParseException {
-        DateFormat formatoDataHora = new SimpleDateFormat("yyyy/MM/dd hh:mm");
+    public String calendarHoraToString(Calendar hora) {
+        DateFormat formatHora = new SimpleDateFormat("HH:mm");
+        return formatHora.format(hora.getTime());
+    }
+
+    public String calendarDataToString(Calendar hora) {
+        DateFormat formatData = new SimpleDateFormat("dd/MM/yyyy");
+        return formatData.format(hora.getTime());
+    }
+
+    public Calendar stringToCalendar(String data, String hora)
+            throws ParseException {
+        Calendar calendar = Calendar.getInstance();
+        DateFormat formatoDataHora = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         String dataHora = data + " " + hora;
         Date convertedDataHora = formatoDataHora.parse(dataHora);
         calendar.setTime(convertedDataHora);
+        return calendar;
+    }
+
+    public Calendar stringToCalendar(String data) throws ParseException {
+        Calendar calendar = Calendar.getInstance();
+        DateFormat formatoDataHora = new SimpleDateFormat("dd/MM/yyyy");
+        String dataHora = data;
+        Date convertedDataHora = formatoDataHora.parse(dataHora);
+        calendar.setTime(convertedDataHora);
+        return calendar;
     }
 
     public Long booleanToLong(boolean attribute) {
@@ -110,8 +132,10 @@ public enum Utility {
                     return obj;
                 }
             }
-        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-            Logger.getLogger("getObjectByMethod").error("Couldn't get object by method.");
+        } catch (IllegalAccessException | IllegalArgumentException
+                | InvocationTargetException e) {
+            Logger.getLogger("getObjectByMethod").error(
+                    "Couldn't get object by method.");
         }
         return null;
     }
