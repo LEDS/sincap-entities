@@ -1,5 +1,6 @@
 package br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTO;
 
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoNaoDoacao;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,5 +14,5 @@ public class CausaNaoDoacaoDTO {
 
     private Long id;
     private String nome;
-    private Long tipoNaoDoacao;
+    private TipoNaoDoacao tipoNaoDoacao;
 }
