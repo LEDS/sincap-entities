@@ -93,7 +93,6 @@ public class AplProcessoNotificacao {
                 idFuncionario);
 
         aplEntrevista.salvarEntrevista(notificacao.getEntrevista());
-        this.salvarHistorico(notificacao.getHistorico());
         notificacaoRepository.save(notificacao);
 
         return notificacao.getId();
@@ -116,16 +115,146 @@ public class AplProcessoNotificacao {
         return notificacao.getId();
     }
     
-    public long entrarAnaliseObito(ProcessoNotificacaoDTO processoNotificacaoDTO, Long idFuncionario){
+    /**
+     * Quando um processo de notificacao na etapa obito
+     * entra para ser analisado, 
+     * o mesmo troca o seu estado para EMANALISEOBITO
+     * 
+     * @param processoNotificacaoDTO
+     * @param idFuncionario
+     * @return 
+     */
+    public long entrarAnaliseObito(ProcessoNotificacaoDTO processoNotificacaoDTO, 
+            Long idFuncionario){        
+        
+        return this.addNovoEstadoNoProcessoNotificacao(
+                processoNotificacaoDTO, 
+                EstadoNotificacaoEnum.EMANALISEOBITO, 
+                idFuncionario);
+    }
+    
+    /**
+     * Quando um processo de notificacao esta em analisa
+     * uma das opcoes eh recusar essa analise,
+     * dado a erros que haja na notificacao, por exemplo;
+     * Voltar para o estado AGUARDANDOANALISEOBITO.
+     * 
+     * @param processoNotificacaoDTO
+     * @param idFuncionario
+     * @return 
+     */
+    public Long recusarAnaliseObito(ProcessoNotificacaoDTO processoNotificacaoDTO, 
+            Long idFuncionario){
+        
+        return this.addNovoEstadoNoProcessoNotificacao(
+                processoNotificacaoDTO, 
+                EstadoNotificacaoEnum.AGUARDANDOANALISEOBITO, 
+                idFuncionario);
+    }
+    
+    /**
+     * Quando um processo de notificacao etapa obito esta em analisa
+     * uma das opcoes eh aceitar essa analise,
+     * logo, o estado muda para AGUARDANDOENTREVISTA.
+     * 
+     * @param processoNotificacaoDTO
+     * @param idFuncionario
+     * @return 
+     */
+    public Long validarAnaliseObito(ProcessoNotificacaoDTO processoNotificacaoDTO, 
+            Long idFuncionario){
+        
+        return this.addNovoEstadoNoProcessoNotificacao(
+                processoNotificacaoDTO, 
+                EstadoNotificacaoEnum.AGUARDANDOENTREVISTA, 
+                idFuncionario);
+    }
+    
+    /**
+     * Quando um processo de notificacao na etapa entrevista
+     * entra para ser analisado, 
+     * o mesmo troca o seu estado para EMANALISEENTREVISTA
+     * 
+     * @param processoNotificacaoDTO
+     * @param idFuncionario
+     * @return 
+     */
+    public Long entrarAnaliseEntrevista(ProcessoNotificacaoDTO processoNotificacaoDTO, 
+            Long idFuncionario){
+        
+        return this.addNovoEstadoNoProcessoNotificacao(
+                processoNotificacaoDTO, 
+                EstadoNotificacaoEnum.EMANALISEENTREVISTA,
+                idFuncionario);
+    }
+    
+    /**
+     * Quando um processo de notificacao etapa entrevista esta em analisa
+     * uma das opcoes eh recusar essa analise,
+     * dado a erros que haja na notificacao, por exemplo;
+     * Voltar para o estado AGUARDANDOENTREVISTA.
+     * 
+     * @param processoNotificacaoDTO
+     * @param idFuncionario
+     * @return 
+     */
+    public Long recusarAnaliseEntrevista(ProcessoNotificacaoDTO processoNotificacaoDTO, 
+            Long idFuncionario){
+        
+        return this.addNovoEstadoNoProcessoNotificacao(
+                processoNotificacaoDTO, 
+                EstadoNotificacaoEnum.AGUARDANDOENTREVISTA,
+                idFuncionario);
+    }
+    
+    /**
+     * Quando um processo de notificacao etapa entrevsista esta em analisa
+     * uma das opcoes eh aceitar essa analise,
+     * logo, o estado muda para AGUARDANDOCAPTACAO.
+     * 
+     * @param processoNotificacaoDTO
+     * @param idFuncionario
+     * @return 
+     */
+    public Long validarAnaliseEntrevista(ProcessoNotificacaoDTO processoNotificacaoDTO, 
+            Long idFuncionario){
+        
+        return this.addNovoEstadoNoProcessoNotificacao(
+                processoNotificacaoDTO, 
+                EstadoNotificacaoEnum.AGUARDANDOCAPTACAO,
+                idFuncionario);
+    }
+    
+    /**
+     * Dado haja causa de nao doacao ou o processo de notificacao chegou ao fim,
+     * o estado do mesmo deve mudar para AGUARDANDOARQUIVAMENTO.
+     * 
+     * @param processoNotificacaoDTO
+     * @param idFuncionario
+     * @return 
+     */
+    public Long finalizarProcesso(ProcessoNotificacaoDTO processoNotificacaoDTO, 
+            Long idFuncionario){
+        
+        return this.addNovoEstadoNoProcessoNotificacao(
+                processoNotificacaoDTO, 
+                EstadoNotificacaoEnum.AGUARDANDOARQUIVAMENTO,
+                idFuncionario);
+    }
+    
+    private Long addNovoEstadoNoProcessoNotificacao(
+            ProcessoNotificacaoDTO processoNotificacaoDTO, 
+            EstadoNotificacaoEnum enumEstado,
+            Long idFuncionario){
+        
         ProcessoNotificacao notificacao = mapper.map(processoNotificacaoDTO,
                 ProcessoNotificacao.class);
         
-        this.addNovoEstado(EstadoNotificacaoEnum.EMANALISEOBITO, 
-                notificacao.getHistorico(),
+        this.addNovoEstado(enumEstado, 
+                notificacao.getHistorico(), 
                 idFuncionario);
-        this.salvarHistorico(notificacao.getHistorico());
-        notificacaoRepository.save(notificacao);
         
+        notificacaoRepository.save(notificacao);
         return notificacao.getId();
     }
     
@@ -140,6 +269,7 @@ public class AplProcessoNotificacao {
         novoEstado.setFuncionario(this.getFuncionario(idFuncionario));
         
         historico.add(novoEstado);
+        this.salvarHistorico(historico);
     }
     
     /**

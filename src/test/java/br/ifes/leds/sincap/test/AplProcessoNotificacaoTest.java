@@ -125,7 +125,42 @@ public class AplProcessoNotificacaoTest extends AbstractionTest {
         obito.setTerceiraCausaMortis(causa3);
         obito.setQuartaCausaMortis(causa4);
     }
-
+    
+    @Test
+    public void salvarObito() throws ViolacaoDeRIException{
+        Long id = aplProcessoNotificacao.salvarNovaNotificacao(
+                notificacao, 
+                notificacao.getNotificador());
+        
+        ProcessoNotificacaoDTO notif = aplProcessoNotificacao.obter(id);
+        
+        Assert.assertNotNull(notif.getObito());
+        Assert.assertNotNull(notif.getObito().getId());
+        
+        Assert.assertNotNull(notif.getHistorico());
+    }
+    
+    @Test
+    public void analisarObito() throws ViolacaoDeRIException{
+        Long id = aplProcessoNotificacao.salvarNovaNotificacao(
+                notificacao, 
+                notificacao.getNotificador());
+        int quantidadeEstado = 0;
+        
+        notificacao = aplProcessoNotificacao.obter(id);
+        id = aplProcessoNotificacao.entrarAnaliseObito(notificacao, notificacao.getNotificador());
+        
+        notificacao = aplProcessoNotificacao.obter(id);
+        
+        for(AtualizacaoEstadoDTO estado: notificacao.getHistorico()){
+            if(estado.getEstadoNotificacao().toString().equals(EstadoNotificacaoEnum.EMANALISEOBITO.toString())){
+                quantidadeEstado++;
+            }
+        }
+        
+        Assert.assertTrue(quantidadeEstado > 0);
+    }
+    
     @Test
     public void recuperarNotificacoesNaoArquivadas()
             throws ViolacaoDeRIException {
@@ -136,21 +171,7 @@ public class AplProcessoNotificacaoTest extends AbstractionTest {
                 .retornarNotificacaoNaoArquivada();
 
         Assert.assertTrue(notificacoes.size() > 0);
-    }
-
-//    @Test
-//    public void atualizarEstadoProcessoNotificacaoTest()
-//            throws ViolacaoDeRIException {
-//        AtualizacaoEstadoDTO atualizacao = factory
-//                .criaObjeto(AtualizacaoEstadoDTO.class);
-//
-//        ProcessoNotificacaoDTO notificacaoTemp = adicionarEstadoProcessoNotificacao(atualizacao);
-//
-//        Assert.assertEquals(EstadoNotificacaoEnum.AGUARDANDOANALISEOBITO,
-//                notificacaoTemp.getHistorico().get(0).getEstadoNotificacao());
-//        Assert.assertEquals(EstadoNotificacaoEnum.EMANALISEOBITO,
-//                notificacaoTemp.getHistorico().get(1).getEstadoNotificacao());
-//    }
+    }    
 
     @Test
     public void salvarEntrevistaTest() throws ViolacaoDeRIException {
@@ -175,20 +196,4 @@ public class AplProcessoNotificacaoTest extends AbstractionTest {
         id = aplProcessoNotificacao.salvarEntrevista(notificacao, notificacao.getNotificador());
         notificacao = aplProcessoNotificacao.obter(id);
     }
-
-//    private ProcessoNotificacaoDTO adicionarEstadoProcessoNotificacao(
-//            AtualizacaoEstadoDTO atualizacao) throws ViolacaoDeRIException {
-//        Long id = aplProcessoNotificacao.salvarNovaNotificacao(notificacao, notificacao.getNotificador());
-//        ProcessoNotificacaoDTO notificacaoTemp = aplProcessoNotificacao
-//                .obter(id);
-//
-//        atualizacao.setFuncionario(notificacao.getNotificador());
-//        atualizacao.setEstadoNotificacao(EstadoNotificacaoEnum.EMANALISEOBITO);
-//
-//        notificacaoTemp.getHistorico().add(atualizacao);
-//        id = aplProcessoNotificacao
-//                .atualizarEstadoProcessoNotificacao(notificacaoTemp);
-//        notificacaoTemp = aplProcessoNotificacao.obter(id);
-//        return notificacaoTemp;
-//    }
 }
