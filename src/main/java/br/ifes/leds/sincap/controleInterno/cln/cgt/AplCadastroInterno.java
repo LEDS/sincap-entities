@@ -39,8 +39,12 @@ public class AplCadastroInterno {
     }
 
     public List<CausaNaoDoacaoDTO> obterCausaNaoDoacaoContraIndMedica() {
+        return obterCausaNaoDoacao(TipoNaoDoacao.CONTRAINDICACAO_MEDICA);
+    }
+
+    public List<CausaNaoDoacaoDTO> obterCausaNaoDoacao(TipoNaoDoacao tipo) {
         List<CausaNaoDoacao> listaCausas = this.causaNaoDoacaoRepository
-                .findByTipoNaoDoacao(TipoNaoDoacao.CONTRAINDICACAO_MEDICA);
+                .findByTipoNaoDoacao(tipo);
         return utility.mapList(listaCausas, CausaNaoDoacaoDTO.class);
     }
 
