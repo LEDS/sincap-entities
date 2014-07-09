@@ -116,6 +116,19 @@ public class AplProcessoNotificacao {
         return notificacao.getId();
     }
     
+    public long entrarAnaliseObito(ProcessoNotificacaoDTO processoNotificacaoDTO, Long idFuncionario){
+        ProcessoNotificacao notificacao = mapper.map(processoNotificacaoDTO,
+                ProcessoNotificacao.class);
+        
+        this.addNovoEstado(EstadoNotificacaoEnum.EMANALISEOBITO, 
+                notificacao.getHistorico(),
+                idFuncionario);
+        this.salvarHistorico(notificacao.getHistorico());
+        notificacaoRepository.save(notificacao);
+        
+        return notificacao.getId();
+    }
+    
     public void addNovoEstado(EstadoNotificacaoEnum enumEstado, 
             List<AtualizacaoEstado> historico,
             Long idFuncionario){
@@ -127,30 +140,6 @@ public class AplProcessoNotificacao {
         novoEstado.setFuncionario(this.getFuncionario(idFuncionario));
         
         historico.add(novoEstado);
-    }
-
-    /**
-     * Metodo que atualiza o Processo de Notificacao, essa etapa irá acontecer:
-     * - Quando o usuario for "Analisar Obito" 
-     * - Quando estiver "Aguardando Entrevista" 
-     * - Quando o usuario for "Analisar Entrevista" 
-     * - Quando estiver "Aguardando Captacao" 
-     * - Quando o usuario for "Analisar Captacao" 
-     * - Quando estiver "Aguardando Arquivamento"
-     * 
-     * @param processoNotificacaoDTO
-     *            - Processo de notificacao DTO
-     * @return - Returna o processo de notificacao salvo
-     */
-    public long atualizarEstadoProcessoNotificacao(
-            ProcessoNotificacaoDTO processoNotificacaoDTO) {
-        ProcessoNotificacao notificacao = mapper.map(processoNotificacaoDTO,
-                ProcessoNotificacao.class);
-        this.salvarHistorico(notificacao.getHistorico());
-
-        notificacaoRepository.save(notificacao);
-
-        return notificacao.getId();
     }
     
     /**
