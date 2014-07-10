@@ -415,6 +415,22 @@ public class AplProcessoNotificacao {
                 ProcessoNotificacaoDTO.class);
     }
 
+    /**
+     * Metodo que busca todas as notificacoes, pegando apenas as que estão no
+     * estado atual indicado.
+     *
+     * @param estado
+     *            Estado que será usado para filtrar as notificações.
+     * @return Notificações filtras pelo estado atual.
+     */
+    public List<ProcessoNotificacao> retornarProcessoNotificacaoPorEstadoAtual(
+            EstadoNotificacaoEnum estado) {
+        List<ProcessoNotificacao> processosNotificacao = notificacaoRepository
+                .findByLastEstadoNotificao(estado);
+
+        return processosNotificacao;
+    }
+
     private String genereateCode() {
         return UUID.randomUUID().toString();
     }
