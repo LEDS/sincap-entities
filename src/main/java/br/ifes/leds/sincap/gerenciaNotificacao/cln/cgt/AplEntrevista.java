@@ -5,12 +5,6 @@
  */
 package br.ifes.leds.sincap.gerenciaNotificacao.cln.cgt;
 
-import java.util.List;
-
-import org.dozer.Mapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import br.ifes.leds.reuse.endereco.cgd.EnderecoRepository;
 import br.ifes.leds.reuse.ledsExceptions.CRUDExceptions.ViolacaoDeRIException;
 import br.ifes.leds.reuse.utility.Utility;
@@ -18,8 +12,13 @@ import br.ifes.leds.sincap.controleInterno.cgd.TelefoneRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.EntrevistaRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ResponsavelRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.TestemunhaRepository;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Entrevista;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTO.EntrevistaDTO;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Entrevista;
+import org.dozer.Mapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * Classe que gera o DTO e administra os dados da Entrevista do Processo de
@@ -62,17 +61,16 @@ public class AplEntrevista {
     public void salvarEntrevista(Entrevista entrevista) throws ViolacaoDeRIException {
         if (entrevista.isDoacaoAutorizada()) {
             if (entrevistaValida(entrevista)) {
-                
+
                 enderecoRepository.save(entrevista.getResponsavel().getEndereco());
                 telefoneRepository.save(entrevista.getResponsavel().getTelefone());
                 if(entrevista.getResponsavel().getTelefone2() != null)
                     telefoneRepository.save(entrevista.getResponsavel().getTelefone2());
                 responsavelRepository.save(entrevista.getResponsavel());
-                
-                telefoneRepository.save(entrevista.getTestemunha1().getTelefone());
+
+                setUpEntrevista(entrevista);
+
                 testemunhaRepository.save(entrevista.getTestemunha1());
-                
-                telefoneRepository.save(entrevista.getTestemunha2().getTelefone());
                 testemunhaRepository.save(entrevista.getTestemunha2());
                 // TODO: Validar todos os dados cadastrais
             } else {
@@ -80,6 +78,13 @@ public class AplEntrevista {
             }
         }
         entrevistaRepository.save(entrevista);
+    }
+
+    private void setUpEntrevista(Entrevista entrevista) {
+        entrevista.getTestemunha1().setEndereco(null);
+        entrevista.getTestemunha1().setTelefone(null);
+        entrevista.getTestemunha2().setEndereco(null);
+        entrevista.getTestemunha2().setTelefone(null);
     }
 
     private boolean entrevistaValida(Entrevista entrevista) {

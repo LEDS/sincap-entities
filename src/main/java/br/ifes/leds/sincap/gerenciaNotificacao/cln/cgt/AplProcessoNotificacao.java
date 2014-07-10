@@ -1,23 +1,22 @@
  package br.ifes.leds.sincap.gerenciaNotificacao.cln.cgt;
 
-import java.util.Calendar;
-import java.util.List;
-import java.util.UUID;
+ import br.ifes.leds.reuse.ledsExceptions.CRUDExceptions.ViolacaoDeRIException;
+ import br.ifes.leds.reuse.utility.Utility;
+ import br.ifes.leds.sincap.controleInterno.cln.cdp.Funcionario;
+ import br.ifes.leds.sincap.gerenciaNotificacao.cgd.AtualizacaoEstadoRepository;
+ import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ProcessoNotificacaoRepository;
+ import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.AtualizacaoEstado;
+ import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTO.ProcessoNotificacaoDTO;
+ import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoNotificacaoEnum;
+ import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.ProcessoNotificacao;
+ import org.dozer.Mapper;
+ import org.springframework.beans.factory.annotation.Autowired;
+ import org.springframework.stereotype.Service;
 
-import org.dozer.Mapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import br.ifes.leds.reuse.ledsExceptions.CRUDExceptions.ViolacaoDeRIException;
-import br.ifes.leds.reuse.utility.Utility;
-import br.ifes.leds.sincap.controleInterno.cln.cdp.Funcionario;
-import br.ifes.leds.sincap.gerenciaNotificacao.cgd.AtualizacaoEstadoRepository;
-import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ProcessoNotificacaoRepository;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.AtualizacaoEstado;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoNotificacaoEnum;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.ProcessoNotificacao;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTO.ProcessoNotificacaoDTO;
-import java.util.ArrayList;
+ import java.util.ArrayList;
+ import java.util.Calendar;
+ import java.util.List;
+ import java.util.UUID;
 
 /**
  * AplProcessoNotificacao.java
@@ -91,6 +90,10 @@ public class AplProcessoNotificacao {
         this.addNovoEstado(EstadoNotificacaoEnum.AGUARDANDOANALISEENTREVISTA, 
                 notificacao.getHistorico(),
                 idFuncionario);
+
+        if(notificacao.doacaoAutorizado()) {
+            notificacao.setCausaNaoDoacao(null);
+        }
 
         aplEntrevista.salvarEntrevista(notificacao.getEntrevista());
         notificacaoRepository.save(notificacao);

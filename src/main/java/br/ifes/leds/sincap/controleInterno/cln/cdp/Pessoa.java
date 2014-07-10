@@ -1,14 +1,14 @@
 package br.ifes.leds.sincap.controleInterno.cln.cdp;
 
+import br.ifes.leds.reuse.endereco.cdp.Endereco;
+import br.ifes.leds.reuse.persistence.ObjetoPersistente;
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.Column;
 import javax.persistence.JoinColumn;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToOne;
-
-import lombok.Getter;
-import lombok.Setter;
-import br.ifes.leds.reuse.endereco.cdp.Endereco;
-import br.ifes.leds.reuse.persistence.ObjetoPersistente;
 
 /**
  * Pessoa.java
@@ -24,7 +24,7 @@ public abstract class Pessoa extends ObjetoPersistente{
 	private String nome;
         
         @OneToOne
-        @JoinColumn(nullable = false)
+        @JoinColumn(nullable = true)
         private Telefone telefone;
         
         @OneToOne
