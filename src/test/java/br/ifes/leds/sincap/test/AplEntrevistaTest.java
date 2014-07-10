@@ -80,7 +80,7 @@ public class AplEntrevistaTest extends AbstractionTest{
         
         preencherDadosEntrevista();
     }
-    
+  
     private void preencherDadosEntrevista()
     {
         Funcionario funcionario = funcionarioRepository.findAll().get(0);

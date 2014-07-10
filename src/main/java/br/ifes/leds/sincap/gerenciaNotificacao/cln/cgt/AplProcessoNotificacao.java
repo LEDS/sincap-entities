@@ -250,8 +250,7 @@ public class AplProcessoNotificacao {
             EstadoNotificacaoEnum enumEstado,
             Long idFuncionario){
         
-        ProcessoNotificacao notificacao = mapper.map(processoNotificacaoDTO,
-                ProcessoNotificacao.class);
+        ProcessoNotificacao notificacao = mapper.map(processoNotificacaoDTO, ProcessoNotificacao.class);
         
         this.addNovoEstado(enumEstado, 
                 notificacao.getHistorico(), 
