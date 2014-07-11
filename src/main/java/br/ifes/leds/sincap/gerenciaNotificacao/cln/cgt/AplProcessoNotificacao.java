@@ -251,7 +251,9 @@ public class AplProcessoNotificacao {
             Long idFuncionario){
         
         ProcessoNotificacao notificacao = mapper.map(processoNotificacaoDTO, ProcessoNotificacao.class);
-        
+
+        notificacao.setCausaNaoDoacao(null);
+
         this.addNovoEstado(enumEstado, 
                 notificacao.getHistorico(), 
                 idFuncionario);
