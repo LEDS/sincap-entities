@@ -25,44 +25,57 @@ public class DataFactoryMain {
 
         BeanFactory factory = context;
 
-        // NotificadorData nd = (NotificadorData)
-        // factory.getBean("notificadorData");
-        // AnalistaCNCDOData ad = (AnalistaCNCDOData)
-        // factory.getBean("analistaCNCDOData");
-        // CaptadorData cd = (CaptadorData) factory.getBean("captadorData");
-        // HospitalData hd = (HospitalData) factory.getBean("hospitalData");
-        // SetorData sd = (SetorData) factory.getBean("setorData");
-        // BancoOlhosData bd = (BancoOlhosData)
-        // factory.getBean("bancoOlhosData");
-        // PacienteData pd = (PacienteData) factory.getBean("pacienteData");
-        // ResponsavelData rd = (ResponsavelData)
-        // factory.getBean("responsavelData");
+         NotificadorData nd = (NotificadorData)
+         factory.getBean("notificadorData");
+         AnalistaCNCDOData ad = (AnalistaCNCDOData)
+         factory.getBean("analistaCNCDOData");
+         CaptadorData cd = (CaptadorData) factory.getBean("captadorData");
+         HospitalData hd = (HospitalData) factory.getBean("hospitalData");
+         SetorData sd = (SetorData) factory.getBean("setorData");
+         BancoOlhosData bd = (BancoOlhosData)
+         factory.getBean("bancoOlhosData");
+         PacienteData pd = (PacienteData) factory.getBean("pacienteData");
+         ResponsavelData rd = (ResponsavelData)
+         factory.getBean("responsavelData");
         TestemunhaData td = (TestemunhaData) factory.getBean("testemunhaData");
         EntrevistaData ed = (EntrevistaData) factory.getBean("entrevistaData");
         CausaMortisData cmd = (CausaMortisData) factory.getBean("causaMortisData");
         ObitoData obd = (ObitoData) factory.getBean("obitoData");
         CausaNaoDoacaoData cnd = (CausaNaoDoacaoData) factory.getBean("causaNaoDoacaoData");
         TipoNaoDoacaoData tpn = (TipoNaoDoacaoData) factory.getBean("tipoNaoDoacaoData");
+        CaptacaoData cpt = (CaptacaoData) factory.getBean("captacaoData");
+        ProcessoNotificacaoData pnd = (ProcessoNotificacaoData) factory.getBean("processoNotificacaoData");
         
         DataFactory df = new DataFactory();
         df.randomize((int) System.currentTimeMillis());
 
         
-//        nd.criaNotificadorRandom(df,30);
-//        hd.criaHospitalRandom(df, 30);
+//        nd.criaNotificadorRandom(df,5);
+//        hd.criaHospitalRandom(df, 5);
 //        sd.criaSetorRandom();
 //        sd.associaSetorHospital();
-//        bd.criaBancoOlhosRandom(df, 30);
-//        ad.criaAnalistaRandom(df, 30);
+//        bd.criaBancoOlhosRandom(df, 5);
+//        ad.criaAnalistaRandom(df, 5);
 //        cd.criaCaptadorRandom(df, 30);
-//        pd.criaPacienteRandom(df, 30);
+////        cpt.criaCaptacaoRandom(df);
+//        pd.criaPacienteRandom(df, 5);
 //        rd.criaResponsavelRandom(df, 30);
 //        td.criaTestemunhaRandom(df, 30);
-//        ed.criaEntrevistaRandom(df, 30);
-//        cmd.criaCausaMortisRandom(df, 30);
-//        obd.criaObitoRandom(df, 30);
+//        cmd.criaCausaMortisRandom(df, 5);
+//        pnd.criarAnaliseObitoRandom(df,5);
+//        pnd.criaEntrevistaRadom(df, 5);
+//        pnd.criaCaptacaoRadom(df, 5);
+        
+        
+        
+/*Não precisa rodar        
+        ed.criaEntrevistaRandom(df, 30);
+        obd.criaObitoRandom(df, 1);
         tpn.criaTipoNaoDoacao();
         cnd.criaCausaNaoDoacaoRandom(df, 10);
+*/        
+        
+
         
     }
 

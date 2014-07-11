@@ -105,9 +105,9 @@ public class AplEntrevistaTest extends AbstractionTest{
         Assert.assertNotNull(entrevistaTest.getResponsavel().getId());
         Assert.assertNotNull(entrevistaTest.getTestemunha1().getId());
         Assert.assertNotNull(entrevistaTest.getTestemunha2().getId());
-        
+     
         Assert.assertEquals(this.entrevistaDTO.getResponsavel().getEndereco().getCep(), 
-                entrevistaTest.getResponsavel().getEndereco().getCep());
+                entrevistaTest.getResponsavel().getEndereco().getCep());        
         Assert.assertEquals(this.entrevistaDTO.getTestemunha1().getNome(), 
                 entrevistaTest.getTestemunha1().getNome());
         Assert.assertEquals(this.entrevistaDTO.getTestemunha2().getNome(), 

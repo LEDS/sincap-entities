@@ -44,7 +44,7 @@ public class CausaNaoDoacaoData {
     }
     public CausaNaoDoacao criaCausaNaoDoacao(DataFactory df) {
         causaNaoDoacao = fabrica.criaObjeto(CausaNaoDoacao.class);
-        causaNaoDoacao.setNome("Causa "+df.getRandomText(5));
+        causaNaoDoacao.setNome("Causa "+df.getRandomChars(6));
         listTipoNaoDoacao = tipoNaoDoacaoRepository.findAll();
         causaNaoDoacao.setTipoNaoDoacao(df.getItem(listTipoNaoDoacao));
         return causaNaoDoacao;
