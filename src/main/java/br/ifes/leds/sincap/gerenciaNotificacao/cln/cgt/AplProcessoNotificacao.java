@@ -91,11 +91,13 @@ public class AplProcessoNotificacao {
                 notificacao.getHistorico(),
                 idFuncionario);
 
-        if(notificacao.doacaoAutorizado()) {
+        if (notificacao.getEntrevista().getDataEntrevista() == null) {
+            notificacao.setEntrevista(null);
+        } else if (notificacao.doacaoAutorizado()) {
             notificacao.setCausaNaoDoacao(null);
+            aplEntrevista.salvarEntrevista(notificacao.getEntrevista());
         }
 
-        aplEntrevista.salvarEntrevista(notificacao.getEntrevista());
         notificacaoRepository.save(notificacao);
 
         return notificacao.getId();
