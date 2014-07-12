@@ -1,7 +1,9 @@
 package br.ifes.leds.reuse.utility;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import br.ifes.leds.reuse.utility.function.Function;
+import org.dozer.DozerBeanMapperSingletonWrapper;
+import org.dozer.Mapper;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -9,10 +11,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
-import org.apache.log4j.Logger;
-import org.dozer.DozerBeanMapperSingletonWrapper;
-import org.dozer.Mapper;
 
 /**
  *
@@ -117,37 +115,18 @@ public enum Utility {
 
     /**
      * Pesquisa um objeto em uma lista baseado em um método.
-     * 
-     * Exemplo de uso: <code>
-     * 
-     * getObjectByMethod(umaListQualquer, ClasseDaLista.class.getDeclaredMethod("getNome"), "Nome do Objeto");
-     * 
-     *  </code>
-     * 
-     * @param lista
-     *            A lista de objetos a ser pesquisada. O objeto que a lista
-     *            contém deve implementar o método {@code equals()}.
-     * @param metodo
-     *            Uma classe {@code Method} com o método a ser utilizado para
-     *            comparação. O método deve obrigatoriamente não receber nenhum
-     *            parâmetro e deve retornar algum objeto.
-     * @param objeto
-     *            O objeto usado para pesquisar na lista.
-     * 
-     * @return O objeto que está na lista e bate com o objeto passado por
-     *         parâmetro.
+     *
+     * @param lista  A lista de objetos do tipo T.
+     * @param objeto O objeto usado para pesquisar na lista.
+     * @param funcao A função que retorna o objeto do que será usado como parâmetro de comparação.
+     * @param <T>    O tipo de objeto da lista.
+     * @return O primeiro objeto da lista que corresponder ao parâmetro de busca utilizado.
      */
-    public <T> T getObjectByMethod(List<T> lista, Method metodo, Object objeto) {
-        try {
-            for (T obj : lista) {
-                if (metodo.invoke(obj).equals(objeto)) {
-                    return obj;
-                }
+    public <T, K> T getObjectByMethod(List<T> lista, K objeto, Function<T, K> funcao) {
+        for (T obj : lista) {
+            if (funcao.apply(obj).equals(objeto)) {
+                return obj;
             }
-        } catch (IllegalAccessException | IllegalArgumentException
-                | InvocationTargetException e) {
-            Logger.getLogger("getObjectByMethod").error(
-                    "Couldn't get object by method.");
         }
         return null;
     }

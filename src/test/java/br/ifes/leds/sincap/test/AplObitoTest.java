@@ -1,19 +1,9 @@
 package br.ifes.leds.sincap.test;
 
-import java.lang.reflect.Method;
-import java.util.GregorianCalendar;
-
-import junit.framework.Assert;
-
-import org.dozer.Mapper;
-import org.fluttercode.datafactory.impl.DataFactory;
-import org.junit.Before;
-import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import br.ifes.leds.reuse.ledsExceptions.CRUDExceptions.ViolacaoDeRIException;
 import br.ifes.leds.reuse.utility.Factory;
 import br.ifes.leds.reuse.utility.Utility;
+import br.ifes.leds.reuse.utility.function.Function;
 import br.ifes.leds.sincap.controleInterno.cgd.HospitalRepository;
 import br.ifes.leds.sincap.controleInterno.cgd.SetorRepository;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Hospital;
@@ -24,6 +14,14 @@ import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTO.ObitoDTO;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTO.PacienteDTO;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cgt.AplObito;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.util.dataFactory.PacienteData;
+import junit.framework.Assert;
+import org.dozer.Mapper;
+import org.fluttercode.datafactory.impl.DataFactory;
+import org.junit.Before;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.GregorianCalendar;
 
 public class AplObitoTest extends AbstractionTest {
 
@@ -44,14 +42,8 @@ public class AplObitoTest extends AbstractionTest {
     @Autowired
     private DataFactory df;
 
-    private final Method getNomePacienteDTO;
-
     private ObitoDTO obitoDTO;
     private PacienteDTO pacienteDTO;
-
-    public AplObitoTest() throws NoSuchMethodException, SecurityException {
-        getNomePacienteDTO = PacienteDTO.class.getDeclaredMethod("getNome");
-    }
 
     @Before
     public void before() throws Exception {
@@ -88,8 +80,7 @@ public class AplObitoTest extends AbstractionTest {
         aplObito.salvarPaciente(pacienteDTO);
 
         PacienteDTO pacienteTmp = utility.getObjectByMethod(
-                aplObito.obterTodosPacientes(), getNomePacienteDTO,
-                this.pacienteDTO.getNome());
+                aplObito.obterTodosPacientes(), this.pacienteDTO.getNome(), getNomePaciente());
         Long idTest = pacienteTmp.getId();
 
         Assert.assertNotNull(aplObito.obterPaciente(idTest));
@@ -101,8 +92,7 @@ public class AplObitoTest extends AbstractionTest {
         aplObito.salvarPaciente(pacienteDTO);
 
         PacienteDTO pacienteTest = utility.getObjectByMethod(
-                aplObito.obterTodosPacientes(), getNomePacienteDTO,
-                this.pacienteDTO.getNome());
+                aplObito.obterTodosPacientes(), this.pacienteDTO.getNome(), getNomePaciente());
 
         Assert.assertNotNull(pacienteTest.getId());
         Assert.assertNotNull(pacienteTest.getEndereco());
@@ -123,6 +113,15 @@ public class AplObitoTest extends AbstractionTest {
                 pacienteTest.getProfissao());
         Assert.assertEquals(this.pacienteDTO.getEndereco().getBairro(),
                 pacienteTest.getEndereco().getBairro());
+    }
+
+    private Function<PacienteDTO, String> getNomePaciente() {
+        return new Function<PacienteDTO, String>() {
+            @Override
+            public String apply(PacienteDTO parameter) {
+                return parameter.getNome();
+            }
+        };
     }
 
     @Test

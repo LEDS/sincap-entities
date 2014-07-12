@@ -6,20 +6,11 @@
 
 package br.ifes.leds.sincap.test;
 
-import java.util.GregorianCalendar;
-
-import junit.framework.Assert;
-
-import org.dozer.Mapper;
-import org.fluttercode.datafactory.impl.DataFactory;
-import org.junit.Before;
-import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import br.ifes.leds.reuse.endereco.cgt.AplEndereco;
 import br.ifes.leds.reuse.ledsExceptions.CRUDExceptions.ViolacaoDeRIException;
 import br.ifes.leds.reuse.utility.Factory;
 import br.ifes.leds.reuse.utility.Utility;
+import br.ifes.leds.reuse.utility.function.Function;
 import br.ifes.leds.sincap.controleInterno.cgd.FuncionarioRepository;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Funcionario;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTO.EntrevistaDTO;
@@ -28,6 +19,14 @@ import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTO.TestemunhaDTO;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cgt.AplEntrevista;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.util.dataFactory.ResponsavelData;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.util.dataFactory.TestemunhaData;
+import junit.framework.Assert;
+import org.dozer.Mapper;
+import org.fluttercode.datafactory.impl.DataFactory;
+import org.junit.Before;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.GregorianCalendar;
 
 /**
  *
@@ -98,8 +97,8 @@ public class AplEntrevistaTest extends AbstractionTest{
     public void salvarEntrevistaTest() throws ViolacaoDeRIException
     {
         aplEntrevista.salvarEntrevista(this.entrevistaDTO);
-        
-        EntrevistaDTO entrevistaTest = aplEntrevista.getAllEntrevistas().get(0);
+
+        EntrevistaDTO entrevistaTest = utility.getObjectByMethod(aplEntrevista.getAllEntrevistas(), responsavelDTO.getDocumentoSocial(), getDocumentoSocialResp());
         
         Assert.assertNotNull(entrevistaTest);
         Assert.assertNotNull(entrevistaTest.getResponsavel().getId());
@@ -112,5 +111,16 @@ public class AplEntrevistaTest extends AbstractionTest{
                 entrevistaTest.getTestemunha1().getNome());
         Assert.assertEquals(this.entrevistaDTO.getTestemunha2().getNome(), 
                 entrevistaTest.getTestemunha2().getNome());
+    }
+
+    private Function<EntrevistaDTO, String> getDocumentoSocialResp() {
+        return new Function<EntrevistaDTO, String>() {
+            @Override
+            public String apply(EntrevistaDTO parameter) {
+                if (parameter.getResponsavel().getDocumentoSocial() != null)
+                    return parameter.getResponsavel().getDocumentoSocial();
+                return "Improvável :p";
+            }
+        };
     }
 }

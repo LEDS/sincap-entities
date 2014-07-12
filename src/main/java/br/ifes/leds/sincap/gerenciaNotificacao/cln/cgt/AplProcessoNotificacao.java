@@ -93,9 +93,11 @@ public class AplProcessoNotificacao {
 
         if (notificacao.getEntrevista().getDataEntrevista() == null) {
             notificacao.setEntrevista(null);
-        } else if (notificacao.doacaoAutorizado()) {
-            notificacao.setCausaNaoDoacao(null);
+        } else {
             aplEntrevista.salvarEntrevista(notificacao.getEntrevista());
+        }
+        if (notificacao.doacaoAutorizado()) {
+            notificacao.setCausaNaoDoacao(null);
         }
 
         notificacaoRepository.save(notificacao);
