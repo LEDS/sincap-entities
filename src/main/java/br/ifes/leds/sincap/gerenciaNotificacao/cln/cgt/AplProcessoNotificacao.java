@@ -92,12 +92,13 @@ public class AplProcessoNotificacao {
                 idFuncionario);
 
         if (notificacao.getEntrevista().getDataEntrevista() == null) {
-            notificacao.setEntrevista(null);
+            notificacao.setEntrevista(null); 
         } else {
             aplEntrevista.salvarEntrevista(notificacao.getEntrevista());
-        }
-        if (notificacao.doacaoAutorizado()) {
+            if (notificacao.doacaoAutorizado()) 
+            {   
             notificacao.setCausaNaoDoacao(null);
+            }
         }
 
         notificacaoRepository.save(notificacao);
