@@ -64,7 +64,7 @@ public class AplEntrevista {
 
                 enderecoRepository.save(entrevista.getResponsavel().getEndereco());
                 telefoneRepository.save(entrevista.getResponsavel().getTelefone());
-                if(entrevista.getResponsavel().getTelefone2() != null)
+                if (entrevista.getResponsavel().getTelefone2() != null)
                     telefoneRepository.save(entrevista.getResponsavel().getTelefone2());
                 responsavelRepository.save(entrevista.getResponsavel());
 
@@ -76,6 +76,10 @@ public class AplEntrevista {
             } else {
                 throw new ViolacaoDeRIException("Dados cadastrais de Responsável ou Testemunha(s) estão nulos!");
             }
+        } else {
+            entrevista.setResponsavel(null);
+            entrevista.setTestemunha1(null);
+            entrevista.setTestemunha2(null);
         }
         entrevistaRepository.save(entrevista);
     }
