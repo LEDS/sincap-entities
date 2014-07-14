@@ -285,16 +285,19 @@ public class AplProcessoNotificacao {
             Long idFuncionario){
         
         ProcessoNotificacao notificacao = mapearProcessoNotificacaoDTO(processoNotificacaoDTO);
+        
         if(notificacao.getCausaNaoDoacao().getNome()==null
            || notificacao.getCausaNaoDoacao().getTipoNaoDoacao()==null)
         {
             notificacao.setCausaNaoDoacao(null);
         }
+        
         this.addNovoEstado(enumEstado, 
                 notificacao.getHistorico(), 
                 idFuncionario);
         
         notificacaoRepository.save(notificacao);
+        
         return notificacao.getId();
     }
     
