@@ -112,9 +112,14 @@ public class AplProcessoNotificacao {
      * @return
      */
     public long salvarCaptacao(ProcessoNotificacaoDTO processoNotificacaoDTO) {
-        ProcessoNotificacao notificacao = mapper.map(processoNotificacaoDTO,
-                ProcessoNotificacao.class);
-
+        ProcessoNotificacao notificacao = mapearProcessoNotificacaoDTO(processoNotificacaoDTO);
+        
+        if(notificacao.getCausaNaoDoacao().getNome()==null
+           || notificacao.getCausaNaoDoacao().getTipoNaoDoacao()==null)
+        {
+            notificacao.setCausaNaoDoacao(null);
+        }
+        
         // aplCaptacao.salvarCaptacao(notificacao.getCaptacao());
         this.salvarHistorico(notificacao.getHistorico());
         notificacaoRepository.save(notificacao);
@@ -243,7 +248,12 @@ public class AplProcessoNotificacao {
      */
     public Long arquivarProcesso(ProcessoNotificacaoDTO processoNotificacaoDTO, 
             Long idFuncionario){
-        ProcessoNotificacao notificacao = mapper.map(processoNotificacaoDTO, ProcessoNotificacao.class);
+        ProcessoNotificacao notificacao = mapearProcessoNotificacaoDTO(processoNotificacaoDTO);
+        if(notificacao.getCausaNaoDoacao().getNome()==null
+           || notificacao.getCausaNaoDoacao().getTipoNaoDoacao()==null)
+        {
+            notificacao.setCausaNaoDoacao(null);
+        }
         arquivar(notificacao);
         
         return this.addNovoEstadoNoProcessoNotificacao(
@@ -274,16 +284,25 @@ public class AplProcessoNotificacao {
             EstadoNotificacaoEnum enumEstado,
             Long idFuncionario){
         
-        ProcessoNotificacao notificacao = mapper.map(processoNotificacaoDTO, ProcessoNotificacao.class);
-
-        notificacao.setCausaNaoDoacao(null);
-
+        ProcessoNotificacao notificacao = mapearProcessoNotificacaoDTO(processoNotificacaoDTO);
+        if(notificacao.getCausaNaoDoacao().getNome()==null
+           || notificacao.getCausaNaoDoacao().getTipoNaoDoacao()==null)
+        {
+            notificacao.setCausaNaoDoacao(null);
+        }
         this.addNovoEstado(enumEstado, 
                 notificacao.getHistorico(), 
                 idFuncionario);
         
         notificacaoRepository.save(notificacao);
         return notificacao.getId();
+    }
+    
+    private ProcessoNotificacao mapearProcessoNotificacaoDTO(ProcessoNotificacaoDTO processoNotificacaoDTO)
+    {
+        ProcessoNotificacao notificacao = mapper.map(processoNotificacaoDTO, ProcessoNotificacao.class);
+        
+        return notificacao;
     }
     
     public void addNovoEstado(EstadoNotificacaoEnum enumEstado, 

@@ -8,6 +8,8 @@ import javax.persistence.Enumerated;
 import lombok.Getter;
 import lombok.Setter;
 import br.ifes.leds.reuse.persistence.ObjetoPersistente;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 /**
  *
