@@ -234,6 +234,26 @@ public class AplProcessoNotificacao {
     }
     
     /**
+     * Quando um processo de notificacao etapa óbito esta em analise
+     * uma das opcoes é arquivar o processo,
+     * logo, o estado muda para NOTIFICACAOARQUIVADA.
+     * 
+     * @param processoNotificacaoDTO
+     * @param idFuncionario
+     * @return 
+     */
+    public Long arquivarProcesso(ProcessoNotificacaoDTO processoNotificacaoDTO, 
+            Long idFuncionario){
+        ProcessoNotificacao notificacao = mapper.map(processoNotificacaoDTO, ProcessoNotificacao.class);
+        arquivar(notificacao);
+        
+        return this.addNovoEstadoNoProcessoNotificacao(
+                processoNotificacaoDTO, 
+                EstadoNotificacaoEnum.NOTIFICACAOARQUIVADA,
+                idFuncionario);
+    }
+    
+    /**
      * Dado haja causa de nao doacao ou o processo de notificacao chegou ao fim,
      * o estado do mesmo deve mudar para AGUARDANDOARQUIVAMENTO.
      * 
