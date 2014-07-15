@@ -21,9 +21,10 @@ import org.fluttercode.datafactory.impl.DataFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-/**
+/**Classe para a criação de objetos Entrevista randomicos.
  *
  * @author aleao
+ * @version 1.0
  */
 @Service
 public class EntrevistaData {
@@ -46,13 +47,21 @@ public class EntrevistaData {
     private List<Testemunha> listTestemunha;
     private List<Funcionario> listFuncionario;
     
-    
+    /**Método responsável por criar Objetos Entrevista randomico, sendo nescessário apenas passar
+     * uma instancia DataFactory e a quantidade a ser criada.
+     * @param df - instancia DataFacotry.
+     * @param qtdEnt - quantidade de objetos a serem criados. 
+     */
     public void criaEntrevistaRandom(DataFactory df,Integer qtdEnt){
         for (int i = 0; i < qtdEnt; i++){
             salvaEntrevista(criaEntrevista(df));
         }
     }
 
+     /**Método responsável por criar Objetos Entrevista randomico.
+     * @param df - instancia DataFactory.
+     * @return entrevista - objeto Entrevista Randomico.
+     */
     public Entrevista criaEntrevista(DataFactory df) {
         entrevista = fabrica.criaObjeto(Entrevista.class);
         dataEntrevista = Calendar.getInstance();
@@ -74,6 +83,9 @@ public class EntrevistaData {
         return entrevista;
     }
     
+    /** Método responsável por salvar um objeto Entrevista no banco de dados.
+     * @param ent - Objeto Entrevista. 
+     */
     public void salvaEntrevista(Entrevista ent){
         entrevistaRepository.save(ent);
     }

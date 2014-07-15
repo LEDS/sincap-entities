@@ -20,9 +20,10 @@ import org.fluttercode.datafactory.impl.DataFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-/**
+/**Classe para a criação de objetos Testemunha randomicos.
  *
  * @author aleao
+ * @version 1.0
  */
 @Service
 public class TestemunhaData {
@@ -44,18 +45,30 @@ public class TestemunhaData {
     private Endereco endereco;
     private Telefone telefone;
     
+    /**Método responsável por criar Objetos Testemunha randomico, sendo nescessário apenas passar
+     * uma instancia DataFactory e a quantidade a ser criada.
+     * @param df - instancia DataFacotry.
+     * @param qtdTes - quantidade de objetos a serem criados. 
+     */
     public void criaTestemunhaRandom(DataFactory df,Integer qtdTes){
         for (int i = 0; i < qtdTes; i++){
             salvarTestemunha(criarTestemunha(df));
         }
     }
 
+    /** Método responsável por salvar um objeto Testemunha no banco de dados.
+     * @param tes - Objeto Testemunha. 
+     */
     public void salvarTestemunha(Testemunha tes) {
         enderecoRepository.save(endereco);
         telefoneRepository.save(telefone);
         testemunhaRepository.save(tes);
     }
 
+    /**Método responsável por criar Objetos Testemunha randomico.
+     * @param df - instancia DataFactory.
+     * @return testemunha - objeto Testemunha Randomico.
+     */
     public Testemunha criarTestemunha(DataFactory df) {
         testemunha = fabrica.criaObjeto(Testemunha.class);
         endereco = fabrica.criaObjeto(Endereco.class);

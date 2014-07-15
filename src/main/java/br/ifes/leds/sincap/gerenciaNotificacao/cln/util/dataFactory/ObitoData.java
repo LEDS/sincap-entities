@@ -23,9 +23,10 @@ import org.fluttercode.datafactory.impl.DataFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-/**
+/**Classe para a criação de objetos Obito randomicos.
  *
  * @author aleao
+ * @version 1.0
  */
 @Service
 public class ObitoData {
@@ -51,15 +52,28 @@ public class ObitoData {
     private List<CorpoEncaminhamento> listcorpoEncaminhamento;
     private List<TipoObito> listTipoObito;
     
+    /**Método responsável por criar Objetos Obito randomico, sendo nescessário apenas passar
+     * uma instancia DataFactory e a quantidade a ser criada.
+     * @param df - instancia DataFacotry.
+     * @param qtdObt - quantidade de objetos a serem criados. 
+     */
     public void criaObitoRandom(DataFactory df, Integer qtdObt){
         for (int i = 0; i < qtdObt; i++){
            salvaObito(criaObito(df));
         }
     }
 
+    /** Método responsável por salvar um objeto Obito no banco de dados.
+     * @param ob - Objeto Obito. 
+     */
     public void salvaObito(Obito ob){
         obitoRepository.save(ob);
     }
+    
+    /**Método responsável por criar Objetos Obito randomico.
+     * @param df - instancia DataFactory.
+     * @return obito - objeto Obito Randomico.
+     */
     public Obito criaObito(DataFactory df) {
         obito = fabrica.criaObjeto(Obito.class);
         dataObito = Calendar.getInstance();

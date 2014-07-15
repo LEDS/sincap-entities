@@ -13,9 +13,11 @@ import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoObito;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
+/** Classe responsável por criar as listas que serão utilizadas por outras classes.
+ * Esta foi criada pois, a framework DataFactory não possui algumas informações randomicas.
  *
  * @author aleao
+ * @version 1.0
  */
 public enum Listas {
 
@@ -30,6 +32,8 @@ public enum Listas {
     private final List<TipoObito> listTipoObito;
     private final List<String> listTipoNaoDoacao;
 
+    /**Metodo construtor onde as lista são inicializadas.
+     */
     private Listas() {
         listaProfissoes = new ArrayList<>();
         
@@ -141,33 +145,58 @@ public enum Listas {
         listTipoNaoDoacao.add("Contra-indicação Médica");
     }
     
+    /**Método responsável por retornar uma lista de não doações.
+     * @return listTipoNaoDoacao - lista de não doações.
+     */
     public List<String> getListTipoNaoDoacao(){
         return listTipoNaoDoacao;
     }
     
+    /**Método responsável por retornar uma lista de tipo Obito.
+     * @return listTipoObito - lista de tipo obito.
+     */
     public List<TipoObito> getListTipoObito(){
         return listTipoObito;
     }
     
+    /**Método responsável por retornar uma lista de causa mortis.
+     * @return listCausaMortis - lista de causa mortis.
+     */
     public List<String> getListCausaMortis(){
         return listCausaMortis;
     }
+    
+    /**Método responsável por retornar uma lista de CorpoEncaminhamento.
+     * @return listCorpoEncaminhamento - lista de CorpoEncaminhamento.
+     */
     public List<CorpoEncaminhamento> getListCorp(){
         return listCorpoEncaminhamento;
     }
     
+    /**Método responsável por retornar uma lista de Profissões.
+     * @return listaProfissoes - lista de Profissões.
+     */
     public List<String> getListProf() {
         return listaProfissoes;
     }
     
+    /**Método responsável por retornar uma lista de Sexo.
+     * @return listaSexo - lista de Sexo.
+     */
     public List<Sexo> getListSex(){
         return listaSexo;
     }
     
+    /**Método responsável por retornar uma lista de EstadoCivil.
+     * @return listaEstado - lista de EstadoCivil.
+     */
     public List<EstadoCivil> getListEst(){
         return listaEstado;
     }
     
+    /**Método responsável por retornar uma lista de grau de parentesco.
+     * @return listaParentesco - lista de grau de parentesco.
+     */
     public List<Parentesco> getListPar(){
         return listaParentesco;
     }

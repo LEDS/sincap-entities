@@ -20,15 +20,17 @@ import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Entrevista;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoNotificacaoEnum;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Obito;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.ProcessoNotificacao;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import org.fluttercode.datafactory.impl.DataFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-/**
+/**Classe para a criação de objetos ProcessoNotificacao randomicos.
  *
  * @author aleao
+ * @version 1.0
  */
 @Service
 public class ProcessoNotificacaoData {
@@ -44,7 +46,7 @@ public class ProcessoNotificacaoData {
     
     @Autowired
     private AtualizacaoEstadoRepository atualizacaoEstadoRepository;
-    
+            
     @Autowired
     private Factory fabrica;
     
@@ -76,27 +78,48 @@ public class ProcessoNotificacaoData {
     private Calendar dataAbertura;
     private Calendar dataArquivamento;
     
+    
+    /**Método responsável por criar processo de notificação randomico até a
+     * etapa de Analise de Óbito de forma randomica.
+     * @param df - instancia DataFactory.
+     * @param qtdAna - quantidade de processos.
+     */
     public void criarAnaliseObitoRandom(DataFactory df,Integer qtdAna){
         for (int i = 0; i < qtdAna;i++){
             ProcessoNotificacao pn = criarAnaliseObito(df);
+            List<AtualizacaoEstado> listAtualizacao = new ArrayList<>();
+            listAtualizacao.add(AtualizaEstadoNotificacao(pn,1));
+            pn.setHistorico(listAtualizacao);
+            
+            for(AtualizacaoEstado ae : listAtualizacao){
+                salvaEstadoNotificacao(ae);   
+            }    
             salvarProcesso(pn);
-            salvaEstadoNotificacao(AtualizaEstadoNotificacao(pn,1));
         }
     }
+    
+    /**Método responsável por alterar o estado da notificação de acordo com a sua etapa.
+     * @param pn - objeto ProcessoNotificacao.
+     * @param etapa - etapa do processo. 
+     * @return atualizacaoEstado - Objeto AtualizacaoEstado.
+     */
     public AtualizacaoEstado AtualizaEstadoNotificacao(ProcessoNotificacao pn,Integer etapa){
         atualizacaoEstado = fabrica.criaObjeto(AtualizacaoEstado.class);
         
         atualizacaoEstado.setFuncionario(pn.getNotificador());
         
         if (etapa == 1) {
+            atualizacaoEstado.setDataAtualizacaos(pn.getDataAbertura());
             atualizacaoEstado.setEstadoNotificacao(estadoNotificacao.AGUARDANDOANALISEOBITO);
         } 
         else {
             if(etapa == 2){
+                    atualizacaoEstado.setDataAtualizacaos(pn.getDataAbertura());
                     atualizacaoEstado.setEstadoNotificacao(estadoNotificacao.AGUARDANDOANALISEENTREVISTA);
                }
                 else {
                     if(etapa == 3){
+                        atualizacaoEstado.setDataAtualizacaos(pn.getDataAbertura());
                         atualizacaoEstado.setEstadoNotificacao(estadoNotificacao.AGUARDANDOANALISECAPTACAO);
                     }
                 }    
@@ -105,10 +128,18 @@ public class ProcessoNotificacaoData {
         }    
     
     
+    /**Método responsável por salvar no banco  de dados o estado da notificação.
+     * @param ae - objeto AtualizacaoEstado.
+     */
     public void salvaEstadoNotificacao(AtualizacaoEstado ae){
         atualizacaoEstadoRepository.save(ae);
     }
     
+    /**Método responsável por criar um processo de notificação randomico até a
+     * etapa de Analise de Óbito.
+     * @param df - instancia DataFactory.
+     * @return processoNotificacao - objeto ProcessoNotificacao.
+     */
     public ProcessoNotificacao criarAnaliseObito(DataFactory df){
         
         processoNotificacao = fabrica.criaObjeto(ProcessoNotificacao.class);
@@ -127,48 +158,84 @@ public class ProcessoNotificacaoData {
         return processoNotificacao;
     }
     
+    /**Método responsável por salvar no banco de dados um Objeto ProcessoNotificacao.
+     * @param pn - Objeto ProcessoNotificacao.
+     */
     public void salvarProcesso(ProcessoNotificacao pn){
-        if(processoNotificacao.getCaptacao() != null){
-            captacaoData.salvarCaptacao(processoNotificacao.getCaptacao());
+        if(pn.getCaptacao() != null){
+            captacaoData.salvarCaptacao(pn.getCaptacao());
         }
-        if (processoNotificacao.getEntrevista() != null){
-            entrevistaData.salvaEntrevista(processoNotificacao.getEntrevista());
+        if (pn.getEntrevista() != null){
+            entrevistaData.salvaEntrevista(pn.getEntrevista());
         }    
-        obitoData.salvaObito(processoNotificacao.getObito());
+        obitoData.salvaObito(pn.getObito());
         processoNotificacaoRepository.save(pn);
     }
     
+    /**Método responsável por criar uma entrevista.
+     *@param df - instancia DataFactory.
+     * @return entrevista - Objeto entrevista.
+     */
     public Entrevista criarEntrevista(DataFactory df){
         entrevista = entrevistaData.criaEntrevista(df);
         return entrevista;
     }
     
-    
+    /**Método responsável por criar processo de notificação randomico até a
+     * etapa de Analise de Entrevista de forma randomica.
+     * @param df - instancia DataFactory.
+     * @param QtdEnt - quantidade de processos.
+     */
     public void criaEntrevistaRadom(DataFactory df,Integer QtdEnt){
      for (int i = 0; i < QtdEnt;i++){
             ProcessoNotificacao pn = criarAnaliseObito(df);
+            List<AtualizacaoEstado> listAtualizacao = new ArrayList<>();
+            listAtualizacao.add(AtualizaEstadoNotificacao(pn,1));
+            listAtualizacao.add(AtualizaEstadoNotificacao(pn,2));
             pn.setEntrevista(criarEntrevista(df));
-            salvarProcesso(pn);
-            salvaEstadoNotificacao(AtualizaEstadoNotificacao(pn,1));
+            pn.setHistorico(listAtualizacao);
+            
+            for(AtualizacaoEstado ae : listAtualizacao){
+                salvaEstadoNotificacao(ae);
+            }                                 
             salvaEstadoNotificacao(AtualizaEstadoNotificacao(pn,2));
+            salvarProcesso(pn);
         }
     }
     
+    /**Método responsável por criar uma Captacao.
+     * @param df - instancia DataFactory.
+     * @return captacao - Objeto Captacao.
+     */
     public Captacao criaCaptacao(DataFactory df){
         listCaptador = captadorRepository.findAll();
         captacao = captacaoData.criarCaptacao(df, df.getItem(listCaptador));
         return captacao;
     } 
     
+    /**Método responsável por criar processo de notificação randomico até a
+     * etapa de Analise de Captacao de forma randomica.
+     * @param df - instancia DataFactory.
+     * @param QtdCap - quantidade de processos.
+     */
     public void criaCaptacaoRadom(DataFactory df,Integer QtdCap){
      for (int i = 0; i < QtdCap;i++){
             ProcessoNotificacao pn = criarAnaliseObito(df);
+            List<AtualizacaoEstado> listAtualizacao = new ArrayList<>();
+            
+            listAtualizacao.add(AtualizaEstadoNotificacao(pn,1));
+            listAtualizacao.add(AtualizaEstadoNotificacao(pn,2));
+            listAtualizacao.add(AtualizaEstadoNotificacao(pn,3));
+            
             pn.setEntrevista(criarEntrevista(df));
             pn.setCaptacao(criaCaptacao(df));
+            pn.setHistorico(listAtualizacao);
+            
+            for(AtualizacaoEstado ae : listAtualizacao){
+                salvaEstadoNotificacao(ae);
+            } 
+            
             salvarProcesso(pn);
-            salvaEstadoNotificacao(AtualizaEstadoNotificacao(pn,1));
-            salvaEstadoNotificacao(AtualizaEstadoNotificacao(pn,2));
-            salvaEstadoNotificacao(AtualizaEstadoNotificacao(pn,3));
         }
     }
 }

@@ -19,9 +19,10 @@ import org.fluttercode.datafactory.impl.DataFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-/**
+/**Classe para a criação de objetos Responsavel randomicos.
  *
  * @author aleao
+ * @version 1.0
  */
 @Service
 public class ResponsavelData {
@@ -52,6 +53,12 @@ public class ResponsavelData {
     private Telefone telefone;
     private Listas list = Listas.INSTANCE;
 
+    
+    /**Método responsável por criar Objetos Responsavel randomico, sendo nescessário apenas passar
+     * uma instancia DataFactory e a quantidade a ser criada.
+     * @param df - instancia DataFacotry.
+     * @param qtdRes - quantidade de objetos a serem criados. 
+     */
     public void criaResponsavelRandom(DataFactory df, Integer qtdRes) {
         for (int i = 0; i < qtdRes; i++) {
 
@@ -63,7 +70,11 @@ public class ResponsavelData {
             responsavelRepository.save(responsavel);
         }
     }
-
+    
+    /**Método responsável por criar Objetos Responsavel randomico.
+     * @param df - instancia DataFactory.
+     * @return responsavel - objeto Responsavel Randomico.
+     */
     public Responsavel criarResponsavel(DataFactory df) {
         responsavel = fabrica.criaObjeto(Responsavel.class);
         dataNascimento = Calendar.getInstance();
@@ -86,6 +97,9 @@ public class ResponsavelData {
         return responsavel;
     }
 
+    /**Método responsavel por gerar um endereço randomico.
+     * @param df - instancia DataFactory.
+    */
     private void gerarDadosEndereco(DataFactory df) {
         // Endereco
         endereco.setLogradouro(df.getStreetName());
@@ -98,6 +112,9 @@ public class ResponsavelData {
         responsavel.setEndereco(endereco);
     }
 
+    /**Método responsavel por gerar dados de um Responsavel de forma randomica.
+     * @param df - instancia DataFactory.
+    */
     private void gerarDadosResponsavel(DataFactory df) {
         // Dados do Paciente.
         responsavel.setNome(df.getName());

@@ -17,9 +17,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-/**
+/**Classe para a criação de objetos Setor randomicos.
  *
  * @author aleao
+ * @version 1.0
  */
 @Service
 public class SetorData {
@@ -38,7 +39,9 @@ public class SetorData {
     private List<Setor> listaObjetoSetor;
     
     
-    
+    /**Método responsável por criar setores randomicos.
+     *
+     */
     public void criaSetorRandom() {
         listaSetor = criaListaSetores(); 
         for (String listaSetor1 : listaSetor) {
@@ -47,7 +50,9 @@ public class SetorData {
             setorRepository.save(setor);
         }
     }
-    
+    /**Método responsável por associar os setores criados ao hospitais existentes.
+     * 
+    */
     public void associaSetorHospital(){
         listaHospital = aplHospital.obter();
         listaObjetoSetor = aplSetor.obter();
@@ -57,7 +62,9 @@ public class SetorData {
             }
         }
     }
-    
+    /**Método responsavel por criar uma lista de Setores.
+     *@return ls - Lista de setores.
+     */
     public static List<String> criaListaSetores(){
         List<String> ls = new ArrayList<>();
         

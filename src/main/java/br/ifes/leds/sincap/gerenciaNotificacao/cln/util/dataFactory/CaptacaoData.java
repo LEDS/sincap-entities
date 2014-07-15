@@ -17,9 +17,10 @@ import org.fluttercode.datafactory.impl.DataFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-/**
+/**Classe para a criação de objetos Captacao randomicos.
  *
  * @author aleao
+ * @version 1.0
  */
 @Service
 public class CaptacaoData {
@@ -35,17 +36,19 @@ public class CaptacaoData {
     private Calendar dataCaptacao;
     private Calendar dataCadastro;
     
-    public void criaCaptacaoRandom(DataFactory df){
-        listCaptador = captadorRepository.findAll();
-        for (Captador c: listCaptador){            
-            salvarCaptacao(criarCaptacao(df,c));
-        }
-    }
     
+    /** Método responsável por salvar um objeto Captacao no banco de dados.
+     * @param c - Objeto Captacao. 
+     */
     public void salvarCaptacao(Captacao c){
         captacaoRepository.save(c);
     }
     
+    /**Método responsável por criar Objetos Captacao randomico.
+     * @param df - instancia DataFactory.
+     * @param c - objeto Captador. 
+     * @return captacao - objeto Captacao Randomico.
+     */
     public Captacao criarCaptacao(DataFactory df,Captador c){
         captacao = fabrica.criaObjeto(Captacao.class);
         dataCadastro = Calendar.getInstance();

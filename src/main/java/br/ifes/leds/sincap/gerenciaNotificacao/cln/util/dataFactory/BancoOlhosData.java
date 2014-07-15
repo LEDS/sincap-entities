@@ -20,9 +20,10 @@ import org.fluttercode.datafactory.impl.DataFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-/**
+/**Classe para a criação de objetos BancoOlhos randomicos.
  *
  * @author aleao
+ * @version 1.0
  */
 @Service
 public class BancoOlhosData {
@@ -45,35 +46,56 @@ public class BancoOlhosData {
     private Endereco endereco;
     private Telefone telefone;
     
-    
+    /**Método responsável por criar Objetos BancoOlhos randomico, sendo nescessário apenas passar
+     * uma instancia DataFactory e a quantidade a ser criada.
+     * @param df - instancia DataFacotry.
+     * @param qtdBan - quantidade de objetos a serem criados. 
+     */
     public void criaBancoOlhosRandom(DataFactory df, Integer qtdBan){
         for (int i = 0; i < qtdBan; i++){
-            //Objetos;
-            bancoOlhos = fabrica.criaObjeto(BancoOlhos.class);
-            endereco = fabrica.criaObjeto(Endereco.class);
-            telefone = fabrica.criaObjeto(Telefone.class);
-            
-            //Preenchendo o objeto InstituicaoNotificadora.
-            bancoOlhos.setNome("Banco de Olhos "+df.getName());
-            bancoOlhos.setFantasia(bancoOlhos.getNome());
-            bancoOlhos.setCnes(df.getNumberText(9));
-            bancoOlhos.setEmail(df.getEmailAddress());
-            //Endereco
-            endereco.setLogradouro(df.getStreetName());
-            endereco.setCidade(cidadeRepository.findOne(new Long(1)));
-            endereco.setBairro(bairroRepository.findOne(new Long(1)));
-            endereco.setEstado(estadoRepository.findOne(new Long(1)));
-            endereco.setNumero(df.getNumberText(5));
-            endereco.setComplemento(df.getStreetSuffix());
-            endereco.setCep(df.getNumberText(8));
-            bancoOlhos.setEndereco(endereco); 
-            enderecoRepository.save(endereco);
-            //Telefone
-            telefone.setNumero(df.getNumberText(8)); 
-            bancoOlhos.setTelefone(telefone); 
-            telefoneRepository.save(telefone);
-            //Salva o objeto Instituição.
-            bancoOlhosRepository.save(bancoOlhos);
+            salvarBancoOlhos(criaBancoOlhos(df));
         }
+    }
+
+    /** Método responsável por salvar um objeto BancoOlhos no banco de dados.
+     * @param bo - Objeto BancoOlhos. 
+     */
+    public void salvarBancoOlhos(BancoOlhos bo) {
+        telefoneRepository.save(bo.getTelefone());
+        enderecoRepository.save(bo.getEndereco());
+        bancoOlhosRepository.save(bo);
+    }
+
+    /**Método responsável por criar Objetos BancoOlhos randomico.
+     * @param df - instancia DataFactory.
+     * @return bancoOlhos - objeto BancoOlhos Randomico.
+     */
+    public BancoOlhos criaBancoOlhos(DataFactory df) {
+        //Objetos;
+        bancoOlhos = fabrica.criaObjeto(BancoOlhos.class);
+        endereco = fabrica.criaObjeto(Endereco.class);
+        telefone = fabrica.criaObjeto(Telefone.class);
+        
+        //Preenchendo o objeto InstituicaoNotificadora.
+        bancoOlhos.setNome("Banco de Olhos "+df.getName());
+        bancoOlhos.setFantasia(bancoOlhos.getNome());
+        bancoOlhos.setCnes(df.getNumberText(9));
+        bancoOlhos.setEmail(df.getEmailAddress());
+        //Endereco
+        endereco.setLogradouro(df.getStreetName());
+        endereco.setCidade(cidadeRepository.findOne(new Long(1)));
+        endereco.setBairro(bairroRepository.findOne(new Long(1)));
+        endereco.setEstado(estadoRepository.findOne(new Long(1)));
+        endereco.setNumero(df.getNumberText(5));
+        endereco.setComplemento(df.getStreetSuffix());
+        endereco.setCep(df.getNumberText(8));
+        bancoOlhos.setEndereco(endereco);
+        
+        //Telefone
+        telefone.setNumero("(" + df.getNumberText(2) + ")"
+                + df.getNumberText(4) + "-" + df.getNumberText(4));
+        bancoOlhos.setTelefone(telefone);
+        
+        return bancoOlhos;
     }
 }

@@ -14,9 +14,10 @@ import org.fluttercode.datafactory.impl.DataFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-/**
+/**Classe para a criação de objetos CausaMortis randomicos.
  *
  * @author aleao
+ * @version 1.0
  */
 @Service
 public class CausaMortisData {
@@ -31,16 +32,28 @@ public class CausaMortisData {
     
     private List<String> listaCausa;
     
+    /**Método responsável por criar Objetos CausaMortis randomico, sendo nescessário apenas passar
+     * uma instancia DataFactory e a quantidade a ser criada.
+     * @param df - instancia DataFacotry.
+     * @param qtdCau - quantidade de objetos a serem criados. 
+     */
     public void criaCausaMortisRandom(DataFactory df, Integer qtdCau){
         for (int i = 0; i < qtdCau; i++) {
             salvarCausaMortis(criaCausaMortis(df));
         }
     }
-
+    
+    /** Método responsável por salvar um objeto CausaMortis no banco de dados.
+     * @param cm - Objeto CausaMortis. 
+     */
     public void salvarCausaMortis(CausaMortis cm) {
         causaMortisRepository.save(cm);
     }
 
+    /**Método responsável por criar Objetos CausaMortis randomico.
+     * @param df - instancia DataFactory.
+     * @return causaMortis - objeto CausaMortis Randomico.
+     */
     public CausaMortis criaCausaMortis(DataFactory df) {
         causaMortis = fabrica.criaObjeto(CausaMortis.class);
         

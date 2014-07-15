@@ -26,9 +26,10 @@ import br.ifes.leds.sincap.gerenciaNotificacao.cgd.PacienteRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoCivil;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Paciente;
 
-/**
+/**Classe para a criação de objetos Paciente randomicos.
  *
  * @author aleao
+ * @version 1.0
  */
 @Service
 public class PacienteData {
@@ -58,6 +59,11 @@ public class PacienteData {
     private Telefone telefone;
     private Listas list = Listas.INSTANCE;
 
+    /**Método responsável por criar Objetos Paciente randomico, sendo nescessário apenas passar
+     * uma instancia DataFactory e a quantidade a ser criada.
+     * @param df - instancia DataFacotry.
+     * @param qtdPac - quantidade de objetos a serem criados. 
+     */
     public void criaPacienteRandom(DataFactory df, Integer qtdPac) {
         for (int i = 0; i < qtdPac; i++) {
 
@@ -70,6 +76,10 @@ public class PacienteData {
         }
     }
 
+    /**Método responsável por criar Objetos Paciente randomico.
+     * @param df - instancia DataFactory.
+     * @return hospital - objeto Hospital Randomico.
+     */
     public Paciente criarPaciente(DataFactory df) {
         paciente = fabrica.criaObjeto(Paciente.class);
         dataNascimento = Calendar.getInstance();
@@ -91,7 +101,10 @@ public class PacienteData {
 
         return paciente;
     }
-
+    
+    /** Método responsável por criar um objeto Endereco randomico.
+     * @param df - instancia DataFactory.
+     */
     private void gerarDadosEndereco(DataFactory df) {
         // Endereco
         endereco.setLogradouro(df.getStreetName());
@@ -104,6 +117,9 @@ public class PacienteData {
         paciente.setEndereco(endereco);
     }
 
+    /** Método responsável por criar um objeto Paciente randomico.
+     * @param df - instancia DataFactory.
+     */
     private void gerarDadosPaciente(DataFactory df) {
         // Dados do Paciente.
         paciente.setNome(df.getName());
