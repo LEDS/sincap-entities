@@ -40,6 +40,14 @@
         </field>
     </mapping>
     <mapping map-null="false" map-empty-string="false">
+        <class-a>br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Captacao</class-a>
+        <class-b>br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTO.CaptacaoDTO</class-b>
+        <field>
+            <a>captador.id</a>
+            <b>captador</b>
+        </field>
+    </mapping>
+    <mapping map-null="false" map-empty-string="false">
         <class-a>br.ifes.leds.sincap.controleInterno.cln.cdp.Setor</class-a>
         <class-b>br.ifes.leds.sincap.controleInterno.cln.cdp.dto.SetorDTO</class-b>
     </mapping>

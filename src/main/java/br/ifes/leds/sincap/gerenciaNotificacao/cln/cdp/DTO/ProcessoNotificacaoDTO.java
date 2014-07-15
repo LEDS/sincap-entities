@@ -24,6 +24,6 @@ public class ProcessoNotificacaoDTO {
     private Calendar dataArquivamento;
     private boolean arquivado;
     private Long notificador;
-    // private CaptacaoDTO Captacao;
+    private CaptacaoDTO Captacao;
     private Long causaNaoDoacao;
 }
