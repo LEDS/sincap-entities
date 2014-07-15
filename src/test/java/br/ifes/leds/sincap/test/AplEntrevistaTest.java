@@ -117,7 +117,7 @@ public class AplEntrevistaTest extends AbstractionTest{
         return new Function<EntrevistaDTO, String>() {
             @Override
             public String apply(EntrevistaDTO parameter) {
-                if (parameter.getResponsavel().getDocumentoSocial() != null)
+                if (parameter.getResponsavel() != null && parameter.getResponsavel().getDocumentoSocial() != null)
                     return parameter.getResponsavel().getDocumentoSocial();
                 return "Improvável :p";
             }

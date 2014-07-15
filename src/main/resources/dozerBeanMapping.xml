@@ -7,11 +7,11 @@
 
     </configuration>
 
-    <mapping>
+    <mapping map-null="false" map-empty-string="false">
         <class-a>br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Paciente</class-a>
         <class-b>br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTO.PacienteDTO</class-b>
     </mapping>
-    <mapping>
+    <mapping map-null="false" map-empty-string="false">
         <class-a>br.ifes.leds.reuse.endereco.cdp.Endereco</class-a>
         <class-b>br.ifes.leds.reuse.endereco.cdp.dto.EnderecoDTO</class-b>
         <field>
@@ -27,7 +27,7 @@
             <b>bairro</b>
         </field>
     </mapping>
-    <mapping>
+    <mapping map-null="false" map-empty-string="false">
         <class-a>br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Obito</class-a>
         <class-b>br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTO.ObitoDTO</class-b>
         <field>
@@ -39,15 +39,15 @@
             <b>hospital</b>
         </field>
     </mapping>
-    <mapping>
+    <mapping map-null="false" map-empty-string="false">
         <class-a>br.ifes.leds.sincap.controleInterno.cln.cdp.Setor</class-a>
         <class-b>br.ifes.leds.sincap.controleInterno.cln.cdp.dto.SetorDTO</class-b>
     </mapping>
-    <mapping>
+    <mapping map-null="false" map-empty-string="false">
         <class-a>br.ifes.leds.sincap.controleInterno.cln.cdp.Hospital</class-a>
         <class-b>br.ifes.leds.sincap.controleInterno.cln.cdp.dto.HospitalDTO</class-b>
     </mapping>
-    <mapping>
+    <mapping map-null="false" map-empty-string="false">
         <class-a>br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.AtualizacaoEstado</class-a>
         <class-b>br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTO.AtualizacaoEstadoDTO</class-b>
         <field>
@@ -55,7 +55,7 @@
             <b>funcionario</b>
         </field>
     </mapping>
-    <mapping>    
+    <mapping map-null="false" map-empty-string="false">
         <class-a>br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Entrevista</class-a>
         <class-b>br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTO.EntrevistaDTO</class-b>
         <field>
@@ -63,7 +63,7 @@
             <b>funcionario</b>
         </field>
     </mapping>
-    <mapping>
+    <mapping map-null="false" map-empty-string="false">
         <class-a>br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.ProcessoNotificacao</class-a>
         <class-b>br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTO.ProcessoNotificacaoDTO</class-b>
         <field>
@@ -75,15 +75,15 @@
             <b>notificador</b>
         </field>
     </mapping>
-    <mapping>
+    <mapping map-null="false" map-empty-string="false">
         <class-a>br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Testemunha</class-a>
         <class-b>br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTO.TestemunhaDTO</class-b>
     </mapping>
-    <mapping>
+    <mapping map-null="false" map-empty-string="false">
         <class-a>br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Responsavel</class-a>
         <class-b>br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTO.ResponsavelDTO</class-b>
     </mapping>
-    <mapping>
+    <mapping map-null="false" map-empty-string="false">
         <class-a>br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CausaNaoDoacao</class-a>
         <class-b>br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTO.CausaNaoDoacaoDTO</class-b>
     </mapping>
