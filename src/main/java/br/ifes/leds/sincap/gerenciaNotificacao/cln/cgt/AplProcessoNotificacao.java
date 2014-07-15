@@ -286,12 +286,6 @@ public class AplProcessoNotificacao {
         
         ProcessoNotificacao notificacao = mapearProcessoNotificacaoDTO(processoNotificacaoDTO);
         
-        if(notificacao.getCausaNaoDoacao().getNome()==null
-           || notificacao.getCausaNaoDoacao().getTipoNaoDoacao()==null)
-        {
-            notificacao.setCausaNaoDoacao(null);
-        }
-        
         this.addNovoEstado(enumEstado, 
                 notificacao.getHistorico(), 
                 idFuncionario);
