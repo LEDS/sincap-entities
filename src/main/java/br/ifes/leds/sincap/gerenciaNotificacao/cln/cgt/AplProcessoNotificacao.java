@@ -1,20 +1,22 @@
-package br.ifes.leds.sincap.gerenciaNotificacao.cln.cgt;
+ package br.ifes.leds.sincap.gerenciaNotificacao.cln.cgt;
 
-import java.util.Calendar;
-import java.util.List;
-import java.util.UUID;
+ import br.ifes.leds.reuse.ledsExceptions.CRUDExceptions.ViolacaoDeRIException;
+ import br.ifes.leds.reuse.utility.Utility;
+ import br.ifes.leds.sincap.controleInterno.cln.cdp.Funcionario;
+ import br.ifes.leds.sincap.gerenciaNotificacao.cgd.AtualizacaoEstadoRepository;
+ import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ProcessoNotificacaoRepository;
+ import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.AtualizacaoEstado;
+ import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTO.ProcessoNotificacaoDTO;
+ import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoNotificacaoEnum;
+ import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.ProcessoNotificacao;
+ import org.dozer.Mapper;
+ import org.springframework.beans.factory.annotation.Autowired;
+ import org.springframework.stereotype.Service;
 
-import org.dozer.Mapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import br.ifes.leds.reuse.ledsExceptions.CRUDExceptions.ViolacaoDeRIException;
-import br.ifes.leds.reuse.utility.Utility;
-import br.ifes.leds.sincap.gerenciaNotificacao.cgd.AtualizacaoEstadoRepository;
-import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ProcessoNotificacaoRepository;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.AtualizacaoEstado;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.ProcessoNotificacao;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTO.ProcessoNotificacaoDTO;
+ import java.util.ArrayList;
+ import java.util.Calendar;
+ import java.util.List;
+ import java.util.UUID;
 
 /**
  * AplProcessoNotificacao.java
@@ -42,11 +44,13 @@ public class AplProcessoNotificacao {
      * 
      * @param processoNotificacaoDTO
      *            - ProcessoNotificacao - Notificacao que sera salva
+     * @param idFuncionario - Id do funcionario que criou a notificacao
      * @return long - Retorna o id do ProcessoNotificacao salvo
      * @throws ViolacaoDeRIException
      */
     public long salvarNovaNotificacao(
-            ProcessoNotificacaoDTO processoNotificacaoDTO)
+            ProcessoNotificacaoDTO processoNotificacaoDTO,
+            Long idFuncionario)
             throws ViolacaoDeRIException {
 
         ProcessoNotificacao notificacao = mapper.map(processoNotificacaoDTO,
@@ -54,7 +58,9 @@ public class AplProcessoNotificacao {
 
         aplObito.salvarObito(notificacao.getObito());
         notificacao.setCausaNaoDoacao(null);
-
+        notificacao.setEntrevista(null);
+        
+        this.addEstadoInicial(notificacao, idFuncionario);
         this.salvarHistorico(notificacao.getHistorico());
 
         notificacao.setDataAbertura(Calendar.getInstance());
@@ -71,16 +77,29 @@ public class AplProcessoNotificacao {
      * Notificacao
      * 
      * @param processoNotificacaoDTO
+     * @param idFuncionario
      * @return
      * @throws ViolacaoDeRIException
      */
-    public long salvarEntrevista(ProcessoNotificacaoDTO processoNotificacaoDTO)
+    public long salvarEntrevista(ProcessoNotificacaoDTO processoNotificacaoDTO,
+            Long idFuncionario)
             throws ViolacaoDeRIException {
         ProcessoNotificacao notificacao = mapper.map(processoNotificacaoDTO,
                 ProcessoNotificacao.class);
+        
+        this.addNovoEstado(EstadoNotificacaoEnum.AGUARDANDOANALISEENTREVISTA, 
+                notificacao.getHistorico(),
+                idFuncionario);
 
-        aplEntrevista.setEntrevista(notificacao.getEntrevista());
-        this.salvarHistorico(notificacao.getHistorico());
+        if (notificacao.getEntrevista().getDataEntrevista() == null) {
+            notificacao.setEntrevista(null); 
+        } else {
+            aplEntrevista.salvarEntrevista(notificacao.getEntrevista());
+            if (notificacao.doacaoAutorizado()) {
+                notificacao.setCausaNaoDoacao(null);
+            }
+        }
+
         notificacaoRepository.save(notificacao);
 
         return notificacao.getId();
@@ -93,36 +112,244 @@ public class AplProcessoNotificacao {
      * @return
      */
     public long salvarCaptacao(ProcessoNotificacaoDTO processoNotificacaoDTO) {
-        ProcessoNotificacao notificacao = mapper.map(processoNotificacaoDTO,
-                ProcessoNotificacao.class);
-
+        ProcessoNotificacao notificacao = mapearProcessoNotificacaoDTO(processoNotificacaoDTO);
+        
+        if(notificacao.getCausaNaoDoacao().getNome()==null
+           || notificacao.getCausaNaoDoacao().getTipoNaoDoacao()==null)
+        {
+            notificacao.setCausaNaoDoacao(null);
+        }
+        
         // aplCaptacao.salvarCaptacao(notificacao.getCaptacao());
         this.salvarHistorico(notificacao.getHistorico());
         notificacaoRepository.save(notificacao);
 
         return notificacao.getId();
     }
-
+    
     /**
-     * Metodo que atualiza o Processo de Notificacao, essa etapa irá acontecer:
-     * - Quando o usuario for "Analisar Obito" - Quando estiver
-     * "Aguardando Entrevista" - Quando o usuario for "Analisar Entrevista" -
-     * Quando estiver "Aguardando Captacao" - Quando o usuario for
-     * "Analisar Captacao" - Quando estiver "Aguardando Arquivamento"
+     * Quando um processo de notificacao na etapa obito
+     * entra para ser analisado, 
+     * o mesmo troca o seu estado para EMANALISEOBITO
      * 
      * @param processoNotificacaoDTO
-     *            - Processo de notificacao DTO
-     * @return - Returna o processo de notificacao salvo
+     * @param idFuncionario
+     * @return 
      */
-    public long atualizarEstadoProcessoNotificacao(
-            ProcessoNotificacaoDTO processoNotificacaoDTO) {
-        ProcessoNotificacao notificacao = mapper.map(processoNotificacaoDTO,
-                ProcessoNotificacao.class);
-        this.salvarHistorico(notificacao.getHistorico());
-
+    public long entrarAnaliseObito(ProcessoNotificacaoDTO processoNotificacaoDTO, 
+            Long idFuncionario){        
+        
+        return this.addNovoEstadoNoProcessoNotificacao(
+                processoNotificacaoDTO, 
+                EstadoNotificacaoEnum.EMANALISEOBITO, 
+                idFuncionario);
+    }
+    
+    /**
+     * Quando um processo de notificacao esta em analisa
+     * uma das opcoes eh recusar essa analise,
+     * dado a erros que haja na notificacao, por exemplo;
+     * Voltar para o estado AGUARDANDOANALISEOBITO.
+     * 
+     * @param processoNotificacaoDTO
+     * @param idFuncionario
+     * @return 
+     */
+    public Long recusarAnaliseObito(ProcessoNotificacaoDTO processoNotificacaoDTO, 
+            Long idFuncionario){
+        
+        return this.addNovoEstadoNoProcessoNotificacao(
+                processoNotificacaoDTO, 
+                EstadoNotificacaoEnum.AGUARDANDOANALISEOBITO, 
+                idFuncionario);
+    }
+    
+    /**
+     * Quando um processo de notificacao etapa obito esta em analisa
+     * uma das opcoes eh aceitar essa analise,
+     * logo, o estado muda para AGUARDANDOENTREVISTA.
+     * 
+     * @param processoNotificacaoDTO
+     * @param idFuncionario
+     * @return 
+     */
+    public Long validarAnaliseObito(ProcessoNotificacaoDTO processoNotificacaoDTO, 
+            Long idFuncionario){
+        
+        return this.addNovoEstadoNoProcessoNotificacao(
+                processoNotificacaoDTO, 
+                EstadoNotificacaoEnum.AGUARDANDOENTREVISTA, 
+                idFuncionario);
+    }
+    
+    /**
+     * Quando um processo de notificacao na etapa entrevista
+     * entra para ser analisado, 
+     * o mesmo troca o seu estado para EMANALISEENTREVISTA
+     * 
+     * @param processoNotificacaoDTO
+     * @param idFuncionario
+     * @return 
+     */
+    public Long entrarAnaliseEntrevista(ProcessoNotificacaoDTO processoNotificacaoDTO, 
+            Long idFuncionario){
+        
+        return this.addNovoEstadoNoProcessoNotificacao(
+                processoNotificacaoDTO, 
+                EstadoNotificacaoEnum.EMANALISEENTREVISTA,
+                idFuncionario);
+    }
+    
+    /**
+     * Quando um processo de notificacao etapa entrevista esta em analisa
+     * uma das opcoes eh recusar essa analise,
+     * dado a erros que haja na notificacao, por exemplo;
+     * Voltar para o estado AGUARDANDOENTREVISTA.
+     * 
+     * @param processoNotificacaoDTO
+     * @param idFuncionario
+     * @return 
+     */
+    public Long recusarAnaliseEntrevista(ProcessoNotificacaoDTO processoNotificacaoDTO, 
+            Long idFuncionario){
+        
+        return this.addNovoEstadoNoProcessoNotificacao(
+                processoNotificacaoDTO, 
+                EstadoNotificacaoEnum.AGUARDANDOENTREVISTA,
+                idFuncionario);
+    }
+    
+    /**
+     * Quando um processo de notificacao etapa entrevsista esta em analisa
+     * uma das opcoes eh aceitar essa analise,
+     * logo, o estado muda para AGUARDANDOCAPTACAO.
+     * 
+     * @param processoNotificacaoDTO
+     * @param idFuncionario
+     * @return 
+     */
+    public Long validarAnaliseEntrevista(ProcessoNotificacaoDTO processoNotificacaoDTO, 
+            Long idFuncionario){
+        
+        return this.addNovoEstadoNoProcessoNotificacao(
+                processoNotificacaoDTO, 
+                EstadoNotificacaoEnum.AGUARDANDOCAPTACAO,
+                idFuncionario);
+    }
+    
+    /**
+     * Quando um processo de notificacao etapa óbito esta em analise
+     * uma das opcoes é arquivar o processo,
+     * logo, o estado muda para NOTIFICACAOARQUIVADA.
+     * 
+     * @param processoNotificacaoDTO
+     * @param idFuncionario
+     * @return 
+     */
+    public Long arquivarProcesso(ProcessoNotificacaoDTO processoNotificacaoDTO, 
+            Long idFuncionario){
+        ProcessoNotificacao notificacao = mapearProcessoNotificacaoDTO(processoNotificacaoDTO);
+        if(notificacao.getCausaNaoDoacao().getNome()==null
+           || notificacao.getCausaNaoDoacao().getTipoNaoDoacao()==null)
+        {
+            notificacao.setCausaNaoDoacao(null);
+        }
+        arquivar(notificacao);
+        
+        return this.addNovoEstadoNoProcessoNotificacao(
+                processoNotificacaoDTO, 
+                EstadoNotificacaoEnum.NOTIFICACAOARQUIVADA,
+                idFuncionario);
+    }
+    
+    /**
+     * Dado haja causa de nao doacao ou o processo de notificacao chegou ao fim,
+     * o estado do mesmo deve mudar para AGUARDANDOARQUIVAMENTO.
+     * 
+     * @param processoNotificacaoDTO
+     * @param idFuncionario
+     * @return 
+     */
+    public Long finalizarProcesso(ProcessoNotificacaoDTO processoNotificacaoDTO, 
+            Long idFuncionario){
+        
+        return this.addNovoEstadoNoProcessoNotificacao(
+                processoNotificacaoDTO, 
+                EstadoNotificacaoEnum.AGUARDANDOARQUIVAMENTO,
+                idFuncionario);
+    }
+    
+    private Long addNovoEstadoNoProcessoNotificacao(
+            ProcessoNotificacaoDTO processoNotificacaoDTO, 
+            EstadoNotificacaoEnum enumEstado,
+            Long idFuncionario){
+        
+        ProcessoNotificacao notificacao = mapearProcessoNotificacaoDTO(processoNotificacaoDTO);
+        
+        if(notificacao.getCausaNaoDoacao().getNome()==null
+           || notificacao.getCausaNaoDoacao().getTipoNaoDoacao()==null)
+        {
+            notificacao.setCausaNaoDoacao(null);
+        }
+        
+        this.addNovoEstado(enumEstado, 
+                notificacao.getHistorico(), 
+                idFuncionario);
+        
         notificacaoRepository.save(notificacao);
-
+        
         return notificacao.getId();
+    }
+    
+    private ProcessoNotificacao mapearProcessoNotificacaoDTO(ProcessoNotificacaoDTO processoNotificacaoDTO)
+    {
+        ProcessoNotificacao notificacao = mapper.map(processoNotificacaoDTO, ProcessoNotificacao.class);
+        
+        return notificacao;
+    }
+    
+    public void addNovoEstado(EstadoNotificacaoEnum enumEstado, 
+            List<AtualizacaoEstado> historico,
+            Long idFuncionario){
+        
+        AtualizacaoEstado novoEstado = new AtualizacaoEstado();
+        
+        novoEstado.setDataAtualizacaos(Calendar.getInstance());
+        novoEstado.setEstadoNotificacao(enumEstado);
+        novoEstado.setFuncionario(this.getFuncionario(idFuncionario));
+        
+        historico.add(novoEstado);
+        this.salvarHistorico(historico);
+    }
+    
+    /**
+     * Adiciona o historio de estados na notificacao, linkando o primeiro estado
+     * 
+     * @param historico - Historico de atualizacoes da notificacao
+     */
+    private void addEstadoInicial(ProcessoNotificacao notificacao, Long idFuncionario) {
+        List<AtualizacaoEstado> historico = new ArrayList<>();
+        AtualizacaoEstado atualizacaoEstado = new AtualizacaoEstado();
+        
+        atualizacaoEstado.setFuncionario(this.getFuncionario(idFuncionario));
+        atualizacaoEstado.setDataAtualizacaos(Calendar.getInstance());
+        atualizacaoEstado.setEstadoNotificacao(EstadoNotificacaoEnum.AGUARDANDOANALISEOBITO);
+        
+        historico.add(atualizacaoEstado);
+        notificacao.setHistorico(historico);
+    }
+    
+    /**
+     * Retorna um funcionario dado um id recebido.
+     * OBS.: O funcionario nao tem todos os campos preenchidos, apenas o ID
+     * 
+     * @param idFuncionario
+     * @return  - Retorna um funcionario
+     */
+    private Funcionario getFuncionario(Long idFuncionario){
+        Funcionario funcionario = new Funcionario();
+        funcionario.setId(idFuncionario);
+        return funcionario;
     }
 
     /**
@@ -216,6 +443,39 @@ public class AplProcessoNotificacao {
 
         return utility.mapList(processoNotificacaos,
                 ProcessoNotificacaoDTO.class);
+    }
+
+    /**
+     * Metodo que busca todas as notificacoes, pegando apenas as que estão no
+     * estado atual indicado.
+     *
+     * @param estado
+     *            Estado que será usado para filtrar as notificações.
+     * @return Notificações filtras pelo estado atual.
+     */
+    public List<ProcessoNotificacaoDTO> retornarNotificacaoPorEstadoAtual(
+            EstadoNotificacaoEnum estado) {
+        List<ProcessoNotificacao> processosNotificacao = notificacaoRepository
+                .findByLastEstadoNotificao(estado);
+
+        return utility.mapList(processosNotificacao,
+                ProcessoNotificacaoDTO.class);
+    }
+
+    /**
+     * Metodo que busca todas as notificacoes, pegando apenas as que estão no
+     * estado atual indicado.
+     *
+     * @param estado
+     *            Estado que será usado para filtrar as notificações.
+     * @return Notificações filtras pelo estado atual.
+     */
+    public List<ProcessoNotificacao> retornarProcessoNotificacaoPorEstadoAtual(
+            EstadoNotificacaoEnum estado) {
+        List<ProcessoNotificacao> processosNotificacao = notificacaoRepository
+                .findByLastEstadoNotificao(estado);
+
+        return processosNotificacao;
     }
 
     private String genereateCode() {

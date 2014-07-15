@@ -43,7 +43,7 @@ public class DataFactoryMain {
         ObitoData obd = (ObitoData) factory.getBean("obitoData");
         CausaNaoDoacaoData cnd = (CausaNaoDoacaoData) factory.getBean("causaNaoDoacaoData");
         ProcessoNotificacaoData pnd = (ProcessoNotificacaoData) factory.getBean("processoNotificacaoData");
-        
+
         DataFactory df = new DataFactory();
         df.randomize((int) System.currentTimeMillis());
 

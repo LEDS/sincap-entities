@@ -1,11 +1,14 @@
 package br.ifes.leds.reuse.endereco.cgd;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
 import br.ifes.leds.reuse.endereco.cdp.Estado;
-import java.util.List;
-import org.springframework.data.jpa.repository.Query;
 
 /**
  * EstadoRepository.java
@@ -20,6 +23,6 @@ public interface EstadoRepository extends JpaRepository<Estado, Long> {
 
     public Estado findByNomeIgnoreCase(String nomeEstado);
 
-    @Query(value = "SELECT e.id, e.nome, e.sigla FROM estado e JOIN pais_estado as pe on e.id = pe.estados_id JOIN pais as p on pe.pais_id = p.id WHERE p.nome = ?1 ORDER BY e.nome", nativeQuery = true)
-    public List<Estado> findByNomePais(String pais);
+    @Query("SELECT estado FROM Pais pais JOIN pais.estados estado WHERE pais.nome = :nome ORDER BY estado.nome")
+    public List<Estado> findByNomePais(@Param("nome") String pais);
 }

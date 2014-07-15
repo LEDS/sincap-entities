@@ -9,9 +9,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
 import br.ifes.leds.reuse.persistence.ObjetoPersistente;
+import br.ifes.leds.sincap.controleInterno.cln.cdp.Hospital;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Setor;
+
 import javax.persistence.Column;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -53,9 +57,12 @@ public class Obito extends ObjetoPersistente {
     @JoinColumn(nullable = false)
     @OneToOne
     private Paciente paciente;
-    
+
     @OneToOne
     private Setor setor;
-    
+
+    @OneToOne
+    private Hospital hospital;
+
     private TipoObito tipoObito;
 }

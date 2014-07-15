@@ -53,7 +53,7 @@ public class ProcessoNotificacao extends ObjetoPersistente {
     @OneToMany(fetch = FetchType.EAGER)
     private List<AtualizacaoEstado> historico;
     
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(nullable = false)
     private Notificador notificador;
     
@@ -72,7 +72,7 @@ public class ProcessoNotificacao extends ObjetoPersistente {
     @Cascade({CascadeType.SAVE_UPDATE})
     private Captacao captacao;
     
-    @OneToOne
+    @JoinColumn(nullable = true)
     private CausaNaoDoacao causaNaoDoacao;
     
 

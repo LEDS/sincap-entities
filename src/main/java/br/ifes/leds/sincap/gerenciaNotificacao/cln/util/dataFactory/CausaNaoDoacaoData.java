@@ -32,7 +32,6 @@ public class CausaNaoDoacaoData {
     private CausaNaoDoacao causaNaoDoacao;
     private List<TipoNaoDoacao> listTipoNaoDoacao = new ArrayList<>();
     
-    
     /**Método responsável por criar Objetos CausaNaoDoacao randomico, sendo nescessário apenas passar
      * uma instancia DataFactory e a quantidade a ser criada.
      * @param df - instancia DataFacotry.

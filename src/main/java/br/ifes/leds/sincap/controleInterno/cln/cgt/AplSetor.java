@@ -45,7 +45,7 @@ public class AplSetor {
      */
     public List<Setor> buscar(Long idHospital)
     {
-        return this.setorRepository.findByHospitalId(idHospital);
+        return this.setorRepository.findByHospitalIdOrderByNomeAsc(idHospital);
     }
     
     /** Método para adicionar um setor a um hospital.

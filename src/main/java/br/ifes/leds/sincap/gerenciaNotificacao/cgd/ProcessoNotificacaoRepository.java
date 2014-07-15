@@ -1,14 +1,17 @@
 package br.ifes.leds.sincap.gerenciaNotificacao.cgd;
 
+import java.util.Calendar;
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoNotificacaoEnum;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.ProcessoNotificacao;
-import java.util.Calendar;
-import org.springframework.data.domain.Pageable;
 
 /**
  * NotificacaoRepository.java
@@ -68,6 +71,12 @@ public interface ProcessoNotificacaoRepository extends JpaRepository <ProcessoNo
 //		
 //	/* Metodo para encontrar notificacoes com determinado MotivoInviabilidade*/
 //	public List<Notificacao> findByMotivoInviabilidadeId(Long Id);
+
+    @Query("SELECT processo FROM ProcessoNotificacao processo JOIN processo.historico historico WHERE"
+            + " historico.estadoNotificacao = :estado AND"
+            + " historico.id = (SELECT max(hist.id) FROM ProcessoNotificacao processo2"
+            + " JOIN processo2.historico hist WHERE processo2.id = processo.id)")
+    public List<ProcessoNotificacao> findByLastEstadoNotificao(@Param("estado") EstadoNotificacaoEnum estado);
 
     public List<ProcessoNotificacao> findByDataArquivamentoIsNotNullOrderByDataAberturaDesc();
 

@@ -1,13 +1,15 @@
 package br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp;
 
-import br.ifes.leds.reuse.persistence.ObjetoPersistente;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+
 import lombok.Getter;
 import lombok.Setter;
+import br.ifes.leds.reuse.persistence.ObjetoPersistente;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 /**
  *
@@ -16,13 +18,11 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-public class CausaNaoDoacao extends ObjetoPersistente{
-    
+public class CausaNaoDoacao extends ObjetoPersistente {
+
     @Column
     private String nome;
-    
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(nullable = false)
-    private TipoNaoDoacao tipoNaoDoacao;    
-    
+
+    @Enumerated(value = EnumType.STRING)
+    private TipoNaoDoacao tipoNaoDoacao;
 }
