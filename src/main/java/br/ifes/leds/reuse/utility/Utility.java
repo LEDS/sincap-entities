@@ -157,7 +157,7 @@ public enum Utility {
 
                         if (!stopRecursion(sourceValue)) {
                             mergeIds(destinationValue, sourceValue);
-                        } else if (fromName.equals("getId")) {
+                        } else if (fromName.equals("getId") && destinationValue == null) {
                             setMethod.invoke(destination, sourceValue);
                         }
                     }
