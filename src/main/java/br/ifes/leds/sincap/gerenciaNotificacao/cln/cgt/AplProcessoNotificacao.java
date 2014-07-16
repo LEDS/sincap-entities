@@ -251,14 +251,8 @@ public class AplProcessoNotificacao {
      */
     public Long arquivarProcesso(ProcessoNotificacaoDTO processoNotificacaoDTO, 
             Long idFuncionario){
-        ProcessoNotificacao notificacao = mapearProcessoNotificacaoDTO(processoNotificacaoDTO);
-//FIXME:
-//        if(notificacao.getCausaNaoDoacao().getNome()==null
-//           || notificacao.getCausaNaoDoacao().getTipoNaoDoacao()==null)
-//        {
-//            notificacao.setCausaNaoDoacao(null);
-//        }
-        arquivar(notificacao);
+        
+        processoNotificacaoDTO.setArquivado(true);
         
         return this.addNovoEstadoNoProcessoNotificacao(
                 processoNotificacaoDTO, 
