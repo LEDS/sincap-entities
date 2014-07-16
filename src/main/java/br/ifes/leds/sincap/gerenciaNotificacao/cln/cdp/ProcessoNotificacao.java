@@ -72,7 +72,9 @@ public class ProcessoNotificacao extends ObjetoPersistente {
     @Cascade({CascadeType.SAVE_UPDATE})
     private Captacao captacao;
     
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(nullable = true)
+    @Cascade({CascadeType.SAVE_UPDATE})
     private CausaNaoDoacao causaNaoDoacao;
     
 

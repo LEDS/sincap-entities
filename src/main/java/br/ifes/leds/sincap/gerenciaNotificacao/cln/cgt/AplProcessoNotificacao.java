@@ -116,7 +116,7 @@ public class AplProcessoNotificacao {
      */
     public long salvarCaptacao(ProcessoNotificacaoDTO processoNotificacaoDTO) {
         ProcessoNotificacao notificacao = mapearProcessoNotificacaoDTO(processoNotificacaoDTO);
-        
+        //FIXME:
         if(notificacao.getCausaNaoDoacao().getNome()==null
            || notificacao.getCausaNaoDoacao().getTipoNaoDoacao()==null)
         {
@@ -252,11 +252,12 @@ public class AplProcessoNotificacao {
     public Long arquivarProcesso(ProcessoNotificacaoDTO processoNotificacaoDTO, 
             Long idFuncionario){
         ProcessoNotificacao notificacao = mapearProcessoNotificacaoDTO(processoNotificacaoDTO);
-        if(notificacao.getCausaNaoDoacao().getNome()==null
-           || notificacao.getCausaNaoDoacao().getTipoNaoDoacao()==null)
-        {
-            notificacao.setCausaNaoDoacao(null);
-        }
+//FIXME:
+//        if(notificacao.getCausaNaoDoacao().getNome()==null
+//           || notificacao.getCausaNaoDoacao().getTipoNaoDoacao()==null)
+//        {
+//            notificacao.setCausaNaoDoacao(null);
+//        }
         arquivar(notificacao);
         
         return this.addNovoEstadoNoProcessoNotificacao(
