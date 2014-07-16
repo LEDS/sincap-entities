@@ -56,10 +56,13 @@ public class AplProcessoNotificacao {
         ProcessoNotificacao notificacao = mapper.map(processoNotificacaoDTO,
                 ProcessoNotificacao.class);
 
+        if (notificacao.getId() != null) {
+            ProcessoNotificacao notificacaoBd = notificacaoRepository.findOne(notificacao.getId());
+            utility.mergeIds(notificacao, notificacaoBd);
+        }
+
         aplObito.salvarObito(notificacao.getObito());
-        notificacao.setCausaNaoDoacao(null);
-        notificacao.setEntrevista(null);
-        
+
         this.addEstadoInicial(notificacao, idFuncionario);
         this.salvarHistorico(notificacao.getHistorico());
 
