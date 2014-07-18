@@ -13,7 +13,6 @@
  import org.springframework.beans.factory.annotation.Autowired;
  import org.springframework.stereotype.Service;
 
- import java.util.ArrayList;
  import java.util.Calendar;
  import java.util.List;
  import java.util.UUID;
@@ -90,8 +89,8 @@ public class AplProcessoNotificacao {
         ProcessoNotificacao notificacao = mapper.map(processoNotificacaoDTO,
                 ProcessoNotificacao.class);
         
-        this.addNovoEstado(EstadoNotificacaoEnum.AGUARDANDOANALISEENTREVISTA, 
-                notificacao.getHistorico(),
+        this.addNovoEstado(EstadoNotificacaoEnum.AGUARDANDOANALISEENTREVISTA,
+                notificacao,
                 idFuncionario);
 
         if (notificacao.getEntrevista().getDataEntrevista() == null) {
@@ -284,10 +283,11 @@ public class AplProcessoNotificacao {
         
         ProcessoNotificacao notificacao = mapearProcessoNotificacaoDTO(processoNotificacaoDTO);
         
-        this.addNovoEstado(enumEstado, 
-                notificacao.getHistorico(), 
+        this.addNovoEstado(enumEstado,
+                notificacao,
                 idFuncionario);
-        
+
+        salvarHistorico(notificacao.getHistorico());
         notificacaoRepository.save(notificacao);
         
         return notificacao.getId();
@@ -300,8 +300,8 @@ public class AplProcessoNotificacao {
         return notificacao;
     }
     
-    public void addNovoEstado(EstadoNotificacaoEnum enumEstado, 
-            List<AtualizacaoEstado> historico,
+    public void addNovoEstado(EstadoNotificacaoEnum enumEstado,
+            ProcessoNotificacao processo,
             Long idFuncionario){
         
         AtualizacaoEstado novoEstado = new AtualizacaoEstado();
@@ -310,25 +310,22 @@ public class AplProcessoNotificacao {
         novoEstado.setEstadoNotificacao(enumEstado);
         novoEstado.setFuncionario(this.getFuncionario(idFuncionario));
         
-        historico.add(novoEstado);
-        this.salvarHistorico(historico);
+        processo.mudarEstadoAtual(novoEstado);
     }
     
     /**
      * Adiciona o historio de estados na notificacao, linkando o primeiro estado
      * 
-     * @param historico - Historico de atualizacoes da notificacao
+     * @param notificacao Notificacao a ser adicionado o estado inicial.
      */
     private void addEstadoInicial(ProcessoNotificacao notificacao, Long idFuncionario) {
-        List<AtualizacaoEstado> historico = new ArrayList<>();
         AtualizacaoEstado atualizacaoEstado = new AtualizacaoEstado();
         
         atualizacaoEstado.setFuncionario(this.getFuncionario(idFuncionario));
         atualizacaoEstado.setDataAtualizacaos(Calendar.getInstance());
         atualizacaoEstado.setEstadoNotificacao(EstadoNotificacaoEnum.AGUARDANDOANALISEOBITO);
         
-        historico.add(atualizacaoEstado);
-        notificacao.setHistorico(historico);
+        notificacao.mudarEstadoAtual(atualizacaoEstado);
     }
     
     /**
@@ -448,7 +445,7 @@ public class AplProcessoNotificacao {
     public List<ProcessoNotificacaoDTO> retornarNotificacaoPorEstadoAtual(
             EstadoNotificacaoEnum estado) {
         List<ProcessoNotificacao> processosNotificacao = notificacaoRepository
-                .findByLastEstadoNotificao(estado);
+                .findByUltimoEstadoEstadoNotificacaoOrderByUltimoEstadoDataAtualizacaosAsc(estado);
 
         return utility.mapList(processosNotificacao,
                 ProcessoNotificacaoDTO.class);
@@ -465,7 +462,7 @@ public class AplProcessoNotificacao {
     public List<ProcessoNotificacao> retornarProcessoNotificacaoPorEstadoAtual(
             EstadoNotificacaoEnum estado) {
         List<ProcessoNotificacao> processosNotificacao = notificacaoRepository
-                .findByLastEstadoNotificao(estado);
+                .findByUltimoEstadoEstadoNotificacaoOrderByUltimoEstadoDataAtualizacaosAsc(estado);
 
         return processosNotificacao;
     }

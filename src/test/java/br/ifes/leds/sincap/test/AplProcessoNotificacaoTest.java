@@ -1,15 +1,5 @@
 package br.ifes.leds.sincap.test;
 
-import java.util.Calendar;
-import java.util.List;
-
-import org.dozer.Mapper;
-import org.fluttercode.datafactory.impl.DataFactory;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import br.ifes.leds.reuse.ledsExceptions.CRUDExceptions.ViolacaoDeRIException;
 import br.ifes.leds.reuse.utility.Factory;
 import br.ifes.leds.reuse.utility.Utility;
@@ -21,18 +11,23 @@ import br.ifes.leds.sincap.controleInterno.cln.cdp.Notificador;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Setor;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CausaMortis;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CorpoEncaminhamento;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTO.*;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoNotificacaoEnum;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoObito;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTO.AtualizacaoEstadoDTO;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTO.EntrevistaDTO;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTO.ObitoDTO;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTO.PacienteDTO;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTO.ProcessoNotificacaoDTO;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cgt.AplProcessoNotificacao;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.util.dataFactory.EntrevistaData;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.util.dataFactory.PacienteData;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.util.dataFactory.ResponsavelData;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.util.dataFactory.TestemunhaData;
+import org.dozer.Mapper;
+import org.fluttercode.datafactory.impl.DataFactory;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.Calendar;
+import java.util.List;
 
 /**
  *
@@ -151,9 +146,9 @@ public class AplProcessoNotificacaoTest extends AbstractionTest {
         id = aplProcessoNotificacao.entrarAnaliseObito(notificacao, notificacao.getNotificador());
         
         notificacao = aplProcessoNotificacao.obter(id);
-        
-        for(AtualizacaoEstadoDTO estado: notificacao.getHistorico()){
-            if(estado.getEstadoNotificacao().toString().equals(EstadoNotificacaoEnum.EMANALISEOBITO.toString())){
+
+        for (AtualizacaoEstadoDTO estado : notificacao.getHistorico()) {
+            if (estado.getEstadoNotificacao() == EstadoNotificacaoEnum.EMANALISEOBITO) {
                 quantidadeEstado++;
             }
         }
