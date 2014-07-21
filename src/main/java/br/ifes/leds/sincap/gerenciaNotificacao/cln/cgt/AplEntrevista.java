@@ -98,8 +98,4 @@ public class AplEntrevista {
         b = b && (entrevista.getTestemunha2() != null);
         return b;
     }
-
-    public void salvarEntrevistaEntrevista(EntrevistaDTO entrevistaDTO) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 }

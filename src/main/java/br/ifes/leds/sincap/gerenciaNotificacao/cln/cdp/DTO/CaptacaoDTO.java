@@ -18,13 +18,10 @@ import java.util.Calendar;
 @AllArgsConstructor
 public class CaptacaoDTO {
 
+    private Long id;
     private boolean captacaoRealizada;
-
     private Calendar dataCaptacao; //Data e horario do captacao
-
     private Calendar dataCadastro; //Data e horario da notificação de captacao
-
     private Long captador;
-
     private String comentario;
 }
