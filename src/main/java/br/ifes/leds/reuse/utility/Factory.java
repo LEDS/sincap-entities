@@ -6,6 +6,10 @@
 
 package br.ifes.leds.reuse.utility;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+
 import java.lang.reflect.InvocationTargetException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,5 +35,13 @@ public enum Factory {
             return null;
         }
 
+    }
+
+    public Pageable criaPageable(int index, int qtdElementos) {
+        return new PageRequest(index, qtdElementos);
+    }
+
+    public Pageable criaPageable(int index, int qtdElementos, Sort.Direction ordenacao, String... propriedades) {
+        return new PageRequest(index, qtdElementos, new Sort(ordenacao, propriedades));
     }
 }

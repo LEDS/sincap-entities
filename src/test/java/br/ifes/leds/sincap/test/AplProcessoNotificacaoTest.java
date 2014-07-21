@@ -149,7 +149,7 @@ public class AplProcessoNotificacaoTest extends AbstractionTest {
         notificacao = aplProcessoNotificacao.obter(id);
 
         for (AtualizacaoEstadoDTO estado : notificacao.getHistorico()) {
-            if (estado.getEstadoNotificacao().toString().equals(EstadoNotificacaoEnum.EMANALISEOBITO.toString())) {
+            if (estado.getEstadoNotificacao() == EstadoNotificacaoEnum.EMANALISEOBITO) {
                 quantidadeEstado++;
             }
         }

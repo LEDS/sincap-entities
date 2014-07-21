@@ -4,13 +4,11 @@ import br.ifes.leds.reuse.utility.function.Function;
 import org.dozer.DozerBeanMapperSingletonWrapper;
 import org.dozer.Mapper;
 
+import java.lang.reflect.Method;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  *
@@ -129,5 +127,56 @@ public enum Utility {
             }
         }
         return null;
+    }
+
+    /**
+     * Dado um objeto {@code source}, insere todos os atributos com nome "id" dessa classe (aninhados inclusive)
+     * dentro do objeto {@code destination}. É útil para edição de objetos no banco de dados.
+     *
+     * @param destination
+     *          Objeto no qual os ids serão inseridos.
+     * @param source
+     *          Objeto do qual os ids vem.
+     * @param <T>
+     *           Tipo dos objetos que serão manipulados.
+     */
+    public <T> void mergeIds(T destination, T source) {
+        Method[] methods = source.getClass().getMethods();
+
+        for (Method getMethod : methods) {
+            if (enterMergeLoop(destination, getMethod)) {
+                String fromName = getMethod.getName();
+                String toName = fromName.replace("get", "set");
+
+                try {
+                    Method setMethod = source.getClass().getMethod(toName, getMethod.getReturnType());
+                    Object sourceValue = getMethod.invoke(source);
+
+                    if (sourceValue != null) {
+                        Object destinationValue = getMethod.invoke(destination);
+
+                        if (!stopRecursion(sourceValue)) {
+                            mergeIds(destinationValue, sourceValue);
+                        } else if (fromName.equals("getId") && destinationValue == null) {
+                            setMethod.invoke(destination, sourceValue);
+                        }
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    private <T> boolean enterMergeLoop(T destination, Method getMethod) {
+        return getMethod.getName().startsWith("get") && !getMethod.getName().equals("getClass")
+                && destination != null;
+    }
+
+    private boolean stopRecursion(Object value) {
+        return value.getClass().isPrimitive() || value.getClass().isEnum() || value instanceof String
+                || Calendar.class.isAssignableFrom(value.getClass())
+                || value instanceof Long || Collection.class.isAssignableFrom(value.getClass());
     }
 }
