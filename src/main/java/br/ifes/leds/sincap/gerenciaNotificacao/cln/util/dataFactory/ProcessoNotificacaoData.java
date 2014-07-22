@@ -22,6 +22,8 @@ import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Obito;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.ProcessoNotificacao;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import org.fluttercode.datafactory.impl.DataFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,6 +79,7 @@ public class ProcessoNotificacaoData {
     
     private Calendar dataAbertura;
     private Calendar dataArquivamento;
+    private Calendar dataObito;
     
     
     /**Método responsável por criar processo de notificação randomico até a
@@ -145,12 +148,14 @@ public class ProcessoNotificacaoData {
         processoNotificacao = fabrica.criaObjeto(ProcessoNotificacao.class);
         dataAbertura = Calendar.getInstance();
         obito = obitoData.criaObito(df);
+        Date dataIni = removeDias(obito.getDataObito().getTime(), 2);
+
         
         processoNotificacao.setArquivado(false);
         listNotificador = notificadorRepository.findAll();
         processoNotificacao.setNotificador(df.getItem(listNotificador));
         processoNotificacao.setObito(obito);
-        dataAbertura.setTime(df.getDateBetween(df.getDate(2000, 01, 01), df.getDate(2014, 12, 31)));
+        dataAbertura.setTime(df.getDateBetween(dataIni, obito.getDataObito().getTime()));
         processoNotificacao.setDataAbertura(dataAbertura);
         processoNotificacao.setCodigo(df.getNumberText(8));
         processoNotificacao.setEntrevista(null);
@@ -238,4 +243,11 @@ public class ProcessoNotificacaoData {
             salvarProcesso(pn);
         }
     }
+    
+    private static Date removeDias(Date date, Integer dias) {  
+            GregorianCalendar gc = new GregorianCalendar();  
+            gc.setTime(date);  
+            gc.set(Calendar.DATE, gc.get(Calendar.DATE) - dias);  
+            return gc.getTime();  
+    } 
 }
