@@ -9,3 +9,7 @@
 # Arquivos de log
 *.log
 *.log.????-??
+
+# Arquivos de configuração do IntelliJ
+.idea/
+SincapEntities.iml
