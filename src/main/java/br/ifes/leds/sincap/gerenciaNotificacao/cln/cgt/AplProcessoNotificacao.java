@@ -58,10 +58,7 @@ public class AplProcessoNotificacao {
         ProcessoNotificacao notificacao = mapper.map(processoNotificacaoDTO,
                 ProcessoNotificacao.class);
 
-        if (notificacao.getId() != null) {
-            ProcessoNotificacao notificacaoBd = notificacaoRepository.findOne(notificacao.getId());
-            utility.mergeIds(notificacao, notificacaoBd);
-        }
+        preparaProcessoParaSalvar(notificacao);
 
         aplObito.salvarObito(notificacao.getObito());
 
@@ -75,6 +72,14 @@ public class AplProcessoNotificacao {
 
         notificacaoRepository.save(notificacao);
         return notificacao.getId();
+    }
+
+    private void preparaProcessoParaSalvar(ProcessoNotificacao notificacao) {
+        if (notificacao.getId() != null) {
+            ProcessoNotificacao notificacaoBd = notificacaoRepository.findOne(notificacao.getId());
+            utility.mergeIds(notificacao, notificacaoBd);
+            notificacao.setHistorico(notificacaoBd.getHistoricoModificavel());
+        }
     }
 
     /**
@@ -91,10 +96,13 @@ public class AplProcessoNotificacao {
             throws ViolacaoDeRIException {
         ProcessoNotificacao notificacao = mapper.map(processoNotificacaoDTO,
                 ProcessoNotificacao.class);
-        
+
+        preparaProcessoParaSalvar(notificacao);
+
         this.addNovoEstado(EstadoNotificacaoEnum.AGUARDANDOANALISEENTREVISTA,
                 notificacao,
                 idFuncionario);
+        this.salvarHistorico(notificacao.getHistorico());
 
         if (notificacao.getEntrevista().getDataEntrevista() == null) {
             notificacao.setEntrevista(null);
