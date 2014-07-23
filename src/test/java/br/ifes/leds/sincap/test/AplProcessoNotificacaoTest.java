@@ -11,6 +11,7 @@ import br.ifes.leds.reuse.utility.Utility;
 import br.ifes.leds.sincap.controleInterno.cgd.HospitalRepository;
 import br.ifes.leds.sincap.controleInterno.cgd.NotificadorRepository;
 import br.ifes.leds.sincap.controleInterno.cgd.SetorRepository;
+import br.ifes.leds.sincap.controleInterno.cln.cdp.Captador;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Hospital;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Notificador;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Setor;
@@ -18,11 +19,9 @@ import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CausaMortis;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CorpoEncaminhamento;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoNotificacaoEnum;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoObito;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.CaptacaoDTO;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cgt.AplProcessoNotificacao;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.util.dataFactory.EntrevistaData;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.util.dataFactory.PacienteData;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.util.dataFactory.ResponsavelData;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.util.dataFactory.TestemunhaData;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.util.dataFactory.*;
 import org.dozer.Mapper;
 import org.fluttercode.datafactory.impl.DataFactory;
 import org.junit.Assert;
@@ -34,7 +33,6 @@ import java.util.Calendar;
 import java.util.List;
 
 /**
- *
  * @author 20102BSI0553
  */
 public class AplProcessoNotificacaoTest extends AbstractionTest {
@@ -53,6 +51,10 @@ public class AplProcessoNotificacaoTest extends AbstractionTest {
     private PacienteData pacienteData;
     @Autowired
     private EntrevistaData entrevistaData;
+    @Autowired
+    private CaptacaoData captacaoData;
+    @Autowired
+    private CaptadorData captadorData;
     @Autowired
     private ResponsavelData responsavelData;
     @Autowired
@@ -124,31 +126,31 @@ public class AplProcessoNotificacaoTest extends AbstractionTest {
         obito.setTerceiraCausaMortis(causa3);
         obito.setQuartaCausaMortis(causa4);
     }
-    
+
     @Test
-    public void salvarObito() throws ViolacaoDeRIException{
+    public void salvarObito() throws ViolacaoDeRIException {
         Long id = aplProcessoNotificacao.salvarNovaNotificacao(
-                notificacao, 
+                notificacao,
                 notificacao.getNotificador());
-        
+
         ProcessoNotificacaoDTO notif = aplProcessoNotificacao.obter(id);
-        
+
         Assert.assertNotNull(notif.getObito());
         Assert.assertNotNull(notif.getObito().getId());
-        
+
         Assert.assertNotNull(notif.getHistorico());
     }
-    
+
     @Test
-    public void analisarObito() throws ViolacaoDeRIException{
+    public void analisarObito() throws ViolacaoDeRIException {
         Long id = aplProcessoNotificacao.salvarNovaNotificacao(
-                notificacao, 
+                notificacao,
                 notificacao.getNotificador());
         int quantidadeEstado = 0;
-        
+
         notificacao = aplProcessoNotificacao.obter(id);
         id = aplProcessoNotificacao.entrarAnaliseObito(notificacao, notificacao.getNotificador());
-        
+
         notificacao = aplProcessoNotificacao.obter(id);
 
         for (AtualizacaoEstadoDTO estado : notificacao.getHistorico()) {
@@ -156,10 +158,10 @@ public class AplProcessoNotificacaoTest extends AbstractionTest {
                 quantidadeEstado++;
             }
         }
-        
+
         Assert.assertTrue(quantidadeEstado > 0);
     }
-    
+
     @Test
     public void recuperarNotificacoesNaoArquivadas()
             throws ViolacaoDeRIException {
@@ -170,7 +172,7 @@ public class AplProcessoNotificacaoTest extends AbstractionTest {
                 .retornarNotificacaoNaoArquivada();
 
         Assert.assertTrue(notificacoes.size() > 0);
-    }    
+    }
 
     @Test
     public void salvarEntrevistaTest() throws ViolacaoDeRIException {
@@ -178,8 +180,29 @@ public class AplProcessoNotificacaoTest extends AbstractionTest {
 
         Assert.assertNotNull(notificacao.getEntrevista());
         Assert.assertNotNull(notificacao.getEntrevista().getId());
-        
+
         Assert.assertNotNull(notificacao.getHistorico());
+    }
+
+    @Test
+    public void salvarCaptacacaoTest() throws ViolacaoDeRIException {
+        adicionarEntrevista();
+        adicionarCaptacao();
+
+        Assert.assertNotNull(notificacao.getCaptacao());
+        Assert.assertNotNull(notificacao.getCaptacao().getId());
+
+        Assert.assertNotNull(notificacao.getHistorico());
+    }
+
+    private void adicionarCaptacao() {
+        Captador captador = captadorData.criaCaptador(df);
+        CaptacaoDTO captacaoDTO = mapper.map(captacaoData.criarCaptacao(df, captador), CaptacaoDTO.class);
+
+        notificacao.setCaptacao(captacaoDTO);
+        Long id = aplProcessoNotificacao.salvarCaptacao(notificacao, captacaoDTO.getCaptador());
+
+        notificacao = aplProcessoNotificacao.obter(id);
     }
 
     private void adicionarEntrevista() throws ViolacaoDeRIException {
