@@ -38,7 +38,5 @@ public interface SetorRepository extends JpaRepository<Setor, Long>{
 	 * @return
 	 */
 	public Setor findByNome(String nomeSetor);
-               
-	
 }
 

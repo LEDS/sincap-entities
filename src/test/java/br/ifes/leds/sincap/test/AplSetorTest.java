@@ -15,6 +15,7 @@ import br.ifes.leds.sincap.controleInterno.cgd.SetorRepository;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Hospital;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Setor;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Telefone;
+import br.ifes.leds.sincap.controleInterno.cln.cdp.dto.SetorDTO;
 import br.ifes.leds.sincap.controleInterno.cln.cgt.AplHospital;
 import br.ifes.leds.sincap.controleInterno.cln.cgt.AplSetor;
 import java.util.List;
@@ -220,4 +221,41 @@ public class AplSetorTest extends AbstractionTest {
             
     }
     
+    @Test
+    public void mapearSetor(){
+        List<SetorDTO> setoresDTO = aplSetor.obterDTO();
+        List<Setor> setores = aplSetor.obter();
+        int matches=0;
+        for(SetorDTO setorDTO : setoresDTO){
+            for(Setor setor: setores){
+                if(setorDTO.getId().equals(setor.getId())){
+                    matches++;
+                }
+            }
+        }
+        Assert.assertSame(matches, setores.size());
+    }
+    
+    /**
+     * Verifica se é possível cadastrar dois setores com o mesmo nome.
+     * @throws SetorExistenteException
+     */
+    @Test
+    public void adicionarSetorComMesmoNome() throws SetorExistenteException{
+        Setor setorTeste = new Setor();
+        setorTeste.setNome("Setor teste");
+        Setor setorTeste2 = new Setor();
+        setorTeste2.setNome("Setor teste");
+        
+        aplSetor.adicionar(setorTeste);
+        try {
+            aplSetor.adicionar(setorTeste2);
+        } catch (SetorExistenteException e) {
+            //Indica que a exceção foi lançada, portanto o programa está correto
+            Assert.assertTrue(true);
+        }
+        //Verifica se o setor foi cadastrado, emitindo um erro em caso de confirmação
+        if(aplSetor.buscarSetor(setorTeste2.getNome()) != null)
+            Assert.assertTrue(false);
+    }
 }

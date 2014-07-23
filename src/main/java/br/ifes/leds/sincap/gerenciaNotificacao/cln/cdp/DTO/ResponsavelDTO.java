@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTO;
+package br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto;
 
 import br.ifes.leds.reuse.endereco.cdp.dto.EnderecoDTO;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Sexo;

@@ -16,8 +16,8 @@ import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ObitoRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.PacienteRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Obito;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Paciente;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTO.ObitoDTO;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTO.PacienteDTO;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.ObitoDTO;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.PacienteDTO;
 
 @Service
 public class AplObito {
