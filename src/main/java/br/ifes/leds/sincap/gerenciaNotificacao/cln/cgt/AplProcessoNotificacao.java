@@ -395,10 +395,13 @@ public class AplProcessoNotificacao {
      * @return
      */
     public ProcessoNotificacaoDTO obter(Long id) {
-        ProcessoNotificacao processoNotificacao = notificacaoRepository
-                .findOne(id);
+        ProcessoNotificacao processoNotificacao = getProcessoNotificacao(id);
 
         return mapper.map(processoNotificacao, ProcessoNotificacaoDTO.class);
+    }
+
+    public ProcessoNotificacao getProcessoNotificacao(Long id) {
+        return notificacaoRepository.findOne(id);
     }
 
     /**
