@@ -200,7 +200,7 @@ public class AplProcessoNotificacaoTest extends AbstractionTest {
         CaptacaoDTO captacaoDTO = mapper.map(captacaoData.criarCaptacao(df, captador), CaptacaoDTO.class);
 
         notificacao.setCaptacao(captacaoDTO);
-        Long id = aplProcessoNotificacao.salvarCaptacao(notificacao, captacaoDTO.getCaptador());
+        Long id = aplProcessoNotificacao.salvarCaptacao(notificacao.getId(), notificacao.getCaptacao(), captacaoDTO.getCaptador());
 
         notificacao = aplProcessoNotificacao.obter(id);
     }

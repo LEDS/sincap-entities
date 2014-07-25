@@ -6,6 +6,7 @@
  import br.ifes.leds.sincap.gerenciaNotificacao.cgd.AtualizacaoEstadoRepository;
  import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ProcessoNotificacaoRepository;
  import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.AtualizacaoEstado;
+ import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.CaptacaoDTO;
  import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.ProcessoNotificacaoDTO;
  import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoNotificacaoEnum;
  import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.ProcessoNotificacao;
@@ -121,12 +122,17 @@ public class AplProcessoNotificacao {
     /**
      * Metodo que salva um nova captacao vinculada a um Processo de Notificacao
      *
-     * @param processoNotificacaoDTO - Salva a captacao vinculada ao processo de notificacao
-     * @param idCaptador             - Id do captador vinculado a notificacao
+     * @param captacaoDTO - CaptacaoDTO que sera salvo
+     * @param idProcesso - Id do processo de notificacao
+     * @param idCaptador - Id do captador vinculado a notificacao
      * @return
      */
-    public long salvarCaptacao(ProcessoNotificacaoDTO processoNotificacaoDTO, Long idCaptador) {
-        ProcessoNotificacao notificacao = mapearProcessoNotificacaoDTO(processoNotificacaoDTO);
+    public long salvarCaptacao(Long idProcesso, CaptacaoDTO captacaoDTO, Long idCaptador) {
+
+        ProcessoNotificacaoDTO processo = this.obter(idProcesso);
+        processo.setCaptacao(captacaoDTO);
+
+        ProcessoNotificacao notificacao = mapearProcessoNotificacaoDTO(processo);
 
         this.addNovoEstado(EstadoNotificacaoEnum.AGUARDANDOANALISECAPTACAO,
                 notificacao,
