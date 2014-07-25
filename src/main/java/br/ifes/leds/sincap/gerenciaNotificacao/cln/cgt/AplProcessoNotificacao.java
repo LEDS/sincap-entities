@@ -6,10 +6,10 @@
  import br.ifes.leds.sincap.gerenciaNotificacao.cgd.AtualizacaoEstadoRepository;
  import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ProcessoNotificacaoRepository;
  import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.AtualizacaoEstado;
- import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.CaptacaoDTO;
- import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.ProcessoNotificacaoDTO;
  import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoNotificacaoEnum;
  import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.ProcessoNotificacao;
+ import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.CaptacaoDTO;
+ import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.ProcessoNotificacaoDTO;
  import org.dozer.Mapper;
  import org.springframework.beans.factory.annotation.Autowired;
  import org.springframework.stereotype.Service;
@@ -230,11 +230,13 @@ public class AplProcessoNotificacao {
      * @param idFuncionario
      * @return
      */
-    public Long recusarAnaliseEntrevista(ProcessoNotificacaoDTO processoNotificacaoDTO,
+    public Long recusarAnaliseEntrevista(Long idProcessoNotificacao,
                                          Long idFuncionario) {
 
+        ProcessoNotificacaoDTO processoNotificacao = obter(idProcessoNotificacao);
+
         return this.addNovoEstadoNoProcessoNotificacao(
-                processoNotificacaoDTO,
+                processoNotificacao,
                 EstadoNotificacaoEnum.AGUARDANDOENTREVISTA,
                 idFuncionario);
     }
@@ -244,15 +246,17 @@ public class AplProcessoNotificacao {
      * uma das opcoes eh aceitar essa analise,
      * logo, o estado muda para AGUARDANDOCAPTACAO.
      *
-     * @param processoNotificacaoDTO
+     * @param idProcessoNotificacao
      * @param idFuncionario
      * @return
      */
-    public Long validarAnaliseEntrevista(ProcessoNotificacaoDTO processoNotificacaoDTO,
+    public Long validarAnaliseEntrevista(Long idProcessoNotificacao,
                                          Long idFuncionario) {
 
+        ProcessoNotificacaoDTO processoNotificacao = obter(idProcessoNotificacao);
+
         return this.addNovoEstadoNoProcessoNotificacao(
-                processoNotificacaoDTO,
+                processoNotificacao,
                 EstadoNotificacaoEnum.AGUARDANDOCAPTACAO,
                 idFuncionario);
     }
@@ -285,15 +289,17 @@ public class AplProcessoNotificacao {
      * Dado haja causa de nao doacao ou o processo de notificacao chegou ao fim,
      * o estado do mesmo deve mudar para AGUARDANDOARQUIVAMENTO.
      *
-     * @param processoNotificacaoDTO
+     * @param idProcessoNotificacao
      * @param idFuncionario
      * @return
      */
-    public Long finalizarProcesso(ProcessoNotificacaoDTO processoNotificacaoDTO,
+    public Long finalizarProcesso(Long idProcessoNotificacao,
                                   Long idFuncionario) {
 
+        ProcessoNotificacaoDTO processoNotificacao = obter(idProcessoNotificacao);
+
         return this.addNovoEstadoNoProcessoNotificacao(
-                processoNotificacaoDTO,
+                processoNotificacao,
                 EstadoNotificacaoEnum.AGUARDANDOARQUIVAMENTO,
                 idFuncionario);
     }
