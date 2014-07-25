@@ -1,22 +1,22 @@
- package br.ifes.leds.sincap.gerenciaNotificacao.cln.cgt;
+package br.ifes.leds.sincap.gerenciaNotificacao.cln.cgt;
 
- import br.ifes.leds.reuse.ledsExceptions.CRUDExceptions.ViolacaoDeRIException;
- import br.ifes.leds.reuse.utility.Utility;
- import br.ifes.leds.sincap.controleInterno.cln.cdp.Funcionario;
- import br.ifes.leds.sincap.gerenciaNotificacao.cgd.AtualizacaoEstadoRepository;
- import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ProcessoNotificacaoRepository;
- import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.AtualizacaoEstado;
- import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTO.ProcessoNotificacaoDTO;
- import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoNotificacaoEnum;
- import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.ProcessoNotificacao;
- import org.dozer.Mapper;
- import org.springframework.beans.factory.annotation.Autowired;
- import org.springframework.stereotype.Service;
+import br.ifes.leds.reuse.ledsExceptions.CRUDExceptions.ViolacaoDeRIException;
+import br.ifes.leds.reuse.utility.Utility;
+import br.ifes.leds.sincap.controleInterno.cln.cdp.Funcionario;
+import br.ifes.leds.sincap.gerenciaNotificacao.cgd.AtualizacaoEstadoRepository;
+import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ProcessoNotificacaoRepository;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.AtualizacaoEstado;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTO.ProcessoNotificacaoDTO;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoNotificacaoEnum;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.ProcessoNotificacao;
+import org.dozer.Mapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
- import java.util.ArrayList;
- import java.util.Calendar;
- import java.util.List;
- import java.util.UUID;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * AplProcessoNotificacao.java
@@ -43,10 +43,9 @@ public class AplProcessoNotificacao {
 
     /**
      * Metodo que salva uma nova notificação contendo notificacao de obito
-     * 
-     * @param processoNotificacaoDTO
-     *            - ProcessoNotificacao - Notificacao que sera salva
-     * @param idFuncionario - Id do funcionario que criou a notificacao
+     *
+     * @param processoNotificacaoDTO - ProcessoNotificacao - Notificacao que sera salva
+     * @param idFuncionario          - Id do funcionario que criou a notificacao
      * @return long - Retorna o id do ProcessoNotificacao salvo
      * @throws ViolacaoDeRIException
      */
@@ -131,6 +130,8 @@ public class AplProcessoNotificacao {
         this.addNovoEstado(EstadoNotificacaoEnum.AGUARDANDOANALISECAPTACAO,
                 notificacao,
                 idCaptador);
+
+        if (notificacao.getCaptacao().getId() == null) notificacao.getCaptacao().setDataCadastro(Calendar.getInstance());
 
         aplCaptacao.salvarCaptacao(notificacao.getCaptacao());
         this.salvarHistorico(notificacao.getHistorico());
@@ -297,7 +298,7 @@ public class AplProcessoNotificacao {
             Long idFuncionario) {
 
         ProcessoNotificacao notificacao = mapearProcessoNotificacaoDTO(processoNotificacaoDTO);
-        
+
         this.addNovoEstado(enumEstado,
                 notificacao,
                 idFuncionario);
@@ -313,44 +314,44 @@ public class AplProcessoNotificacao {
 
         return notificacao;
     }
-    
+
     public void addNovoEstado(EstadoNotificacaoEnum enumEstado,
-            ProcessoNotificacao processo,
-            Long idFuncionario){
-        
+                              ProcessoNotificacao processo,
+                              Long idFuncionario) {
+
         AtualizacaoEstado novoEstado = new AtualizacaoEstado();
-        
+
         novoEstado.setDataAtualizacaos(Calendar.getInstance());
         novoEstado.setEstadoNotificacao(enumEstado);
         novoEstado.setFuncionario(this.getFuncionario(idFuncionario));
-        
+
         processo.mudarEstadoAtual(novoEstado);
     }
-    
+
     /**
      * Adiciona o historio de estados na notificacao, linkando o primeiro estado
-     * 
+     *
      * @param notificacao Notificacao a ser adicionado o estado inicial.
      */
     private void addEstadoInicial(ProcessoNotificacao notificacao, Long idFuncionario) {
         List<AtualizacaoEstado> historico = new ArrayList<>();
         AtualizacaoEstado atualizacaoEstado = new AtualizacaoEstado();
-        
+
         atualizacaoEstado.setFuncionario(this.getFuncionario(idFuncionario));
         atualizacaoEstado.setDataAtualizacaos(Calendar.getInstance());
         atualizacaoEstado.setEstadoNotificacao(EstadoNotificacaoEnum.AGUARDANDOANALISEOBITO);
-        
+
         notificacao.mudarEstadoAtual(atualizacaoEstado);
     }
-    
+
     /**
      * Retorna um funcionario dado um id recebido.
      * OBS.: O funcionario nao tem todos os campos preenchidos, apenas o ID
-     * 
+     *
      * @param idFuncionario
-     * @return  - Retorna um funcionario
+     * @return - Retorna um funcionario
      */
-    private Funcionario getFuncionario(Long idFuncionario){
+    private Funcionario getFuncionario(Long idFuncionario) {
         Funcionario funcionario = new Funcionario();
         funcionario.setId(idFuncionario);
         return funcionario;
@@ -358,9 +359,8 @@ public class AplProcessoNotificacao {
 
     /**
      * Metodo que salva os estados da notificacao
-     * 
-     * @param historico
-     *            List - Lista de Atualizacoes de estados
+     *
+     * @param historico List - Lista de Atualizacoes de estados
      */
     private void salvarHistorico(List<AtualizacaoEstado> historico) {
         if (!historico.isEmpty()) {
@@ -372,7 +372,7 @@ public class AplProcessoNotificacao {
 
     /**
      * Obtém todos os Processos de Notificacao.
-     * 
+     *
      * @return Uma lista de {@code ProcessoNotificacaoDTO}.
      */
     public List<ProcessoNotificacaoDTO> obterTodasNotificacoes() {
@@ -382,9 +382,8 @@ public class AplProcessoNotificacao {
 
     /**
      * Metodo que arquiva uma notificacao
-     * 
-     * @param notificacao
-     *            Notificacao - Notificacao que sofera o arquivamoento
+     *
+     * @param notificacao Notificacao - Notificacao que sofera o arquivamoento
      */
     public void arquivar(ProcessoNotificacao notificacao) {
         notificacao.setArquivado(true);
@@ -393,9 +392,8 @@ public class AplProcessoNotificacao {
 
     /**
      * Obter Processo de Notificacao
-     * 
-     * @param id
-     *            - Id do Processo de Notificacao
+     *
+     * @param id - Id do Processo de Notificacao
      * @return
      */
     public ProcessoNotificacaoDTO obter(Long id) {
@@ -407,7 +405,7 @@ public class AplProcessoNotificacao {
 
     /**
      * Metodo que busca todas as notificacoes nao arquivadas
-     * 
+     *
      * @return List - Lista de notificacoes
      */
     public List<ProcessoNotificacaoDTO> retornarNotificacaoNaoArquivada() {
@@ -420,7 +418,7 @@ public class AplProcessoNotificacao {
 
     /**
      * Metodo que busca todas as notificacoes arquivadas
-     * 
+     *
      * @return List - Lista de notificacoes
      */
     public List<ProcessoNotificacaoDTO> retornarNotificacaoArquivada() {
@@ -433,11 +431,9 @@ public class AplProcessoNotificacao {
 
     /**
      * Metodo que busca todas as notificacoes por data inicio e final
-     * 
-     * @param DataAberturaIni
-     *            Calendar - Data inicial da busca
-     * @param DataAberturaFim
-     *            Calendar - Data final da busca
+     *
+     * @param DataAberturaIni Calendar - Data inicial da busca
+     * @param DataAberturaFim Calendar - Data final da busca
      * @return List - Lista de notificacoes
      */
     public List<ProcessoNotificacaoDTO> retornarNotificacaoPorData(
@@ -453,8 +449,7 @@ public class AplProcessoNotificacao {
      * Metodo que busca todas as notificacoes, pegando apenas as que estão no
      * estado atual indicado.
      *
-     * @param estado
-     *            Estado que será usado para filtrar as notificações.
+     * @param estado Estado que será usado para filtrar as notificações.
      * @return Notificações filtras pelo estado atual.
      */
     public List<ProcessoNotificacaoDTO> retornarNotificacaoPorEstadoAtual(
@@ -470,8 +465,7 @@ public class AplProcessoNotificacao {
      * Metodo que busca todas as notificacoes, pegando apenas as que estão no
      * estado atual indicado.
      *
-     * @param estado
-     *            Estado que será usado para filtrar as notificações.
+     * @param estado Estado que será usado para filtrar as notificações.
      * @return Notificações filtras pelo estado atual.
      */
     public List<ProcessoNotificacao> retornarProcessoNotificacaoPorEstadoAtual(
