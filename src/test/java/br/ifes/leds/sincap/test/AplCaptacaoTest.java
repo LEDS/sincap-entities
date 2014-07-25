@@ -5,7 +5,7 @@ import br.ifes.leds.reuse.utility.Factory;
 import br.ifes.leds.reuse.utility.Utility;
 import br.ifes.leds.sincap.controleInterno.cgd.CaptadorRepository;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Captador;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTO.CaptacaoDTO;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.CaptacaoDTO;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cgt.AplCaptacao;
 import junit.framework.Assert;
 import org.dozer.Mapper;

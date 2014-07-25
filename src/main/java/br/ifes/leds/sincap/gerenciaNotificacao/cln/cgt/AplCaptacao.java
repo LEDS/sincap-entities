@@ -3,7 +3,7 @@ package br.ifes.leds.sincap.gerenciaNotificacao.cln.cgt;
 import br.ifes.leds.reuse.utility.Utility;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.CaptacaoRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Captacao;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTO.CaptacaoDTO;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.CaptacaoDTO;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

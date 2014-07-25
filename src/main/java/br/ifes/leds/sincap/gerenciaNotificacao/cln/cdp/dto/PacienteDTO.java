@@ -1,4 +1,4 @@
-package br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTO;
+package br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto;
 
 import java.util.Calendar;
 

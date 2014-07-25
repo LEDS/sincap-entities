@@ -13,10 +13,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.ifes.leds.reuse.ledsExceptions.CRUDExceptions.SetorExistenteException;
+import br.ifes.leds.reuse.utility.Utility;
 import br.ifes.leds.sincap.controleInterno.cgd.HospitalRepository;
 import br.ifes.leds.sincap.controleInterno.cgd.SetorRepository;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Hospital;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Setor;
+import br.ifes.leds.sincap.controleInterno.cln.cdp.dto.SetorDTO;
+import java.util.ArrayList;
+import org.dozer.Mapper;
 
 /**
  *
@@ -25,10 +29,16 @@ import br.ifes.leds.sincap.controleInterno.cln.cdp.Setor;
 @Service
 public class AplSetor {
     @Autowired
+    private Mapper mapper;
+    
+    @Autowired
     private SetorRepository setorRepository;
     
     @Autowired
     private HospitalRepository hospitalRepository;
+    
+    @Autowired
+    private Utility utility;
     
     /** Método para buscar uma lista de setores por hospital.
      * @param hospital - objeto Hospital.
@@ -78,6 +88,17 @@ public class AplSetor {
     	return this.setorRepository.findOne(idSetor);
     }
     
+    public Setor buscarSetor(String nome){
+        return this.setorRepository.findByNome(nome);
+    }
+    
+    /** Método para adicionar um setor à partir de um SetorDTO.
+      * @param setorDTO  - objeto SetorDTO.   
+     */
+    public void adicionar(SetorDTO setorDTO) throws SetorExistenteException{
+        adicionar(mapper.map(setorDTO, Setor.class));        
+    }
+    
     /** Método para adicionar um setor.
       * @param setor  - objeto Setor.   
      */
@@ -85,13 +106,33 @@ public class AplSetor {
     	
     	String nomeSetor = setor.getNome().toUpperCase().trim();
 		
-		Setor setorBanco = setorRepository.findByNome(nomeSetor);
-		
-		if (setorBanco != null) throw new SetorExistenteException();
-				
-		setor.setNome(nomeSetor);
-		
-		setorRepository.save(setor);
+		if (this.existe(nomeSetor)) 
+                    throw new SetorExistenteException();
+                else{				
+                    setor.setNome(nomeSetor);
+                    setorRepository.save(setor);
+                }
+    }
+    
+    /**
+     * 
+     * @return Lista de SetorDTO com o valor "boolean usado" já preenchido.
+     */
+    public List<SetorDTO> obterDTO(){
+        List<Setor> setores = this.obter();
+        List<SetorDTO> setoresDTO = new ArrayList<>();
+        
+        //Verifica se o setor possui hospitais cadastrados. Caso possua, seta usado como true, senão false;
+        for(Setor setor : setores){
+            if(hospitalRepository.findBySetores(setor)
+                    .isEmpty()){
+                setoresDTO.add(new SetorDTO(setor.getId(),setor.getNome(),false));
+            }
+            else
+                setoresDTO.add(new SetorDTO(setor.getId(),setor.getNome(),true));
+        }
+        
+        return setoresDTO;
     }
     
     /** Método para buscar uma lista com todos os setores existentes.   
@@ -99,6 +140,14 @@ public class AplSetor {
      */
     public List<Setor> obter(){
     	return this.setorRepository.findAll();
+    }
+    
+    /** Método para verificar o cadastro prévio de um setor.
+     * @param nome 
+      * @return retorna o valor correspondente a existência ou a não existência de um registro prévio.
+     */
+    private boolean existe(String nome){
+        return this.setorRepository.findByNome(nome)!= null;
     }
     
     /** Método para exlcuir um setor.   

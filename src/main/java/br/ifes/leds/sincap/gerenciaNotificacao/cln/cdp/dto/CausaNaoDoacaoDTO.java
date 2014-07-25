@@ -1,4 +1,4 @@
-package br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTO;
+package br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto;
 
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoNaoDoacao;
 import lombok.AllArgsConstructor;

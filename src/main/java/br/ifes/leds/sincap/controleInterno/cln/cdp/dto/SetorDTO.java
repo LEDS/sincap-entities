@@ -13,4 +13,5 @@ public class SetorDTO {
 
     private Long id;
     private String nome;
+    private boolean usado;
 }

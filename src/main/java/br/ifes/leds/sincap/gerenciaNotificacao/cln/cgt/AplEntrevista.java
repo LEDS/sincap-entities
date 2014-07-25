@@ -12,7 +12,7 @@ import br.ifes.leds.sincap.controleInterno.cgd.TelefoneRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.EntrevistaRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ResponsavelRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.TestemunhaRepository;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DTO.EntrevistaDTO;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.EntrevistaDTO;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Entrevista;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,15 +34,15 @@ public class AplEntrevista {
     @Autowired
     private Mapper mapper;
     @Autowired
-    EntrevistaRepository entrevistaRepository;
+    private EntrevistaRepository entrevistaRepository;
     @Autowired
-    ResponsavelRepository responsavelRepository;
+    private ResponsavelRepository responsavelRepository;
     @Autowired
-    TestemunhaRepository testemunhaRepository;
+    private TestemunhaRepository testemunhaRepository;
     @Autowired
-    TelefoneRepository telefoneRepository;
+    private TelefoneRepository telefoneRepository;
     @Autowired
-    EnderecoRepository enderecoRepository;
+    private EnderecoRepository enderecoRepository;
 
     public List<EntrevistaDTO> getAllEntrevistas() {
         return utility.mapList(entrevistaRepository.findAll(), EntrevistaDTO.class);
