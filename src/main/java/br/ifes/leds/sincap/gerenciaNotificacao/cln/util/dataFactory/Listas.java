@@ -10,6 +10,7 @@ import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CorpoEncaminhamento;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoCivil;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Parentesco;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoObito;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -97,7 +98,7 @@ public enum Listas {
         
         listaEstado = new ArrayList<>();
         
-        listaEstado.add(EstadoCivil.CASADO);
+        listaEstado.add(EstadoCivil.UNIAO_ESTAVEL);
         listaEstado.add(EstadoCivil.DIVORCIADO);
         listaEstado.add(EstadoCivil.SOLTEIRO);
         listaEstado.add(EstadoCivil.VIUVO);
