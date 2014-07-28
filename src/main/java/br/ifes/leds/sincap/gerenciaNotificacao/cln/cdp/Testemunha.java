@@ -1,11 +1,11 @@
 package br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-
+import br.ifes.leds.sincap.controleInterno.cln.cdp.Pessoa;
 import lombok.Getter;
 import lombok.Setter;
-import br.ifes.leds.sincap.controleInterno.cln.cdp.Pessoa;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
 
 /**
  * Testemunha.java
@@ -19,5 +19,5 @@ import br.ifes.leds.sincap.controleInterno.cln.cdp.Pessoa;
 public class Testemunha extends Pessoa {
 
     @Column
-    private String cpf;
+    private String documentoSocial;
 }

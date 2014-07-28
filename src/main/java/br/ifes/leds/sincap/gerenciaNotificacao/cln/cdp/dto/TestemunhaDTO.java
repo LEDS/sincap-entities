@@ -22,7 +22,7 @@ import lombok.Setter;
 public class TestemunhaDTO {
 
     private Long id;
-    private String cpf;
+    private String documentoSocial;
     private String nome;
     private Telefone telefone;
 }

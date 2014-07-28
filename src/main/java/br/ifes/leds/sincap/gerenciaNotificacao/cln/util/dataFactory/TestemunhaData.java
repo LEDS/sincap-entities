@@ -75,7 +75,7 @@ public class TestemunhaData {
         telefone = fabrica.criaObjeto(Telefone.class);
         
         testemunha.setNome(df.getName());
-        testemunha.setCpf(df.getNumberText(11));
+        testemunha.setDocumentoSocial(df.getNumberText(11));
         
         //Endereco
         endereco.setLogradouro(df.getStreetName());
