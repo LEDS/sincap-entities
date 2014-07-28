@@ -501,4 +501,22 @@ public class AplProcessoNotificacao {
     private String genereateCode() {
         return UUID.randomUUID().toString();
     }
+
+    public void recusarAnaliseCaptacao(Long idProcesso, Long idFuncionario) {
+        ProcessoNotificacaoDTO processoNotificacao = obter(idProcesso);
+
+        this.addNovoEstadoNoProcessoNotificacao(
+                processoNotificacao,
+                EstadoNotificacaoEnum.AGUARDANDOCAPTACAO,
+                idFuncionario);
+    }
+
+    public void confirmarAnaliseCaptacao(Long idProcesso, Long idFuncionario) {
+        ProcessoNotificacaoDTO processoNotificacao = obter(idProcesso);
+
+        this.addNovoEstadoNoProcessoNotificacao(
+                processoNotificacao,
+                EstadoNotificacaoEnum.NOTIFICACAOARQUIVADA,
+                idFuncionario);
+    }
 }
