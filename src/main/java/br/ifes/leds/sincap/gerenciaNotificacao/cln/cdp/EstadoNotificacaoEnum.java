@@ -5,6 +5,7 @@ package br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp;
  * @author 20102bsi0553
  */
 public enum EstadoNotificacaoEnum {
+    AGUARDANDOCORRECAOOBITO("Aguardando Correção do Óbito"),
     AGUARDANDOANALISEOBITO("Aguardando Análise de Óbito"),
     EMANALISEOBITO("Em Análise de Óbito"),
     AGUARDANDOENTREVISTA("Aguardando Entrevista"),
