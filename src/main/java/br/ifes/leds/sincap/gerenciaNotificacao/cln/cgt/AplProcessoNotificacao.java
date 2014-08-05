@@ -180,7 +180,7 @@ public class AplProcessoNotificacao {
 
         return this.addNovoEstadoNoProcessoNotificacao(
                 processoNotificacaoDTO,
-                EstadoNotificacaoEnum.AGUARDANDOANALISEOBITO,
+                EstadoNotificacaoEnum.AGUARDANDOCORRECAOOBITO,
                 idFuncionario);
     }
 
@@ -195,11 +195,21 @@ public class AplProcessoNotificacao {
      */
     public Long validarAnaliseObito(ProcessoNotificacaoDTO processoNotificacaoDTO,
                                     Long idFuncionario) {
+        Long situacao;
+        
+        if (processoNotificacaoDTO.getCausaNaoDoacao() == null){
+            situacao = this.addNovoEstadoNoProcessoNotificacao(
+                    processoNotificacaoDTO,
+                    EstadoNotificacaoEnum.AGUARDANDOENTREVISTA,
+                    idFuncionario);
+        } else {
+                situacao = this.addNovoEstadoNoProcessoNotificacao(
+                    processoNotificacaoDTO,
+                    EstadoNotificacaoEnum.AGUARDANDOARQUIVAMENTO,
+                    idFuncionario);
+          }    
 
-        return this.addNovoEstadoNoProcessoNotificacao(
-                processoNotificacaoDTO,
-                EstadoNotificacaoEnum.AGUARDANDOENTREVISTA,
-                idFuncionario);
+        return situacao;
     }
 
     /**
