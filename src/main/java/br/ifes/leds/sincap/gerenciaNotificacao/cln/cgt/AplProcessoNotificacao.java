@@ -265,9 +265,16 @@ public class AplProcessoNotificacao {
 
         ProcessoNotificacaoDTO processoNotificacao = obter(idProcessoNotificacao);
 
+        if(processoNotificacao.getCausaNaoDoacao() == null || processoNotificacao.getEntrevista().isDoacaoAutorizada() ) {
+            return this.addNovoEstadoNoProcessoNotificacao(
+                    processoNotificacao,
+                    EstadoNotificacaoEnum.AGUARDANDOCAPTACAO,
+                    idFuncionario);
+        }
+
         return this.addNovoEstadoNoProcessoNotificacao(
                 processoNotificacao,
-                EstadoNotificacaoEnum.AGUARDANDOCAPTACAO,
+                EstadoNotificacaoEnum.AGUARDANDOARQUIVAMENTO,
                 idFuncionario);
     }
 
