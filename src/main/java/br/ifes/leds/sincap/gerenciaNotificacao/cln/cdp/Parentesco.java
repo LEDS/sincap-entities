@@ -7,5 +7,5 @@ package br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp;
  */
 public enum Parentesco {
 	// TODO avaliar que tipo de nome e o meis indicado para este caso
-	PAIS, AVOS, CONJUGE, IRMAOS, TIOS	
+	PAIS, AVOS, CONJUGE, IRMAOS, TIOS, FILHOS
 }
