@@ -10,6 +10,7 @@ import br.ifes.leds.sincap.controleInterno.cln.cdp.AnalistaCNCDO;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.AnalistaCNCDORepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.util.List;
 
 /**
  *
@@ -28,6 +29,14 @@ public class AplAnalistaCNCDO {
     public AnalistaCNCDO obter(Long id)
     {
         return analistaCNCDORepository.findOne(id);
+    }
+
+    /** Método para obter uma lista de analistas .
+      * @return Lista de objetos Analista.
+     */
+    public List<AnalistaCNCDO> obter()
+    {
+        return analistaCNCDORepository.findAll();
     }
     
     /** Método para obter um analista pelo seu CPF.
