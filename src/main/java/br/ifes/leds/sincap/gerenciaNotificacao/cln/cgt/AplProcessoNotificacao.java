@@ -6,6 +6,7 @@
  import br.ifes.leds.sincap.gerenciaNotificacao.cgd.AtualizacaoEstadoRepository;
  import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ProcessoNotificacaoRepository;
  import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.AtualizacaoEstado;
+ import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CausaNaoDoacao;
  import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoNotificacaoEnum;
  import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.ProcessoNotificacao;
  import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.CaptacaoDTO;
@@ -36,6 +37,8 @@ public class AplProcessoNotificacao {
     @Autowired
     private AplCaptacao aplCaptacao;
     @Autowired
+    private AplCausaNaoDoacao aplCausaNaoDoacao;
+    @Autowired
     private AtualizacaoEstadoRepository atualizacaoEstadoRepository;
     @Autowired
     private Mapper mapper;
@@ -58,7 +61,6 @@ public class AplProcessoNotificacao {
 
         ProcessoNotificacao notificacao = mapper.map(processoNotificacaoDTO,
                 ProcessoNotificacao.class);
-
         preparaProcessoParaSalvar(notificacao);
 
         aplObito.salvarObito(notificacao.getObito());
@@ -105,14 +107,14 @@ public class AplProcessoNotificacao {
                 idFuncionario);
         this.salvarHistorico(notificacao.getHistorico());
 
-        if (notificacao.getEntrevista().getDataEntrevista() == null) {
-            notificacao.setEntrevista(null);
-        } else {
+//        if (notificacao.getEntrevista().getDataEntrevista() == null) {
+//            notificacao.setEntrevista(null);
+//        } else {
             aplEntrevista.salvarEntrevista(notificacao.getEntrevista());
-            if (notificacao.doacaoAutorizado()) {
-                notificacao.setCausaNaoDoacao(null);
-            }
-        }
+//            if (notificacao.doacaoAutorizado()) {
+//                notificacao.setCausaNaoDoacao(null);
+//            }
+//        }
 
         notificacaoRepository.save(notificacao);
 
@@ -236,7 +238,7 @@ public class AplProcessoNotificacao {
      * dado a erros que haja na notificacao, por exemplo;
      * Voltar para o estado AGUARDANDOENTREVISTA.
      *
-     * @param processoNotificacaoDTO
+     * @param idProcessoNotificacao
      * @param idFuncionario
      * @return
      */
@@ -247,7 +249,7 @@ public class AplProcessoNotificacao {
 
         return this.addNovoEstadoNoProcessoNotificacao(
                 processoNotificacao,
-                EstadoNotificacaoEnum.AGUARDANDOENTREVISTA,
+                EstadoNotificacaoEnum.AGUARDANDOCORRECAOENTREVISTA,
                 idFuncionario);
     }
 
@@ -265,7 +267,7 @@ public class AplProcessoNotificacao {
 
         ProcessoNotificacaoDTO processoNotificacao = obter(idProcessoNotificacao);
 
-        if(processoNotificacao.getCausaNaoDoacao() == null || processoNotificacao.getEntrevista().isDoacaoAutorizada() ) {
+        if(processoNotificacao.getCausaNaoDoacao() == null && processoNotificacao.getEntrevista().isDoacaoAutorizada() ) {
             return this.addNovoEstadoNoProcessoNotificacao(
                     processoNotificacao,
                     EstadoNotificacaoEnum.AGUARDANDOCAPTACAO,
@@ -535,5 +537,9 @@ public class AplProcessoNotificacao {
                 processoNotificacao,
                 EstadoNotificacaoEnum.NOTIFICACAOARQUIVADA,
                 idFuncionario);
+    }
+
+    public CausaNaoDoacao getCausadeDoacaoProcesso(ProcessoNotificacaoDTO processo) {
+        return aplCausaNaoDoacao.obter(processo.getCausaNaoDoacao());
     }
 }
