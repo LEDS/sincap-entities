@@ -77,6 +77,7 @@ public class EntrevistaData {
         entrevista.setTestemunha1(df.getItem(listTestemunha));
         entrevista.setTestemunha2(df.getItem(listTestemunha));
         entrevista.setDoacaoAutorizada(df.chance(50));
+        entrevista.setEntrevistaRealizada(df.chance(50));
         listFuncionario = funcionarioRepository.findAll();
         entrevista.setFuncionario(df.getItem(listFuncionario));
         
