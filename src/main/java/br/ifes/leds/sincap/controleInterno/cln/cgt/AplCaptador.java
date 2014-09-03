@@ -10,12 +10,15 @@ import br.ifes.leds.sincap.controleInterno.cgd.TelefoneRepository;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Captador;
 import org.springframework.beans.factory.annotation.Autowired;
 import br.ifes.leds.sincap.controleInterno.cgd.CaptadorRepository;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 /**
  *
  * @author André Leão
  */
+@Service
 public class AplCaptador {
     @Autowired
     private CaptadorRepository captadorRepository;
