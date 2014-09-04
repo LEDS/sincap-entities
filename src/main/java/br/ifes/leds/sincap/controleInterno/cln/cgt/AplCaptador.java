@@ -37,6 +37,14 @@ public class AplCaptador {
         captadorRepository.save(captador);
     }
 
+    /** Método para remover um captador pelo objeto.
+     * @param captador - Objeto captador.
+     */
+    public void exlcuir(Captador captador) {
+        captadorRepository.delete(captador);
+    }
+
+
     /** Método para remover um captador pelo seu id.
      * @param captador - id do captador.
      */
