@@ -30,6 +30,9 @@ public class Entrevista extends ObjetoPersistente {
     private Calendar dataEntrevista; //Data e horario de quando a entrevista foi realizada.
     
     @Column
+    private boolean entrevistaRealizada;
+
+    @Column
     private boolean doacaoAutorizada;
     
     @OneToOne

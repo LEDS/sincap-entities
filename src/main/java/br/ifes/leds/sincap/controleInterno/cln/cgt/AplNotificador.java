@@ -40,6 +40,13 @@ public class AplNotificador {
     public void delete(Long notificador) {
         notificadorRepository.delete(notificador);
     }
+
+    /** Método para remover um notificador .
+     * @param notificador - Objeto Notificador.
+     */
+    public void delete(Notificador notificador) {
+        notificadorRepository.delete(notificador);
+    }
     
     /** Método para obter um notificador pelo seu cpf.
      * @param notificador - CPF do Notificador.

@@ -1,11 +1,11 @@
 package br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-
-import lombok.Getter;
-import lombok.Setter;
 
 /**
  *
@@ -26,4 +26,5 @@ public class ProcessoNotificacaoDTO {
     private Long notificador;
     private CaptacaoDTO captacao;
     private Long causaNaoDoacao;
+    private AtualizacaoEstadoDTO ultimoEstado;
 }

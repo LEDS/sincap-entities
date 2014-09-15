@@ -24,6 +24,7 @@ public class EntrevistaDTO {
     private Long id;
     // Dados para o cabeçalho do formulário
     private boolean doacaoAutorizada;
+    private boolean entrevistaRealizada;
     private Calendar dataEntrevista; // Data e horario do entrevista
     private Calendar dataCadastro; // Data e horario da notificação
                                    // Doacao(entrevista)
