@@ -1,24 +1,19 @@
 package br.ifes.leds.sincap.controleInterno.cln.cgt;
 
-import java.util.Set;
-
+import br.ifes.leds.sincap.controleInterno.cgd.CaptadorRepository;
+import br.ifes.leds.sincap.controleInterno.cgd.FuncionarioRepository;
+import br.ifes.leds.sincap.controleInterno.cln.cdp.*;
+import br.ifes.leds.sincap.gerenciaNotificacao.cgd.AnalistaCNCDORepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.ifes.leds.sincap.controleInterno.cgd.CaptadorRepository;
-import br.ifes.leds.sincap.controleInterno.cgd.FuncionarioRepository;
-import br.ifes.leds.sincap.controleInterno.cln.cdp.BancoOlhos;
-import br.ifes.leds.sincap.controleInterno.cln.cdp.Captador;
-import br.ifes.leds.sincap.controleInterno.cln.cdp.Funcionario;
-import br.ifes.leds.sincap.controleInterno.cln.cdp.InstituicaoNotificadora;
-import br.ifes.leds.sincap.controleInterno.cln.cdp.Notificador;
-import br.ifes.leds.sincap.gerenciaNotificacao.cgd.AnalistaCNCDORepository;
+import java.util.Set;
 
 /**
  * AplPrincipal.java
  *
  * @author 20091BSI0273 Classe que presenta os serviços realizados pelos UC de
- * login
+ *         login
  */
 @Service
 public class AplPrincipal {
@@ -36,7 +31,6 @@ public class AplPrincipal {
      * Metodo para validar login do usuario.
      *
      * @param cpf
-     * @param password
      * @return user - Objeto Usuário
      * @throws Exception
      */
