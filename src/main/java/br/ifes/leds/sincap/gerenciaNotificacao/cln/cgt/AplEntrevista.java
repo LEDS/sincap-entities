@@ -12,8 +12,8 @@ import br.ifes.leds.sincap.controleInterno.cgd.TelefoneRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.EntrevistaRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ResponsavelRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.TestemunhaRepository;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.EntrevistaDTO;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Entrevista;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.EntrevistaDTO;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -59,27 +59,21 @@ public class AplEntrevista {
     }
 
     public void salvarEntrevista(Entrevista entrevista) throws ViolacaoDeRIException {
-        if (entrevista.isDoacaoAutorizada()) {
-            if (entrevistaValida(entrevista)) {
+        if (entrevistaValida(entrevista)) {
 
-                enderecoRepository.save(entrevista.getResponsavel().getEndereco());
-                telefoneRepository.save(entrevista.getResponsavel().getTelefone());
-                if (entrevista.getResponsavel().getTelefone2() != null)
-                    telefoneRepository.save(entrevista.getResponsavel().getTelefone2());
-                responsavelRepository.save(entrevista.getResponsavel());
+            enderecoRepository.save(entrevista.getResponsavel().getEndereco());
+            telefoneRepository.save(entrevista.getResponsavel().getTelefone());
+            if (entrevista.getResponsavel().getTelefone2() != null)
+                telefoneRepository.save(entrevista.getResponsavel().getTelefone2());
+            responsavelRepository.save(entrevista.getResponsavel());
 
-                setUpEntrevista(entrevista);
+            setUpEntrevista(entrevista);
 
-                testemunhaRepository.save(entrevista.getTestemunha1());
-                testemunhaRepository.save(entrevista.getTestemunha2());
-                // TODO: Validar todos os dados cadastrais
-            } else {
-                throw new ViolacaoDeRIException("Dados cadastrais de Responsável ou Testemunha(s) estão nulos!");
-            }
+            testemunhaRepository.save(entrevista.getTestemunha1());
+            testemunhaRepository.save(entrevista.getTestemunha2());
+            // TODO: Validar todos os dados cadastrais
         } else {
-            entrevista.setResponsavel(null);
-            entrevista.setTestemunha1(null);
-            entrevista.setTestemunha2(null);
+            throw new ViolacaoDeRIException("Dados cadastrais de Responsável ou Testemunha(s) estão nulos!");
         }
         entrevistaRepository.save(entrevista);
     }
