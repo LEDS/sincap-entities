@@ -271,6 +271,8 @@ public class AplProcessoNotificacao {
                 idFuncionario);
     }
 
+
+
     /**
      * Quando um processo de notificacao etapa óbito esta em analise
      * uma das opcoes é arquivar o processo,
@@ -517,7 +519,7 @@ public class AplProcessoNotificacao {
 
         this.addNovoEstadoNoProcessoNotificacao(
                 processoNotificacao,
-                EstadoNotificacaoEnum.AGUARDANDOCAPTACAO,
+                EstadoNotificacaoEnum.AGUARDANDOCORRECAOCAPTACACAO,
                 idFuncionario);
     }
 
