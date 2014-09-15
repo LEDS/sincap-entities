@@ -43,7 +43,7 @@ public class AplPrincipalTest extends AbstractionTest {
         
         @Test
         public void validarLogin() throws Exception{
-            Assert.assertNotNull(aplPrincipal.validarLogin(notificador.getCpf(), notificador.getSenha()));
+            Assert.assertNotNull(aplPrincipal.validarLogin(notificador.getCpf()));
         }
 	 
         /**

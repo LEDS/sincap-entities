@@ -40,21 +40,9 @@ public class AplPrincipal {
      * @return user - Objeto Usuário
      * @throws Exception
      */
-    public Funcionario validarLogin(String cpf, String password) throws Exception {
+    public Funcionario validarLogin(String cpf) {
 
-        Funcionario user = funcionarioRepository.findByCpf(cpf);
-
-        if (user != null && user.getCpf().equals(cpf) && user.getSenha().equals(password)) {
-
-            if (user.isAtivo()) {
-                return user;
-            } else {
-                throw new Exception("Usuario Inativo, contate o administrador do sistema.");
-            }
-
-        } else {
-            throw new Exception("Login ou Senha nao conferem.");
-        }
+        return funcionarioRepository.findByCpf(cpf);
 
     }
 
