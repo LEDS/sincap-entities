@@ -28,7 +28,7 @@
 
     <bean id="utility" class="br.ifes.leds.reuse.utility.Utility" factory-method="getInstance" />
     <bean id="factory" class="br.ifes.leds.reuse.utility.Factory" factory-method="getInstance" />
-    <bean id="validator" class="br.ifes.leds.reuse.utility.Validator" factory-method="getInstance" />
+    <bean id="validador" class="br.ifes.leds.reuse.utility.Validator" factory-method="getInstance" />
     <bean id="dataFactory" class="org.fluttercode.datafactory.impl.DataFactory" />
 
 </beans>

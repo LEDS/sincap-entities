@@ -1,4 +1,4 @@
- package br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp;
+package br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp;
 
 import java.util.Calendar;
 
@@ -8,50 +8,64 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 
+import br.ifes.leds.sincap.validacao.annotations.DatasPacienteConsistentes;
 import lombok.Getter;
 import lombok.Setter;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Pessoa;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Sexo;
+import org.hibernate.validator.constraints.Length;
 
 
 /**
  * Paciente.java
+ *
  * @author 20091BSI0273
- * Classe abstrata que representa um paciente
+ *         Classe abstrata que representa um paciente
  */
 @Setter
 @Getter
 @Entity
+@DatasPacienteConsistentes
 public class Paciente extends Pessoa {
-    
+
+    @Past
     @Temporal(TemporalType.TIMESTAMP)
     private Calendar dataInternacao;
-        
+
+    @Past
     @Temporal(TemporalType.TIMESTAMP)
     private Calendar dataNascimento;
-    
+
     @Column
     private String profissao;
 
+    @Length(min = 3, max = 255)
     @Column
     private String nomeMae;
-    
+
+    @Length(min = 3, max = 255)
     @Column
     private String numeroProntuario;
 
+    @Length(min = 3, max = 255)
     @Column
     private String numeroSUS;
-    
+
+    @Length(min = 3, max = 255)
     @Column
     private String nacionalidade;
-    
+
+    @Length(min = 3, max = 255)
     @Column
     private String documentoSocial;
-    
+
+    @NotNull
     @Enumerated(EnumType.STRING)
     private Sexo sexo;
-    
-    @Enumerated (EnumType.STRING)
+
+    @Enumerated(EnumType.STRING)
     private EstadoCivil EstadoCivil;
 }
