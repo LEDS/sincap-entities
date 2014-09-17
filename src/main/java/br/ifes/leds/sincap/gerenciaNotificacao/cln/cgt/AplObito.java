@@ -67,31 +67,17 @@ public class AplObito {
      * 
      * @param pacienteDTO
      *            O objeto que representa o paciente.
-     * @throws ViolacaoDeRIException
      */
-    public void salvarPaciente(PacienteDTO pacienteDTO)
-            throws ViolacaoDeRIException {
+    public void salvarPaciente(PacienteDTO pacienteDTO) {
         Paciente paciente = mapper.map(pacienteDTO, Paciente.class);
 
         salvarPaciente(paciente);
     }
 
-    public void salvarPaciente(Paciente paciente) throws ViolacaoDeRIException {
-        if (!validarDadosPaciente(paciente)) {
-            throw new ViolacaoDeRIException(
-                    "Os dados do paciente são inválidos!");
-        }
-
+    public void salvarPaciente(Paciente paciente) {
         telefoneRepository.save(paciente.getTelefone());
         enderecoRepository.save(paciente.getEndereco());
         pacienteRepository.save(paciente);
-    }
-
-    private boolean validarDadosPaciente(Paciente paciente) {
-        return validator.validarNome(paciente.getNome())
-                && validator.validarNome(paciente.getNomeMae())
-                && validator
-                        .validarTelefone(paciente.getTelefone().getNumero());
     }
 
     /**
@@ -121,14 +107,13 @@ public class AplObito {
      * 
      * @param obitoDTO
      *            O objeto que representa o óbito.
-     * @throws ViolacaoDeRIException
      */
-    public void salvarObito(ObitoDTO obitoDTO) throws ViolacaoDeRIException {
+    public void salvarObito(ObitoDTO obitoDTO) {
         Obito obito = mapper.map(obitoDTO, Obito.class);
         salvarObito(obito);
     }
 
-    public void salvarObito(Obito obito) throws ViolacaoDeRIException {
+    public void salvarObito(Obito obito) {
         salvarPaciente(obito.getPaciente());
         causaMortisRepository.save(obito.getPrimeiraCausaMortis());
         causaMortisRepository.save(obito.getSegundaCausaMortis());
