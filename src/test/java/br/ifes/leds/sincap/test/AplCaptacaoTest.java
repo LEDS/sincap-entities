@@ -51,7 +51,7 @@ public class AplCaptacaoTest extends AbstractionTest {
     }
 
     @Test
-    public void salvarObitoTest() throws ViolacaoDeRIException {
+    public void salvarCaptacaoTest() throws ViolacaoDeRIException {
         aplCaptacao.salvarCaptacao(captacaoDTO);
 
         CaptacaoDTO captacaoDTOSalvo = aplCaptacao.obterTodos().get(0);

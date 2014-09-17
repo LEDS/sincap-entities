@@ -32,33 +32,41 @@ import org.hibernate.validator.constraints.Length;
 public class Paciente extends Pessoa {
 
     @Past
+    @NotNull
     @Temporal(TemporalType.TIMESTAMP)
     private Calendar dataInternacao;
 
     @Past
+    @NotNull
     @Temporal(TemporalType.TIMESTAMP)
     private Calendar dataNascimento;
 
     @Column
+    @NotNull
     private String profissao;
 
     @Length(min = 3, max = 255)
+    @NotNull
     @Column
     private String nomeMae;
 
     @Length(min = 3, max = 255)
+    @NotNull
     @Column
     private String numeroProntuario;
 
     @Length(min = 3, max = 255)
+    @NotNull
     @Column
     private String numeroSUS;
 
     @Length(min = 3, max = 255)
+    @NotNull
     @Column
     private String nacionalidade;
 
     @Length(min = 3, max = 255)
+    @NotNull
     @Column
     private String documentoSocial;
 

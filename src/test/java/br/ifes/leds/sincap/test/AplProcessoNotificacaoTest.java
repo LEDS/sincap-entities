@@ -1,10 +1,5 @@
 package br.ifes.leds.sincap.test;
 
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.AtualizacaoEstadoDTO;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.ObitoDTO;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.PacienteDTO;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.ProcessoNotificacaoDTO;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.EntrevistaDTO;
 import br.ifes.leds.reuse.ledsExceptions.CRUDExceptions.ViolacaoDeRIException;
 import br.ifes.leds.reuse.utility.Factory;
 import br.ifes.leds.reuse.utility.Utility;
@@ -19,7 +14,7 @@ import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CausaMortis;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CorpoEncaminhamento;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoNotificacaoEnum;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoObito;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.CaptacaoDTO;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.*;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cgt.AplProcessoNotificacao;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.util.dataFactory.*;
 import org.dozer.Mapper;
