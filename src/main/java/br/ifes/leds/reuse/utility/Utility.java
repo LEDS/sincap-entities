@@ -93,25 +93,6 @@ public enum Utility {
     }
 
     /**
-     * Mapeia uma lista de um tipo para outro.
-     * 
-     * @param listaOrigem
-     *            A lista a ser mapeada.
-     * @param classeDestino
-     *            O tipo destino a ser mapeado.
-     * @return Uma lista do tipo definido no {@code classeDestino}.
-     */
-    public <K, T> List<T> mapList(List<K> listaOrigem, Class<T> classeDestino) {
-        List<T> listaDestino = new ArrayList<>();
-
-        for (K origem : listaOrigem) {
-            listaDestino.add(mapper.map(origem, classeDestino));
-        }
-
-        return listaDestino;
-    }
-
-    /**
      * Pesquisa um objeto em uma lista baseado em um método.
      *
      * @param lista  A lista de objetos do tipo T.
@@ -127,6 +108,25 @@ public enum Utility {
             }
         }
         return null;
+    }
+
+    /**
+     * Mapeia uma lista de um tipo para outro.
+     *
+     * @param listaOrigem
+     *            A lista a ser mapeada.
+     * @param classeDestino
+     *            O tipo destino a ser mapeado.
+     * @return Uma lista do tipo definido no {@code classeDestino}.
+     */
+    public <K, T> List<T> mapList(List<K> listaOrigem, Class<T> classeDestino) {
+        List<T> listaDestino = new ArrayList<>();
+
+        for (K origem : listaOrigem) {
+            listaDestino.add(mapper.map(origem, classeDestino));
+        }
+
+        return listaDestino;
     }
 
     /**

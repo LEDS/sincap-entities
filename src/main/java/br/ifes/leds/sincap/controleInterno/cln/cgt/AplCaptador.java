@@ -7,13 +7,18 @@
 package br.ifes.leds.sincap.controleInterno.cln.cgt;
 
 import br.ifes.leds.reuse.endereco.cgd.EnderecoRepository;
+import br.ifes.leds.sincap.controleInterno.cgd.BancoOlhosRepository;
 import br.ifes.leds.sincap.controleInterno.cgd.CaptadorRepository;
 import br.ifes.leds.sincap.controleInterno.cgd.TelefoneRepository;
+import br.ifes.leds.sincap.controleInterno.cln.cdp.BancoOlhos;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Captador;
+import br.ifes.leds.sincap.controleInterno.cln.cdp.Funcionario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  *
@@ -27,6 +32,7 @@ public class AplCaptador {
     private TelefoneRepository telefoneRepository;
     @Autowired
     private EnderecoRepository enderecoRepository;
+
 
     /** Método para salvar um captador.
      * @param captador - objeto captador.
@@ -42,6 +48,8 @@ public class AplCaptador {
      */
     public void exlcuir(Captador captador) {
         captadorRepository.delete(captador);
+        enderecoRepository.delete(captador.getEndereco());
+        telefoneRepository.delete(captador.getTelefone());
     }
 
 

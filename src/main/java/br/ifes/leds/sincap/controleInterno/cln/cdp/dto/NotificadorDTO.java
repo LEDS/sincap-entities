@@ -10,6 +10,6 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class NotificadorDTO {
-    private List<InstituicaoNotificadoraDTO> instuicoesNotifcadoras;
+public class NotificadorDTO extends FuncionarioDTO{
+    private List<Long> instuicoesNotificadoras;
 }
