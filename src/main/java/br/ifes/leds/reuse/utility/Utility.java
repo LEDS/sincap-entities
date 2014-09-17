@@ -3,6 +3,7 @@ package br.ifes.leds.reuse.utility;
 import br.ifes.leds.reuse.utility.function.Function;
 import org.dozer.DozerBeanMapperSingletonWrapper;
 import org.dozer.Mapper;
+import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
 import java.text.DateFormat;
@@ -14,19 +15,14 @@ import java.util.*;
  *
  * @author 20112bsi0083
  */
-public enum Utility {
-
-    INSTANCE;
+@Component
+public class Utility {
 
     private static final String FORMATO_DATA_HORA = "dd/MM/yyyy HH:mm";
     private static final String FORMATO_DATA = "dd/MM/yyyy";
     private static final String FORMATO_HORA = "HH:mm";
 
     private final Mapper mapper = DozerBeanMapperSingletonWrapper.getInstance();
-
-    public static Utility getInstance() {
-        return INSTANCE;
-    }
 
     /**
      *
