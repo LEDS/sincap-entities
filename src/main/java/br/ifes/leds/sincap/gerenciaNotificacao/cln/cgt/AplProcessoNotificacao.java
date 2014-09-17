@@ -52,12 +52,10 @@ public class AplProcessoNotificacao {
      *                               sera salva
      * @param idFuncionario          - Id do funcionario que criou a notificacao
      * @return long - Retorna o id do ProcessoNotificacao salvo
-     * @throws ViolacaoDeRIException
      */
     public long salvarNovaNotificacao(
             ProcessoNotificacaoDTO processoNotificacaoDTO,
-            Long idFuncionario)
-            throws ViolacaoDeRIException {
+            Long idFuncionario) {
 
         ProcessoNotificacao notificacao = mapper.map(processoNotificacaoDTO,
                 ProcessoNotificacao.class);
