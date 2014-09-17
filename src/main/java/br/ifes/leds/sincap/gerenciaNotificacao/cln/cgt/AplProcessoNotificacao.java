@@ -62,6 +62,7 @@ public class AplProcessoNotificacao {
         ProcessoNotificacao notificacao = mapper.map(processoNotificacaoDTO,
                 ProcessoNotificacao.class);
         preparaProcessoParaSalvar(notificacao);
+        notificacao.getObito().setDataCadastro(Calendar.getInstance());
 
         aplObito.salvarObito(notificacao.getObito());
 
