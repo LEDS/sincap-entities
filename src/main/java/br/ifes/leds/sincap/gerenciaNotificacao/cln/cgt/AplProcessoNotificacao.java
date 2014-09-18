@@ -530,4 +530,8 @@ public class AplProcessoNotificacao {
     public CausaNaoDoacao getCausadeDoacaoProcesso(ProcessoNotificacaoDTO processo) {
         return aplCausaNaoDoacao.obter(processo.getCausaNaoDoacao());
     }
+    
+    public ProcessoNotificacao obterPorNumeroSus(String numeroSus){
+        return notificacaoRepository.findByPacienteNumeroSus(numeroSus);
+    }
 }

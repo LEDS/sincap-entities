@@ -27,7 +27,10 @@ import java.util.List;
 @Entity
 public class ProcessoNotificacao extends ObjetoPersistente {
 
-    // TODO: Cria regra de negocio para geracao do codigo
+    /* TODO: Cria regra de negocio para geracao do codigo
+       Esse código deve ser o cartão do SUS
+       O código está presente em ProcessoNotificacao->Obito->Paciente.numeroSUS
+    */
     @Column(unique = true, nullable = false)
     private String codigo;
 
