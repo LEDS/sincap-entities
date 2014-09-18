@@ -21,7 +21,7 @@ import org.springframework.data.repository.query.Param;
 @Repository
 @Transactional
 public interface ProcessoNotificacaoRepository extends JpaRepository<ProcessoNotificacao, Long> {
-    String findByPacienteNumeroSUS = "SELECT * " +
+    String findByPacienteNumeroSUS = "SELECT pn.* " +
                                      "FROM processonotificacao pn " +
                                      "INNER JOIN obito o " +
                                      "	ON o.id = pn.obito_id " +
