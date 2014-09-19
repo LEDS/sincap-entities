@@ -523,7 +523,7 @@ public class AplProcessoNotificacao {
 
         this.addNovoEstadoNoProcessoNotificacao(
                 processoNotificacao,
-                EstadoNotificacaoEnum.NOTIFICACAOARQUIVADA,
+                EstadoNotificacaoEnum.AGUARDANDOARQUIVAMENTO,
                 idFuncionario);
     }
 
@@ -533,5 +533,14 @@ public class AplProcessoNotificacao {
     
     public List<ProcessoNotificacao> obterPorPacienteNome(String searchString){
         return notificacaoRepository.findByPacienteNome(searchString);
+    }
+
+    public void arquivarProcessoNotificacao(Long id, Long idFuncionario){
+        ProcessoNotificacaoDTO processoNotificacao = obter(id);
+
+        this.addNovoEstadoNoProcessoNotificacao(
+                processoNotificacao,
+                EstadoNotificacaoEnum.NOTIFICACAOARQUIVADA,
+                idFuncionario);
     }
 }
