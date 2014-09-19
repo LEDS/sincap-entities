@@ -531,7 +531,7 @@ public class AplProcessoNotificacao {
         return aplCausaNaoDoacao.obter(processo.getCausaNaoDoacao());
     }
     
-    public ProcessoNotificacao obterPorNumeroSus(String numeroSus){
-        return notificacaoRepository.findByPacienteNumeroSus(numeroSus);
+    public List<ProcessoNotificacao> obterPorPacienteNome(String searchString){
+        return notificacaoRepository.findByPacienteNome(searchString);
     }
 }

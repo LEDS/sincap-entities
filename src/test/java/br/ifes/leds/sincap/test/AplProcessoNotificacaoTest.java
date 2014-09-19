@@ -101,6 +101,7 @@ public class AplProcessoNotificacaoTest extends AbstractionTest {
         this.getCausasMortis(obito);
         obito.setPaciente(mapper.map(pacienteData.criarPaciente(df),
                 PacienteDTO.class));
+        obito.getPaciente().setNome("Jose");
         obito.getPaciente().setNumeroSUS("111111");
     }
 
@@ -213,9 +214,11 @@ public class AplProcessoNotificacaoTest extends AbstractionTest {
     }
 
     @Test
-    public void obterProcessoPorNumeroSus(){
-        ProcessoNotificacao pn = aplProcessoNotificacao.obterPorNumeroSus("111111");
+    //TODO: Utilizar um paciente cadastrado no teste
+    public void obterProcessoPorPacienteNome() throws ViolacaoDeRIException{
+        salvarObito();
+        List<ProcessoNotificacao> pn = aplProcessoNotificacao.obterPorPacienteNome("Jose");
         //Teste para a obtenção do processo de notificacao
-        Assert.assertNotNull(pn.getDataAbertura());
+        Assert.assertTrue(pn.size()>0);
     }
 }

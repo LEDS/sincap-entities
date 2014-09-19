@@ -27,7 +27,7 @@ public interface ProcessoNotificacaoRepository extends JpaRepository<ProcessoNot
                                      "	ON o.id = pn.obito_id " +
                                      "INNER JOIN paciente p " +
                                      "	ON p.id = o.paciente_id " +
-                                     "WHERE p.numerosus = :numeroSus";
+                                     "WHERE p.nome = :searchString";
     
     public List<ProcessoNotificacao> findByDataArquivamentoIsNullOrderByDataAberturaDesc();
 
@@ -40,5 +40,5 @@ public interface ProcessoNotificacaoRepository extends JpaRepository<ProcessoNot
     public List<ProcessoNotificacao> findByDataArquivamentoIsNotNullOrderByDataAberturaDesc();
     
     @Query(value = findByPacienteNumeroSUS, nativeQuery = true)
-    public ProcessoNotificacao findByPacienteNumeroSus(@Param("numeroSus") String numeroSus);
+    public List<ProcessoNotificacao> findByPacienteNome(@Param("searchString") String searchString);
 }
