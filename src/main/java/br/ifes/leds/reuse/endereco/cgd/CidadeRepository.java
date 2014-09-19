@@ -23,4 +23,5 @@ public interface CidadeRepository extends JpaRepository<Cidade, Long> {
 
     @Query("SELECT cidade FROM Estado estado JOIN estado.cidades cidade WHERE estado.id = :id ORDER BY cidade.nome")
     public List<Cidade> findByIdEstado(@Param("id") Long id);
+
 }
