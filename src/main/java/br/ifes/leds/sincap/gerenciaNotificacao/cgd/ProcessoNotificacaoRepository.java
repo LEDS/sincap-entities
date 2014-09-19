@@ -21,14 +21,16 @@ import org.springframework.data.repository.query.Param;
 @Repository
 @Transactional
 public interface ProcessoNotificacaoRepository extends JpaRepository<ProcessoNotificacao, Long> {
-    String findByPacienteNumeroSUS = "SELECT pn.* " +
+    /*String findByPacienteNumeroSUS = "SELECT pn.* " +
                                      "FROM processonotificacao pn " +
                                      "INNER JOIN obito o " +
                                      "	ON o.id = pn.obito_id " +
                                      "INNER JOIN paciente p " +
                                      "	ON p.id = o.paciente_id " +
-                                     "WHERE p.nome = :searchString";
+                                     "WHERE p.nome = :searchString";*/
     
+    public List<ProcessoNotificacao> findByObitoPacienteNomeContainingAndEntrevistaIsNotNullAndEntrevistaDoacaoAutorizadaTrue(String nome);
+
     public List<ProcessoNotificacao> findByDataArquivamentoIsNullOrderByDataAberturaDesc();
 
     public List<ProcessoNotificacao> findByDataAberturaBetween(Calendar dataAberturaInicio, Calendar dataAberturaFim);
@@ -39,6 +41,6 @@ public interface ProcessoNotificacaoRepository extends JpaRepository<ProcessoNot
 
     public List<ProcessoNotificacao> findByDataArquivamentoIsNotNullOrderByDataAberturaDesc();
     
-    @Query(value = findByPacienteNumeroSUS, nativeQuery = true)
-    public List<ProcessoNotificacao> findByPacienteNome(@Param("searchString") String searchString);
+//    @Query(value = findByPacienteNumeroSUS, nativeQuery = true)
+//    public List<ProcessoNotificacao> findByPacienteNome(@Param("searchString") String searchString);
 }

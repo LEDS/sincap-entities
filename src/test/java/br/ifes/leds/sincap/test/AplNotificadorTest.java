@@ -5,8 +5,10 @@ import br.ifes.leds.reuse.endereco.cgd.BairroRepository;
 import br.ifes.leds.reuse.endereco.cgd.CidadeRepository;
 import br.ifes.leds.reuse.endereco.cgd.EnderecoRepository;
 import br.ifes.leds.reuse.endereco.cgd.EstadoRepository;
+import br.ifes.leds.sincap.controleInterno.cgd.HospitalRepository;
 import br.ifes.leds.sincap.controleInterno.cgd.NotificadorRepository;
 import br.ifes.leds.sincap.controleInterno.cgd.TelefoneRepository;
+import br.ifes.leds.sincap.controleInterno.cln.cdp.Hospital;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Notificador;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Telefone;
 import br.ifes.leds.sincap.controleInterno.cln.cgt.AplNotificador;
@@ -32,7 +34,9 @@ public class AplNotificadorTest extends AbstractionTest {
         private CidadeRepository cidadeRepository;
         @Autowired
         private EstadoRepository estadoRepository;
-        @Autowired        
+        @Autowired
+        private HospitalRepository hospitalRepository;
+        @Autowired
         private AplNotificador aplNotificador;
         
         private Notificador notificador;
@@ -50,7 +54,8 @@ public class AplNotificadorTest extends AbstractionTest {
             //Dados do Notificador                     
             notificador.setSenha("123456");
             notificador.setAtivo(true);
-            notificador.setCpf("12381815984");
+            notificador.setCpf("123.456.165-56");
+            notificador.setSenha("123456");
             notificador.setDocumentoSocial("1667187");
             notificador.setEmail("teste@teste.com.br");
             notificador.setNome("Notificador Teste");
@@ -70,19 +75,20 @@ public class AplNotificadorTest extends AbstractionTest {
             telefone.setNumero("22222222"); 
             notificador.setTelefone(telefone); 
             telefoneRepository.save(telefone);
+
+            Hospital hospital = hospitalRepository.findAll().get(0);
+
+            notificador.getInstituicoesNotificadoras().add(hospital);
             
         }
 		
         /** Método para testar a inserção de um notificador.
         */
         @Test
-	public void salvarNotificador() 
-	{
+	public void salvarNotificador(){
             aplNotificador.salvarNotificador(notificador);
             Assert.assertNotSame(0, notificador.getId());
 	}
-        
-        
         
         /** Método para testar a remoção um notificador pelo seu id.*/
         @Test
@@ -96,7 +102,7 @@ public class AplNotificadorTest extends AbstractionTest {
         @Test
         public void obterNotificadorCpf(){
             aplNotificador.salvarNotificador(notificador);
-            Assert.assertSame("Notificador Teste",aplNotificador.obterNotificador("12381815984").getNome());
+            Assert.assertSame("Notificador Teste",aplNotificador.obterNotificador("123.456.165-56").getNome());
         } 
         
         /** Método para testar a busca de um notificador pelo seu Id.*/

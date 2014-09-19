@@ -15,7 +15,6 @@ import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
@@ -274,7 +273,6 @@ public class AplProcessoNotificacao {
     }
 
 
-
     /**
      * Quando um processo de notificacao etapa óbito esta em analise
      * uma das opcoes é arquivar o processo,
@@ -360,7 +358,6 @@ public class AplProcessoNotificacao {
      * @param notificacao Notificacao a ser adicionado o estado inicial.
      */
     private void addEstadoInicial(ProcessoNotificacao notificacao, Long idFuncionario) {
-        List<AtualizacaoEstado> historico = new ArrayList<>();
         AtualizacaoEstado atualizacaoEstado = new AtualizacaoEstado();
 
         atualizacaoEstado.setFuncionario(this.getFuncionario(idFuncionario));
@@ -532,7 +529,7 @@ public class AplProcessoNotificacao {
     }
     
     public List<ProcessoNotificacao> obterPorPacienteNome(String searchString){
-        return notificacaoRepository.findByPacienteNome(searchString);
+        return notificacaoRepository.findByObitoPacienteNomeContainingAndEntrevistaIsNotNullAndEntrevistaDoacaoAutorizadaTrue(searchString);
     }
 
     public void arquivarProcessoNotificacao(Long id, Long idFuncionario){

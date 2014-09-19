@@ -80,6 +80,17 @@ public class Utility {
         return calendar;
     }
 
+    public int calculaIdade(Calendar dataNasc, Calendar dataFim){
+        int idade = dataFim.get(Calendar.YEAR) - dataNasc.get(Calendar.YEAR);
+
+        dataNasc.add(Calendar.YEAR, idade);
+
+        if (dataFim.before(dataNasc)) {
+            idade--;
+        }
+        return idade;
+    }
+
     public Long booleanToLong(boolean attribute) {
         if (attribute) {
             return (long) 1;

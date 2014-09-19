@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
+import javax.validation.constraints.NotNull;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,5 +24,6 @@ import lombok.Setter;
 public class Notificador extends Funcionario {
 
     @ManyToMany(fetch = FetchType.EAGER)
+    @NotNull
     private Set<InstituicaoNotificadora> instituicoesNotificadoras = new HashSet<>();
 }

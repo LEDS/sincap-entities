@@ -6,17 +6,18 @@
 
 package br.ifes.leds.sincap.controleInterno.cln.cdp;
 
-import javax.persistence.Entity;
-import javax.persistence.PrimaryKeyJoinColumn;
 import lombok.Getter;
 import lombok.Setter;
+
+import javax.persistence.Entity;
+import javax.persistence.PrimaryKeyJoinColumn;
+
 /**
- *
  * @author 20121BSI0252
  */
 @Getter
 @Setter
 @Entity
-@PrimaryKeyJoinColumn(name="id")
-public class AnalistaCNCDO extends Funcionario{
+@PrimaryKeyJoinColumn(name = "id")
+public class AnalistaCNCDO extends Funcionario {
 }

@@ -2,6 +2,7 @@ package br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.validation.constraints.NotNull;
 
 import br.ifes.leds.reuse.persistence.ObjetoPersistente;
 import lombok.AllArgsConstructor;
@@ -23,5 +24,6 @@ import lombok.Setter;
 public class CausaMortis extends ObjetoPersistente {
 
     @Column
+    @NotNull
     private String nome;
 }
