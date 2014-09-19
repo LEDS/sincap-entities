@@ -51,12 +51,10 @@ public class CaptacaoData {
      */
     public Captacao criarCaptacao(DataFactory df,Captador c){
         captacao = fabrica.criaObjeto(Captacao.class);
-        dataCadastro = Calendar.getInstance();
         dataCaptacao = Calendar.getInstance();
-        
-        dataCadastro.setTime(df.getDateBetween(df.getDate(2000, 01, 01), df.getDate(2014, 12, 30)));
+        dataCadastro = Calendar.getInstance();
+
         captacao.setDataCadastro(dataCadastro);
-        dataCaptacao.setTime(df.getDateBetween(dataCaptacao.getTime(), df.getDate(2014, 12, 30)));
         captacao.setDataCaptacao(dataCaptacao);        
         captacao.setCaptacaoRealizada(df.chance(50));
         captacao.setCaptador(c);

@@ -8,6 +8,7 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -32,32 +33,38 @@ public class ProcessoNotificacao extends ObjetoPersistente {
        O código está presente em ProcessoNotificacao->Obito->Paciente.numeroSUS
     */
     @Column(unique = true, nullable = false)
+    @NotNull
     private String codigo;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(nullable = true)
+    @Column()
+    @NotNull
     private Calendar dataAbertura;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(nullable = true)
+    @Column()
     private Calendar dataArquivamento;
     
     @Column
     private boolean arquivado;
     
     @OneToMany(fetch = FetchType.EAGER)
+    @NotNull
     private List<AtualizacaoEstado> historico;
 
     @OneToOne
+    @NotNull
     private AtualizacaoEstado ultimoEstado;
     
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(nullable = false)
+    @JoinColumn()
+    @NotNull
     private Notificador notificador;
     
     @OneToOne
-    @JoinColumn(nullable = false)
+    @JoinColumn()
     @Cascade({CascadeType.SAVE_UPDATE})
+    @NotNull
     private Obito obito;
     
     @OneToOne
@@ -71,7 +78,7 @@ public class ProcessoNotificacao extends ObjetoPersistente {
     private Captacao captacao;
     
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(nullable = true)
+    @JoinColumn()
     @Cascade({CascadeType.SAVE_UPDATE})
     private CausaNaoDoacao causaNaoDoacao;
     

@@ -51,6 +51,7 @@ public class ResponsavelData {
     private List<Sexo> listaSexo;
     private Endereco endereco;
     private Telefone telefone;
+    private Telefone telefone2;
     private Listas list = Listas.INSTANCE;
 
     
@@ -85,6 +86,7 @@ public class ResponsavelData {
         listaParentesco = list.getListPar();
         endereco = fabrica.criaObjeto(Endereco.class);
         telefone = fabrica.criaObjeto(Telefone.class);
+        telefone2 = fabrica.criaObjeto(Telefone.class);
 
         gerarDadosResponsavel(df);
 
@@ -92,7 +94,10 @@ public class ResponsavelData {
         // Telefone
         telefone.setNumero("(" + df.getNumberText(2) + ")"
                 + df.getNumberText(4) + "-" + df.getNumberText(4));
+        telefone2.setNumero("(" + df.getNumberText(2) + ")"
+                + df.getNumberText(4) + "-" + df.getNumberText(4));
         responsavel.setTelefone(telefone);
+        responsavel.setTelefone2(telefone2);
 
         return responsavel;
     }

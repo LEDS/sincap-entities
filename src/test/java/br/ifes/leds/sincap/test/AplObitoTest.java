@@ -61,7 +61,7 @@ public class AplObitoTest extends AbstractionTest {
         this.obitoDTO.setPaciente(pacienteDTO);
         this.obitoDTO.setAptoDoacao(true);
         this.obitoDTO.setCorpoEncaminhamento(CorpoEncaminhamento.IML);
-        this.obitoDTO.setDataCadastro(new GregorianCalendar(2014, 5, 27, 18, 30));
+        this.obitoDTO.setDataCadastro(new GregorianCalendar(2014, 5, 28, 18, 30));
         this.obitoDTO.setDataObito(new GregorianCalendar(2014, 5, 27, 22, 55));
         this.obitoDTO.setHospital(hospital.getId());
         this.obitoDTO.setSetor(setor.getId());
@@ -143,14 +143,6 @@ public class AplObitoTest extends AbstractionTest {
         Assert.assertNotNull(obitoTest.getPaciente().getId());
         Assert.assertEquals(obitoTest.getPaciente().getEndereco().getCep(), 
                 obitoTest.getPaciente().getEndereco().getCep());
-//        Assert.assertEquals("Primeira Causa Mortis", obitoTest
-//                .getPrimeiraCausaMortis().getNome());
-//        Assert.assertEquals("Segunda Causa Mortis", obitoTest
-//                .getSegundaCausaMortis().getNome());
-//        Assert.assertEquals("Terceira Causa Mortis", obitoTest
-//                .getTerceiraCausaMortis().getNome());
-//        Assert.assertEquals("Quarta Causa Mortis", obitoTest
-//                .getQuartaCausaMortis().getNome());
     }
 
 }

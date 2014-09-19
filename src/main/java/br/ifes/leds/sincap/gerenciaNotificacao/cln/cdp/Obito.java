@@ -1,7 +1,6 @@
 package br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp;
 
 import java.util.Calendar;
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;

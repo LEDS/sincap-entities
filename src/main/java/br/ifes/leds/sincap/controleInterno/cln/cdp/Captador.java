@@ -6,21 +6,23 @@
 
 package br.ifes.leds.sincap.controleInterno.cln.cdp;
 
-import javax.persistence.Entity;
-import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.Entity;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.validation.constraints.NotNull;
+
 /**
- *
  * @author 20121BSI0252
  */
 @Getter
 @Setter
 @Entity
-@PrimaryKeyJoinColumn(name="id")
-public class Captador extends Funcionario{
+@PrimaryKeyJoinColumn(name = "id")
+public class Captador extends Funcionario {
     @OneToOne
+    @NotNull
     private BancoOlhos bancoOlhos;
 }
