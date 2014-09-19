@@ -117,8 +117,8 @@ public class AplObito {
         salvarPaciente(obito.getPaciente());
         causaMortisRepository.save(obito.getPrimeiraCausaMortis());
         causaMortisRepository.save(obito.getSegundaCausaMortis());
-        causaMortisRepository.save(obito.getTerceiraCausaMortis());
-        causaMortisRepository.save(obito.getQuartaCausaMortis());
+        if(obito.getTerceiraCausaMortis() != null) causaMortisRepository.save(obito.getTerceiraCausaMortis());
+        if(obito.getQuartaCausaMortis() != null) causaMortisRepository.save(obito.getQuartaCausaMortis());
 
         obitoRepository.save(obito);
     }

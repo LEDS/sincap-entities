@@ -21,15 +21,12 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- *
  * @author aleao
- * 
  * @version 1.0
- * 
  * @since 03/06/2014
  */
-public class AplAnalistaCNCDOTest extends AbstractionTest{
-    
+public class AplAnalistaCNCDOTest extends AbstractionTest {
+
     @Autowired
     AplAnalistaCNCDO aplAnalistaCNCDO;
     @Autowired
@@ -42,28 +39,29 @@ public class AplAnalistaCNCDOTest extends AbstractionTest{
     private CidadeRepository cidadeRepository;
     @Autowired
     private EstadoRepository estadoRepository;
-    
+
     private Telefone telefone;
     private Endereco endereco;
     private AnalistaCNCDO analista;
-    
+
     /**
      * Metodo que responsavel por criar os objetos nescessários na realização dos testes.
      */
     @Before
-    public void criaObjetoAnalista(){
+    public void criaObjetoAnalista() {
         //Objetos
         analista = new AnalistaCNCDO();
         endereco = new Endereco();
         telefone = new Telefone();
-        
+
         //Dados
         analista.setAtivo(true);
-        analista.setCpf("122.818.155.98");
+        analista.setCpf("122.818.155-98");
+        analista.setSenha("123456");
         analista.setDocumentoSocial("1668157");
         analista.setEmail("analista@email.com.br");
         analista.setNome("Analista 1");
-        
+
         //Endereco
         endereco.setLogradouro("Rua Teste");
         endereco.setCidade(cidadeRepository.findOne(new Long(1)));
@@ -72,51 +70,54 @@ public class AplAnalistaCNCDOTest extends AbstractionTest{
         endereco.setNumero("45");
         endereco.setComplemento("Casa");
         endereco.setCep("29090668");
-        analista.setEndereco(endereco); 
+        analista.setEndereco(endereco);
         enderecoRepository.save(endereco);
 
         //Telefone
-        telefone.setNumero("22222222"); 
-        analista.setTelefone(telefone); 
+        telefone.setNumero("22222222");
+        analista.setTelefone(telefone);
         telefoneRepository.save(telefone);
-                
-        
     }
-    /** Método para testar a obtenção de um analista pelo seu Id.
+
+    /**
+     * Método para testar a obtenção de um analista pelo seu Id.
      */
     @Test
-    public void obterId(){        
+    public void obterId() {
         aplAnalistaCNCDO.salvar(analista);
-        analista = aplAnalistaCNCDO.obter(analista.getId());        
+        analista = aplAnalistaCNCDO.obter(analista.getId());
         Assert.assertEquals("Analista 1", analista.getNome());
     }
-    
-     /** Método para testar a obtenção de um analista pelo seu CPF.
+
+    /**
+     * Método para testar a obtenção de um analista pelo seu CPF.
      */
     @Test
-    public void obterCPF(){        
+    public void obterCPF() {
         aplAnalistaCNCDO.salvar(analista);
-        analista = aplAnalistaCNCDO.obter(analista.getCpf());        
+        analista = aplAnalistaCNCDO.obter(analista.getCpf());
         Assert.assertEquals("Analista 1", analista.getNome());
     }
-    
-    /** Método para testar a inclusão de um analista.
+
+    /**
+     * Método para testar a inclusão de um analista.
      */
     @Test
-    public void salvarAnalista(){
+    public void salvarAnalista() {
         aplAnalistaCNCDO.salvar(analista);
         Assert.assertNotNull(analista);
-        
+
     }
-           
-    /** Método para testar a exclusão de um analista.
+
+    /**
+     * Método para testar a exclusão de um analista.
      */
     @Test
-    public void excluirAnalista(){
+    public void excluirAnalista() {
         aplAnalistaCNCDO.salvar(analista);
         aplAnalistaCNCDO.excluir(analista);
-        analista = aplAnalistaCNCDO.obter(analista.getId());        
+        analista = aplAnalistaCNCDO.obter(analista.getId());
         Assert.assertNull(analista);
     }
-        
+
 }

@@ -77,12 +77,15 @@ public class AplProcessoNotificacaoTest extends AbstractionTest {
     private void getEstadoNotificacao(ProcessoNotificacaoDTO notificacao) {
         Notificador notificador = notificadorRepository.findAll().get(0);
 
-        AtualizacaoEstadoDTO novoEstado = new AtualizacaoEstadoDTO();
-        novoEstado.setFuncionario(notificador.getId());
+        ProcessoNotificacao processoNotificacao = mapper.map(notificacao, ProcessoNotificacao.class);
+
+
+        AtualizacaoEstado novoEstado = new AtualizacaoEstado();
+        novoEstado.setFuncionario(notificador);
         novoEstado
                 .setEstadoNotificacao(EstadoNotificacaoEnum.AGUARDANDOANALISEOBITO);
-
-        notificacao.getHistorico().add(novoEstado);
+        novoEstado.setDataAtualizacaos(Calendar.getInstance());
+        processoNotificacao.mudarEstadoAtual(novoEstado);
     }
 
     private void getObito(ProcessoNotificacaoDTO notificacao) {
@@ -109,16 +112,13 @@ public class AplProcessoNotificacaoTest extends AbstractionTest {
         CausaMortis causa1 = new CausaMortis();
         CausaMortis causa2 = new CausaMortis();
         CausaMortis causa3 = new CausaMortis();
-        CausaMortis causa4 = new CausaMortis();
         causa1.setNome("CausaObito1");
-        causa1.setNome("CausaObito2");
-        causa1.setNome("CausaObito3");
-        causa1.setNome("CausaObito4");
+        causa2.setNome("CausaObito2");
+        causa3.setNome("CausaObito3");
 
         obito.setPrimeiraCausaMortis(causa1);
         obito.setSegundaCausaMortis(causa2);
         obito.setTerceiraCausaMortis(causa3);
-        obito.setQuartaCausaMortis(causa4);
     }
 
     @Test

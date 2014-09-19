@@ -9,6 +9,9 @@ import java.util.Calendar;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,15 +26,21 @@ import lombok.Setter;
 public class Captacao extends ObjetoPersistente {
 
     @Column
+    @NotNull
     private boolean captacaoRealizada;
     
     @Temporal(TemporalType.TIMESTAMP)
+    @Past
+    @NotNull
     private Calendar dataCaptacao; //Data e horario do captacao
     
     @Temporal(TemporalType.TIMESTAMP)
+    @Past
+    @NotNull
     private Calendar dataCadastro; //Data e horario da notificação de captacao
     
     @OneToOne
+    @NotNull
     private Captador captador;
     
     @Column

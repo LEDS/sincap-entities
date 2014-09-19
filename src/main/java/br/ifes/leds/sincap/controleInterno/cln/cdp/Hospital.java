@@ -9,6 +9,8 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.validation.constraints.NotNull;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -31,6 +33,7 @@ public class Hospital extends InstituicaoNotificadora {
     private Set<Setor> setores = new HashSet<Setor>();
     
     @Column
+    @NotNull
     private String sigla;
     
     public void addSetor(Setor setor)

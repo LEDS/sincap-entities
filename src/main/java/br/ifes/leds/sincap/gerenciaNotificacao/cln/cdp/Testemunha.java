@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.validation.constraints.NotNull;
 
 /**
  * Testemunha.java
@@ -19,5 +20,6 @@ import javax.persistence.Entity;
 public class Testemunha extends Pessoa {
 
     @Column
+    @NotNull
     private String documentoSocial;
 }
