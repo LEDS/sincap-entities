@@ -80,6 +80,9 @@ public class AplProcessoNotificacao {
             ProcessoNotificacao notificacaoBd = notificacaoRepository.findOne(notificacao.getId());
             utility.mergeIds(notificacao, notificacaoBd);
             notificacao.setHistorico(notificacaoBd.getHistoricoModificavel());
+            notificacao.setDataAbertura(notificacaoBd.getDataAbertura());
+            notificacao.setCodigo(notificacaoBd.getCodigo());
+            notificacao.setArquivado(notificacaoBd.isArquivado());
         }
     }
 
