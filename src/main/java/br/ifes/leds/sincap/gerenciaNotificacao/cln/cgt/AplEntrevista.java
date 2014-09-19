@@ -58,7 +58,7 @@ public class AplEntrevista {
         salvarEntrevista(entrevista);
     }
 
-    public void salvarEntrevista(Entrevista entrevista) throws ViolacaoDeRIException {
+    public void salvarEntrevista(Entrevista entrevista)  {
         if (entrevistaValida(entrevista)) {
 
             enderecoRepository.save(entrevista.getResponsavel().getEndereco());
@@ -73,7 +73,7 @@ public class AplEntrevista {
             testemunhaRepository.save(entrevista.getTestemunha2());
             // TODO: Validar todos os dados cadastrais
         } else {
-            throw new ViolacaoDeRIException("Dados cadastrais de Responsável ou Testemunha(s) estão nulos!");
+//            throw new ViolacaoDeRIException("Dados cadastrais de Responsável ou Testemunha(s) estão nulos!");
         }
         entrevistaRepository.save(entrevista);
     }

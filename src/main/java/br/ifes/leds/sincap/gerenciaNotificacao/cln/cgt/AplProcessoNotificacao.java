@@ -95,7 +95,7 @@ public class AplProcessoNotificacao {
      */
     public long salvarEntrevista(ProcessoNotificacaoDTO processoNotificacaoDTO,
                                  Long idFuncionario)
-            throws ViolacaoDeRIException {
+            {
         ProcessoNotificacao notificacao = mapper.map(processoNotificacaoDTO,
                 ProcessoNotificacao.class);
 
