@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.Size;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -21,7 +22,8 @@ import br.ifes.leds.sincap.controleInterno.cln.cdp.Telefone;
 @Setter
 @Entity
 public class Responsavel extends Pessoa {
-	
+
+    @Size(min = 3, max = 255)
     @Column
     private String nacionalidade;
     
