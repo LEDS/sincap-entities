@@ -10,10 +10,7 @@ import br.ifes.leds.sincap.controleInterno.cln.cdp.Captador;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Hospital;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Notificador;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Setor;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CausaMortis;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CorpoEncaminhamento;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoNotificacaoEnum;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoObito;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.*;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.*;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cgt.AplProcessoNotificacao;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.util.dataFactory.*;
@@ -104,6 +101,7 @@ public class AplProcessoNotificacaoTest extends AbstractionTest {
         this.getCausasMortis(obito);
         obito.setPaciente(mapper.map(pacienteData.criarPaciente(df),
                 PacienteDTO.class));
+        obito.getPaciente().setNumeroSUS("111111");
     }
 
     private void getCausasMortis(ObitoDTO obito) {
@@ -212,5 +210,12 @@ public class AplProcessoNotificacaoTest extends AbstractionTest {
 
         id = aplProcessoNotificacao.salvarEntrevista(notificacao, notificacao.getNotificador());
         notificacao = aplProcessoNotificacao.obter(id);
+    }
+
+    @Test
+    public void obterProcessoPorNumeroSus(){
+        ProcessoNotificacao pn = aplProcessoNotificacao.obterPorNumeroSus("111111");
+        //Teste para a obtenção do processo de notificacao
+        Assert.assertNotNull(pn.getDataAbertura());
     }
 }

@@ -9,6 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Calendar;
 import java.util.List;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 /**
  * NotificacaoRepository.java
@@ -19,7 +21,14 @@ import java.util.List;
 @Repository
 @Transactional
 public interface ProcessoNotificacaoRepository extends JpaRepository<ProcessoNotificacao, Long> {
-
+    String findByPacienteNumeroSUS = "SELECT pn.* " +
+                                     "FROM processonotificacao pn " +
+                                     "INNER JOIN obito o " +
+                                     "	ON o.id = pn.obito_id " +
+                                     "INNER JOIN paciente p " +
+                                     "	ON p.id = o.paciente_id " +
+                                     "WHERE p.numerosus = :numeroSus";
+    
     public List<ProcessoNotificacao> findByDataArquivamentoIsNullOrderByDataAberturaDesc();
 
     public List<ProcessoNotificacao> findByDataAberturaBetween(Calendar dataAberturaInicio, Calendar dataAberturaFim);
@@ -29,4 +38,7 @@ public interface ProcessoNotificacaoRepository extends JpaRepository<ProcessoNot
     public List<ProcessoNotificacao> findByUltimoEstadoEstadoNotificacaoOrderByUltimoEstadoDataAtualizacaosAsc(EstadoNotificacaoEnum estado, Pageable pageable);
 
     public List<ProcessoNotificacao> findByDataArquivamentoIsNotNullOrderByDataAberturaDesc();
+    
+    @Query(value = findByPacienteNumeroSUS, nativeQuery = true)
+    public ProcessoNotificacao findByPacienteNumeroSus(@Param("numeroSus") String numeroSus);
 }
