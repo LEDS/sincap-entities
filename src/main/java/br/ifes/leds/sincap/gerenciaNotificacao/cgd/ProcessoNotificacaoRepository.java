@@ -21,15 +21,8 @@ import org.springframework.data.repository.query.Param;
 @Repository
 @Transactional
 public interface ProcessoNotificacaoRepository extends JpaRepository<ProcessoNotificacao, Long> {
-    /*String findByPacienteNumeroSUS = "SELECT pn.* " +
-                                     "FROM processonotificacao pn " +
-                                     "INNER JOIN obito o " +
-                                     "	ON o.id = pn.obito_id " +
-                                     "INNER JOIN paciente p " +
-                                     "	ON p.id = o.paciente_id " +
-                                     "WHERE p.nome = :searchString";*/
-    
-    public List<ProcessoNotificacao> findByObitoPacienteNomeContainingAndEntrevistaIsNotNullAndEntrevistaDoacaoAutorizadaTrue(String nome);
+
+    public List<ProcessoNotificacao> findByObitoPacienteNomeLikeIgnoreCase(String nome);
 
     public List<ProcessoNotificacao> findByDataArquivamentoIsNullOrderByDataAberturaDesc();
 

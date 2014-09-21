@@ -127,12 +127,12 @@ public class AplProcessoNotificacaoTest extends AbstractionTest {
                 notificacao,
                 notificacao.getNotificador());
 
-        ProcessoNotificacaoDTO notif = aplProcessoNotificacao.obter(id);
+        notificacao = aplProcessoNotificacao.obter(id);
 
-        Assert.assertNotNull(notif.getObito());
-        Assert.assertNotNull(notif.getObito().getId());
+        Assert.assertNotNull(notificacao.getObito());
+        Assert.assertNotNull(notificacao.getObito().getId());
 
-        Assert.assertNotNull(notif.getHistorico());
+        Assert.assertNotNull(notificacao.getHistorico());
     }
 
     @Test
@@ -217,10 +217,9 @@ public class AplProcessoNotificacaoTest extends AbstractionTest {
     //TODO: Utilizar um paciente cadastrado no teste
     public void obterProcessoPorPacienteNome() throws ViolacaoDeRIException{
         salvarObito();
-        analisarObito();
-        salvarEntrevistaTest();
+        //analisarObito();
+        //salvarEntrevistaTest();
         List<ProcessoNotificacao> pn = aplProcessoNotificacao.obterPorPacienteNome("Jo");
-        //Teste para a obtenção do processo de notificacao
         Assert.assertTrue(pn.size()>0);
     }
 }

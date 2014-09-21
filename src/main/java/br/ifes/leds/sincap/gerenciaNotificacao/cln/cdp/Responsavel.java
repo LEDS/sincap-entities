@@ -3,6 +3,7 @@ package br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Pessoa;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Sexo;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Telefone;
+import br.ifes.leds.sincap.validacao.annotations.TelefoneResponsavelConsistentes;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,6 +19,7 @@ import javax.validation.constraints.Size;
 @Getter
 @Setter
 @Entity
+@TelefoneResponsavelConsistentes
 public class Responsavel extends Pessoa {
 
     @Size(min = 3, max = 255)

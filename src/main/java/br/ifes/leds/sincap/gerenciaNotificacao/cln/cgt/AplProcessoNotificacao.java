@@ -532,7 +532,7 @@ public class AplProcessoNotificacao {
     }
     
     public List<ProcessoNotificacao> obterPorPacienteNome(String searchString){
-        return notificacaoRepository.findByObitoPacienteNomeContainingAndEntrevistaIsNotNullAndEntrevistaDoacaoAutorizadaTrue(searchString);
+        return notificacaoRepository.findByObitoPacienteNomeLikeIgnoreCase("%" + searchString + "%");
     }
 
     public void arquivarProcessoNotificacao(Long id, Long idFuncionario){
