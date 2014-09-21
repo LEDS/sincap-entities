@@ -42,7 +42,6 @@ public class Responsavel extends Pessoa {
     private EstadoCivil estadoCivil;
     
     @Enumerated(EnumType.STRING)
-    @NotNull
     private Sexo sexo;
     
     @Enumerated(EnumType.STRING)

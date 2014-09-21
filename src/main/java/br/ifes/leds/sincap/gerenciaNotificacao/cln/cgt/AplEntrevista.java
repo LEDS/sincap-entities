@@ -48,6 +48,7 @@ public class AplEntrevista {
         return utility.mapList(entrevistaRepository.findAll(), EntrevistaDTO.class);
     }
 
+    @SuppressWarnings("unused")
     public EntrevistaDTO getEntrevista(Long id) {
         Entrevista entrevista = entrevistaRepository.findOne(id);
         return mapper.map(entrevista, EntrevistaDTO.class);
@@ -63,8 +64,8 @@ public class AplEntrevista {
 
             enderecoRepository.save(entrevista.getResponsavel().getEndereco());
             telefoneRepository.save(entrevista.getResponsavel().getTelefone());
-            if (entrevista.getResponsavel().getTelefone2() != null)
-                telefoneRepository.save(entrevista.getResponsavel().getTelefone2());
+//            if (entrevista.getResponsavel().getTelefone2() != null)
+//                telefoneRepository.save(entrevista.getResponsavel().getTelefone2());
             responsavelRepository.save(entrevista.getResponsavel());
 
             setUpEntrevista(entrevista);
@@ -72,8 +73,6 @@ public class AplEntrevista {
             testemunhaRepository.save(entrevista.getTestemunha1());
             testemunhaRepository.save(entrevista.getTestemunha2());
             // TODO: Validar todos os dados cadastrais
-        } else {
-//            throw new ViolacaoDeRIException("Dados cadastrais de Responsável ou Testemunha(s) estão nulos!");
         }
         entrevistaRepository.save(entrevista);
     }

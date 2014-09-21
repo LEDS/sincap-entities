@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoNotificacaoEnum;
 
+import java.util.Calendar;
+
 /**
  *
  * @author marcosdias
@@ -18,5 +20,6 @@ public class AtualizacaoEstadoDTO {
 
     private Long id;
     private EstadoNotificacaoEnum estadoNotificacao;
+    private Calendar dataAtualizacaos;
     private Long funcionario;
 }

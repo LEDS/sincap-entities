@@ -17,10 +17,10 @@
 
     <context:annotation-config />
 
-	<jpa:repositories base-package="br.ifes.leds.*" />
+    <jpa:repositories base-package="br.ifes.leds.**.cgd" />
 
     <!-- Scans for @Repository, @Service and @Component -->
-    <context:component-scan base-package="br.ifes.leds.*"/>
+    <context:component-scan base-package="br.ifes.leds.**.cgt,br.ifes.leds.**.utility,br.ifes.leds.sincap.validacao,br.ifes.leds.**.dataFactory"/>
     
     <bean id="persistenceExceptionTranslationPostProcessor"
       class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />

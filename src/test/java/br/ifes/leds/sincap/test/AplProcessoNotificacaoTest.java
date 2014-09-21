@@ -1,8 +1,6 @@
 package br.ifes.leds.sincap.test;
 
 import br.ifes.leds.reuse.ledsExceptions.CRUDExceptions.ViolacaoDeRIException;
-import br.ifes.leds.reuse.utility.Factory;
-import br.ifes.leds.reuse.utility.Utility;
 import br.ifes.leds.sincap.controleInterno.cgd.HospitalRepository;
 import br.ifes.leds.sincap.controleInterno.cgd.NotificadorRepository;
 import br.ifes.leds.sincap.controleInterno.cgd.SetorRepository;
@@ -53,10 +51,6 @@ public class AplProcessoNotificacaoTest extends AbstractionTest {
     private TestemunhaData testemunhaData;
     @Autowired
     private DataFactory df;
-    @Autowired
-    private Factory factory;
-    @Autowired
-    private Utility utility;
 
     private ProcessoNotificacaoDTO notificacao;
 
@@ -209,7 +203,7 @@ public class AplProcessoNotificacaoTest extends AbstractionTest {
 
         notificacao.setEntrevista(entrevista);
 
-        id = aplProcessoNotificacao.salvarEntrevista(notificacao, notificacao.getNotificador());
+        id = aplProcessoNotificacao.salvarEntrevista(notificacao.getId(), notificacao.getEntrevista(), notificacao.getNotificador());
         notificacao = aplProcessoNotificacao.obter(id);
     }
 
