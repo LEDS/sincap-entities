@@ -30,14 +30,10 @@ public class AplPrincipal {
     /**
      * Metodo para validar login do usuario.
      *
-     * @param cpf
      * @return user - Objeto Usuário
-     * @throws Exception
      */
     public Funcionario validarLogin(String cpf) {
-
         return funcionarioRepository.findByCpf(cpf);
-
     }
 
     /**
@@ -46,17 +42,15 @@ public class AplPrincipal {
      *
      * @param cpf - CPF do Notificador
      * @return Conjunto de Instituições notificadoras
-     * @throws Exception
      */
-    public Set<InstituicaoNotificadora> obterInstituicoesNotificadorasPorCpf(String cpf) throws Exception {
+    public Set<InstituicaoNotificadora> obterInstituicoesNotificadorasPorCpf(String cpf) {
 
         Notificador notificador = aplNotificador.obterNotificador(cpf);
         if (notificador != null) {
             return notificador.getInstituicoesNotificadoras();
-        } else {
-            throw new Exception("Nome de usuario nao existe");
         }
 
+        return null;
     }
 
     /**
@@ -77,6 +71,7 @@ public class AplPrincipal {
 
     }
 
+    @SuppressWarnings("unused")
     public Funcionario obterFuncionarioPorFuncao(String cpf) {
         /*
          TODO - Refatorar o codigo para criar as Apls 

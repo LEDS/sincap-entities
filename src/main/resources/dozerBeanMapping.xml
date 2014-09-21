@@ -7,6 +7,70 @@
 
     </configuration>
 
+    <!-- Mapeamento para Map (JSON) -->
+    <mapping>
+        <class-a>br.ifes.leds.reuse.endereco.cdp.Estado</class-a>
+        <class-b>java.util.Map</class-b>
+        <field-exclude>
+            <a>cidades</a>
+            <b>this</b>
+        </field-exclude>
+    </mapping>
+    <mapping>
+        <class-a>br.ifes.leds.reuse.endereco.cdp.Cidade</class-a>
+        <class-b>java.util.Map</class-b>
+        <field>
+            <a>nome</a>
+            <b key="dado">this</b>
+        </field>
+        <field-exclude>
+            <a>bairros</a>
+            <b>this</b>
+        </field-exclude>
+    </mapping>
+    <mapping>
+        <class-a>br.ifes.leds.reuse.endereco.cdp.Bairro</class-a>
+        <class-b>java.util.Map</class-b>
+        <field>
+            <a>nome</a>
+            <b key="dado">this</b>
+        </field>
+    </mapping>
+    <mapping>
+        <class-a>br.ifes.leds.sincap.controleInterno.cln.cdp.InstituicaoNotificadora</class-a>
+        <class-b>java.util.Map</class-b>
+        <field >
+            <a>nome</a>
+            <b key="dado">this</b>
+        </field>
+        <field-exclude>
+            <a>cnes</a>
+            <b>this</b>
+        </field-exclude>
+        <field-exclude>
+            <a>email</a>
+            <b>this</b>
+        </field-exclude>
+        <field-exclude>
+            <a>fantasia</a>
+            <b>this</b>
+        </field-exclude>
+        <field-exclude>
+            <a>endereco</a>
+            <b>this</b>
+        </field-exclude>
+        <field-exclude>
+            <a>telefone</a>
+            <b>this</b>
+        </field-exclude>
+        <field-exclude>
+            <a>funcionarios</a>
+            <b>this</b>
+        </field-exclude>
+    </mapping>
+    <!-- Fim do mapeamento para Map (JSON) -->
+
+
     <mapping map-null="false" map-empty-string="false">
         <class-a>br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Paciente</class-a>
         <class-b>br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.PacienteDTO</class-b>
