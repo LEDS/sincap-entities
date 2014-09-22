@@ -1,6 +1,7 @@
 package br.ifes.leds.sincap.gerenciaNotificacao.cln.cgt;
 
 import br.ifes.leds.reuse.utility.Utility;
+import br.ifes.leds.sincap.controleInterno.cln.cdp.Captador;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Funcionario;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.AtualizacaoEstadoRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ProcessoNotificacaoRepository;
@@ -116,6 +117,7 @@ public class AplProcessoNotificacao {
      */
     public long salvarCaptacao(Long idProcesso, CaptacaoDTO captacaoDTO, Long idCaptador) {
 
+        captacaoDTO.setCaptador(idCaptador);
         ProcessoNotificacaoDTO processo = this.obter(idProcesso);
         processo.setCaptacao(captacaoDTO);
 

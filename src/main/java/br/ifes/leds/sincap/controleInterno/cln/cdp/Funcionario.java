@@ -38,7 +38,7 @@ public class Funcionario extends Pessoa {
     // visto que há várias restrições que impossibilitam seu uso em desenvolvimento,
     // mas, ajudarah muito na producao.
     //@CPF
-    @Column
+    @Column(unique = true)
     @NotNull
     private String cpf;
 
