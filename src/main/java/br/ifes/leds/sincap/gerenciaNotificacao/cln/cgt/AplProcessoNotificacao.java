@@ -1,7 +1,6 @@
 package br.ifes.leds.sincap.gerenciaNotificacao.cln.cgt;
 
 import br.ifes.leds.reuse.utility.Utility;
-import br.ifes.leds.sincap.controleInterno.cln.cdp.Captador;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Funcionario;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.AtualizacaoEstadoRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ProcessoNotificacaoRepository;
@@ -11,6 +10,7 @@ import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.EntrevistaDTO;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.ProcessoNotificacaoDTO;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
@@ -36,6 +36,7 @@ public class AplProcessoNotificacao {
     private AplCausaNaoDoacao aplCausaNaoDoacao;
     @Autowired
     private AtualizacaoEstadoRepository atualizacaoEstadoRepository;
+    @Qualifier("mapper")
     @Autowired
     private Mapper mapper;
     @Autowired
@@ -125,7 +126,7 @@ public class AplProcessoNotificacao {
 
         this.addNovoEstado(EstadoNotificacaoEnum.AGUARDANDOANALISECAPTACAO, notificacao, idCaptador);
 
-        if (notificacao.getCaptacao().getId() == null)
+        if (notificacao.getCaptacao().getId() != null)
             notificacao.getCaptacao().setDataCadastro(Calendar.getInstance());
 
         aplCaptacao.salvarCaptacao(notificacao.getCaptacao());
