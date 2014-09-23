@@ -211,9 +211,9 @@ public class AplProcessoNotificacaoTest extends AbstractionTest {
     //TODO: Utilizar um paciente cadastrado no teste
     public void obterProcessoPorPacienteNome() throws ViolacaoDeRIException{
         salvarObito();
-        //analisarObito();
-        //salvarEntrevistaTest();
-        List<ProcessoNotificacao> pn = aplProcessoNotificacao.obterPorPacienteNome("Jo");
+        analisarObito();
+        salvarEntrevistaTest();
+        List<ProcessoNotificacao> pn = aplProcessoNotificacao.obterPorPacienteNome("J");
         Assert.assertTrue(pn.size()>0);
     }
 }

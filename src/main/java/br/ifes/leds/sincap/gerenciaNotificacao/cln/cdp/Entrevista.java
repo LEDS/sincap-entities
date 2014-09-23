@@ -15,7 +15,6 @@ import lombok.Getter;
 import lombok.Setter;
 import br.ifes.leds.reuse.persistence.ObjetoPersistente;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Funcionario;
-import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  *

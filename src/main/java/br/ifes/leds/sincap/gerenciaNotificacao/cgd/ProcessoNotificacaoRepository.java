@@ -22,7 +22,7 @@ import org.springframework.data.repository.query.Param;
 @Transactional
 public interface ProcessoNotificacaoRepository extends JpaRepository<ProcessoNotificacao, Long> {
 
-    public List<ProcessoNotificacao> findByObitoPacienteNomeLikeIgnoreCase(String nome);
+    public List<ProcessoNotificacao> findByObitoPacienteNomeContainingAndEntrevistaIsNotNullAndEntrevistaDoacaoAutorizadaTrue(String searchString);
 
     public List<ProcessoNotificacao> findByDataArquivamentoIsNullOrderByDataAberturaDesc();
 
