@@ -17,7 +17,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 public class Permissao extends ObjetoPersistente {
 
-    @Column
     @NotNull
+    @Column(unique = true)
     private String role;
 }

@@ -7,9 +7,7 @@
 
     <bean id="propertyConfigurer"
           class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="location">
-           <value>classpath:sincap.properties</value>
-        </property>
+        <property name="location" value="classpath:sincap.properties"/>
     </bean>
 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -32,7 +30,6 @@
             <prop key="hibernate.hbm2ddl.import_files">
                 /resources/01_SQLSCRIPT_USUARIOS_v2.sql
             </prop>
-            <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</prop>
             <prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</prop>
             
 <!--             <prop key="hibernate.cache.use_second_level_cache">true</prop> -->

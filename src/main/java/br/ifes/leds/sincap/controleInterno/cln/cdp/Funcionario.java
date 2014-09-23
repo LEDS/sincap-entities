@@ -50,6 +50,6 @@ public class Funcionario extends Pessoa {
     @NotNull
     private String email;
 
-    @OneToMany
+    @ManyToMany
     private List<Permissao> permissoes;
 }
