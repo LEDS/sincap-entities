@@ -126,8 +126,7 @@ public class AplProcessoNotificacao {
 
         this.addNovoEstado(EstadoNotificacaoEnum.AGUARDANDOANALISECAPTACAO, notificacao, idCaptador);
 
-        if (notificacao.getCaptacao().getId() != null)
-            notificacao.getCaptacao().setDataCadastro(Calendar.getInstance());
+        notificacao.getCaptacao().setDataCadastro(Calendar.getInstance());
 
         aplCaptacao.salvarCaptacao(notificacao.getCaptacao());
         this.salvarHistorico(notificacao.getHistorico());

@@ -5,12 +5,10 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Email;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 /**
  * Funcionario
@@ -51,4 +49,7 @@ public class Funcionario extends Pessoa {
     @Email
     @NotNull
     private String email;
+
+    @ManyToMany
+    private List<Permissao> permissoes;
 }
