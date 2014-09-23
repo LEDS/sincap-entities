@@ -32,7 +32,7 @@ public abstract class ObjetoPersistente implements Serializable {
     public boolean equals(Object obj) {
         if (obj instanceof ObjetoPersistente) {
             ObjetoPersistente o = (ObjetoPersistente) obj;
-            if (this.id != null && this.id == o.id) {
+            if (this.id != null && this.id.equals(o.id)) {
                 return true;
             }
         }
