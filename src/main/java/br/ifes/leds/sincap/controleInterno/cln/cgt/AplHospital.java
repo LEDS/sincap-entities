@@ -1,6 +1,8 @@
 package br.ifes.leds.sincap.controleInterno.cln.cgt;
 
 import br.ifes.leds.reuse.endereco.cgd.EnderecoRepository;
+
+import java.util.HashSet;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -91,6 +93,11 @@ public class AplHospital {
     */
     public void addSetor(Setor setor, Long idHospital) {
         Hospital hospital = this.hospitalRepository.findOne(idHospital);
+
+        if (hospital.getSetores() == null) {
+            hospital.setSetores(new HashSet<Setor>());
+        }
+
         hospital.addSetor(setor);
         this.hospitalRepository.save(hospital);
     }

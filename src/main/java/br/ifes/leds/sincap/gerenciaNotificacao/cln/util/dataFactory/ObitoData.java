@@ -7,7 +7,11 @@
 package br.ifes.leds.sincap.gerenciaNotificacao.cln.util.dataFactory;
 
 import br.ifes.leds.reuse.utility.Factory;
+import br.ifes.leds.sincap.controleInterno.cgd.HospitalRepository;
+import br.ifes.leds.sincap.controleInterno.cgd.InstituicaoNotificadoraRepository;
 import br.ifes.leds.sincap.controleInterno.cgd.SetorRepository;
+import br.ifes.leds.sincap.controleInterno.cln.cdp.Hospital;
+import br.ifes.leds.sincap.controleInterno.cln.cdp.InstituicaoNotificadora;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Setor;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.CausaMortisRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ObitoRepository;
@@ -18,6 +22,7 @@ import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Obito;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Paciente;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoObito;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import org.fluttercode.datafactory.impl.DataFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +42,8 @@ public class ObitoData {
     @Autowired
     private SetorRepository setorRepository;
     @Autowired
+    private HospitalRepository hospitalRepository;
+    @Autowired
     private PacienteRepository pacienteRepository;
     @Autowired
     private Factory fabrica;
@@ -44,6 +51,7 @@ public class ObitoData {
     private Obito obito;
     private Calendar dataObito;
     private Calendar dataEvento;
+    private Date dataAtual;
     private Listas list = Listas.INSTANCE;
     
     private List<CausaMortis> listCausa;
@@ -51,6 +59,7 @@ public class ObitoData {
     private List<Paciente> listPaciente;
     private List<CorpoEncaminhamento> listcorpoEncaminhamento;
     private List<TipoObito> listTipoObito;
+    private List<Hospital> listHospital;
     
     /**Método responsável por criar Objetos Obito randomico, sendo nescessário apenas passar
      * uma instancia DataFactory e a quantidade a ser criada.
@@ -78,14 +87,15 @@ public class ObitoData {
         obito = fabrica.criaObjeto(Obito.class);
         dataObito = Calendar.getInstance();
         dataEvento = Calendar.getInstance();
+        dataAtual = new Date();
         listcorpoEncaminhamento = list.getListCorp();
         listTipoObito = list.getListTipoObito();
         
         obito.setAptoDoacao(df.chance(50));
         obito.setCorpoEncaminhamento(df.getItem(listcorpoEncaminhamento));
-        dataObito.setTime(df.getDateBetween(df.getDate(2000, 01, 01), df.getDate(2014, 12, 30)));
+        dataObito.setTime(df.getDateBetween(df.getDate(2000, 01, 01), dataAtual));
         obito.setDataObito(dataObito);
-        dataEvento.setTime(df.getDateBetween(dataObito.getTime(), df.getDate(2014, 12, 30)));
+        dataEvento.setTime(df.getDateBetween(dataObito.getTime(), dataAtual));
         obito.setDataCadastro(dataEvento);
         listCausa = causaMortisRepository.findAll();
         obito.setPrimeiraCausaMortis(df.getItem(listCausa));
@@ -97,7 +107,9 @@ public class ObitoData {
         obito.setTipoObito(df.getItem(listTipoObito));
         listPaciente = pacienteRepository.findAll();
         obito.setPaciente(df.getItem(listPaciente));
-        
+        listHospital = hospitalRepository.findAll();
+        obito.setHospital(df.getItem(listHospital));
+
         return obito;
     }
 }

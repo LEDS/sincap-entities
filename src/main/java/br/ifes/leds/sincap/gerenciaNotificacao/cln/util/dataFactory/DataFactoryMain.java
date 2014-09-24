@@ -59,9 +59,9 @@ public class DataFactoryMain {
 //        rd.criaResponsavelRandom(df, 5);
 //        td.criaTestemunhaRandom(df, 5);
 //        cmd.criaCausaMortisRandom(df, 5);
-        pnd.criarAnaliseObitoRandom(df,5);
+//        pnd.criarAnaliseObitoRandom(df,5);
 //        pnd.criaEntrevistaRadom(df, 5);
-//        pnd.criaCaptacaoRadom(df, 5);
+        pnd.criaCaptacaoRadom(df, 5);
 //        cnd.criaCausaNaoDoacaoRandom(df, 5);
     }
 

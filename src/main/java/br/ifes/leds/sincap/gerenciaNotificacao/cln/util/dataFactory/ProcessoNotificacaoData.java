@@ -95,6 +95,7 @@ public class ProcessoNotificacaoData {
             pn.setHistorico(listAtualizacao);
             
             for(AtualizacaoEstado ae : listAtualizacao){
+                pn.setUltimoEstado(ae);
                 salvaEstadoNotificacao(ae);   
             }    
             salvarProcesso(pn);
@@ -201,6 +202,7 @@ public class ProcessoNotificacaoData {
             pn.setHistorico(listAtualizacao);
             
             for(AtualizacaoEstado ae : listAtualizacao){
+                pn.setUltimoEstado(ae);
                 salvaEstadoNotificacao(ae);
             }                                 
             salvaEstadoNotificacao(AtualizaEstadoNotificacao(pn,2));
@@ -237,6 +239,7 @@ public class ProcessoNotificacaoData {
             pn.setHistorico(listAtualizacao);
             
             for(AtualizacaoEstado ae : listAtualizacao){
+                pn.setUltimoEstado(ae);
                 salvaEstadoNotificacao(ae);
             } 
             

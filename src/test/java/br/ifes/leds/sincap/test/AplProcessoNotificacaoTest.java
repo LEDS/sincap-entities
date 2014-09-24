@@ -198,6 +198,7 @@ public class AplProcessoNotificacaoTest extends AbstractionTest {
         testemunhaData.criaTestemunhaRandom(df, 30);
         EntrevistaDTO entrevista = mapper.map(
                 entrevistaData.criaEntrevista(df), EntrevistaDTO.class);
+        entrevista.setDoacaoAutorizada(true);
         Long id = aplProcessoNotificacao.salvarNovaNotificacao(notificacao, notificacao.getNotificador());
         notificacao = aplProcessoNotificacao.obter(id);
 
@@ -214,6 +215,6 @@ public class AplProcessoNotificacaoTest extends AbstractionTest {
         analisarObito();
         salvarEntrevistaTest();
         List<ProcessoNotificacao> pn = aplProcessoNotificacao.obterPorPacienteNome("J");
-        Assert.assertTrue(pn.size()>0);
+        Assert.assertTrue(pn.size() > 0);
     }
 }

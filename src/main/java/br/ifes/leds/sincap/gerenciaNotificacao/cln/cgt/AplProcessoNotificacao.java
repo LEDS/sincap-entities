@@ -9,12 +9,14 @@ import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.CaptacaoDTO;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.EntrevistaDTO;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.ProcessoNotificacaoDTO;
 import org.dozer.Mapper;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * AplProcessoNotificacao.java
@@ -126,7 +128,7 @@ public class AplProcessoNotificacao {
 
         this.addNovoEstado(EstadoNotificacaoEnum.AGUARDANDOANALISECAPTACAO, notificacao, idCaptador);
 
-        notificacao.getCaptacao().setDataCadastro(Calendar.getInstance());
+        notificacao.getCaptacao().setDataCadastro((new DateTime()).toCalendar(Locale.getDefault()));
 
         aplCaptacao.salvarCaptacao(notificacao.getCaptacao());
         this.salvarHistorico(notificacao.getHistorico());

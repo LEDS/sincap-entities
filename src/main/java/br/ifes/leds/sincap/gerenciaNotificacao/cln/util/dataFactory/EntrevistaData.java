@@ -16,6 +16,7 @@ import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Entrevista;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Responsavel;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Testemunha;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import org.fluttercode.datafactory.impl.DataFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,7 @@ public class EntrevistaData {
     private Entrevista entrevista;
     private Calendar dataEntrevista;
     private Calendar dataCadastro;
+    private Date dataAtual;
     private List<Responsavel> listResponsavel;
     private List<Testemunha> listTestemunha;
     private List<Funcionario> listFuncionario;
@@ -66,10 +68,11 @@ public class EntrevistaData {
         entrevista = fabrica.criaObjeto(Entrevista.class);
         dataEntrevista = Calendar.getInstance();
         dataCadastro = Calendar.getInstance();
+        dataAtual = new Date();
         
-        dataCadastro.setTime(df.getDateBetween(df.getDate(2000, 01, 01), df.getDate(2014, 12, 30)));
+        dataCadastro.setTime(df.getDateBetween(df.getDate(2000, 01, 01), dataAtual));
         entrevista.setDataCadastro(dataCadastro);
-        dataEntrevista.setTime(df.getDateBetween(dataCadastro.getTime(), df.getDate(2014, 12, 30)));
+        dataEntrevista.setTime(df.getDateBetween(dataCadastro.getTime(), dataAtual));
         entrevista.setDataEntrevista(dataEntrevista);
         listResponsavel = responsavelRepository.findAll();
         entrevista.setResponsavel(df.getItem(listResponsavel));

@@ -31,7 +31,6 @@ public class Captacao extends ObjetoPersistente {
     
     @Temporal(TemporalType.TIMESTAMP)
     @Past
-    @NotNull
     private Calendar dataCaptacao; //Data e horario do captacao
     
     @Temporal(TemporalType.TIMESTAMP)
