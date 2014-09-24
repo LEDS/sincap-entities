@@ -70,6 +70,18 @@
     </mapping>
     <!-- Fim do mapeamento para Map (JSON) -->
 
+    <mapping>
+        <class-a>br.ifes.leds.sincap.controleInterno.cln.cdp.BancoOlhos</class-a>
+        <class-b>javax.faces.model.SelectItem</class-b>
+        <field>
+            <a>id</a>
+            <b>value</b>
+        </field>
+        <field>
+            <a>nome</a>
+            <b>label</b>
+        </field>
+    </mapping>
 
     <mapping map-null="false" map-empty-string="false">
         <class-a>br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Paciente</class-a>
