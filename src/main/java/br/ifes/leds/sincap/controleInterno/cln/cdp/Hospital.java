@@ -3,12 +3,7 @@ package br.ifes.leds.sincap.controleInterno.cln.cdp;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 import lombok.Getter;
@@ -30,7 +25,10 @@ public class Hospital extends InstituicaoNotificadora {
                 joinColumns = {@JoinColumn(name = "InstituicaoID")},
                 inverseJoinColumns = {@JoinColumn(name = "setorID")}
               )
-    private Set<Setor> setores = new HashSet<Setor>();
+    private Set<Setor> setores;
+
+    @ManyToOne
+    private BancoOlhos bancoOlhos;
     
     @Column
     @NotNull
