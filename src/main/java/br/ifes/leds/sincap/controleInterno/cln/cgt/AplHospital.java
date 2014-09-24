@@ -110,4 +110,13 @@ public class AplHospital {
         Hospital hospital = this.hospitalRepository.findOne(idHospital);
         hospital.removeSetor(setor);
     }
+
+    /** Método para remover um hospital e seus setores.
+     * @param hospital - Objeto Hospital.
+     */
+    public void exlcuir(Hospital hospital) {
+        hospitalRepository.delete(hospital);
+        telefoneRepository.save(hospital.getTelefone());
+        enderecoRepository.save(hospital.getEndereco());
+    }
 }
