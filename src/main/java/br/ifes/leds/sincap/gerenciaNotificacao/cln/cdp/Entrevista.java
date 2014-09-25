@@ -37,14 +37,14 @@ public class Entrevista extends ObjetoPersistente {
     @NotNull
     private boolean doacaoAutorizada;
     
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @NotNull
     private Responsavel responsavel;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private Testemunha testemunha1;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private Testemunha testemunha2;
     
     @ManyToOne

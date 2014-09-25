@@ -21,11 +21,11 @@ public abstract class Pessoa extends ObjetoPersistente {
     @Column
     private String nome;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(nullable = true)
     private Telefone telefone;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(nullable = true)
     private Endereco endereco;
 }

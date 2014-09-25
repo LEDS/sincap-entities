@@ -1,18 +1,15 @@
 package br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp;
 
-import java.util.Calendar;
-
-import javax.persistence.*;
-
 import br.ifes.leds.reuse.persistence.ObjetoPersistente;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Hospital;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Setor;
-
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
-
 import lombok.Getter;
 import lombok.Setter;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import java.util.Calendar;
 
 /**
  * Obito.java
@@ -42,22 +39,22 @@ public class Obito extends ObjetoPersistente {
     @Enumerated (EnumType.STRING)
     private CorpoEncaminhamento corpoEncaminhamento;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = {CascadeType.ALL}, orphanRemoval = true)
     @NotNull
     private CausaMortis primeiraCausaMortis;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @NotNull
     private CausaMortis segundaCausaMortis;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private CausaMortis terceiraCausaMortis;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private CausaMortis quartaCausaMortis;
 
     @JoinColumn(nullable = false)
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @NotNull
     private Paciente paciente;
 
