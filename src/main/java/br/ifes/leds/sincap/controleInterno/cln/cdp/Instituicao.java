@@ -1,16 +1,10 @@
 package br.ifes.leds.sincap.controleInterno.cln.cdp;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 import br.ifes.leds.reuse.endereco.cdp.Endereco;
 import java.util.Set;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -41,10 +35,10 @@ public abstract class Instituicao {
     @Column
     private String fantasia;
     
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private Endereco endereco;
-    
-    @OneToOne
+
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private Telefone telefone;
     
     @OneToMany(fetch = FetchType.EAGER)

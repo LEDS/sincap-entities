@@ -1,13 +1,11 @@
 package br.ifes.leds.sincap.controleInterno.cln.cdp;
 
-import java.util.HashSet;
-import java.util.Set;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-
-import lombok.Getter;
-import lombok.Setter;
+import java.util.Set;
 
 /**
  * Hospital.java

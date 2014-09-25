@@ -1,18 +1,14 @@
 package br.ifes.leds.sincap.controleInterno.cln.cgt;
 
-import br.ifes.leds.reuse.endereco.cgd.EnderecoRepository;
+import br.ifes.leds.sincap.controleInterno.cgd.HospitalRepository;
+import br.ifes.leds.sincap.controleInterno.cln.cdp.Hospital;
+import br.ifes.leds.sincap.controleInterno.cln.cdp.Setor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import br.ifes.leds.sincap.controleInterno.cgd.HospitalRepository;
-import br.ifes.leds.sincap.controleInterno.cgd.TelefoneRepository;
-import br.ifes.leds.sincap.controleInterno.cln.cdp.Hospital;
-import br.ifes.leds.sincap.controleInterno.cln.cdp.Setor;
-import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ProcessoNotificacaoRepository;
-import org.springframework.data.domain.Pageable;
 
 
 
@@ -21,20 +17,11 @@ public class AplHospital {
 
     @Autowired
     private HospitalRepository hospitalRepository;
-    @Autowired
-    private EnderecoRepository enderecoRepository;
-    @Autowired
-    private TelefoneRepository telefoneRepository;
-    @Autowired
-    private ProcessoNotificacaoRepository notificacaoRepository;
 
     /** Método para cadastrar um Hospital.
     *   @param hospital - objeto Hospital. */
     
     public void cadastrar(Hospital hospital) {
-
-        telefoneRepository.save(hospital.getTelefone());
-        enderecoRepository.save(hospital.getEndereco());
         hospitalRepository.save(hospital);
     }
     
@@ -116,7 +103,5 @@ public class AplHospital {
      */
     public void exlcuir(Hospital hospital) {
         hospitalRepository.delete(hospital);
-        telefoneRepository.save(hospital.getTelefone());
-        enderecoRepository.save(hospital.getEndereco());
     }
 }
