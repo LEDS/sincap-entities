@@ -2,7 +2,7 @@ package br.ifes.leds.sincap.gerenciaNotificacao.cln.cgt;
 
 import br.ifes.leds.reuse.utility.Utility;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Funcionario;
-import br.ifes.leds.sincap.gerenciaNotificacao.cgd.AtualizacaoEstadoRepository;
+import br.ifes.leds.sincap.controleInterno.cln.cdp.Notificador;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ProcessoNotificacaoRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.*;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.CaptacaoDTO;
@@ -28,16 +28,6 @@ public class AplProcessoNotificacao {
 
     @Autowired
     private ProcessoNotificacaoRepository notificacaoRepository;
-    @Autowired
-    private AplObito aplObito;
-    @Autowired
-    private AplEntrevista aplEntrevista;
-    @Autowired
-    private AplCaptacao aplCaptacao;
-    @Autowired
-    private AplCausaNaoDoacao aplCausaNaoDoacao;
-    @Autowired
-    private AtualizacaoEstadoRepository atualizacaoEstadoRepository;
     @Qualifier("mapper")
     @Autowired
     private Mapper mapper;
@@ -54,22 +44,13 @@ public class AplProcessoNotificacao {
      */
     public long salvarNovaNotificacao(ProcessoNotificacaoDTO processoNotificacaoDTO, Long idFuncionario) {
 
-        ProcessoNotificacao notificacao = mapper.map(processoNotificacaoDTO, ProcessoNotificacao.class);
-        preparaProcessoParaSalvar(notificacao);
+        ProcessoNotificacao notificacao = instanciarNovoProcessoNotificacao(processoNotificacaoDTO);
 
-        if (notificacao.getDataAbertura() == null) {
-            notificacao.setDataAbertura(Calendar.getInstance());
-        }
+        notificacao.setNotificador(criarNotificador(idFuncionario));
 
-        if (notificacao.getObito().getDataCadastro() == null) {
-            notificacao.getObito().setDataCadastro(Calendar.getInstance());
-        }
-
-        aplObito.salvarObito(notificacao.getObito());
+        setDatasNovaNotificacao(notificacao);
 
         this.addEstadoInicial(notificacao, idFuncionario);
-        this.salvarHistorico(notificacao.getHistorico());
-
 
         notificacao.setCodigo(notificacao.getObito().getPaciente().getNumeroSUS());
 
@@ -77,15 +58,34 @@ public class AplProcessoNotificacao {
         return notificacao.getId();
     }
 
-    private void preparaProcessoParaSalvar(ProcessoNotificacao notificacao) {
-        if (notificacao.getId() != null) {
-            ProcessoNotificacao notificacaoBd = notificacaoRepository.findOne(notificacao.getId());
-            utility.mergeIds(notificacao, notificacaoBd);
-            notificacao.setHistorico(notificacaoBd.getHistoricoModificavel());
-            notificacao.setDataAbertura(notificacaoBd.getDataAbertura());
-            notificacao.setCodigo(notificacaoBd.getCodigo());
-            notificacao.setArquivado(notificacaoBd.isArquivado());
+    private void setDatasNovaNotificacao(ProcessoNotificacao notificacao) {
+        if (notificacao.getDataAbertura() == null) {
+            notificacao.setDataAbertura(Calendar.getInstance());
         }
+
+        if (notificacao.getObito().getDataCadastro() == null) {
+            notificacao.getObito().setDataCadastro(Calendar.getInstance());
+        }
+    }
+
+    private ProcessoNotificacao instanciarNovoProcessoNotificacao(ProcessoNotificacaoDTO processoNotificacao) {
+        ProcessoNotificacao notificacao;
+
+        if (processoNotificacao.getId() == null) {
+            notificacao = new ProcessoNotificacao();
+        } else {
+            notificacao = notificacaoRepository.findOne(processoNotificacao.getId());
+        }
+
+        notificacao.setObito(mapper.map(processoNotificacao.getObito(), Obito.class));
+
+        return notificacao;
+    }
+
+    private Notificador criarNotificador(Long idFuncionario) {
+        Notificador notificador = new Notificador();
+        notificador.setId(idFuncionario);
+        return notificador;
     }
 
     /**
@@ -102,9 +102,6 @@ public class AplProcessoNotificacao {
         }
 
         this.addNovoEstado(EstadoNotificacaoEnum.AGUARDANDOANALISEENTREVISTA, notificacao, idFuncionario);
-        this.salvarHistorico(notificacao.getHistorico());
-
-        aplEntrevista.salvarEntrevista(notificacao.getEntrevista());
 
         notificacaoRepository.save(notificacao);
 
@@ -129,9 +126,6 @@ public class AplProcessoNotificacao {
         this.addNovoEstado(EstadoNotificacaoEnum.AGUARDANDOANALISECAPTACAO, notificacao, idCaptador);
 
         notificacao.getCaptacao().setDataCadastro((new DateTime()).toCalendar(Locale.getDefault()));
-
-        aplCaptacao.salvarCaptacao(notificacao.getCaptacao());
-        this.salvarHistorico(notificacao.getHistorico());
 
         notificacaoRepository.save(notificacao);
 
@@ -259,7 +253,6 @@ public class AplProcessoNotificacao {
 
         this.addNovoEstado(enumEstado, notificacao, idFuncionario);
 
-        salvarHistorico(notificacao.getHistorico());
         notificacaoRepository.save(notificacao);
 
         return notificacao.getId();
@@ -306,19 +299,6 @@ public class AplProcessoNotificacao {
         Funcionario funcionario = new Funcionario();
         funcionario.setId(idFuncionario);
         return funcionario;
-    }
-
-    /**
-     * Metodo que salva os estados da notificacao
-     *
-     * @param historico List - Lista de Atualizacoes de estados
-     */
-    private void salvarHistorico(List<AtualizacaoEstado> historico) {
-        if (!historico.isEmpty()) {
-            for (AtualizacaoEstado estado : historico) {
-                atualizacaoEstadoRepository.save(estado);
-            }
-        }
     }
 
     /**
@@ -447,11 +427,6 @@ public class AplProcessoNotificacao {
                 processoNotificacao,
                 EstadoNotificacaoEnum.AGUARDANDOARQUIVAMENTO,
                 idFuncionario);
-    }
-
-    @SuppressWarnings("unused")
-    public CausaNaoDoacao getCausadeDoacaoProcesso(ProcessoNotificacaoDTO processo) {
-        return aplCausaNaoDoacao.obter(processo.getCausaNaoDoacao());
     }
 
     public List<ProcessoNotificacao> obterPorPacienteNome(String searchString) {

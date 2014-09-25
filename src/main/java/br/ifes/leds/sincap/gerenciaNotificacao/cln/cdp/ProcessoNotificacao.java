@@ -4,8 +4,6 @@ import br.ifes.leds.reuse.persistence.ObjetoPersistente;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Notificador;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -28,27 +26,23 @@ import java.util.List;
 @Entity
 public class ProcessoNotificacao extends ObjetoPersistente {
 
-    /* TODO: Cria regra de negocio para geracao do codigo
-       Esse código deve ser o cartão do SUS
-       O código está presente em ProcessoNotificacao->Obito->Paciente.numeroSUS
-    */
     @Column(unique = true, nullable = false)
     @NotNull
     private String codigo;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column()
+    @Column
     @NotNull
     private Calendar dataAbertura;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column()
+    @Column
     private Calendar dataArquivamento;
     
     @Column
     private boolean arquivado;
     
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @NotNull
     private List<AtualizacaoEstado> historico;
 
@@ -56,39 +50,31 @@ public class ProcessoNotificacao extends ObjetoPersistente {
     @NotNull
     private AtualizacaoEstado ultimoEstado;
     
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn()
+    @ManyToOne
+    @JoinColumn
     @NotNull
     private Notificador notificador;
     
-    @OneToOne
-    @JoinColumn()
-    @Cascade({CascadeType.SAVE_UPDATE})
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn
     @NotNull
     private Obito obito;
     
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(nullable = true)
-    @Cascade({CascadeType.SAVE_UPDATE})
     private Entrevista entrevista;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(nullable = true)
-    @Cascade({CascadeType.SAVE_UPDATE})
     private Captacao captacao;
     
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn()
-    @Cascade({CascadeType.SAVE_UPDATE})
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn
     private CausaNaoDoacao causaNaoDoacao;
     
 
     public boolean aptoDoacao() {
         return this.obito.isAptoDoacao();
-    }
-
-    public boolean doacaoAutorizado() {
-        return this.entrevista.isDoacaoAutorizada();
     }
 
     /**
@@ -113,6 +99,7 @@ public class ProcessoNotificacao extends ObjetoPersistente {
      *
      * @return Uma lista imutável com o histórico de atualização estado.
      */
+    @SuppressWarnings("unused")
     public List<AtualizacaoEstado> getHistorico() {
         return Collections.unmodifiableList(this.historico);
     }
