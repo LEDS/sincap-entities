@@ -5,10 +5,7 @@ import br.ifes.leds.reuse.persistence.ObjetoPersistente;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.JoinColumn;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 /**
  * Pessoa.java
@@ -24,11 +21,11 @@ public abstract class Pessoa extends ObjetoPersistente {
     @Column
     private String nome;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(nullable = true)
     private Telefone telefone;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(nullable = true)
     private Endereco endereco;
 }

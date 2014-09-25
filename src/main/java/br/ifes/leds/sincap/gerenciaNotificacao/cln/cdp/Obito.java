@@ -2,19 +2,12 @@ package br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp;
 
 import java.util.Calendar;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 
 import br.ifes.leds.reuse.persistence.ObjetoPersistente;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Hospital;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Setor;
 
-import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
@@ -49,22 +42,22 @@ public class Obito extends ObjetoPersistente {
     @Enumerated (EnumType.STRING)
     private CorpoEncaminhamento corpoEncaminhamento;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @NotNull
     private CausaMortis primeiraCausaMortis;
-    
-    @OneToOne
+
+    @OneToOne(cascade = CascadeType.ALL)
     @NotNull
     private CausaMortis segundaCausaMortis;
-    
-    @OneToOne
+
+    @OneToOne(cascade = CascadeType.ALL)
     private CausaMortis terceiraCausaMortis;
-    
-    @OneToOne
+
+    @OneToOne(cascade = CascadeType.ALL)
     private CausaMortis quartaCausaMortis;
 
     @JoinColumn(nullable = false)
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @NotNull
     private Paciente paciente;
 

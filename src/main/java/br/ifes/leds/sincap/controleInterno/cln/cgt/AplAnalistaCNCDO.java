@@ -6,12 +6,11 @@
 
 package br.ifes.leds.sincap.controleInterno.cln.cgt;
 
-import br.ifes.leds.reuse.endereco.cgd.EnderecoRepository;
-import br.ifes.leds.sincap.controleInterno.cgd.TelefoneRepository;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.AnalistaCNCDO;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.AnalistaCNCDORepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 /**
@@ -23,11 +22,7 @@ public class AplAnalistaCNCDO {
     
     @Autowired
     private AnalistaCNCDORepository analistaCNCDORepository;
-    @Autowired
-    private TelefoneRepository telefoneRepository;
-    @Autowired
-    private EnderecoRepository enderecoRepository;
-    
+
     /** Método para obter um analista pelo seu id.
       * @param id - id do analista.
       * @return Objeto Analista.
@@ -59,8 +54,6 @@ public class AplAnalistaCNCDO {
       */
     public void salvar(AnalistaCNCDO analistaCNCDO)
     {
-        enderecoRepository.save(analistaCNCDO.getEndereco());
-        telefoneRepository.save(analistaCNCDO.getTelefone());
         analistaCNCDORepository.save(analistaCNCDO);
     }
     
@@ -70,8 +63,6 @@ public class AplAnalistaCNCDO {
     public void excluir(AnalistaCNCDO analistaCNCDO)
     {
         analistaCNCDORepository.delete(analistaCNCDO);
-        telefoneRepository.delete(analistaCNCDO.getTelefone());
-        enderecoRepository.delete(analistaCNCDO.getEndereco());
     }
     
 }

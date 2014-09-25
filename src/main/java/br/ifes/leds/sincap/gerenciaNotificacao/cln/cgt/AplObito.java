@@ -1,43 +1,31 @@
 package br.ifes.leds.sincap.gerenciaNotificacao.cln.cgt;
 
-import java.util.List;
-
-import org.dozer.Mapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import br.ifes.leds.reuse.endereco.cgd.EnderecoRepository;
-import br.ifes.leds.reuse.ledsExceptions.CRUDExceptions.ViolacaoDeRIException;
 import br.ifes.leds.reuse.utility.Utility;
-import br.ifes.leds.reuse.utility.Validator;
-import br.ifes.leds.sincap.controleInterno.cgd.TelefoneRepository;
-import br.ifes.leds.sincap.gerenciaNotificacao.cgd.CausaMortisRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ObitoRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.PacienteRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Obito;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Paciente;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.ObitoDTO;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.PacienteDTO;
+import org.dozer.Mapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class AplObito {
 
     @Autowired
-    private EnderecoRepository enderecoRepository;
-    @Autowired
-    private TelefoneRepository telefoneRepository;
-    @Autowired
     private PacienteRepository pacienteRepository;
     @Autowired
     private ObitoRepository obitoRepository;
+    @Qualifier("mapper")
     @Autowired
     private Mapper mapper;
     @Autowired
-    private CausaMortisRepository causaMortisRepository;
-    @Autowired
     private Utility utility;
-    @Autowired
-    private Validator validator;
 
     /**
      * Obtém todos os pacientes.
@@ -69,15 +57,7 @@ public class AplObito {
      *            O objeto que representa o paciente.
      */
     public void salvarPaciente(PacienteDTO pacienteDTO) {
-        Paciente paciente = mapper.map(pacienteDTO, Paciente.class);
-
-        salvarPaciente(paciente);
-    }
-
-    public void salvarPaciente(Paciente paciente) {
-        telefoneRepository.save(paciente.getTelefone());
-        enderecoRepository.save(paciente.getEndereco());
-        pacienteRepository.save(paciente);
+        pacienteRepository.save(mapper.map(pacienteDTO, Paciente.class));
     }
 
     /**
@@ -90,36 +70,16 @@ public class AplObito {
     }
 
     /**
-     * Obtém os dados de um óbito, dado seu id.
-     * 
-     * @param id
-     *            O {@code id} do óbito no banco de dados.
-     * @return Um DTO de óbito.
-     */
-    public ObitoDTO obterObito(Long id) {
-        Obito obito = obitoRepository.findOne(id);
-
-        return mapper.map(obito, ObitoDTO.class);
-    }
-
-    /**
      * Salva os dados de um óbito, tanto para alteração quanto para um novo
      * 
      * @param obitoDTO
      *            O objeto que representa o óbito.
      */
     public void salvarObito(ObitoDTO obitoDTO) {
-        Obito obito = mapper.map(obitoDTO, Obito.class);
-        salvarObito(obito);
+        obitoRepository.save(mapper.map(obitoDTO, Obito.class));
     }
 
     public void salvarObito(Obito obito) {
-        salvarPaciente(obito.getPaciente());
-        causaMortisRepository.save(obito.getPrimeiraCausaMortis());
-        causaMortisRepository.save(obito.getSegundaCausaMortis());
-        if(obito.getTerceiraCausaMortis() != null) causaMortisRepository.save(obito.getTerceiraCausaMortis());
-        if(obito.getQuartaCausaMortis() != null) causaMortisRepository.save(obito.getQuartaCausaMortis());
-
         obitoRepository.save(obito);
     }
 }

@@ -108,7 +108,7 @@ public class Utility {
      * @param <T>    O tipo de objeto da lista.
      * @return O primeiro objeto da lista que corresponder ao parâmetro de busca utilizado.
      */
-    public <T, K> T getObjectByMethod(List<T> lista, K objeto, Function<T, K> funcao) {
+    public <T, K> T getObjectByMethod(Collection<T> lista, K objeto, Function<T, K> funcao) {
         for (T obj : lista) {
             if (funcao.apply(obj).equals(objeto)) {
                 return obj;
