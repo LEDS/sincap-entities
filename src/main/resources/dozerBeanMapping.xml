@@ -15,6 +15,10 @@
             <a>cidades</a>
             <b>this</b>
         </field-exclude>
+        <field-exclude>
+            <a>pais</a>
+            <b>this</b>
+        </field-exclude>
     </mapping>
     <mapping>
         <class-a>br.ifes.leds.reuse.endereco.cdp.Cidade</class-a>
@@ -27,6 +31,10 @@
             <a>bairros</a>
             <b>this</b>
         </field-exclude>
+        <field-exclude>
+            <a>estado</a>
+            <b>this</b>
+        </field-exclude>
     </mapping>
     <mapping>
         <class-a>br.ifes.leds.reuse.endereco.cdp.Bairro</class-a>
@@ -35,6 +43,10 @@
             <a>nome</a>
             <b key="dado">this</b>
         </field>
+        <field-exclude>
+            <a>cidade</a>
+            <b>this</b>
+        </field-exclude>
     </mapping>
     <mapping>
         <class-a>br.ifes.leds.sincap.controleInterno.cln.cdp.InstituicaoNotificadora</class-a>

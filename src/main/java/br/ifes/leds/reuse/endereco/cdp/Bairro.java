@@ -6,26 +6,28 @@
  */
 package br.ifes.leds.reuse.endereco.cdp;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
+import javax.persistence.*;
+
 import br.ifes.leds.reuse.persistence.ObjetoPersistente;
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * Bairro.java
  * @author 20091BSI0273
  * Classe que representao o Bairro, herda de ObjetoPeristente.
  */
 @Entity
+@Getter
+@Setter
 public class Bairro extends ObjetoPersistente {
     
     @Column
     private String nome;
-    
-    public String getNome() {
-        return nome;
-    }
-    
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-    
+
+    @ManyToOne
+    @JoinTable(name = "cidade_bairro",
+            joinColumns = @JoinColumn(name = "bairros_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "cidade_id", referencedColumnName = "id"))
+    private Cidade cidade;
 }

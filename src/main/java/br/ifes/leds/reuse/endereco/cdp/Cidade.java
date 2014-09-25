@@ -6,40 +6,34 @@
  */
 package br.ifes.leds.reuse.endereco.cdp;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
+import br.ifes.leds.reuse.persistence.ObjetoPersistente;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
-import br.ifes.leds.reuse.persistence.ObjetoPersistente;
-import java.util.Set;
-import javax.persistence.OneToMany;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
+import javax.persistence.*;
+import java.util.Set;
+
 @Entity
+@Getter
+@Setter
 public class Cidade extends ObjetoPersistente {
-    
+
     @Column
     private String nome;
-    
-    @OneToMany
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinTable(name = "estado_cidade",
+            joinColumns = @JoinColumn(name = "cidades_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "estado_id", referencedColumnName = "id"))
+    private Estado estado;
+
+    @OneToMany(mappedBy = "cidade")
     @Cascade(CascadeType.SAVE_UPDATE)
     @Fetch(FetchMode.SELECT)
     private Set<Bairro> bairros;
-    
-    public String getNome() {
-        return nome;
-    }
-    
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-    
-    public Set<Bairro> getBairros() {
-        return bairros;
-    }
-    
-    public void setBairros(Set<Bairro> bairros) {
-        this.bairros = bairros;
-    }
+
 }

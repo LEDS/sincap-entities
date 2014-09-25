@@ -7,11 +7,12 @@ import br.ifes.leds.reuse.endereco.cdp.Endereco;
 
 /**
  * EnderecoRepository.java
+ *
  * @author 20091BSI0273
- * Interface que representao o repositorio de Endereco
+ *         Interface que representao o repositorio de Endereco
  */
 @Repository
 @Transactional
 public interface EnderecoRepository extends JpaRepository<Endereco, Long> {
-    //TODO: Implementar Repository;
+
 }
