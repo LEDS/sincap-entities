@@ -70,14 +70,16 @@ public class AplProcessoNotificacao {
 
     private ProcessoNotificacao instanciarNovoProcessoNotificacao(ProcessoNotificacaoDTO processoNotificacao) {
         ProcessoNotificacao notificacao;
+        ProcessoNotificacao notificacaoDTO = mapper.map(processoNotificacao, ProcessoNotificacao.class);
 
-        if (processoNotificacao.getId() == null) {
+        if (notificacaoDTO.getId() == null) {
             notificacao = new ProcessoNotificacao();
         } else {
-            notificacao = notificacaoRepository.findOne(processoNotificacao.getId());
+            notificacao = notificacaoRepository.findOne(notificacaoDTO.getId());
         }
 
-        notificacao.setObito(mapper.map(processoNotificacao.getObito(), Obito.class));
+        notificacao.setObito(notificacaoDTO.getObito());
+        notificacao.setCausaNaoDoacao(notificacaoDTO.getCausaNaoDoacao());
 
         return notificacao;
     }

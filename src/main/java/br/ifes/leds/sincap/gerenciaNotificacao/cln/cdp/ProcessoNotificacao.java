@@ -68,7 +68,7 @@ public class ProcessoNotificacao extends ObjetoPersistente {
     @JoinColumn(nullable = true)
     private Captacao captacao;
     
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne
     @JoinColumn
     private CausaNaoDoacao causaNaoDoacao;
     
