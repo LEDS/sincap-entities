@@ -10,17 +10,14 @@ import br.ifes.leds.reuse.utility.Factory;
 import br.ifes.leds.sincap.controleInterno.cgd.FuncionarioRepository;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Funcionario;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.EntrevistaRepository;
-import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ResponsavelRepository;
-import br.ifes.leds.sincap.gerenciaNotificacao.cgd.TestemunhaRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Entrevista;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Responsavel;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Testemunha;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
 import org.fluttercode.datafactory.impl.DataFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 /**Classe para a criação de objetos Entrevista randomicos.
  *
@@ -29,31 +26,24 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class EntrevistaData {
-    
-    @Autowired
-    private ResponsavelRepository responsavelRepository;
-    @Autowired
-    private TestemunhaRepository testemunhaRepository;
+
     @Autowired
     private FuncionarioRepository funcionarioRepository;
     @Autowired
     private EntrevistaRepository entrevistaRepository;
     @Autowired
     private Factory fabrica;
-    
-    private Entrevista entrevista;
-    private Calendar dataEntrevista;
-    private Calendar dataCadastro;
-    private Date dataAtual;
-    private List<Responsavel> listResponsavel;
-    private List<Testemunha> listTestemunha;
-    private List<Funcionario> listFuncionario;
-    
+    @Autowired
+    private ResponsavelData responsavelData;
+    @Autowired
+    private TestemunhaData testemunhaData;
+
     /**Método responsável por criar Objetos Entrevista randomico, sendo nescessário apenas passar
      * uma instancia DataFactory e a quantidade a ser criada.
      * @param df - instancia DataFacotry.
      * @param qtdEnt - quantidade de objetos a serem criados. 
      */
+    @SuppressWarnings("unused")
     public void criaEntrevistaRandom(DataFactory df,Integer qtdEnt){
         for (int i = 0; i < qtdEnt; i++){
             salvaEntrevista(criaEntrevista(df));
@@ -65,23 +55,21 @@ public class EntrevistaData {
      * @return entrevista - objeto Entrevista Randomico.
      */
     public Entrevista criaEntrevista(DataFactory df) {
-        entrevista = fabrica.criaObjeto(Entrevista.class);
-        dataEntrevista = Calendar.getInstance();
-        dataCadastro = Calendar.getInstance();
-        dataAtual = new Date();
+        Entrevista entrevista = fabrica.criaObjeto(Entrevista.class);
+        Calendar dataEntrevista = Calendar.getInstance();
+        Calendar dataCadastro = Calendar.getInstance();
+        Date dataAtual = new Date();
         
-        dataCadastro.setTime(df.getDateBetween(df.getDate(2000, 01, 01), dataAtual));
+        dataCadastro.setTime(df.getDateBetween(df.getDate(2000, 1, 1), dataAtual));
         entrevista.setDataCadastro(dataCadastro);
         dataEntrevista.setTime(df.getDateBetween(dataCadastro.getTime(), dataAtual));
         entrevista.setDataEntrevista(dataEntrevista);
-        listResponsavel = responsavelRepository.findAll();
-        entrevista.setResponsavel(df.getItem(listResponsavel));
-        listTestemunha = testemunhaRepository.findAll();
-        entrevista.setTestemunha1(df.getItem(listTestemunha));
-        entrevista.setTestemunha2(df.getItem(listTestemunha));
+        entrevista.setResponsavel(responsavelData.criarResponsavel(df));
+        entrevista.setTestemunha1(testemunhaData.criarTestemunha(df));
+        entrevista.setTestemunha2(testemunhaData.criarTestemunha(df));
         entrevista.setDoacaoAutorizada(df.chance(50));
         entrevista.setEntrevistaRealizada(df.chance(50));
-        listFuncionario = funcionarioRepository.findAll();
+        List<Funcionario> listFuncionario = funcionarioRepository.findAll();
         entrevista.setFuncionario(df.getItem(listFuncionario));
         
         return entrevista;

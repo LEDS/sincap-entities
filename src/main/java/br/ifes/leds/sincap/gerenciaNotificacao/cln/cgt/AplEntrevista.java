@@ -5,17 +5,14 @@
  */
 package br.ifes.leds.sincap.gerenciaNotificacao.cln.cgt;
 
-import br.ifes.leds.reuse.endereco.cgd.EnderecoRepository;
 import br.ifes.leds.reuse.ledsExceptions.CRUDExceptions.ViolacaoDeRIException;
 import br.ifes.leds.reuse.utility.Utility;
-import br.ifes.leds.sincap.controleInterno.cgd.TelefoneRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.EntrevistaRepository;
-import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ResponsavelRepository;
-import br.ifes.leds.sincap.gerenciaNotificacao.cgd.TestemunhaRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Entrevista;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.EntrevistaDTO;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,18 +28,11 @@ public class AplEntrevista {
 
     @Autowired
     private Utility utility;
+    @Qualifier("mapper")
     @Autowired
     private Mapper mapper;
     @Autowired
     private EntrevistaRepository entrevistaRepository;
-    @Autowired
-    private ResponsavelRepository responsavelRepository;
-    @Autowired
-    private TestemunhaRepository testemunhaRepository;
-    @Autowired
-    private TelefoneRepository telefoneRepository;
-    @Autowired
-    private EnderecoRepository enderecoRepository;
 
     public List<EntrevistaDTO> getAllEntrevistas() {
         return utility.mapList(entrevistaRepository.findAll(), EntrevistaDTO.class);
@@ -55,40 +45,11 @@ public class AplEntrevista {
     }
 
     public void salvarEntrevista(EntrevistaDTO entrevistaDTO) throws ViolacaoDeRIException {
-        Entrevista entrevista = mapper.map(entrevistaDTO, Entrevista.class);
-        salvarEntrevista(entrevista);
+        salvarEntrevista(mapper.map(entrevistaDTO, Entrevista.class));
     }
 
     public void salvarEntrevista(Entrevista entrevista)  {
-        if (entrevistaValida(entrevista)) {
-
-            enderecoRepository.save(entrevista.getResponsavel().getEndereco());
-            telefoneRepository.save(entrevista.getResponsavel().getTelefone());
-//            if (entrevista.getResponsavel().getTelefone2() != null)
-//                telefoneRepository.save(entrevista.getResponsavel().getTelefone2());
-            responsavelRepository.save(entrevista.getResponsavel());
-
-            setUpEntrevista(entrevista);
-
-            testemunhaRepository.save(entrevista.getTestemunha1());
-            testemunhaRepository.save(entrevista.getTestemunha2());
-            // TODO: Validar todos os dados cadastrais
-        }
         entrevistaRepository.save(entrevista);
     }
 
-    private void setUpEntrevista(Entrevista entrevista) {
-        entrevista.getTestemunha1().setEndereco(null);
-        entrevista.getTestemunha1().setTelefone(null);
-        entrevista.getTestemunha2().setEndereco(null);
-        entrevista.getTestemunha2().setTelefone(null);
-    }
-
-    private boolean entrevistaValida(Entrevista entrevista) {
-        boolean b;
-        b = (entrevista.getResponsavel() != null);
-        b = b && (entrevista.getTestemunha1() != null);
-        b = b && (entrevista.getTestemunha2() != null);
-        return b;
-    }
 }

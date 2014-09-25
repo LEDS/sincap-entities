@@ -1,20 +1,14 @@
 package br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp;
 
-import java.util.Calendar;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
-
-import lombok.Getter;
-import lombok.Setter;
 import br.ifes.leds.reuse.persistence.ObjetoPersistente;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Funcionario;
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import java.util.Calendar;
 
 /**
  *
@@ -43,14 +37,14 @@ public class Entrevista extends ObjetoPersistente {
     @NotNull
     private boolean doacaoAutorizada;
     
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @NotNull
     private Responsavel responsavel;
-    
-    @OneToOne
+
+    @OneToOne(cascade = CascadeType.ALL)
     private Testemunha testemunha1;
-    
-    @OneToOne
+
+    @OneToOne(cascade = CascadeType.ALL)
     private Testemunha testemunha2;
     
     @ManyToOne

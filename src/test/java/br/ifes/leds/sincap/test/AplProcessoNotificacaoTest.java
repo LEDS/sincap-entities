@@ -46,10 +46,6 @@ public class AplProcessoNotificacaoTest extends AbstractionTest {
     @Autowired
     private CaptadorData captadorData;
     @Autowired
-    private ResponsavelData responsavelData;
-    @Autowired
-    private TestemunhaData testemunhaData;
-    @Autowired
     private DataFactory df;
 
     private ProcessoNotificacaoDTO notificacao;
@@ -194,11 +190,11 @@ public class AplProcessoNotificacaoTest extends AbstractionTest {
     }
 
     private void adicionarEntrevista() throws ViolacaoDeRIException {
-        responsavelData.criaResponsavelRandom(df, 30);
-        testemunhaData.criaTestemunhaRandom(df, 30);
         EntrevistaDTO entrevista = mapper.map(
                 entrevistaData.criaEntrevista(df), EntrevistaDTO.class);
+
         entrevista.setDoacaoAutorizada(true);
+
         Long id = aplProcessoNotificacao.salvarNovaNotificacao(notificacao, notificacao.getNotificador());
         notificacao = aplProcessoNotificacao.obter(id);
 
