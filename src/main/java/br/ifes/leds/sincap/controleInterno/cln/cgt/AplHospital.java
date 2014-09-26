@@ -64,7 +64,7 @@ public class AplHospital {
     */
     
     public List<Hospital> obter() {
-        return hospitalRepository.findAll();
+        return hospitalRepository.findByAtivoTrue();
     }
     
     /** Método para obter a quantidade hospitais existentes.
@@ -102,6 +102,7 @@ public class AplHospital {
      * @param hospital - Objeto Hospital.
      */
     public void exlcuir(Hospital hospital) {
-        hospitalRepository.delete(hospital);
+        hospital.setAtivo(false);
+        this.hospitalRepository.save(hospital);
     }
 }

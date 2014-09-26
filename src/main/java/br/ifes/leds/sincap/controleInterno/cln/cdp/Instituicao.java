@@ -5,6 +5,7 @@ import javax.persistence.*;
 import br.ifes.leds.reuse.endereco.cdp.Endereco;
 import java.util.Set;
 
+import br.ifes.leds.reuse.persistence.ObjetoPersistente;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,13 +17,8 @@ import lombok.Setter;
 @Setter
 @Getter
 @MappedSuperclass
-public abstract class Instituicao {
+public abstract class Instituicao extends ObjetoPersistente {
 
-    @Id
-    @Column(name = "InstituicaoID")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    
     @Column(unique=true)
     private String nome;
     
