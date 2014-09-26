@@ -4,7 +4,10 @@ import br.ifes.leds.reuse.utility.Utility;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Funcionario;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Notificador;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ProcessoNotificacaoRepository;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.*;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.AtualizacaoEstado;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Entrevista;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoNotificacaoEnum;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.ProcessoNotificacao;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.CaptacaoDTO;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.EntrevistaDTO;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.ProcessoNotificacaoDTO;
@@ -308,10 +311,8 @@ public class AplProcessoNotificacao {
      *
      * @return Uma lista de {@code ProcessoNotificacaoDTO}.
      */
-    @SuppressWarnings("unused")
-    public List<ProcessoNotificacaoDTO> obterTodasNotificacoes() {
-        return utility.mapList(notificacaoRepository.findAll(),
-                ProcessoNotificacaoDTO.class);
+    public List<ProcessoNotificacao> obterTodasNotificacoes() {
+        return notificacaoRepository.findAll();
     }
 
     /**
@@ -411,6 +412,17 @@ public class AplProcessoNotificacao {
 
         return notificacaoRepository
                 .findByUltimoEstadoEstadoNotificacaoOrderByUltimoEstadoDataAtualizacaosAsc(estado);
+    }
+
+    /**
+     * Busca todos os Processos de Notificações com apenas uma string,
+     * pelo codigo do processo, nome do Notificador, Nome do Pciente e Nome da Mãe do Paciente
+     *
+     * @param search - String para busca
+     * @return
+     */
+    public List<ProcessoNotificacao> obterTodasNotificacoes(String search) {
+        return notificacaoRepository.findByCodigoIgnoreCaseContainingOrNotificadorNomeIgnoreCaseContainingOrObitoPacienteNomeIgnoreCaseContainingOrObitoPacienteNomeMaeIgnoreCaseContaining(search, search, search, search);
     }
 
     public void recusarAnaliseCaptacao(Long idProcesso, Long idFuncionario) {

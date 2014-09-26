@@ -33,7 +33,9 @@ public interface ProcessoNotificacaoRepository extends JpaRepository<ProcessoNot
     public List<ProcessoNotificacao> findByUltimoEstadoEstadoNotificacaoOrderByUltimoEstadoDataAtualizacaosAsc(EstadoNotificacaoEnum estado, Pageable pageable);
 
     public List<ProcessoNotificacao> findByDataArquivamentoIsNotNullOrderByDataAberturaDesc();
-    
+
+    public List<ProcessoNotificacao> findByCodigoIgnoreCaseContainingOrNotificadorNomeIgnoreCaseContainingOrObitoPacienteNomeIgnoreCaseContainingOrObitoPacienteNomeMaeIgnoreCaseContaining(String codigo, String notificadornome, String obitoPacienteNome, String obitoPacienteNomeMae);
+
 //    @Query(value = findByPacienteNumeroSUS, nativeQuery = true)
 //    public List<ProcessoNotificacao> findByPacienteNome(@Param("searchString") String searchString);
 }
