@@ -22,6 +22,7 @@ public class AplHospital {
     *   @param hospital - objeto Hospital. */
     
     public void cadastrar(Hospital hospital) {
+        hospital.setAtivo(true);
         hospitalRepository.save(hospital);
     }
     
