@@ -10,6 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+
+import br.ifes.leds.reuse.persistence.ObjetoPersistente;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,12 +24,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @Entity
-public class Setor {
-
-    @Id
-    @Column(name = "setorID")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Setor extends ObjetoPersistente{
 
     @ManyToMany(mappedBy = "setores", fetch = FetchType.EAGER)
     Set<Hospital> hospital = new HashSet<>();
