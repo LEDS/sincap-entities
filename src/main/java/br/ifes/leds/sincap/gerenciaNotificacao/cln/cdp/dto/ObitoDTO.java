@@ -9,6 +9,7 @@ import lombok.Setter;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CausaMortis;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CorpoEncaminhamento;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoObito;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Getter
 @Setter
@@ -19,6 +20,7 @@ public class ObitoDTO {
     private Long id;
     private PacienteDTO paciente = new PacienteDTO();
     private Calendar dataObito;
+    @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
     private Calendar dataCadastro;
     private boolean aptoDoacao;
     private CorpoEncaminhamento corpoEncaminhamento;
