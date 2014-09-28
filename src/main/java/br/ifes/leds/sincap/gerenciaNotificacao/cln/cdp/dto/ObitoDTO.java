@@ -19,6 +19,7 @@ public class ObitoDTO {
 
     private Long id;
     private PacienteDTO paciente = new PacienteDTO();
+    @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
     private Calendar dataObito;
     @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
     private Calendar dataCadastro;
