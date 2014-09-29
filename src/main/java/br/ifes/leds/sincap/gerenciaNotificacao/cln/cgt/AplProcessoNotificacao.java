@@ -1,12 +1,11 @@
 package br.ifes.leds.sincap.gerenciaNotificacao.cln.cgt;
 
 import br.ifes.leds.reuse.utility.Utility;
-import br.ifes.leds.sincap.controleInterno.cln.cdp.BancoOlhos;
+import br.ifes.leds.sincap.controleInterno.cgd.FuncionarioRepository;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Captador;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Funcionario;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Notificador;
 import br.ifes.leds.sincap.controleInterno.cln.cgt.AplCaptador;
-import br.ifes.leds.sincap.gerenciaNotificacao.cgd.CaptacaoRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ProcessoNotificacaoRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.AtualizacaoEstado;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Entrevista;
@@ -42,6 +41,8 @@ public class AplProcessoNotificacao {
     private Utility utility;
     @Autowired
     private AplCaptador aplCaptador;
+    @Autowired
+    private FuncionarioRepository funcionarioRepository;
 
     /**
      * Metodo que salva uma nova notificação contendo notificacao de obito
@@ -405,8 +406,17 @@ public class AplProcessoNotificacao {
     public List<ProcessoNotificacao> retornarNotificacaoPorEstadoAtualEHospital(
             EstadoNotificacaoEnum estado, Long id) {
 
-        return notificacaoRepository
-                .findByUltimoEstadoEstadoNotificacaoAndNotificadorInstituicoesNotificadorasIdOrderByUltimoEstadoDataAtualizacaosAsc(estado, id);
+        Funcionario funcionario = funcionarioRepository.findOne(id);
+
+        if (funcionario instanceof Captador) {
+            return notificacaoRepository
+                    .findByUltimoEstadoEstadoNotificacaoAndObitoHospitalBancoOlhosIdOrderByUltimoEstadoDataAtualizacaosAsc(estado, ((Captador) funcionario).getBancoOlhos().getId());
+        } else if (funcionario instanceof Notificador) {
+            return notificacaoRepository
+                    .findByUltimoEstadoEstadoNotificacaoAndNotificadorInstituicoesNotificadorasIdOrderByUltimoEstadoDataAtualizacaosAsc(estado, id);
+        }
+
+        return null;
     }
     public List<ProcessoNotificacaoDTO> retornarNotificacaoPorEstadoAtualEBancoOlhos(
             EstadoNotificacaoEnum estado, Long id) {
@@ -437,7 +447,6 @@ public class AplProcessoNotificacao {
      * pelo codigo do processo, nome do Notificador, Nome do Pciente e Nome da Mãe do Paciente
      *
      * @param search - String para busca
-     * @return
      */
     public List<ProcessoNotificacao> obterTodasNotificacoes(String search) {
         return notificacaoRepository.findByCodigoIgnoreCaseContainingOrNotificadorNomeIgnoreCaseContainingOrObitoPacienteNomeIgnoreCaseContainingOrObitoPacienteNomeMaeIgnoreCaseContaining(search, search, search, search);
@@ -457,6 +466,7 @@ public class AplProcessoNotificacao {
      *
      * @param idProcesso - Id do Processo de Notificação que será excluido
      */
+    @SuppressWarnings("unused")
     public void excluirProcesso(Long idProcesso, Long idFuncionario) {
         ProcessoNotificacaoDTO processoNotificacao = obter(idProcesso);
 
