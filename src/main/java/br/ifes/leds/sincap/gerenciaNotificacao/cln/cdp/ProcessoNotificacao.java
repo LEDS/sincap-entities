@@ -41,6 +41,10 @@ public class ProcessoNotificacao extends ObjetoPersistente {
     
     @Column
     private boolean arquivado;
+
+    @Column
+    @NotNull
+    private boolean ativo;
     
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @NotNull

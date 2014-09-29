@@ -23,6 +23,7 @@ public class ProcessoNotificacaoDTO {
     private Calendar dataAbertura;
     private Calendar dataArquivamento;
     private boolean arquivado;
+    private boolean ativo;
     private Long notificador;
     private CaptacaoDTO captacao;
     private Long causaNaoDoacao;

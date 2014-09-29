@@ -81,6 +81,7 @@ public class AplProcessoNotificacao {
             notificacao = notificacaoRepository.findOne(notificacaoDTO.getId());
         }
 
+        notificacao.setAtivo(true);
         notificacao.setObito(notificacaoDTO.getObito());
         notificacao.setCausaNaoDoacao(notificacaoDTO.getCausaNaoDoacao());
 
@@ -432,6 +433,13 @@ public class AplProcessoNotificacao {
                 processoNotificacao,
                 EstadoNotificacaoEnum.AGUARDANDOCORRECAOCAPTACACAO,
                 idFuncionario);
+    }
+
+    public void excluirProcesso(Long idProcesso) {
+        ProcessoNotificacao processo = mapper.map(obter(idProcesso), ProcessoNotificacao.class);
+
+        processo.setAtivo(false);
+        notificacaoRepository.save(processo);
     }
 
     public void confirmarAnaliseCaptacao(Long idProcesso, Long idFuncionario) {
