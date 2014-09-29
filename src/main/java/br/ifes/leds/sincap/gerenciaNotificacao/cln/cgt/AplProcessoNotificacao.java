@@ -440,6 +440,11 @@ public class AplProcessoNotificacao {
                 idFuncionario);
     }
 
+    /**
+     * Excluir Processo de Notificação
+     *
+     * @param idProcesso - Id do Processo de Notificação que será excluido
+     */
     public void excluirProcesso(Long idProcesso) {
         ProcessoNotificacao processo = mapper.map(obter(idProcesso), ProcessoNotificacao.class);
 
