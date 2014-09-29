@@ -1,7 +1,6 @@
 package br.ifes.leds.sincap.test;
 
 import br.ifes.leds.reuse.ledsExceptions.CRUDExceptions.ViolacaoDeRIException;
-import br.ifes.leds.reuse.utility.Factory;
 import br.ifes.leds.reuse.utility.Utility;
 import br.ifes.leds.reuse.utility.function.Function;
 import br.ifes.leds.sincap.controleInterno.cgd.HospitalRepository;
@@ -23,6 +22,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.GregorianCalendar;
 
+import static br.ifes.leds.reuse.utility.Factory.criaObjeto;
+
 public class AplObitoTest extends AbstractionTest {
 
     @Autowired
@@ -36,8 +37,6 @@ public class AplObitoTest extends AbstractionTest {
     @Autowired
     private Utility utility;
     @Autowired
-    private Factory fabrica;
-    @Autowired
     private PacienteData pacienteData;
     @Autowired
     private DataFactory df;
@@ -47,7 +46,7 @@ public class AplObitoTest extends AbstractionTest {
 
     @Before
     public void before() throws Exception {
-        this.obitoDTO = fabrica.criaObjeto(ObitoDTO.class);
+        this.obitoDTO = criaObjeto(ObitoDTO.class);
         this.pacienteDTO = mapper.map(pacienteData.criarPaciente(df),
                 PacienteDTO.class);
 

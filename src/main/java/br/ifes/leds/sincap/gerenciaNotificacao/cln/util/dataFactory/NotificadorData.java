@@ -11,7 +11,6 @@ import br.ifes.leds.reuse.endereco.cgd.BairroRepository;
 import br.ifes.leds.reuse.endereco.cgd.CidadeRepository;
 import br.ifes.leds.reuse.endereco.cgd.EnderecoRepository;
 import br.ifes.leds.reuse.endereco.cgd.EstadoRepository;
-import br.ifes.leds.reuse.utility.Factory;
 import br.ifes.leds.sincap.controleInterno.cgd.InstituicaoNotificadoraRepository;
 import br.ifes.leds.sincap.controleInterno.cgd.TelefoneRepository;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Funcionario;
@@ -19,13 +18,14 @@ import br.ifes.leds.sincap.controleInterno.cln.cdp.InstituicaoNotificadora;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Notificador;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Telefone;
 import br.ifes.leds.sincap.controleInterno.cln.cgt.AplNotificador;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 import org.fluttercode.datafactory.impl.DataFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Set;
+
+import static br.ifes.leds.reuse.utility.Factory.criaObjeto;
 
 /**Classe para a criação de objetos Notificador randomicos.
  *
@@ -48,22 +48,17 @@ public class NotificadorData {
     private EstadoRepository estadoRepository;
     @Autowired
     private AplNotificador aplNotificador;
-    @Autowired
-    private Factory fabrica;
-    
+
     private Endereco endereco;
     private Notificador notificador;
     private Telefone telefone;
-    private InstituicaoNotificadora instituicaoNotificadora;
-    private List<InstituicaoNotificadora> listInstituicao;
-    private Set<InstituicaoNotificadora> setInstituicao;
-    private InstituicaoNotificadora notificadorInstituicao;
-    
+
     /**Método responsável por criar Objetos Notificador randomico, sendo nescessário apenas passar
      * uma instancia DataFactory e a quantidade a ser criada.
      * @param df - instancia DataFacotry.
      * @param qtdNot - quantidade de objetos a serem criados. 
      */
+    @SuppressWarnings("unused")
     public void criaNotificadorRandom(DataFactory df,Integer qtdNot){
         for (int i = 0; i < qtdNot;i++){
             Notificador not = criaNotificador(df);
@@ -78,9 +73,9 @@ public class NotificadorData {
      * @return notificador - objeto Notificador Randomico.
      */
     public Notificador criaNotificador(DataFactory df) {
-        notificador = fabrica.criaObjeto(Notificador.class);
-        endereco =  fabrica.criaObjeto(Endereco.class);
-        telefone = fabrica.criaObjeto(Telefone.class);
+        notificador = criaObjeto(Notificador.class);
+        endereco =  criaObjeto(Endereco.class);
+        telefone = criaObjeto(Telefone.class);
         
         
         //Dados do Notificador
@@ -137,9 +132,9 @@ public class NotificadorData {
      */
     public Endereco criaEndereco(DataFactory df) {
         endereco.setLogradouro(df.getStreetName());
-        endereco.setEstado(estadoRepository.findOne(new Long(1)));
-        endereco.setCidade(cidadeRepository.findOne(new Long(1)));
-        endereco.setBairro(bairroRepository.findOne(new Long(1)));
+        endereco.setEstado(estadoRepository.findOne((long) 1));
+        endereco.setCidade(cidadeRepository.findOne((long) 1));
+        endereco.setBairro(bairroRepository.findOne((long) 1));
         endereco.setNumero(df.getNumberText(5));
         endereco.setComplemento(df.getStreetSuffix());
         endereco.setCep(df.getNumberText(8));
@@ -153,10 +148,9 @@ public class NotificadorData {
      * @return not - Objeto Notificador.
      */
     public Notificador associaInstituicaoNotificadora(DataFactory df,Notificador not) {
-        notificadorInstituicao = fabrica.criaObjeto(InstituicaoNotificadora.class);
-        instituicaoNotificadora = fabrica.criaObjeto(InstituicaoNotificadora.class);
-        listInstituicao = new ArrayList<>();
-        setInstituicao = new HashSet<>();
+        InstituicaoNotificadora notificadorInstituicao;
+        List<InstituicaoNotificadora> listInstituicao;
+        Set<InstituicaoNotificadora> setInstituicao;
         listInstituicao = instituicaoNotificadoraRepository.findAll();
         notificadorInstituicao = df.getItem(listInstituicao);
         setInstituicao = not.getInstituicoesNotificadoras();
@@ -171,7 +165,7 @@ public class NotificadorData {
      */
     public void associaInstiuicaoFuncionario(Notificador not){
         Set<InstituicaoNotificadora> setInstituicaoFuncionario = not.getInstituicoesNotificadoras();
-        Set<Funcionario> setFuncionario = new HashSet<>();
+        Set<Funcionario> setFuncionario;
         for(InstituicaoNotificadora i:setInstituicaoFuncionario){
             setFuncionario = i.getFuncionarios();
             setFuncionario.add(not);

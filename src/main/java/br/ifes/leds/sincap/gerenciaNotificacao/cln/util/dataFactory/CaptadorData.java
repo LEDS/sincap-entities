@@ -11,7 +11,6 @@ import br.ifes.leds.reuse.endereco.cgd.BairroRepository;
 import br.ifes.leds.reuse.endereco.cgd.CidadeRepository;
 import br.ifes.leds.reuse.endereco.cgd.EnderecoRepository;
 import br.ifes.leds.reuse.endereco.cgd.EstadoRepository;
-import br.ifes.leds.reuse.utility.Factory;
 import br.ifes.leds.sincap.controleInterno.cgd.BancoOlhosRepository;
 import br.ifes.leds.sincap.controleInterno.cgd.CaptadorRepository;
 import br.ifes.leds.sincap.controleInterno.cgd.TelefoneRepository;
@@ -23,10 +22,10 @@ import org.fluttercode.datafactory.impl.DataFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import static br.ifes.leds.reuse.utility.Factory.criaObjeto;
 
 /**
  * Classe para a criação de objetos Captador randomicos.
@@ -51,14 +50,7 @@ public class CaptadorData {
     CaptadorRepository captadorRepository;
     @Autowired
     BancoOlhosRepository bancoOlhosRepository;
-    @Autowired
-    private Factory fabrica;
 
-    private Endereco endereco;
-    private Captador captador;
-    private Telefone telefone;
-    private List<BancoOlhos> listBancoOlhos;
-    private Set<Funcionario> setFuncionario;
     private BancoOlhos bancoOlhos;
 
     /**
@@ -68,6 +60,7 @@ public class CaptadorData {
      * @param df     - instancia DataFacotry.
      * @param qtdCap - quantidade de objetos a serem criados.
      */
+    @SuppressWarnings("unused")
     public void criaCaptadorRandom(DataFactory df, Integer qtdCap) {
         for (int i = 0; i < qtdCap; i++) {
             Captador cap = criaCaptador(df);
@@ -83,10 +76,10 @@ public class CaptadorData {
      * @return captador - objeto Captador Randomico.
      */
     public Captador criaCaptador(DataFactory df) {
-        captador = fabrica.criaObjeto(Captador.class);
-        endereco = fabrica.criaObjeto(Endereco.class);
-        telefone = fabrica.criaObjeto(Telefone.class);
-        bancoOlhos = fabrica.criaObjeto(BancoOlhos.class);
+        Captador captador = criaObjeto(Captador.class);
+        Endereco endereco = criaObjeto(Endereco.class);
+        Telefone telefone = criaObjeto(Telefone.class);
+        bancoOlhos = criaObjeto(BancoOlhos.class);
 
         // Dados do Notificador
         captador.setSenha("123456");
@@ -98,9 +91,9 @@ public class CaptadorData {
 
         // Endereco
         endereco.setLogradouro(df.getStreetName());
-        endereco.setEstado(estadoRepository.findOne(new Long(1)));
-        endereco.setCidade(cidadeRepository.findOne(new Long(1)));
-        endereco.setBairro(bairroRepository.findOne(new Long(1)));
+        endereco.setEstado(estadoRepository.findOne(1L));
+        endereco.setCidade(cidadeRepository.findOne(1L));
+        endereco.setBairro(bairroRepository.findOne(1L));
         endereco.setNumero(df.getNumberText(5));
         endereco.setComplemento(df.getStreetSuffix());
         endereco.setCep(df.getNumberText(8));
@@ -137,9 +130,9 @@ public class CaptadorData {
      * @return bancoOlhos - Objeto Banco Olhos.
      */
     public BancoOlhos associaBancoOlhos(DataFactory df, Captador cap) {
-        bancoOlhos = fabrica.criaObjeto(BancoOlhos.class);
-        listBancoOlhos = new ArrayList<>();
-        setFuncionario = new HashSet<>();
+        bancoOlhos = criaObjeto(BancoOlhos.class);
+        List<BancoOlhos> listBancoOlhos;
+        Set<Funcionario> setFuncionario;
         listBancoOlhos = bancoOlhosRepository.findAll();
         cap.setBancoOlhos(df.getItem(listBancoOlhos));
         bancoOlhos = cap.getBancoOlhos();

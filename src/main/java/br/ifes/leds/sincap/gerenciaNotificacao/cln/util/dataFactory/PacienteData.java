@@ -6,25 +6,25 @@
 
 package br.ifes.leds.sincap.gerenciaNotificacao.cln.util.dataFactory;
 
-import java.util.Calendar;
-import java.util.List;
-
-import org.fluttercode.datafactory.impl.DataFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import br.ifes.leds.reuse.endereco.cdp.Endereco;
 import br.ifes.leds.reuse.endereco.cgd.BairroRepository;
 import br.ifes.leds.reuse.endereco.cgd.CidadeRepository;
 import br.ifes.leds.reuse.endereco.cgd.EnderecoRepository;
 import br.ifes.leds.reuse.endereco.cgd.EstadoRepository;
-import br.ifes.leds.reuse.utility.Factory;
 import br.ifes.leds.sincap.controleInterno.cgd.TelefoneRepository;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Sexo;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Telefone;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.PacienteRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoCivil;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Paciente;
+import org.fluttercode.datafactory.impl.DataFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.Calendar;
+import java.util.List;
+
+import static br.ifes.leds.reuse.utility.Factory.criaObjeto;
 
 /**Classe para a criação de objetos Paciente randomicos.
  *
@@ -46,8 +46,6 @@ public class PacienteData {
     CidadeRepository cidadeRepository;
     @Autowired
     EstadoRepository estadoRepository;
-    @Autowired
-    private Factory fabrica;
 
     private Paciente paciente;
     private Calendar dataNascimento;
@@ -57,13 +55,14 @@ public class PacienteData {
     private List<Sexo> listaSexo;
     private Endereco endereco;
     private Telefone telefone;
-    private Listas list = Listas.INSTANCE;
+    private final Listas list = Listas.INSTANCE;
 
     /**Método responsável por criar Objetos Paciente randomico, sendo nescessário apenas passar
      * uma instancia DataFactory e a quantidade a ser criada.
      * @param df - instancia DataFacotry.
      * @param qtdPac - quantidade de objetos a serem criados. 
      */
+    @SuppressWarnings("unused")
     public void criaPacienteRandom(DataFactory df, Integer qtdPac) {
         for (int i = 0; i < qtdPac; i++) {
 
@@ -81,14 +80,14 @@ public class PacienteData {
      * @return hospital - objeto Hospital Randomico.
      */
     public Paciente criarPaciente(DataFactory df) {
-        paciente = fabrica.criaObjeto(Paciente.class);
+        paciente = criaObjeto(Paciente.class);
         dataNascimento = Calendar.getInstance();
         dataInternacao = Calendar.getInstance();
         listaProfissao = list.getListProf();
         listaSexo = list.getListSex();
         listaEstadoCivil = list.getListEst();
-        endereco = fabrica.criaObjeto(Endereco.class);
-        telefone = fabrica.criaObjeto(Telefone.class);
+        endereco = criaObjeto(Endereco.class);
+        telefone = criaObjeto(Telefone.class);
 
         gerarDadosPaciente(df);
 
@@ -108,9 +107,9 @@ public class PacienteData {
     private void gerarDadosEndereco(DataFactory df) {
         // Endereco
         endereco.setLogradouro(df.getStreetName());
-        endereco.setEstado(estadoRepository.findOne(new Long(1)));
-        endereco.setCidade(cidadeRepository.findOne(new Long(1)));
-        endereco.setBairro(bairroRepository.findOne(new Long(1)));
+        endereco.setEstado(estadoRepository.findOne((long) 1));
+        endereco.setCidade(cidadeRepository.findOne((long) 1));
+        endereco.setBairro(bairroRepository.findOne((long) 1));
         endereco.setNumero(df.getNumberText(5));
         endereco.setComplemento(df.getStreetSuffix());
         endereco.setCep(df.getNumberText(8));
@@ -129,8 +128,8 @@ public class PacienteData {
         paciente.setSexo(df.getItem(listaSexo));
         dataNascimento.setTime(df.getBirthDate());
         paciente.setDataNascimento(dataNascimento);
-        dataInternacao.setTime(df.getDateBetween(df.getDate(2000, 01, 01),
-                df.getDate(2014, 01, 01)));
+        dataInternacao.setTime(df.getDateBetween(df.getDate(2000, 1, 1),
+                df.getDate(2014, 1, 1)));
         paciente.setDataInternacao(dataInternacao);
         paciente.setDocumentoSocial(df.getNumberText(9));
         paciente.setNumeroProntuario(df.getNumberText(7));

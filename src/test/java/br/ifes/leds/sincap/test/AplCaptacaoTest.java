@@ -1,20 +1,18 @@
 package br.ifes.leds.sincap.test;
 
 import br.ifes.leds.reuse.ledsExceptions.CRUDExceptions.ViolacaoDeRIException;
-import br.ifes.leds.reuse.utility.Factory;
-import br.ifes.leds.reuse.utility.Utility;
 import br.ifes.leds.sincap.controleInterno.cgd.CaptadorRepository;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Captador;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.CaptacaoDTO;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cgt.AplCaptacao;
 import junit.framework.Assert;
-import org.dozer.Mapper;
-import org.fluttercode.datafactory.impl.DataFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Calendar;
+
+import static br.ifes.leds.reuse.utility.Factory.criaObjeto;
 
 public class AplCaptacaoTest extends AbstractionTest {
 
@@ -22,20 +20,12 @@ public class AplCaptacaoTest extends AbstractionTest {
     private AplCaptacao aplCaptacao;
     @Autowired
     private CaptadorRepository captadorRepository;
-    @Autowired
-    private Mapper mapper;
-    @Autowired
-    private Utility utility;
-    @Autowired
-    private Factory fabrica;
-    @Autowired
-    private DataFactory df;
 
     private CaptacaoDTO captacaoDTO;
 
     @Before
     public void before() {
-        this.captacaoDTO = fabrica.criaObjeto(CaptacaoDTO.class);
+        this.captacaoDTO = criaObjeto(CaptacaoDTO.class);
 
         preencherDadosCaptacao();
     }

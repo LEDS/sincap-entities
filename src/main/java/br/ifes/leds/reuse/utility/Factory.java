@@ -6,6 +6,7 @@
 
 package br.ifes.leds.reuse.utility;
 
+import lombok.SneakyThrows;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -26,22 +27,16 @@ public enum Factory {
         return INSTANCE;
     }
 
-    public <T> T criaObjeto(Class<T> tipoObjeto) {
-        try {
-            return (T) tipoObjeto.getConstructor().newInstance();
-        } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException
-                | SecurityException ex) {
-            Logger.getLogger(Factory.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
-        }
-
+    @SneakyThrows
+    public static  <T> T criaObjeto(Class<T> tipoObjeto) {
+        return (T) tipoObjeto.getConstructor().newInstance();
     }
 
-    public Pageable criaPageable(int index, int qtdElementos) {
+    public static Pageable criaPageable(int index, int qtdElementos) {
         return new PageRequest(index, qtdElementos);
     }
 
-    public Pageable criaPageable(int index, int qtdElementos, Sort.Direction ordenacao, String... propriedades) {
+    public static Pageable criaPageable(int index, int qtdElementos, Sort.Direction ordenacao, String... propriedades) {
         return new PageRequest(index, qtdElementos, new Sort(ordenacao, propriedades));
     }
 }
