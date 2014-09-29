@@ -8,12 +8,10 @@ import br.ifes.leds.sincap.controleInterno.cgd.SetorRepository;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Hospital;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Setor;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CausaMortis;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CorpoEncaminhamento;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.ObitoDTO;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.PacienteDTO;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cgt.AplObito;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.util.dataFactory.PacienteData;
-import junit.framework.Assert;
 import org.dozer.Mapper;
 import org.fluttercode.datafactory.impl.DataFactory;
 import org.junit.Before;
@@ -22,7 +20,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.GregorianCalendar;
 
-import static br.ifes.leds.reuse.utility.Factory.criaObjeto;
+import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CorpoEncaminhamento.IML;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
 
 public class AplObitoTest extends AbstractionTest {
 
@@ -46,9 +46,7 @@ public class AplObitoTest extends AbstractionTest {
 
     @Before
     public void before() throws Exception {
-        this.obitoDTO = criaObjeto(ObitoDTO.class);
-        this.pacienteDTO = mapper.map(pacienteData.criarPaciente(df),
-                PacienteDTO.class);
+        this.pacienteDTO = mapper.map(pacienteData.criarPaciente(df), PacienteDTO.class);
 
         preencherDadosObito();
     }
@@ -57,21 +55,19 @@ public class AplObitoTest extends AbstractionTest {
         Hospital hospital = hospitalRepository.findAll().get(0);
         Setor setor = setorRepository.findAll().get(0);
 
-        this.obitoDTO.setPaciente(pacienteDTO);
-        this.obitoDTO.setAptoDoacao(true);
-        this.obitoDTO.setCorpoEncaminhamento(CorpoEncaminhamento.IML);
-        this.obitoDTO.setDataCadastro(new GregorianCalendar(2014, 5, 28, 18, 30));
-        this.obitoDTO.setDataObito(new GregorianCalendar(2014, 5, 27, 22, 55));
-        this.obitoDTO.setHospital(hospital.getId());
-        this.obitoDTO.setSetor(setor.getId());
-        this.obitoDTO.setPrimeiraCausaMortis(new CausaMortis(
-                "Primeira Causa Mortis"));
-        this.obitoDTO.setSegundaCausaMortis(new CausaMortis(
-                "Segunda Causa Mortis"));
-        this.obitoDTO.setTerceiraCausaMortis(new CausaMortis(
-                "Terceira Causa Mortis"));
-        this.obitoDTO.setQuartaCausaMortis(new CausaMortis(
-                "Quarta Causa Mortis"));
+        this.obitoDTO = ObitoDTO.builder()
+                .paciente(pacienteDTO)
+                .aptoDoacao(true)
+                .corpoEncaminhamento(IML)
+                .dataCadastro(new GregorianCalendar(2014, 5, 28, 18, 30))
+                .dataObito(new GregorianCalendar(2014, 5, 27, 22, 55))
+                .hospital(hospital.getId())
+                .setor(setor.getId())
+                .primeiraCausaMortis(new CausaMortis("Primeira Causa Mortis"))
+                .segundaCausaMortis(new CausaMortis("Segunda Causa Mortis"))
+                .terceiraCausaMortis(new CausaMortis("Terceira Causa Mortis"))
+                .quartaCausaMortis(new CausaMortis("Quarta Causa Mortis"))
+                .build();
     }
 
     @Test
@@ -82,8 +78,8 @@ public class AplObitoTest extends AbstractionTest {
                 aplObito.obterTodosPacientes(), this.pacienteDTO.getNome(), getNomePaciente());
         Long idTest = pacienteTmp.getId();
 
-        Assert.assertNotNull(aplObito.obterPaciente(idTest));
-        Assert.assertEquals(idTest, aplObito.obterPaciente(idTest).getId());
+        assertNotNull(aplObito.obterPaciente(idTest));
+        assertEquals(idTest, aplObito.obterPaciente(idTest).getId());
     }
 
     @Test
@@ -93,25 +89,18 @@ public class AplObitoTest extends AbstractionTest {
         PacienteDTO pacienteTest = utility.getObjectByMethod(
                 aplObito.obterTodosPacientes(), this.pacienteDTO.getNome(), getNomePaciente());
 
-        Assert.assertNotNull(pacienteTest.getId());
-        Assert.assertNotNull(pacienteTest.getEndereco());
-        Assert.assertNotNull(pacienteTest.getTelefone());
+        assertNotNull(pacienteTest.getId());
+        assertNotNull(pacienteTest.getEndereco());
+        assertNotNull(pacienteTest.getTelefone());
 
-        Assert.assertEquals(this.pacienteDTO.getNome(), pacienteTest.getNome());
-        Assert.assertEquals(this.pacienteDTO.getDocumentoSocial(),
-                pacienteTest.getDocumentoSocial());
-        Assert.assertEquals(this.pacienteDTO.getNacionalidade(),
-                pacienteTest.getNacionalidade());
-        Assert.assertEquals(this.pacienteDTO.getNomeMae(),
-                pacienteTest.getNomeMae());
-        Assert.assertEquals(this.pacienteDTO.getNumeroProntuario(),
-                pacienteTest.getNumeroProntuario());
-        Assert.assertEquals(this.pacienteDTO.getNumeroSUS(),
-                pacienteTest.getNumeroSUS());
-        Assert.assertEquals(this.pacienteDTO.getProfissao(),
-                pacienteTest.getProfissao());
-        Assert.assertEquals(this.pacienteDTO.getEndereco().getBairro(),
-                pacienteTest.getEndereco().getBairro());
+        assertEquals(this.pacienteDTO.getNome(), pacienteTest.getNome());
+        assertEquals(this.pacienteDTO.getDocumentoSocial(), pacienteTest.getDocumentoSocial());
+        assertEquals(this.pacienteDTO.getNacionalidade(), pacienteTest.getNacionalidade());
+        assertEquals(this.pacienteDTO.getNomeMae(), pacienteTest.getNomeMae());
+        assertEquals(this.pacienteDTO.getNumeroProntuario(), pacienteTest.getNumeroProntuario());
+        assertEquals(this.pacienteDTO.getNumeroSUS(), pacienteTest.getNumeroSUS());
+        assertEquals(this.pacienteDTO.getProfissao(), pacienteTest.getProfissao());
+        assertEquals(this.pacienteDTO.getEndereco().getBairro(), pacienteTest.getEndereco().getBairro());
     }
 
     private Function<PacienteDTO, String> getNomePaciente() {
@@ -137,11 +126,10 @@ public class AplObitoTest extends AbstractionTest {
 
         ObitoDTO obitoTest = aplObito.obterTodosObitos().get(quantidadeObitos);
 
-        Assert.assertNotNull(obitoTest);
-        Assert.assertNotNull(obitoTest.getSetor());
-        Assert.assertNotNull(obitoTest.getPaciente().getId());
-        Assert.assertEquals(obitoTest.getPaciente().getEndereco().getCep(), 
-                obitoTest.getPaciente().getEndereco().getCep());
+        assertNotNull(obitoTest);
+        assertNotNull(obitoTest.getSetor());
+        assertNotNull(obitoTest.getPaciente().getId());
+        assertEquals(obitoTest.getPaciente().getEndereco().getCep(), obitoTest.getPaciente().getEndereco().getCep());
     }
 
 }
