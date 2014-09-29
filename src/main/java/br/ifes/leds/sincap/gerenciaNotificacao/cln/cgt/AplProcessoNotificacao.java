@@ -1,8 +1,12 @@
 package br.ifes.leds.sincap.gerenciaNotificacao.cln.cgt;
 
 import br.ifes.leds.reuse.utility.Utility;
+import br.ifes.leds.sincap.controleInterno.cln.cdp.BancoOlhos;
+import br.ifes.leds.sincap.controleInterno.cln.cdp.Captador;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Funcionario;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Notificador;
+import br.ifes.leds.sincap.controleInterno.cln.cgt.AplCaptador;
+import br.ifes.leds.sincap.gerenciaNotificacao.cgd.CaptacaoRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ProcessoNotificacaoRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.*;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.CaptacaoDTO;
@@ -33,6 +37,8 @@ public class AplProcessoNotificacao {
     private Mapper mapper;
     @Autowired
     private Utility utility;
+    @Autowired
+    private AplCaptador aplCaptador;
 
     /**
      * Metodo que salva uma nova notificação contendo notificacao de obito
@@ -395,10 +401,19 @@ public class AplProcessoNotificacao {
      * @param estado Estado que será usado para filtrar as notificações.
      * @return Notificações filtras pelo estado atual.
      */
-    public List<ProcessoNotificacaoDTO> retornarNotificacaoPorEstadoAtual(
-            EstadoNotificacaoEnum estado) {
+    public List<ProcessoNotificacaoDTO> retornarNotificacaoPorEstadoAtualEHospital(
+            EstadoNotificacaoEnum estado, Long id) {
         List<ProcessoNotificacao> processosNotificacao = notificacaoRepository
-                .findByUltimoEstadoEstadoNotificacaoOrderByUltimoEstadoDataAtualizacaosAsc(estado);
+                .findByUltimoEstadoEstadoNotificacaoAndNotificadorInstituicoesNotificadorasIdOrderByUltimoEstadoDataAtualizacaosAsc(estado, id);
+
+        return utility.mapList(processosNotificacao,
+                ProcessoNotificacaoDTO.class);
+    }
+    public List<ProcessoNotificacaoDTO> retornarNotificacaoPorEstadoAtualEBancoOlhos(
+            EstadoNotificacaoEnum estado, Long id) {
+        Captador captador = aplCaptador.obter(id);
+        List<ProcessoNotificacao> processosNotificacao = notificacaoRepository
+                .findByUltimoEstadoEstadoNotificacaoAndObitoHospitalBancoOlhosIdOrderByUltimoEstadoDataAtualizacaosAsc(estado, captador.getBancoOlhos().getId());
 
         return utility.mapList(processosNotificacao,
                 ProcessoNotificacaoDTO.class);

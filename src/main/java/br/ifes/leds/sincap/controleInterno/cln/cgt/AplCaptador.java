@@ -52,7 +52,7 @@ public class AplCaptador {
     }
 
     /** Método para obter um captador pelo seu cpf.
-     * @param captador - CPF do captador.
+     * @param cpf - CPF do captador.
      */
 
     public Captador obter(String cpf) {
@@ -60,16 +60,17 @@ public class AplCaptador {
     }
 
     /** Método para obter um captador pelo seu id.
-     * @param captador - id do captador.
+     * @param id - id do captador.
      */
     public Captador obter(Long id) {
         return captadorRepository.findOne(id);
     }
 
     /** Método para obter uma lista de captador existentes.
-     * @param captador - id do captador.
      */
     public List<Captador> obter() {
         return captadorRepository.findAll();
     }
+
+
 }
