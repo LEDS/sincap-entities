@@ -36,6 +36,7 @@ public interface ProcessoNotificacaoRepository extends JpaRepository<ProcessoNot
 
     public List<ProcessoNotificacao> findByUltimoEstadoEstadoNotificacaoAndObitoHospitalBancoOlhosIdOrderByUltimoEstadoDataAtualizacaosAsc(EstadoNotificacaoEnum estado, Long id);
 
+    public List<ProcessoNotificacao> findByCodigoIgnoreCaseContainingOrNotificadorNomeIgnoreCaseContainingOrObitoPacienteNomeIgnoreCaseContainingOrObitoPacienteNomeMaeIgnoreCaseContaining(String codigo, String notificadornome, String obitoPacienteNome, String obitoPacienteNomeMae);
 
 
 //    @Query(value = findByPacienteNumeroSUS, nativeQuery = true)
