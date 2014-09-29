@@ -6,11 +6,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import br.ifes.leds.reuse.endereco.cdp.Endereco;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Telefone;
+import lombok.experimental.Builder;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class HospitalDTO {
 
     private Long id;
