@@ -15,6 +15,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static org.springframework.data.domain.Sort.Direction;
+
 /**
  *
  * @author aleao
@@ -36,7 +38,11 @@ public enum Factory {
         return new PageRequest(index, qtdElementos);
     }
 
-    public static Pageable criaPageable(int index, int qtdElementos, Sort.Direction ordenacao, String... propriedades) {
+    public static Pageable criaPageable(int index, int qtdElementos, Direction ordenacao, String... propriedades) {
         return new PageRequest(index, qtdElementos, new Sort(ordenacao, propriedades));
+    }
+
+    public static Pageable criaPageable(int index, int qtdElementos, Direction ordenacao) {
+        return new PageRequest(index, qtdElementos, ordenacao);
     }
 }

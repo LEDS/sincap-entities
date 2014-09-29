@@ -402,13 +402,11 @@ public class AplProcessoNotificacao {
      * @param estado Estado que será usado para filtrar as notificações.
      * @return Notificações filtras pelo estado atual.
      */
-    public List<ProcessoNotificacaoDTO> retornarNotificacaoPorEstadoAtualEHospital(
+    public List<ProcessoNotificacao> retornarNotificacaoPorEstadoAtualEHospital(
             EstadoNotificacaoEnum estado, Long id) {
-        List<ProcessoNotificacao> processosNotificacao = notificacaoRepository
-                .findByUltimoEstadoEstadoNotificacaoAndNotificadorInstituicoesNotificadorasIdOrderByUltimoEstadoDataAtualizacaosAsc(estado, id);
 
-        return utility.mapList(processosNotificacao,
-                ProcessoNotificacaoDTO.class);
+        return notificacaoRepository
+                .findByUltimoEstadoEstadoNotificacaoAndNotificadorInstituicoesNotificadorasIdOrderByUltimoEstadoDataAtualizacaosAsc(estado, id);
     }
     public List<ProcessoNotificacaoDTO> retornarNotificacaoPorEstadoAtualEBancoOlhos(
             EstadoNotificacaoEnum estado, Long id) {
