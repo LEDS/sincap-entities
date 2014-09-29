@@ -17,7 +17,8 @@ public enum EstadoNotificacaoEnum {
     AGUARDANDOANALISECAPTACAO("Aguardando Análise da Captacao"),
     EMANALISECAPTACAO("Em Análise de Captação"),
     AGUARDANDOARQUIVAMENTO("Aguardando Arquivamento"),
-    NOTIFICACAOARQUIVADA("Notificacao Arquivada");
+    NOTIFICACAOARQUIVADA("Notificacao Arquivada"),
+    NOTIFICACAOEXCLUIDA("Notificacao Excluida");
     
     private final String nome;
 

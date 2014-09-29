@@ -56,7 +56,6 @@ public class AplProcessoNotificacaoTest extends AbstractionTest {
 
         this.notificacao.setDataAbertura(Calendar.getInstance());
         this.notificacao.setArquivado(false);
-        this.notificacao.setAtivo(true);
 
         this.getEstadoNotificacao(this.notificacao);
         this.getObito(this.notificacao);

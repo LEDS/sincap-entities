@@ -81,7 +81,6 @@ public class AplProcessoNotificacao {
             notificacao = notificacaoRepository.findOne(notificacaoDTO.getId());
         }
 
-        notificacao.setAtivo(true);
         notificacao.setObito(notificacaoDTO.getObito());
 
         if (notificacaoDTO.getObito().isAptoDoacao()) {
@@ -445,11 +444,22 @@ public class AplProcessoNotificacao {
      *
      * @param idProcesso - Id do Processo de Notificação que será excluido
      */
-    public void excluirProcesso(Long idProcesso) {
-        ProcessoNotificacao processo = mapper.map(obter(idProcesso), ProcessoNotificacao.class);
+    public void excluirProcesso(Long idProcesso, Long idFuncionario) {
+        ProcessoNotificacaoDTO processoNotificacao = obter(idProcesso);
 
-        processo.setAtivo(false);
-        notificacaoRepository.save(processo);
+        excluirProcesso(processoNotificacao, idFuncionario);
+    }
+
+    /**
+     * Excluir Processo de Notificação
+     * @param processo - Processo de Notificação que será excluido
+     * @param idFuncionario - Id do funcionario quer irá excluir a notificação
+     */
+    public void excluirProcesso(ProcessoNotificacaoDTO processo, Long idFuncionario) {
+        this.addNovoEstadoNoProcessoNotificacao(
+                processo,
+                EstadoNotificacaoEnum.NOTIFICACAOEXCLUIDA,
+                idFuncionario);
     }
 
     public void confirmarAnaliseCaptacao(Long idProcesso, Long idFuncionario) {

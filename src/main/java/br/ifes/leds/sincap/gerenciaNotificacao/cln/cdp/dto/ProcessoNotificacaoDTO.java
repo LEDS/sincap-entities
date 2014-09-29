@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoNotificacaoEnum.NOTIFICACAOEXCLUIDA;
+
 /**
  *
  * @author 20102bsi0553
@@ -29,9 +31,15 @@ public class ProcessoNotificacaoDTO {
     private Calendar dataAbertura;
     private Calendar dataArquivamento;
     private boolean arquivado;
-    private boolean ativo;
     private Long notificador;
     private CaptacaoDTO captacao;
     private Long causaNaoDoacao;
     private AtualizacaoEstadoDTO ultimoEstado;
+
+    public boolean isExcluido() {
+        if (ultimoEstado != null) {
+            return ultimoEstado.getEstadoNotificacao() == NOTIFICACAOEXCLUIDA;
+        }
+        return false;
+    }
 }

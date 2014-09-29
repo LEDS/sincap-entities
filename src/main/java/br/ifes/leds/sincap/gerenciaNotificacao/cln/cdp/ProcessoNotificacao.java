@@ -12,6 +12,8 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
+import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoNotificacaoEnum.NOTIFICACAOEXCLUIDA;
+
 /**
  * Notificacao.java
  *
@@ -41,10 +43,6 @@ public class ProcessoNotificacao extends ObjetoPersistente {
     
     @Column
     private boolean arquivado;
-
-    @Column
-    @NotNull
-    private boolean ativo;
     
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @NotNull
@@ -74,7 +72,13 @@ public class ProcessoNotificacao extends ObjetoPersistente {
     @OneToOne
     @JoinColumn
     private CausaNaoDoacao causaNaoDoacao;
-    
+
+    public boolean isExcluido() {
+        if (ultimoEstado != null) {
+            return ultimoEstado.getEstadoNotificacao() == NOTIFICACAOEXCLUIDA;
+        }
+        return false;
+    }
 
     public boolean aptoDoacao() {
         return this.obito.isAptoDoacao();
