@@ -1,5 +1,6 @@
 package br.ifes.leds.sincap.controleInterno.cln.cdp;
 
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -31,6 +32,9 @@ public class Hospital extends InstituicaoNotificadora {
     @Column
     @NotNull
     private String sigla;
+
+    @Column(name="ativo" ,columnDefinition = "boolean default 'TRUE'")
+    private Boolean ativo;
     
     public void addSetor(Setor setor)
     {

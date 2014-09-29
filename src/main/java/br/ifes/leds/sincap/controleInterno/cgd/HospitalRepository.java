@@ -22,6 +22,7 @@ public interface HospitalRepository extends JpaRepository<Hospital, Long> {
     public List<Hospital> findByCnes(String cnes);
     public Hospital findById(Long id); 
     public List<Hospital> findBySetores(Setor setor);
+    public List<Hospital> findByAtivoTrue();
     
 
 }

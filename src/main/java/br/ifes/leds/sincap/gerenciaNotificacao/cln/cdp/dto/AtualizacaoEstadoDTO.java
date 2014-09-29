@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoNotificacaoEnum;
+import lombok.experimental.Builder;
 
 import java.util.Calendar;
 
@@ -16,6 +17,7 @@ import java.util.Calendar;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class AtualizacaoEstadoDTO {
 
     private Long id;

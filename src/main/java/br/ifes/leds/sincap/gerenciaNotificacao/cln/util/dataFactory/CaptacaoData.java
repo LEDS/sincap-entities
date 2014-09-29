@@ -6,16 +6,16 @@
 
 package br.ifes.leds.sincap.gerenciaNotificacao.cln.util.dataFactory;
 
-import br.ifes.leds.reuse.utility.Factory;
-import br.ifes.leds.sincap.controleInterno.cgd.CaptadorRepository;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Captador;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.CaptacaoRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Captacao;
-import java.util.Calendar;
-import java.util.List;
 import org.fluttercode.datafactory.impl.DataFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Calendar;
+
+import static br.ifes.leds.reuse.utility.Factory.criaObjeto;
 
 /**Classe para a criação de objetos Captacao randomicos.
  *
@@ -26,17 +26,8 @@ import org.springframework.stereotype.Service;
 public class CaptacaoData {
     @Autowired
     private CaptacaoRepository captacaoRepository;
-    @Autowired
-    private CaptadorRepository captadorRepository;
-    @Autowired
-    private Factory fabrica;
-    
-    private Captacao captacao;
-    private List<Captador> listCaptador;
-    private Calendar dataCaptacao;
-    private Calendar dataCadastro;
-    
-    
+
+
     /** Método responsável por salvar um objeto Captacao no banco de dados.
      * @param c - Objeto Captacao. 
      */
@@ -50,7 +41,7 @@ public class CaptacaoData {
      * @return captacao - objeto Captacao Randomico.
      */
     public Captacao criarCaptacao(DataFactory df,Captador c){
-        captacao = fabrica.criaObjeto(Captacao.class);
+        Captacao captacao = criaObjeto(Captacao.class);
 
         captacao.setCaptacaoRealizada(df.chance(50));
 
@@ -59,7 +50,7 @@ public class CaptacaoData {
         }
 
         captacao.setCaptador(c);
-        captacao.setComentario("Comentario "+df.getRandomChar());
+        captacao.setComentario("Comentario " + df.getRandomChar());
         
         return captacao;
     }

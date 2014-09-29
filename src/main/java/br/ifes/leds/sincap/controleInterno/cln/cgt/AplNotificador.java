@@ -34,8 +34,6 @@ public class AplNotificador {
      * @param notificador - objeto Notificador.
     */
     public void salvarNotificador(Notificador notificador) {
-        telefoneRepository.save(notificador.getTelefone());
-        enderecoRepository.save(notificador.getEndereco());
         notificadorRepository.save(notificador);
     }
 
@@ -51,8 +49,6 @@ public class AplNotificador {
      */
     public void delete(Notificador notificador) {
         notificadorRepository.delete(notificador);
-        telefoneRepository.delete(notificador.getTelefone());
-        enderecoRepository.delete(notificador.getEndereco());
     }
     
     /** Método para obter um notificador pelo seu cpf.

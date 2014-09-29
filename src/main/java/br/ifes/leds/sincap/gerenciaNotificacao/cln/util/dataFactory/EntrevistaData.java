@@ -6,7 +6,6 @@
 
 package br.ifes.leds.sincap.gerenciaNotificacao.cln.util.dataFactory;
 
-import br.ifes.leds.reuse.utility.Factory;
 import br.ifes.leds.sincap.controleInterno.cgd.FuncionarioRepository;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Funcionario;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.EntrevistaRepository;
@@ -18,6 +17,8 @@ import org.springframework.stereotype.Service;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
+import static br.ifes.leds.reuse.utility.Factory.criaObjeto;
 
 /**Classe para a criação de objetos Entrevista randomicos.
  *
@@ -31,8 +32,6 @@ public class EntrevistaData {
     private FuncionarioRepository funcionarioRepository;
     @Autowired
     private EntrevistaRepository entrevistaRepository;
-    @Autowired
-    private Factory fabrica;
     @Autowired
     private ResponsavelData responsavelData;
     @Autowired
@@ -55,7 +54,7 @@ public class EntrevistaData {
      * @return entrevista - objeto Entrevista Randomico.
      */
     public Entrevista criaEntrevista(DataFactory df) {
-        Entrevista entrevista = fabrica.criaObjeto(Entrevista.class);
+        Entrevista entrevista = criaObjeto(Entrevista.class);
         Calendar dataEntrevista = Calendar.getInstance();
         Calendar dataCadastro = Calendar.getInstance();
         Date dataAtual = new Date();

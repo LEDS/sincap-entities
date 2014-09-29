@@ -11,7 +11,6 @@ import br.ifes.leds.reuse.endereco.cgd.BairroRepository;
 import br.ifes.leds.reuse.endereco.cgd.CidadeRepository;
 import br.ifes.leds.reuse.endereco.cgd.EnderecoRepository;
 import br.ifes.leds.reuse.endereco.cgd.EstadoRepository;
-import br.ifes.leds.reuse.utility.Factory;
 import br.ifes.leds.sincap.controleInterno.cgd.TelefoneRepository;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Hospital;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Telefone;
@@ -19,6 +18,8 @@ import br.ifes.leds.sincap.controleInterno.cln.cgt.AplHospital;
 import org.fluttercode.datafactory.impl.DataFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import static br.ifes.leds.reuse.utility.Factory.criaObjeto;
 
 /**Classe para a criação de objetos Hospital randomicos.
  *
@@ -40,18 +41,13 @@ public class HospitalData {
     EstadoRepository estadoRepository;
     @Autowired
     AplHospital aplHospital;
-    @Autowired
-    private Factory fabrica;
-    
-    private Hospital hospital;
-    private Telefone telefone;
-    private Endereco endereco;
-    
+
     /**Método responsável por criar Objetos Hospital randomico, sendo nescessário apenas passar
      * uma instancia DataFactory e a quantidade a ser criada.
      * @param df - instancia DataFacotry.
      * @param qtdHos - quantidade de objetos a serem criados. 
      */
+    @SuppressWarnings("unused")
     public void criaHospitalRandom(DataFactory df,Integer qtdHos){
         
         for (int i = 0; i < qtdHos; i++){
@@ -74,12 +70,12 @@ public class HospitalData {
      */
     public Hospital criaHospital(DataFactory df) {
         /*Criação dos objetos*/
-        hospital =  fabrica.criaObjeto(Hospital.class);
-        telefone = fabrica.criaObjeto(Telefone.class);
-        endereco = fabrica.criaObjeto(Endereco.class);
+        Hospital hospital = criaObjeto(Hospital.class);
+        Telefone telefone = criaObjeto(Telefone.class);
+        Endereco endereco = criaObjeto(Endereco.class);
         
         /*Preenche a aba dados Gerais*/
-        hospital.setNome("Hospital "+ df.getName());
+        hospital.setNome("Hospital " + df.getName());
         hospital.setFantasia(hospital.getNome());
         hospital.setCnes(df.getNumberText(9));
         hospital.setSigla(df.getRandomChars(3));
@@ -89,9 +85,9 @@ public class HospitalData {
         
         endereco.setLogradouro(df.getStreetName());
         endereco.setCep(df.getNumberText(8));
-        endereco.setEstado(estadoRepository.findOne(new Long(1)));
-        endereco.setCidade(cidadeRepository.findOne(new Long(1)));
-        endereco.setBairro(bairroRepository.findOne(new Long(1)));
+        endereco.setEstado(estadoRepository.findOne((long) 1));
+        endereco.setCidade(cidadeRepository.findOne((long) 1));
+        endereco.setBairro(bairroRepository.findOne((long) 1));
         endereco.setNumero(df.getNumberText(5));
         endereco.setComplemento(df.getStreetSuffix());
         hospital.setEndereco(endereco);

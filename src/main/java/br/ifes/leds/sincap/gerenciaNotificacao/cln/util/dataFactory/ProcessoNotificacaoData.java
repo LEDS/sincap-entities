@@ -6,28 +6,21 @@
 
 package br.ifes.leds.sincap.gerenciaNotificacao.cln.util.dataFactory;
 
-import br.ifes.leds.reuse.utility.Factory;
 import br.ifes.leds.sincap.controleInterno.cgd.CaptadorRepository;
 import br.ifes.leds.sincap.controleInterno.cgd.NotificadorRepository;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Captador;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Notificador;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.AtualizacaoEstadoRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ProcessoNotificacaoRepository;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.AtualizacaoEstado;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Captacao;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CausaNaoDoacao;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Entrevista;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoNotificacaoEnum;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Obito;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.ProcessoNotificacao;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.*;
 import org.fluttercode.datafactory.impl.DataFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.*;
+
+import static br.ifes.leds.reuse.utility.Factory.criaObjeto;
+import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoNotificacaoEnum.*;
 
 /**Classe para a criação de objetos ProcessoNotificacao randomicos.
  *
@@ -39,54 +32,26 @@ public class ProcessoNotificacaoData {
     
     @Autowired
     private ProcessoNotificacaoRepository processoNotificacaoRepository;
-
     @Autowired
     private NotificadorRepository notificadorRepository;
-    
     @Autowired
     private CaptadorRepository captadorRepository;
-    
     @Autowired
     private AtualizacaoEstadoRepository atualizacaoEstadoRepository;
-            
-    @Autowired
-    private Factory fabrica;
-    
     @Autowired
     private ObitoData obitoData;
-    
     @Autowired
     private EntrevistaData entrevistaData;
-    
     @Autowired
     private CaptacaoData captacaoData;
-    
-        
-    private AtualizacaoEstado atualizacaoEstado;
-    
-    private EstadoNotificacaoEnum estadoNotificacao;
-    
-    private ProcessoNotificacao processoNotificacao;
-    private List<Notificador> listNotificador;
-    private Notificador notificador;
-    private List<AtualizacaoEstado> listAtualizacaoEstado;
-    
-    private Obito obito;
-    private Entrevista entrevista;
-    private Captacao captacao;
-    private List<Captador> listCaptador;
-    private CausaNaoDoacao causaNaoDoacao;
-    
-    private Calendar dataAbertura;
-    private Calendar dataArquivamento;
-    private Calendar dataObito;
-    
-    
+
+
     /**Método responsável por criar processo de notificação randomico até a
      * etapa de Analise de Óbito de forma randomica.
      * @param df - instancia DataFactory.
      * @param qtdAna - quantidade de processos.
      */
+    @SuppressWarnings("unused")
     public void criarAnaliseObitoRandom(DataFactory df,Integer qtdAna){
         for (int i = 0; i < qtdAna;i++){
             ProcessoNotificacao pn = criarAnaliseObito(df);
@@ -108,23 +73,23 @@ public class ProcessoNotificacaoData {
      * @return atualizacaoEstado - Objeto AtualizacaoEstado.
      */
     public AtualizacaoEstado AtualizaEstadoNotificacao(ProcessoNotificacao pn,Integer etapa){
-        atualizacaoEstado = fabrica.criaObjeto(AtualizacaoEstado.class);
+        AtualizacaoEstado atualizacaoEstado = criaObjeto(AtualizacaoEstado.class);
         
         atualizacaoEstado.setFuncionario(pn.getNotificador());
         
         if (etapa == 1) {
             atualizacaoEstado.setDataAtualizacaos(pn.getDataAbertura());
-            atualizacaoEstado.setEstadoNotificacao(estadoNotificacao.AGUARDANDOANALISEOBITO);
+            atualizacaoEstado.setEstadoNotificacao(AGUARDANDOANALISEOBITO);
         } 
         else {
             if(etapa == 2){
                     atualizacaoEstado.setDataAtualizacaos(pn.getDataAbertura());
-                    atualizacaoEstado.setEstadoNotificacao(estadoNotificacao.AGUARDANDOANALISEENTREVISTA);
+                    atualizacaoEstado.setEstadoNotificacao(AGUARDANDOANALISEENTREVISTA);
                }
                 else {
                     if(etapa == 3){
                         atualizacaoEstado.setDataAtualizacaos(pn.getDataAbertura());
-                        atualizacaoEstado.setEstadoNotificacao(estadoNotificacao.AGUARDANDOANALISECAPTACAO);
+                        atualizacaoEstado.setEstadoNotificacao(AGUARDANDOANALISECAPTACAO);
                     }
                 }    
             }
@@ -145,15 +110,15 @@ public class ProcessoNotificacaoData {
      * @return processoNotificacao - objeto ProcessoNotificacao.
      */
     public ProcessoNotificacao criarAnaliseObito(DataFactory df){
-        
-        processoNotificacao = fabrica.criaObjeto(ProcessoNotificacao.class);
-        dataAbertura = Calendar.getInstance();
-        obito = obitoData.criaObito(df);
-        Date dataIni = removeDias(obito.getDataObito().getTime(), 2);
+
+        ProcessoNotificacao processoNotificacao = criaObjeto(ProcessoNotificacao.class);
+        Calendar dataAbertura = Calendar.getInstance();
+        Obito obito = obitoData.criaObito(df);
+        Date dataIni = removeDias(obito.getDataObito().getTime());
 
         
         processoNotificacao.setArquivado(false);
-        listNotificador = notificadorRepository.findAll();
+        List<Notificador> listNotificador = notificadorRepository.findAll();
         processoNotificacao.setNotificador(df.getItem(listNotificador));
         processoNotificacao.setObito(obito);
         dataAbertura.setTime(df.getDateBetween(dataIni, obito.getDataObito().getTime()));
@@ -183,8 +148,7 @@ public class ProcessoNotificacaoData {
      * @return entrevista - Objeto entrevista.
      */
     public Entrevista criarEntrevista(DataFactory df){
-        entrevista = entrevistaData.criaEntrevista(df);
-        return entrevista;
+        return entrevistaData.criaEntrevista(df);
     }
     
     /**Método responsável por criar processo de notificação randomico até a
@@ -192,6 +156,7 @@ public class ProcessoNotificacaoData {
      * @param df - instancia DataFactory.
      * @param QtdEnt - quantidade de processos.
      */
+    @SuppressWarnings("unused")
     public void criaEntrevistaRadom(DataFactory df,Integer QtdEnt){
      for (int i = 0; i < QtdEnt;i++){
             ProcessoNotificacao pn = criarAnaliseObito(df);
@@ -215,9 +180,8 @@ public class ProcessoNotificacaoData {
      * @return captacao - Objeto Captacao.
      */
     public Captacao criaCaptacao(DataFactory df){
-        listCaptador = captadorRepository.findAll();
-        captacao = captacaoData.criarCaptacao(df, df.getItem(listCaptador));
-        return captacao;
+        List<Captador> listCaptador = captadorRepository.findAll();
+        return captacaoData.criarCaptacao(df, df.getItem(listCaptador));
     } 
     
     /**Método responsável por criar processo de notificação randomico até a
@@ -247,10 +211,10 @@ public class ProcessoNotificacaoData {
         }
     }
     
-    private static Date removeDias(Date date, Integer dias) {  
+    private static Date removeDias(Date date) {
             GregorianCalendar gc = new GregorianCalendar();  
             gc.setTime(date);  
-            gc.set(Calendar.DATE, gc.get(Calendar.DATE) - dias);  
+            gc.set(Calendar.DATE, gc.get(Calendar.DATE) - 2);
             return gc.getTime();  
     } 
 }

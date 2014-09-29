@@ -1,7 +1,10 @@
 package br.ifes.leds.sincap.controleInterno.cln.cdp.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.Builder;
 
 /**
  *
@@ -9,6 +12,9 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class FuncionarioDTO {
     private String senha;
     private boolean ativo;

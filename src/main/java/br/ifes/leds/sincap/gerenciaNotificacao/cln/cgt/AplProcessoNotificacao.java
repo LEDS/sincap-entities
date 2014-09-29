@@ -83,7 +83,12 @@ public class AplProcessoNotificacao {
 
         notificacao.setAtivo(true);
         notificacao.setObito(notificacaoDTO.getObito());
-        notificacao.setCausaNaoDoacao(notificacaoDTO.getCausaNaoDoacao());
+
+        if (notificacaoDTO.getObito().isAptoDoacao()) {
+            notificacao.setCausaNaoDoacao(null);
+        } else {
+            notificacao.setCausaNaoDoacao(notificacaoDTO.getCausaNaoDoacao());
+        }
 
         return notificacao;
     }

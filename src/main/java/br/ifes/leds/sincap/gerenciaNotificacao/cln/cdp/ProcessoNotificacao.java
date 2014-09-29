@@ -51,7 +51,6 @@ public class ProcessoNotificacao extends ObjetoPersistente {
     private List<AtualizacaoEstado> historico;
 
     @OneToOne
-    @NotNull
     private AtualizacaoEstado ultimoEstado;
     
     @ManyToOne

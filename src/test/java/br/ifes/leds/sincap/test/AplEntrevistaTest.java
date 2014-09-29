@@ -6,9 +6,7 @@
 
 package br.ifes.leds.sincap.test;
 
-import br.ifes.leds.reuse.endereco.cgt.AplEndereco;
 import br.ifes.leds.reuse.ledsExceptions.CRUDExceptions.ViolacaoDeRIException;
-import br.ifes.leds.reuse.utility.Factory;
 import br.ifes.leds.reuse.utility.Utility;
 import br.ifes.leds.reuse.utility.function.Function;
 import br.ifes.leds.sincap.controleInterno.cgd.FuncionarioRepository;
@@ -28,6 +26,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.GregorianCalendar;
 
+import static br.ifes.leds.reuse.utility.Factory.criaObjeto;
+
 /**
  *
  * @author Breno Grillo
@@ -36,8 +36,6 @@ public class AplEntrevistaTest extends AbstractionTest{
     
     @Autowired
     private AplEntrevista aplEntrevista;
-    @Autowired
-    private AplEndereco aplEndereco;
     @Autowired
     private Mapper mapper;
     @Autowired
@@ -48,8 +46,6 @@ public class AplEntrevistaTest extends AbstractionTest{
     private TestemunhaData testemunhaData;
     @Autowired
     private DataFactory dataFactory;
-    @Autowired
-    private Factory factory;
     @Autowired
     private FuncionarioRepository funcionarioRepository;
     // TODO Fazer testes de obter entrevista. 
@@ -69,7 +65,7 @@ public class AplEntrevistaTest extends AbstractionTest{
     @Before
     public void before()
     {
-        this.entrevistaDTO = factory.criaObjeto(EntrevistaDTO.class);
+        this.entrevistaDTO = criaObjeto(EntrevistaDTO.class);
         this.responsavelDTO = mapper.map(responsavelData.criarResponsavel(dataFactory),
                 ResponsavelDTO.class);
         this.testemunhaDTO1 = mapper.map(testemunhaData.criarTestemunha(dataFactory),

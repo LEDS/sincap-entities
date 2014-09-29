@@ -28,18 +28,11 @@ import java.util.Set;
 public class AplCaptador {
     @Autowired
     private CaptadorRepository captadorRepository;
-    @Autowired
-    private TelefoneRepository telefoneRepository;
-    @Autowired
-    private EnderecoRepository enderecoRepository;
-
-
+    
     /** Método para salvar um captador.
      * @param captador - objeto captador.
      */
     public void salvar(Captador captador) {
-        enderecoRepository.save(captador.getEndereco());
-        telefoneRepository.save(captador.getTelefone());
         captadorRepository.save(captador);
     }
 
@@ -48,8 +41,6 @@ public class AplCaptador {
      */
     public void exlcuir(Captador captador) {
         captadorRepository.delete(captador);
-        enderecoRepository.delete(captador.getEndereco());
-        telefoneRepository.delete(captador.getTelefone());
     }
 
 

@@ -5,7 +5,6 @@ import br.ifes.leds.reuse.endereco.cgd.BairroRepository;
 import br.ifes.leds.reuse.endereco.cgd.CidadeRepository;
 import br.ifes.leds.reuse.endereco.cgd.EnderecoRepository;
 import br.ifes.leds.reuse.endereco.cgd.EstadoRepository;
-import br.ifes.leds.reuse.utility.Factory;
 import br.ifes.leds.sincap.controleInterno.cgd.TelefoneRepository;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Sexo;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Telefone;
@@ -13,11 +12,14 @@ import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ResponsavelRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoCivil;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Parentesco;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Responsavel;
-import java.util.Calendar;
-import java.util.List;
 import org.fluttercode.datafactory.impl.DataFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Calendar;
+import java.util.List;
+
+import static br.ifes.leds.reuse.utility.Factory.criaObjeto;
 
 /**Classe para a criação de objetos Responsavel randomicos.
  *
@@ -39,8 +41,6 @@ public class ResponsavelData {
     CidadeRepository cidadeRepository;
     @Autowired
     EstadoRepository estadoRepository;
-    @Autowired
-    private Factory fabrica;
 
     private Responsavel responsavel;
     private Calendar dataNascimento;
@@ -51,7 +51,6 @@ public class ResponsavelData {
     private List<Sexo> listaSexo;
     private Endereco endereco;
     private Telefone telefone;
-    private Telefone telefone2;
     private Listas list = Listas.INSTANCE;
 
     
@@ -60,6 +59,7 @@ public class ResponsavelData {
      * @param df - instancia DataFacotry.
      * @param qtdRes - quantidade de objetos a serem criados. 
      */
+    @SuppressWarnings("unused")
     public void criaResponsavelRandom(DataFactory df, Integer qtdRes) {
         for (int i = 0; i < qtdRes; i++) {
 
@@ -77,16 +77,16 @@ public class ResponsavelData {
      * @return responsavel - objeto Responsavel Randomico.
      */
     public Responsavel criarResponsavel(DataFactory df) {
-        responsavel = fabrica.criaObjeto(Responsavel.class);
+        responsavel = criaObjeto(Responsavel.class);
         dataNascimento = Calendar.getInstance();
         dataInternacao = Calendar.getInstance();
         listaProfissao = list.getListProf();
         listaSexo = list.getListSex();
         listaEstadoCivil = list.getListEst();
         listaParentesco = list.getListPar();
-        endereco = fabrica.criaObjeto(Endereco.class);
-        telefone = fabrica.criaObjeto(Telefone.class);
-        telefone2 = fabrica.criaObjeto(Telefone.class);
+        endereco = criaObjeto(Endereco.class);
+        telefone = criaObjeto(Telefone.class);
+        Telefone telefone2 = criaObjeto(Telefone.class);
 
         gerarDadosResponsavel(df);
 
@@ -108,9 +108,9 @@ public class ResponsavelData {
     private void gerarDadosEndereco(DataFactory df) {
         // Endereco
         endereco.setLogradouro(df.getStreetName());
-        endereco.setEstado(estadoRepository.findOne(new Long(1)));
-        endereco.setCidade(cidadeRepository.findOne(new Long(1)));
-        endereco.setBairro(bairroRepository.findOne(new Long(1)));
+        endereco.setEstado(estadoRepository.findOne((long) 1));
+        endereco.setCidade(cidadeRepository.findOne((long) 1));
+        endereco.setBairro(bairroRepository.findOne((long) 1));
         endereco.setNumero(df.getNumberText(5));
         endereco.setComplemento(df.getStreetSuffix());
         endereco.setCep(df.getNumberText(8));
@@ -127,8 +127,8 @@ public class ResponsavelData {
         responsavel.setEstadoCivil(df.getItem(listaEstadoCivil));
         responsavel.setSexo(df.getItem(listaSexo));
         dataNascimento.setTime(df.getBirthDate());
-        dataInternacao.setTime(df.getDateBetween(df.getDate(2000, 01, 01),
-                df.getDate(2014, 01, 01)));
+        dataInternacao.setTime(df.getDateBetween(df.getDate(2000, 1, 1),
+                df.getDate(2014, 1, 1)));
         responsavel.setDocumentoSocial(df.getNumberText(9));
         responsavel.setProfissao(df.getItem(listaProfissao));
         responsavel.setParentesco(df.getItem(listaParentesco));
