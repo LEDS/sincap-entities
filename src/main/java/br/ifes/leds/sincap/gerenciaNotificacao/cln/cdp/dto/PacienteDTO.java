@@ -11,7 +11,12 @@ import br.ifes.leds.sincap.controleInterno.cln.cdp.Sexo;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Telefone;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoCivil;
 import lombok.experimental.Builder;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 
 @Getter
 @Setter
@@ -21,19 +26,42 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class PacienteDTO {
 
     private Long id;
+    @Length(min = 5, max = 255)
     private String nome;
-    private Telefone telefone;
-    private EnderecoDTO endereco;
+
+    @NotNull
+    @Past
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private Calendar dataInternacao;
+
+    @NotNull
+    @Past
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private Calendar dataNascimento;
+
+    @Length(min = 3, max = 255)
     private String profissao;
+
+    @Length(min = 3, max = 255)
     private String nomeMae;
+
+    @Length(min = 3, max = 255)
     private String numeroProntuario;
+
+    @NotEmpty
+    @Length(min = 3, max = 255)
     private String numeroSUS;
+
+    @Length(min = 3, max = 255)
     private String nacionalidade;
+
+    @Length(min = 3, max = 255)
     private String documentoSocial;
+
+    @NotNull
     private Sexo sexo;
+
+    private Telefone telefone;
+    private EnderecoDTO endereco;
     private EstadoCivil EstadoCivil;
 }
