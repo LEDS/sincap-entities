@@ -9,6 +9,11 @@ import java.util.Calendar;
 
 import lombok.*;
 import lombok.experimental.Builder;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 
 /**
  *
@@ -24,13 +29,23 @@ public class EntrevistaDTO {
 
     private Long id;
     // Dados para o cabeçalho do formulário
+    @NotNull
     private boolean doacaoAutorizada;
+    @NotNull
     private boolean entrevistaRealizada;
+    @Past
     private Calendar dataEntrevista; // Data e horario do entrevista
+    @Past
+    @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
     private Calendar dataCadastro; // Data e horario da notificação
-                                   // Doacao(entrevista)
+    @NotNull
+    @Valid
     private ResponsavelDTO responsavel;
+    @NotNull
+    @Valid
     private TestemunhaDTO testemunha1;
+    @NotNull
+    @Valid
     private TestemunhaDTO testemunha2;
     private Long funcionario;
 }

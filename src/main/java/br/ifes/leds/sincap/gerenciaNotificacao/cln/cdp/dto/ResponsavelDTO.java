@@ -14,6 +14,10 @@ import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.interfaces.TelefonesRespo
 import br.ifes.leds.sincap.validacao.annotations.TelefoneResponsavelConsistentes;
 import lombok.*;
 import lombok.experimental.Builder;
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -29,14 +33,25 @@ import lombok.experimental.Builder;
 public class ResponsavelDTO implements TelefonesResponsavelInterface {
 
     private Long id;
+    @Length(min = 5, max = 255)
     private String nome;
+    @Length(min = 5, max = 255)
     private String nacionalidade;
+    @Length(min = 5, max = 255)
     private String profissao;
+    @Length(min = 5, max = 255)
     private String documentoSocial;
+    @NotNull
     private EstadoCivil estadoCivil;
     private Sexo sexo;
+    @NotNull
     private Parentesco parentesco;
+    @Valid
+    @NotNull
     private Telefone telefone;
+    @Valid
+    @NotNull
     private Telefone telefone2;
+    @NotNull
     private EnderecoDTO endereco;
 }

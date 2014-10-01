@@ -2,6 +2,7 @@ package br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto;
 
 import lombok.*;
 import lombok.experimental.Builder;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -23,7 +24,7 @@ public class ProcessoNotificacaoDTO {
     private Long id;
 
     @Valid
-    private ObitoDTO obito = ObitoDTO.builder().build();
+    private ObitoDTO obito;
 
     @Valid
     private EntrevistaDTO entrevista;
@@ -31,9 +32,11 @@ public class ProcessoNotificacaoDTO {
     @Valid
     private CaptacaoDTO captacao;
 
+    @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
+    private Calendar dataAbertura;
+
     private List<AtualizacaoEstadoDTO> historico = new ArrayList<>();
     private String codigo;
-    private Calendar dataAbertura;
     private Calendar dataArquivamento;
     private boolean arquivado;
     private Long notificador;

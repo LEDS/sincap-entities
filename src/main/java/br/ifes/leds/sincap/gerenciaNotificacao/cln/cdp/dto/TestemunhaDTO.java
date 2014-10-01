@@ -8,6 +8,10 @@ package br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Telefone;
 import lombok.*;
 import lombok.experimental.Builder;
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -22,7 +26,10 @@ import lombok.experimental.Builder;
 public class TestemunhaDTO {
 
     private Long id;
+    @Length(min = 5, max = 255)
     private String documentoSocial;
+    @Length(min = 5, max = 255)
     private String nome;
+    @Valid
     private Telefone telefone;
 }

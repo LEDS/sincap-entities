@@ -27,7 +27,6 @@ public class Entrevista extends ObjetoPersistente {
     private Calendar dataCadastro; //Data e horario do cadastro entrevista.
     
     @Temporal(TemporalType.TIMESTAMP)
-    @NotNull
     @Past
     private Calendar dataEntrevista; //Data e horario de quando a entrevista foi realizada.
     
