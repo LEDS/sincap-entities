@@ -10,6 +10,8 @@ import br.ifes.leds.sincap.controleInterno.cln.cdp.Sexo;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Telefone;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoCivil;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Parentesco;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.interfaces.TelefonesResponsavelInterface;
+import br.ifes.leds.sincap.validacao.annotations.TelefoneResponsavelConsistentes;
 import lombok.*;
 import lombok.experimental.Builder;
 
@@ -23,7 +25,8 @@ import lombok.experimental.Builder;
 @AllArgsConstructor
 @Builder
 @EqualsAndHashCode(exclude = {"telefone", "telefone2"})
-public class ResponsavelDTO {
+@TelefoneResponsavelConsistentes
+public class ResponsavelDTO implements TelefonesResponsavelInterface {
 
     private Long id;
     private String nome;

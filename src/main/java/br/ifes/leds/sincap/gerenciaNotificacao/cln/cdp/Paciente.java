@@ -11,6 +11,7 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.interfaces.DatasPacienteInterface;
 import br.ifes.leds.sincap.validacao.annotations.DatasPacienteConsistentes;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,7 +30,7 @@ import org.hibernate.validator.constraints.Length;
 @Getter
 @Entity
 @DatasPacienteConsistentes
-public class Paciente extends Pessoa {
+public class Paciente extends Pessoa implements DatasPacienteInterface {
 
     @Past
     @NotNull
