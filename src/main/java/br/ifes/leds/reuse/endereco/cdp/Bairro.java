@@ -9,6 +9,7 @@ package br.ifes.leds.reuse.endereco.cdp;
 import javax.persistence.*;
 
 import br.ifes.leds.reuse.persistence.ObjetoPersistente;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,6 +21,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
+@EqualsAndHashCode(callSuper = true)
 public class Bairro extends ObjetoPersistente {
     
     @Column

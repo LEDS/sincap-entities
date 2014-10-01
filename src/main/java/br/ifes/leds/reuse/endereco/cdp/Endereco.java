@@ -13,10 +13,7 @@ import javax.persistence.Column;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.Builder;
 
 @Setter
@@ -25,6 +22,7 @@ import lombok.experimental.Builder;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@EqualsAndHashCode(callSuper = true)
 public class Endereco  extends ObjetoPersistente {
     @Column
     @JoinColumn(nullable = false)
