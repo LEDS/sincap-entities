@@ -48,7 +48,7 @@ public class CaptacaoData {
         if (captacao.isCaptacaoRealizada()) {
             captacao.setDataCaptacao(Calendar.getInstance());
         }
-
+        captacao.setDataCadastro(Calendar.getInstance());
         captacao.setCaptador(c);
         captacao.setComentario("Comentario " + df.getRandomChar());
         

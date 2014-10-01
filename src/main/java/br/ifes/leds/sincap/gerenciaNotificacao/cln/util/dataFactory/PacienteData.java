@@ -37,10 +37,6 @@ public class PacienteData {
     @Autowired
     private PacienteRepository pacienteRepository;
     @Autowired
-    TelefoneRepository telefoneRepository;
-    @Autowired
-    EnderecoRepository enderecoRepository;
-    @Autowired
     BairroRepository bairroRepository;
     @Autowired
     CidadeRepository cidadeRepository;
@@ -65,13 +61,7 @@ public class PacienteData {
     @SuppressWarnings("unused")
     public void criaPacienteRandom(DataFactory df, Integer qtdPac) {
         for (int i = 0; i < qtdPac; i++) {
-
-            criarPaciente(df);
-            enderecoRepository.save(endereco);
-
-            telefoneRepository.save(telefone);
-
-            pacienteRepository.save(paciente);
+            salvarPaciente(criarPaciente(df));
         }
     }
 
@@ -135,5 +125,9 @@ public class PacienteData {
         paciente.setNumeroProntuario(df.getNumberText(7));
         paciente.setNumeroSUS(df.getNumberText(7));
         paciente.setProfissao(df.getItem(listaProfissao));
+    }
+
+    public void salvarPaciente(Paciente pac){
+        pacienteRepository.save(pac);
     }
 }
