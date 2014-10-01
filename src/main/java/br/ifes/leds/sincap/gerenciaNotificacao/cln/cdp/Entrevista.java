@@ -2,6 +2,7 @@ package br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp;
 
 import br.ifes.leds.reuse.persistence.ObjetoPersistente;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Funcionario;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,6 +18,7 @@ import java.util.Calendar;
 @Setter
 @Getter
 @Entity
+@EqualsAndHashCode(callSuper = true)
 public class Entrevista extends ObjetoPersistente {
     
     @Temporal(TemporalType.TIMESTAMP)

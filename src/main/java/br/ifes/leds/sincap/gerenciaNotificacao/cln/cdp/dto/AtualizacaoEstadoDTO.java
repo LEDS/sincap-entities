@@ -1,9 +1,6 @@
 package br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoNotificacaoEnum;
 import lombok.experimental.Builder;
 
@@ -18,6 +15,7 @@ import java.util.Calendar;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@EqualsAndHashCode
 public class AtualizacaoEstadoDTO {
 
     private Long id;

@@ -3,6 +3,7 @@ package br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp;
 import br.ifes.leds.reuse.persistence.ObjetoPersistente;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Hospital;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Setor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,6 +21,7 @@ import java.util.Calendar;
 @Setter
 @Getter
 @Entity
+@EqualsAndHashCode(callSuper = true)
 public class Obito extends ObjetoPersistente {
 	
     @Temporal(TemporalType.TIMESTAMP)

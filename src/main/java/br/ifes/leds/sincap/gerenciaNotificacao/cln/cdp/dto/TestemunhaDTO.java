@@ -18,7 +18,7 @@ import lombok.experimental.Builder;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@EqualsAndHashCode(exclude = {"telefone"})
+@EqualsAndHashCode
 public class TestemunhaDTO {
 
     private Long id;

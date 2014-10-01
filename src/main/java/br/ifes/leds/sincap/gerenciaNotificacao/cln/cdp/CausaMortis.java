@@ -5,10 +5,7 @@ import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
 
 import br.ifes.leds.reuse.persistence.ObjetoPersistente;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 /**
  * CausaMortis.java
@@ -21,6 +18,7 @@ import lombok.Setter;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 public class CausaMortis extends ObjetoPersistente {
 
     @Column

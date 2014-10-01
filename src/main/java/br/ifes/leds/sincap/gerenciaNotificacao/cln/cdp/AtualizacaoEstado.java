@@ -2,6 +2,7 @@ package br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp;
 
 import br.ifes.leds.reuse.persistence.ObjetoPersistente;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Funcionario;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -16,6 +17,7 @@ import java.util.Calendar;
 @Setter
 @Getter
 @Entity
+@EqualsAndHashCode(callSuper = true)
 public class AtualizacaoEstado extends ObjetoPersistente {
 
     @Enumerated(EnumType.STRING)

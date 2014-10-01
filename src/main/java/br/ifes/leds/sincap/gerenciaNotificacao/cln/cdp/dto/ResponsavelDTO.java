@@ -24,7 +24,7 @@ import lombok.experimental.Builder;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@EqualsAndHashCode(exclude = {"telefone", "telefone2"})
+@EqualsAndHashCode
 @TelefoneResponsavelConsistentes
 public class ResponsavelDTO implements TelefonesResponsavelInterface {
 

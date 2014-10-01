@@ -18,7 +18,7 @@ import javax.validation.constraints.Past;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@EqualsAndHashCode(exclude = {"primeiraCausaMortis", "segundaCausaMortis", "terceiraCausaMortis", "quartaCausaMortis"})
+@EqualsAndHashCode
 public class ObitoDTO {
 
     private Long id;
