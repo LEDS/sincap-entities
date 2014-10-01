@@ -50,7 +50,7 @@ public class DataFactoryMain {
         
 //        nd.criaNotificadorRandom(df,5);
 //        hd.criaHospitalRandom(df, 5);
-////        sd.criaSetorRandom();
+//        sd.criaSetorRandom();
 //        sd.associaSetorHospital();
 //        bd.criaBancoOlhosRandom(df, 5);
 //        ad.criaAnalistaRandom(df, 5);
@@ -61,7 +61,7 @@ public class DataFactoryMain {
 //        cmd.criaCausaMortisRandom(df, 5);
 //        pnd.criarAnaliseObitoRandom(df,5);
 //        pnd.criaEntrevistaRadom(df, 5);
-        pnd.criaCaptacaoRadom(df, 5);
+//        pnd.criaCaptacaoRadom(df, 5);
 //        cnd.criaCausaNaoDoacaoRandom(df, 5);
     }
 

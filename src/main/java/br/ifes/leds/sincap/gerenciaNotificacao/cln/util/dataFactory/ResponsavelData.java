@@ -62,16 +62,17 @@ public class ResponsavelData {
     @SuppressWarnings("unused")
     public void criaResponsavelRandom(DataFactory df, Integer qtdRes) {
         for (int i = 0; i < qtdRes; i++) {
-
-            criarResponsavel(df);
-            enderecoRepository.save(endereco);
-
-            telefoneRepository.save(telefone);
-
-            responsavelRepository.save(responsavel);
+            salvarResponsavel(criarResponsavel(df));
         }
     }
-    
+
+    /**Método responsável por salvar um objeto Responsavel.
+     * @param resp - Objeto Responsavel.
+     */
+    public void salvarResponsavel(Responsavel resp){
+        responsavelRepository.save(resp);
+    }
+
     /**Método responsável por criar Objetos Responsavel randomico.
      * @param df - instancia DataFactory.
      * @return responsavel - objeto Responsavel Randomico.

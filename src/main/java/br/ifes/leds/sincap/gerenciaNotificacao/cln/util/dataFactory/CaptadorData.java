@@ -117,8 +117,6 @@ public class CaptadorData {
      * @param c - Objeto Captador.
      */
     public void salvarCaptador(Captador c) {
-        telefoneRepository.save(c.getTelefone());
-        enderecoRepository.save(c.getEndereco());
         captadorRepository.save(c);
     }
 

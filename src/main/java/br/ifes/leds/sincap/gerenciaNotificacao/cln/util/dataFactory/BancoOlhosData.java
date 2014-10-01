@@ -57,8 +57,6 @@ public class BancoOlhosData {
      * @param bo - Objeto BancoOlhos. 
      */
     public void salvarBancoOlhos(BancoOlhos bo) {
-        telefoneRepository.save(bo.getTelefone());
-        enderecoRepository.save(bo.getEndereco());
         bancoOlhosRepository.save(bo);
     }
 

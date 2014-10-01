@@ -86,6 +86,7 @@ public class AnalistaCNCDOData {
         telefone.setNumero("(" + df.getNumberText(2) + ")"
                 + df.getNumberText(4) + "-" + df.getNumberText(4));
         analista.setTelefone(telefone);
+
         
         return analista;
     }
@@ -94,8 +95,6 @@ public class AnalistaCNCDOData {
      * @param ana - Objeto AnalistaCNCDO. 
      */
     public void salvarAnalistaCNDO(AnalistaCNCDO ana) {
-        telefoneRepository.save(ana.getTelefone());
-        enderecoRepository.save(ana.getEndereco());
         analistaCNCDORepository.save(ana);
     }
 }

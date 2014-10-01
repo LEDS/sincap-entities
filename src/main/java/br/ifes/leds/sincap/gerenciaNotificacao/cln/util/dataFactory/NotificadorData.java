@@ -37,10 +37,6 @@ public class NotificadorData {
     @Autowired
     private InstituicaoNotificadoraRepository instituicaoNotificadoraRepository;
     @Autowired
-    private TelefoneRepository telefoneRepository;
-    @Autowired
-    private EnderecoRepository enderecoRepository;
-    @Autowired
     private BairroRepository bairroRepository;
     @Autowired
     private CidadeRepository cidadeRepository;
@@ -85,6 +81,8 @@ public class NotificadorData {
         notificador.setDocumentoSocial(df.getNumberText(9));
         notificador.setEmail(df.getEmailAddress());
         notificador.setNome(df.getName());
+        notificador.setTelefone(criarTelefone(df));
+        notificador.setEndereco(criarEndereco(df));
         
         return notificador;
     }
@@ -94,8 +92,6 @@ public class NotificadorData {
      * @param df - instancia DataFactory.
      */
     public void salvarNotificador(DataFactory df, Notificador not) {
-        salvarTelefone(criarTelefone(df));
-        salvarEndereco(criaEndereco(df));
         aplNotificador.salvarNotificador(not);
     }
     
@@ -110,27 +106,11 @@ public class NotificadorData {
         return telefone;
     }
 
-    /** Método responsável por salvar um objeto Telefone no banco de dados.
-     * @param tel - Objeto Telefone. 
-     */
-    public void salvarTelefone(Telefone tel) {
-        notificador.setTelefone(tel);
-        telefoneRepository.save(tel);
-    }
-
-    /** Método responsável por salvar um objeto Endereco no banco de dados.
-     * @param end - Objeto Endereco. 
-     */
-    public void salvarEndereco(Endereco end) {
-        notificador.setEndereco(end);
-        enderecoRepository.save(end);
-    }
-
     /** Método responsável por criar um objeto Endereco randomico.
      * @param df - instancia DataFactory.
      * @return endereco - Objeto Endereco.
      */
-    public Endereco criaEndereco(DataFactory df) {
+    public Endereco criarEndereco(DataFactory df) {
         endereco.setLogradouro(df.getStreetName());
         endereco.setEstado(estadoRepository.findOne((long) 1));
         endereco.setCidade(cidadeRepository.findOne((long) 1));
