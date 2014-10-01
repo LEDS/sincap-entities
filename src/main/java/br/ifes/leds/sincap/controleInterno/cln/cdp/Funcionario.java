@@ -2,6 +2,7 @@ package br.ifes.leds.sincap.controleInterno.cln.cdp;
 
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DocumentoComFoto;
 import br.ifes.leds.sincap.validacao.annotations.TelefoneFuncionarioConsistentes;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Email;
@@ -22,6 +23,7 @@ import java.util.List;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @TelefoneFuncionarioConsistentes
+@EqualsAndHashCode(callSuper = true)
 public class Funcionario extends Pessoa {
 
     @Column

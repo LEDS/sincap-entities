@@ -5,10 +5,7 @@
  */
 package br.ifes.leds.sincap.controleInterno.cln.cdp.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.Builder;
 
 /**
@@ -20,6 +17,7 @@ import lombok.experimental.Builder;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@EqualsAndHashCode
 public class UsuarioDTO {
 
     private String username;

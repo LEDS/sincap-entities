@@ -1,10 +1,7 @@
 package br.ifes.leds.sincap.controleInterno.cln.cdp;
 
 import br.ifes.leds.reuse.persistence.ObjetoPersistente;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,6 +12,7 @@ import javax.validation.constraints.NotNull;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 public class Permissao extends ObjetoPersistente {
 
     @NotNull

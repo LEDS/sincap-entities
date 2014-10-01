@@ -5,6 +5,7 @@
  */
 package br.ifes.leds.sincap.controleInterno.cgd;
 
+import br.ifes.leds.sincap.controleInterno.cln.cdp.BancoOlhos;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Captador;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

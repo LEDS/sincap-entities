@@ -2,6 +2,7 @@ package br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp;
 
 import br.ifes.leds.reuse.persistence.ObjetoPersistente;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Notificador;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -26,6 +27,7 @@ import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoNotificacaoE
 @Setter
 @Getter
 @Entity
+@EqualsAndHashCode(callSuper = true)
 public class ProcessoNotificacao extends ObjetoPersistente {
 
     @Column(unique = true, nullable = false)
@@ -74,10 +76,7 @@ public class ProcessoNotificacao extends ObjetoPersistente {
     private CausaNaoDoacao causaNaoDoacao;
 
     public boolean isExcluido() {
-        if (ultimoEstado != null) {
-            return ultimoEstado.getEstadoNotificacao() == NOTIFICACAOEXCLUIDA;
-        }
-        return false;
+        return ultimoEstado != null && ultimoEstado.getEstadoNotificacao() == NOTIFICACAOEXCLUIDA;
     }
 
     public boolean aptoDoacao() {

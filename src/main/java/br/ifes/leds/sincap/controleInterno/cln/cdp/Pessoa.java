@@ -2,6 +2,7 @@ package br.ifes.leds.sincap.controleInterno.cln.cdp;
 
 import br.ifes.leds.reuse.endereco.cdp.Endereco;
 import br.ifes.leds.reuse.persistence.ObjetoPersistente;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,6 +17,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @MappedSuperclass
+@EqualsAndHashCode(callSuper = true)
 public abstract class Pessoa extends ObjetoPersistente {
 
     @Column

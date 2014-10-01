@@ -7,6 +7,7 @@
 package br.ifes.leds.reuse.endereco.cdp;
 
 import br.ifes.leds.reuse.persistence.ObjetoPersistente;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,6 +17,7 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
+@EqualsAndHashCode(callSuper = true, exclude = {"estados"})
 public class Pais extends ObjetoPersistente {
 
     @Column

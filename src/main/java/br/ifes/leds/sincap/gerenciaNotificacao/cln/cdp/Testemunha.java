@@ -1,6 +1,7 @@
 package br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp;
 
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Pessoa;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,6 +19,7 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 @Entity
+@EqualsAndHashCode(callSuper = true)
 public class Testemunha extends Pessoa {
 
     @NotNull

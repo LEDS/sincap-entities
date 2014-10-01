@@ -1,5 +1,7 @@
 package br.ifes.leds.sincap.controleInterno.cln.cdp;
 
+import lombok.EqualsAndHashCode;
+
 import javax.persistence.Entity;
 
 /**
@@ -7,4 +9,5 @@ import javax.persistence.Entity;
  *
  */
 @Entity
+@EqualsAndHashCode(callSuper = true)
 public class InstituicaoNotificadora extends Instituicao{}

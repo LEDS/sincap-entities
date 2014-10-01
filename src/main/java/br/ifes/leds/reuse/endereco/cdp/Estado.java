@@ -7,6 +7,7 @@
 package br.ifes.leds.reuse.endereco.cdp;
 
 import br.ifes.leds.reuse.persistence.ObjetoPersistente;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Cascade;
@@ -20,6 +21,7 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
+@EqualsAndHashCode(callSuper = true, exclude = {"cidades"})
 public class Estado extends ObjetoPersistente {
 
     @Column

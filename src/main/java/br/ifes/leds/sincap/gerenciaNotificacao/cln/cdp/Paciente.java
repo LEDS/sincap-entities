@@ -6,7 +6,9 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.interfaces.DatasPacienteInterface;
 import br.ifes.leds.sincap.validacao.annotations.DatasPacienteConsistentes;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Pessoa;
@@ -24,7 +26,8 @@ import org.hibernate.validator.constraints.Length;
 @Getter
 @Entity
 @DatasPacienteConsistentes
-public class Paciente extends Pessoa {
+@EqualsAndHashCode(callSuper = true)
+public class Paciente extends Pessoa implements DatasPacienteInterface {
 
     @Past
     @NotNull

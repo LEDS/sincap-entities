@@ -62,8 +62,6 @@ public class TestemunhaData {
      * @param tes - Objeto Testemunha.
      */
     public void salvarTestemunha(Testemunha tes) {
-        enderecoRepository.save(endereco);
-        telefoneRepository.save(telefone);
         testemunhaRepository.save(tes);
     }
 

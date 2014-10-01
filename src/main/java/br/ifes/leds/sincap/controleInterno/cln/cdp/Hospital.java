@@ -1,6 +1,7 @@
 package br.ifes.leds.sincap.controleInterno.cln.cdp;
 
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,6 +17,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
+@EqualsAndHashCode(callSuper = true, exclude = {"setores"})
 public class Hospital extends InstituicaoNotificadora {
 
     @ManyToMany(fetch = FetchType.EAGER)

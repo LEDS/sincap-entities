@@ -1,16 +1,13 @@
 package br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.Builder;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-
-import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoNotificacaoEnum.NOTIFICACAOEXCLUIDA;
 
 /**
  *
@@ -21,25 +18,28 @@ import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoNotificacaoE
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@EqualsAndHashCode
 public class ProcessoNotificacaoDTO {
 
     private Long id;
-    private List<AtualizacaoEstadoDTO> historico = new ArrayList<>();
-    private ObitoDTO obito = new ObitoDTO();
+
+    @Valid
+    private ObitoDTO obito;
+
+    @Valid
     private EntrevistaDTO entrevista;
-    private String codigo;
+
+    @Valid
+    private CaptacaoDTO captacao;
+
+    @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
     private Calendar dataAbertura;
+
+    private List<AtualizacaoEstadoDTO> historico = new ArrayList<>();
+    private String codigo;
     private Calendar dataArquivamento;
     private boolean arquivado;
     private Long notificador;
-    private CaptacaoDTO captacao;
     private Long causaNaoDoacao;
     private AtualizacaoEstadoDTO ultimoEstado;
-
-    public boolean isExcluido() {
-        if (ultimoEstado != null) {
-            return ultimoEstado.getEstadoNotificacao() == NOTIFICACAOEXCLUIDA;
-        }
-        return false;
-    }
 }

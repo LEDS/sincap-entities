@@ -59,8 +59,6 @@ public class HospitalData {
      * @param hosp - Objeto Hospital. 
      */
     public void salvarHospital(Hospital hosp) {
-        enderecoRepository.save(hosp.getEndereco());
-        telefoneRepository.save(hosp.getTelefone());
         aplHospital.cadastrar(hosp);
     }
 

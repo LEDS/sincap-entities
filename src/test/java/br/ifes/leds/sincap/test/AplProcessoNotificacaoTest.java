@@ -79,6 +79,7 @@ public class AplProcessoNotificacaoTest extends AbstractionTest {
     }
 
     private void getObito(ProcessoNotificacaoDTO notificacao) {
+        notificacao.setObito(new ObitoDTO());
         ObitoDTO obito = notificacao.getObito();
         Setor setor = setorRepository.findAll().get(0);
         Hospital hospital = hospitalRepository.findAll().get(0);
