@@ -6,6 +6,7 @@
 
 package br.ifes.leds.sincap.controleInterno.cln.cdp;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,6 +22,7 @@ import javax.validation.constraints.NotNull;
 @Setter
 @Entity
 @PrimaryKeyJoinColumn(name = "id")
+@EqualsAndHashCode(callSuper = true, exclude = {"bancoOlhos"})
 public class Captador extends Funcionario {
     @OneToOne
     @NotNull

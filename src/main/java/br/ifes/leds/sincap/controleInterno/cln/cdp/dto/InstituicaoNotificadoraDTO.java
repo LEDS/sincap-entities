@@ -4,10 +4,7 @@ import br.ifes.leds.reuse.endereco.cdp.Endereco;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Telefone;
 import java.util.List;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.Builder;
 
 /**
@@ -19,6 +16,7 @@ import lombok.experimental.Builder;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@EqualsAndHashCode
 public class InstituicaoNotificadoraDTO {
     private long id;
     private String nome;

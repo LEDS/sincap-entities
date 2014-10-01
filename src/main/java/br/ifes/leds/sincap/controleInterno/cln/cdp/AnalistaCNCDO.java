@@ -6,6 +6,7 @@
 
 package br.ifes.leds.sincap.controleInterno.cln.cdp;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,6 +19,7 @@ import javax.persistence.PrimaryKeyJoinColumn;
 @Getter
 @Setter
 @Entity
+@EqualsAndHashCode(callSuper = true)
 @PrimaryKeyJoinColumn(name = "id")
 public class AnalistaCNCDO extends Funcionario {
 }

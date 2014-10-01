@@ -1,19 +1,15 @@
 package br.ifes.leds.sincap.controleInterno.cln.cdp;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-
-import java.util.HashSet;
-import java.util.Set;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-
 import br.ifes.leds.reuse.persistence.ObjetoPersistente;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Setor.java
@@ -24,6 +20,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @Entity
+@EqualsAndHashCode(callSuper = true, exclude = {"hospital"})
 public class Setor extends ObjetoPersistente{
 
     @ManyToMany(mappedBy = "setores", fetch = FetchType.EAGER)

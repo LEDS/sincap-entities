@@ -9,6 +9,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.validation.constraints.NotNull;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,6 +22,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @PrimaryKeyJoinColumn(name="id")
+@EqualsAndHashCode(callSuper = true)
 public class Notificador extends Funcionario {
 
     @ManyToMany(fetch = FetchType.EAGER)
