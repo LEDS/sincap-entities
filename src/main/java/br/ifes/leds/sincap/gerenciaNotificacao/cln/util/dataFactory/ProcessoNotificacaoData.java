@@ -61,8 +61,7 @@ public class ProcessoNotificacaoData {
             
             for(AtualizacaoEstado ae : listAtualizacao){
                 pn.setUltimoEstado(ae);
-                salvaEstadoNotificacao(ae);   
-            }    
+            }
             salvarProcesso(pn);
         }
     }
@@ -133,13 +132,6 @@ public class ProcessoNotificacaoData {
      * @param pn - Objeto ProcessoNotificacao.
      */
     public void salvarProcesso(ProcessoNotificacao pn){
-        if(pn.getCaptacao() != null){
-            captacaoData.salvarCaptacao(pn.getCaptacao());
-        }
-        if (pn.getEntrevista() != null){
-            entrevistaData.salvaEntrevista(pn.getEntrevista());
-        }    
-        obitoData.salvaObito(pn.getObito());
         processoNotificacaoRepository.save(pn);
     }
     
@@ -168,8 +160,7 @@ public class ProcessoNotificacaoData {
             
             for(AtualizacaoEstado ae : listAtualizacao){
                 pn.setUltimoEstado(ae);
-                salvaEstadoNotificacao(ae);
-            }                                 
+            }
             salvaEstadoNotificacao(AtualizaEstadoNotificacao(pn,2));
             salvarProcesso(pn);
         }
@@ -204,8 +195,7 @@ public class ProcessoNotificacaoData {
             
             for(AtualizacaoEstado ae : listAtualizacao){
                 pn.setUltimoEstado(ae);
-                salvaEstadoNotificacao(ae);
-            } 
+            }
             
             salvarProcesso(pn);
         }

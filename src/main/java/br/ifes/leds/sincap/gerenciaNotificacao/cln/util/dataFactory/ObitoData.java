@@ -32,16 +32,19 @@ import static br.ifes.leds.reuse.utility.Factory.criaObjeto;
 @Service
 public class ObitoData {
     @Autowired
-    private ObitoRepository obitoRepository;
+    ObitoRepository obitoRepository;
     @Autowired
-    private CausaMortisRepository causaMortisRepository;
+    CausaMortisRepository causaMortisRepository;
     @Autowired
-    private SetorRepository setorRepository;
+    SetorRepository setorRepository;
     @Autowired
-    private HospitalRepository hospitalRepository;
+    HospitalRepository hospitalRepository;
     @Autowired
-    private PacienteRepository pacienteRepository;
-
+    PacienteRepository pacienteRepository;
+    @Autowired
+    CausaMortisData causaMortisData;
+    @Autowired
+    PacienteData pacienteData;
     private final Listas list = Listas.INSTANCE;
 
     /**Método responsável por criar Objetos Obito randomico, sendo nescessário apenas passar
@@ -74,6 +77,7 @@ public class ObitoData {
         Date dataAtual = new Date();
         List<CorpoEncaminhamento> listcorpoEncaminhamento = list.getListCorp();
         List<TipoObito> listTipoObito = list.getListTipoObito();
+
         
         obito.setAptoDoacao(df.chance(50));
         obito.setCorpoEncaminhamento(df.getItem(listcorpoEncaminhamento));
@@ -81,16 +85,14 @@ public class ObitoData {
         obito.setDataObito(dataObito);
         dataEvento.setTime(df.getDateBetween(dataObito.getTime(), dataAtual));
         obito.setDataCadastro(dataEvento);
-        List<CausaMortis> listCausa = causaMortisRepository.findAll();
-        obito.setPrimeiraCausaMortis(df.getItem(listCausa));
-        obito.setSegundaCausaMortis(df.getItem(listCausa));
-        obito.setTerceiraCausaMortis(df.getItem(listCausa));
-        obito.setQuartaCausaMortis(df.getItem(listCausa));
+        obito.setPrimeiraCausaMortis(causaMortisData.criaCausaMortis(df));
+        obito.setSegundaCausaMortis(causaMortisData.criaCausaMortis(df));
+        obito.setTerceiraCausaMortis(causaMortisData.criaCausaMortis(df));
+        obito.setQuartaCausaMortis(causaMortisData.criaCausaMortis(df));
         List<Setor> listSetor = setorRepository.findAll();
         obito.setSetor(df.getItem(listSetor));
         obito.setTipoObito(df.getItem(listTipoObito));
-        List<Paciente> listPaciente = pacienteRepository.findAll();
-        obito.setPaciente(df.getItem(listPaciente));
+        obito.setPaciente(pacienteData.criarPaciente(df));
         List<Hospital> listHospital = hospitalRepository.findAll();
         obito.setHospital(df.getItem(listHospital));
 
