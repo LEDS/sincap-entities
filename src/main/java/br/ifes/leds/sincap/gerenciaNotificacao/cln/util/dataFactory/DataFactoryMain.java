@@ -48,9 +48,9 @@ public class DataFactoryMain {
         df.randomize((int) System.currentTimeMillis());
 
         
-        nd.criaNotificadorRandom(df,5);
+//        nd.criaNotificadorRandom(df,5);
 //        hd.criaHospitalRandom(df, 5);
-////        sd.criaSetorRandom();
+//        sd.criaSetorRandom();
 //        sd.associaSetorHospital();
 //        bd.criaBancoOlhosRandom(df, 5);
 //        ad.criaAnalistaRandom(df, 5);
