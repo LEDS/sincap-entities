@@ -31,7 +31,7 @@ public class ResponsavelDTO {
     private String nome;
     private String nacionalidade;
     private String profissao;
-    private String documentoSocial;
+    private DocumentoComFotoDTO documentoSocial;
     private EstadoCivil estadoCivil;
     private Sexo sexo;
     private Parentesco parentesco;

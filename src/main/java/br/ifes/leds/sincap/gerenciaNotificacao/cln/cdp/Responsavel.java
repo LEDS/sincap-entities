@@ -32,10 +32,9 @@ public class Responsavel extends Pessoa {
     @NotNull
     private String profissao;
 
-    @Size(min = 3, max = 255)
-    @Column
     @NotNull
-    private String documentoSocial;
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    private DocumentoComFoto documentoSocial;
     
     @Enumerated(EnumType.STRING)
     @NotNull

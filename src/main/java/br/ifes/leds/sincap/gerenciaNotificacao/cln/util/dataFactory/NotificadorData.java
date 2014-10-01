@@ -18,6 +18,8 @@ import br.ifes.leds.sincap.controleInterno.cln.cdp.InstituicaoNotificadora;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Notificador;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Telefone;
 import br.ifes.leds.sincap.controleInterno.cln.cgt.AplNotificador;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoDocumentoComFoto;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DocumentoComFoto;
 import org.fluttercode.datafactory.impl.DataFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -76,13 +78,16 @@ public class NotificadorData {
         notificador = criaObjeto(Notificador.class);
         endereco =  criaObjeto(Endereco.class);
         telefone = criaObjeto(Telefone.class);
-        
-        
-        //Dados do Notificador
+        DocumentoComFoto documentoComFoto = criaObjeto(DocumentoComFoto.class);
+
+        // Dados do Notificador
+        documentoComFoto.setDocumento(df.getNumberText(9));
+        documentoComFoto.setTipoDocumentoComFoto(TipoDocumentoComFoto.RG);
+
         notificador.setSenha("123456");
         notificador.setAtivo(true);
         notificador.setCpf(df.getNumberText(11));
-        notificador.setDocumentoSocial(df.getNumberText(9));
+        notificador.setDocumentoSocial(documentoComFoto);
         notificador.setEmail(df.getEmailAddress());
         notificador.setNome(df.getName());
         

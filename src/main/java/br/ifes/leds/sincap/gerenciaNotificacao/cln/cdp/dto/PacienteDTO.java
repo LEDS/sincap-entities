@@ -33,7 +33,7 @@ public class PacienteDTO {
     private String numeroProntuario;
     private String numeroSUS;
     private String nacionalidade;
-    private String documentoSocial;
+    private DocumentoComFotoDTO documentoSocial;
     private Sexo sexo;
     private EstadoCivil EstadoCivil;
 }

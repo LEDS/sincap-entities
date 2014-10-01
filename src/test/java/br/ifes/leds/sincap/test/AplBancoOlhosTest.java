@@ -6,6 +6,7 @@
 
 package br.ifes.leds.sincap.test;
 
+import br.ifes.leds.sincap.gerenciaNotificacao.cgd.DocumentoComFotoRepository;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -38,6 +39,8 @@ public class AplBancoOlhosTest extends AbstractionTest{
     private CidadeRepository cidadeRepository;
     @Autowired
     private EstadoRepository estadoRepository;
+    @Autowired
+    private DocumentoComFotoRepository documentoComFotoRepository;
     
     private Endereco endereco;
     private BancoOlhos banco;

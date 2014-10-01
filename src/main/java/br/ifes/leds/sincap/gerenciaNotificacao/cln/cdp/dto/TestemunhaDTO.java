@@ -24,7 +24,7 @@ import lombok.experimental.Builder;
 public class TestemunhaDTO {
 
     private Long id;
-    private String documentoSocial;
+    private DocumentoComFotoDTO documentoSocial;
     private String nome;
     private Telefone telefone;
 }

@@ -2,12 +2,7 @@ package br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp;
 
 import java.util.Calendar;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
@@ -65,10 +60,9 @@ public class Paciente extends Pessoa {
     @Column
     private String nacionalidade;
 
-    @Length(min = 3, max = 255)
     @NotNull
-    @Column
-    private String documentoSocial;
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    private DocumentoComFoto documentoSocial;
 
     @NotNull
     @Enumerated(EnumType.STRING)

@@ -18,6 +18,8 @@ import br.ifes.leds.sincap.controleInterno.cln.cdp.BancoOlhos;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Captador;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Funcionario;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Telefone;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoDocumentoComFoto;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DocumentoComFoto;
 import org.fluttercode.datafactory.impl.DataFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -80,12 +82,16 @@ public class CaptadorData {
         Endereco endereco = criaObjeto(Endereco.class);
         Telefone telefone = criaObjeto(Telefone.class);
         bancoOlhos = criaObjeto(BancoOlhos.class);
+        DocumentoComFoto documentoComFoto = criaObjeto(DocumentoComFoto.class);
 
         // Dados do Notificador
+        documentoComFoto.setDocumento(df.getNumberText(9));
+        documentoComFoto.setTipoDocumentoComFoto(TipoDocumentoComFoto.RG);
+
         captador.setSenha("123456");
         captador.setAtivo(true);
         captador.setCpf(df.getNumberText(3) + "." + df.getNumberText(3) + "." + df.getNumberText(3) + "-" + df.getNumberText(2));
-        captador.setDocumentoSocial(df.getNumberText(9));
+        captador.setDocumentoSocial(documentoComFoto);
         captador.setEmail(df.getEmailAddress());
         captador.setNome(df.getName());
 
