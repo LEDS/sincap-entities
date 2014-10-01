@@ -48,7 +48,7 @@ public class DataFactoryMain {
         df.randomize((int) System.currentTimeMillis());
 
         
-//        nd.criaNotificadorRandom(df,5);
+        nd.criaNotificadorRandom(df,5);
 //        hd.criaHospitalRandom(df, 5);
 ////        sd.criaSetorRandom();
 //        sd.associaSetorHospital();
@@ -61,7 +61,7 @@ public class DataFactoryMain {
 //        cmd.criaCausaMortisRandom(df, 5);
 //        pnd.criarAnaliseObitoRandom(df,5);
 //        pnd.criaEntrevistaRadom(df, 5);
-        pnd.criaCaptacaoRadom(df, 5);
+//        pnd.criaCaptacaoRadom(df, 5);
 //        cnd.criaCausaNaoDoacaoRandom(df, 5);
     }
 
