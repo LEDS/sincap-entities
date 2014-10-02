@@ -2,6 +2,8 @@ package br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto;
 
 import java.util.Calendar;
 
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.interfaces.TemDatasPacienteInterface;
+import br.ifes.leds.sincap.validacao.annotations.DatasObitoConsistentes;
 import lombok.*;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CausaMortis;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CorpoEncaminhamento;
@@ -19,7 +21,8 @@ import javax.validation.constraints.Past;
 @AllArgsConstructor
 @Builder
 @EqualsAndHashCode
-public class ObitoDTO {
+@DatasObitoConsistentes
+public class ObitoDTO implements TemDatasPacienteInterface {
 
     private Long id;
 
