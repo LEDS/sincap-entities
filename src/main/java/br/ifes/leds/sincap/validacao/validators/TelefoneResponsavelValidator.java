@@ -14,6 +14,6 @@ public class TelefoneResponsavelValidator implements ConstraintValidator<Telefon
 
     @Override
     public boolean isValid(TelefonesResponsavelInterface responsavel, ConstraintValidatorContext constraintValidatorContext) {
-        return !responsavel.getTelefone().equals(responsavel.getTelefone2());
+        return responsavel == null || responsavel.getTelefone() == null || responsavel.getTelefone2() == null || !responsavel.getTelefone().equals(responsavel.getTelefone2());
     }
 }
