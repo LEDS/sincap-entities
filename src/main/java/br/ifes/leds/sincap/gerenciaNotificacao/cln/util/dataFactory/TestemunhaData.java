@@ -79,8 +79,7 @@ public class TestemunhaData {
         documentoComFoto.setTipoDocumentoComFoto(TipoDocumentoComFoto.RG);
 
         testemunha.setNome(df.getName());
-        testemunha.setDocumentoSocial(documentoComFoto
-        );
+        testemunha.setDocumentoSocial(documentoComFoto);
 
         //Endereco
         endereco.setLogradouro(df.getStreetName());

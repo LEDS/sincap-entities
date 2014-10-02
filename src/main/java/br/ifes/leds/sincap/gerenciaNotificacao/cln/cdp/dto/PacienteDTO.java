@@ -27,6 +27,7 @@ import javax.validation.constraints.Past;
 public class PacienteDTO implements DatasPacienteInterface {
 
     private Long id;
+
     @Length(min = 5, max = 255)
     private String nome;
 
@@ -55,6 +56,8 @@ public class PacienteDTO implements DatasPacienteInterface {
 
     @Length(min = 3, max = 255)
     private String nacionalidade;
+
+    @NotNull
     private DocumentoComFotoDTO documentoSocial;
 
     @NotNull
