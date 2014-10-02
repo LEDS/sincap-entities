@@ -53,7 +53,7 @@ public class AplProcessoNotificacao {
      * @param idFuncionario          - Id do funcionario que criou a notificacao
      * @return long - Retorna o id do ProcessoNotificacao salvo
      */
-    public long salvarNovaNotificacao(ProcessoNotificacaoDTO processoNotificacaoDTO, Long idFuncionario) {
+    public Long salvarNovaNotificacao(ProcessoNotificacaoDTO processoNotificacaoDTO, Long idFuncionario) {
 
         ProcessoNotificacao notificacao = instanciarNovoProcessoNotificacao(processoNotificacaoDTO);
 
@@ -65,8 +65,7 @@ public class AplProcessoNotificacao {
 
         notificacao.setCodigo(notificacao.getObito().getPaciente().getNumeroSUS());
 
-        notificacaoRepository.save(notificacao);
-        return notificacao.getId();
+        return notificacaoRepository.save(notificacao).getId();
     }
 
     private void setDatasNovaNotificacao(ProcessoNotificacao notificacao) {
@@ -131,7 +130,7 @@ public class AplProcessoNotificacao {
      * Metodo que salva uma nova entrevista vinculada a um Processo de
      * Notificacao
      */
-    public long salvarEntrevista(ProcessoNotificacaoDTO processoNotificacaoDTO, Long idFuncionario) {
+    public Long salvarEntrevista(ProcessoNotificacaoDTO processoNotificacaoDTO, Long idFuncionario) {
 
         ProcessoNotificacao notificacaoView = mapper.map(processoNotificacaoDTO, ProcessoNotificacao.class);
         ProcessoNotificacao notificacaoBd = notificacaoRepository.findOne(processoNotificacaoDTO.getId());
@@ -144,9 +143,7 @@ public class AplProcessoNotificacao {
 
         this.addNovoEstado(AGUARDANDOANALISEENTREVISTA, notificacaoBd, idFuncionario);
 
-        notificacaoRepository.save(notificacaoBd);
-
-        return notificacaoBd.getId();
+        return notificacaoRepository.save(notificacaoBd).getId();
     }
 
     /**
@@ -156,7 +153,7 @@ public class AplProcessoNotificacao {
      * @param idProcesso  - Id do processo de notificacao
      * @param idCaptador  - Id do captador vinculado a notificacao
      */
-    public long salvarCaptacao(Long idProcesso, CaptacaoDTO captacaoDTO, Long idCaptador) {
+    public Long salvarCaptacao(Long idProcesso, CaptacaoDTO captacaoDTO, Long idCaptador) {
 
         captacaoDTO.setCaptador(idCaptador);
         ProcessoNotificacaoDTO processo = this.obter(idProcesso);
@@ -168,9 +165,7 @@ public class AplProcessoNotificacao {
 
         notificacao.getCaptacao().setDataCadastro((new DateTime()).toCalendar(Locale.getDefault()));
 
-        notificacaoRepository.save(notificacao);
-
-        return notificacao.getId();
+        return notificacaoRepository.save(notificacao).getId();
     }
 
     /**
