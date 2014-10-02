@@ -201,7 +201,7 @@ public class AplProcessoNotificacaoTest extends AbstractionTest {
 
         notificacao.setEntrevista(entrevista);
 
-        id = aplProcessoNotificacao.salvarEntrevista(notificacao.getId(), notificacao.getEntrevista(), notificacao.getNotificador());
+        id = aplProcessoNotificacao.salvarEntrevista(notificacao, notificacao.getNotificador());
         notificacao = aplProcessoNotificacao.obter(id);
     }
 
