@@ -17,4 +17,5 @@ import java.util.List;
 public interface BairroRepository extends JpaRepository<Bairro, Long> {
 
     public List<Bairro> findByCidadeIdOrderByNomeAsc(Long id);
+    public Bairro findByCidade_Estado_SiglaAndCidade_NomeAndNome(String estadoSigla, String cidadeNome, String bairroNome);
 }
