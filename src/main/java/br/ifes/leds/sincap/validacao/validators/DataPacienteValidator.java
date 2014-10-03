@@ -14,7 +14,14 @@ public class DataPacienteValidator implements ConstraintValidator<DatasPacienteC
 
     @Override
     public boolean isValid(DatasPacienteInterface paciente, ConstraintValidatorContext constraintValidatorContext) {
-        return paciente == null || paciente.getDataInternacao() == null || paciente.getDataNascimento() == null ||
-                paciente.getDataInternacao().compareTo(paciente.getDataNascimento()) >= 0;
+        return temAlgumNull(paciente) || dataInternacaoMaiorOuIgualDataNascimento(paciente);
+    }
+
+    private static boolean dataInternacaoMaiorOuIgualDataNascimento(DatasPacienteInterface paciente) {
+        return paciente.getDataInternacao().compareTo(paciente.getDataNascimento()) >= 0;
+    }
+
+    private static boolean temAlgumNull(DatasPacienteInterface paciente) {
+        return paciente == null || paciente.getDataInternacao() == null || paciente.getDataNascimento() == null;
     }
 }
