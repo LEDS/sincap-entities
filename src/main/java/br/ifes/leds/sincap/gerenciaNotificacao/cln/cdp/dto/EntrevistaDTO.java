@@ -7,6 +7,7 @@ package br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto;
 
 import java.util.Calendar;
 
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.interfaces.EntrevistaInterface;
 import lombok.*;
 import lombok.experimental.Builder;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -25,7 +26,7 @@ import javax.validation.constraints.Past;
 @AllArgsConstructor
 @Builder
 @EqualsAndHashCode
-public class EntrevistaDTO {
+public class EntrevistaDTO implements EntrevistaInterface {
 
     private Long id;
     // Dados para o cabeçalho do formulário

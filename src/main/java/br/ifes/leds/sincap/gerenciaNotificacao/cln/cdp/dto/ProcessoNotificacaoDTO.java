@@ -1,5 +1,7 @@
 package br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto;
 
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.interfaces.ProcessoNotificacaoInterface;
+import br.ifes.leds.sincap.validacao.annotations.DataEntrevistaObitoConsistentes;
 import lombok.*;
 import lombok.experimental.Builder;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -19,7 +21,8 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @EqualsAndHashCode
-public class ProcessoNotificacaoDTO {
+@DataEntrevistaObitoConsistentes
+public class ProcessoNotificacaoDTO implements ProcessoNotificacaoInterface {
 
     private Long id;
 

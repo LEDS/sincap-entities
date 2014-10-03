@@ -2,7 +2,7 @@ package br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto;
 
 import java.util.Calendar;
 
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.interfaces.DatasPacienteInterface;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.interfaces.PacienteInterface;
 import br.ifes.leds.sincap.validacao.annotations.DatasPacienteConsistentes;
 import lombok.*;
 import br.ifes.leds.reuse.endereco.cdp.dto.EnderecoDTO;
@@ -24,7 +24,7 @@ import javax.validation.constraints.Past;
 @Builder
 @EqualsAndHashCode
 @DatasPacienteConsistentes
-public class PacienteDTO implements DatasPacienteInterface {
+public class PacienteDTO implements PacienteInterface {
 
     private Long id;
     @Length(min = 5, max = 255)

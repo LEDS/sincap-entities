@@ -14,6 +14,7 @@ import br.ifes.leds.sincap.gerenciaNotificacao.cln.cgt.AplProcessoNotificacao;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.util.dataFactory.*;
 import org.dozer.Mapper;
 import org.fluttercode.datafactory.impl.DataFactory;
+import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * @author 20102BSI0553
@@ -86,7 +88,7 @@ public class AplProcessoNotificacaoTest extends AbstractionTest {
 
         obito.setTipoObito(TipoObito.PCR);
         obito.setDataCadastro(Calendar.getInstance());
-        obito.setDataObito(Calendar.getInstance());
+        obito.setDataObito(new DateTime(2014, 9, 1, 0, 0).toCalendar(Locale.getDefault()));
         obito.setCorpoEncaminhamento(CorpoEncaminhamento.NAO_ENCAMINHADO);
         obito.setAptoDoacao(true);
         obito.setSetor(setor.getId());
@@ -194,6 +196,7 @@ public class AplProcessoNotificacaoTest extends AbstractionTest {
         EntrevistaDTO entrevista = mapper.map(
                 entrevistaData.criaEntrevista(df), EntrevistaDTO.class);
 
+        entrevista.setDataEntrevista(new DateTime(2014, 9, 1, 0, 0).toCalendar(Locale.getDefault()));
         entrevista.setDoacaoAutorizada(true);
 
         Long id = aplProcessoNotificacao.salvarNovaNotificacao(notificacao, notificacao.getNotificador());
