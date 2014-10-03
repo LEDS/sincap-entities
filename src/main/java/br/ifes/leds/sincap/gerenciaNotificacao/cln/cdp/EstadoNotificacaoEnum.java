@@ -1,9 +1,12 @@
 package br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp;
 
+import lombok.Getter;
+
 /**
  *
  * @author 20102bsi0553
  */
+@Getter
 public enum EstadoNotificacaoEnum {
     AGUARDANDOCORRECAOOBITO("Aguardando Correção do Óbito"),
     AGUARDANDOCORRECAOENTREVISTA("Aguardando Correção do Entrevista"),

@@ -1,6 +1,7 @@
 package br.ifes.leds.reuse.utility;
 
 import br.ifes.leds.reuse.utility.function.Function;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.ProcessoNotificacao;
 import org.dozer.DozerBeanMapperSingletonWrapper;
 import org.dozer.Mapper;
 import org.springframework.stereotype.Component;
