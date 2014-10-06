@@ -84,7 +84,7 @@ public class AplAnalistaCNCDOTest extends AbstractionTest {
      */
     @Test
     public void obterId() {
-        aplAnalistaCNCDO.salvar(analista);
+        aplAnalistaCNCDO.salvar(analista, true);
         analista = aplAnalistaCNCDO.obter(analista.getId());
         Assert.assertEquals("Analista 1", analista.getNome());
     }
@@ -94,7 +94,7 @@ public class AplAnalistaCNCDOTest extends AbstractionTest {
      */
     @Test
     public void obterCPF() {
-        aplAnalistaCNCDO.salvar(analista);
+        aplAnalistaCNCDO.salvar(analista, true);
         analista = aplAnalistaCNCDO.obter(analista.getCpf());
         Assert.assertEquals("Analista 1", analista.getNome());
     }
@@ -104,7 +104,7 @@ public class AplAnalistaCNCDOTest extends AbstractionTest {
      */
     @Test
     public void salvarAnalista() {
-        aplAnalistaCNCDO.salvar(analista);
+        aplAnalistaCNCDO.salvar(analista, true);
         Assert.assertNotNull(analista);
 
     }
@@ -114,7 +114,7 @@ public class AplAnalistaCNCDOTest extends AbstractionTest {
      */
     @Test
     public void excluirAnalista() {
-        aplAnalistaCNCDO.salvar(analista);
+        aplAnalistaCNCDO.salvar(analista, true);
         aplAnalistaCNCDO.excluir(analista);
         analista = aplAnalistaCNCDO.obter(analista.getId());
         Assert.assertNull(analista);
