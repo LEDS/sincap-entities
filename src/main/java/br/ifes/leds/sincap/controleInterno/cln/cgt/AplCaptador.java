@@ -6,19 +6,15 @@
 
 package br.ifes.leds.sincap.controleInterno.cln.cgt;
 
-import br.ifes.leds.reuse.endereco.cgd.EnderecoRepository;
-import br.ifes.leds.sincap.controleInterno.cgd.BancoOlhosRepository;
 import br.ifes.leds.sincap.controleInterno.cgd.CaptadorRepository;
-import br.ifes.leds.sincap.controleInterno.cgd.TelefoneRepository;
-import br.ifes.leds.sincap.controleInterno.cln.cdp.BancoOlhos;
+import br.ifes.leds.sincap.controleInterno.cgd.PermissaoRepository;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Captador;
-import br.ifes.leds.sincap.controleInterno.cln.cdp.Funcionario;
+import br.ifes.leds.sincap.controleInterno.cln.cdp.Permissao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 /**
  *
@@ -28,11 +24,18 @@ import java.util.Set;
 public class AplCaptador {
     @Autowired
     private CaptadorRepository captadorRepository;
+    @Autowired
+    private PermissaoRepository permissaoRepository;
     
     /** Método para salvar um captador.
      * @param captador - objeto captador.
      */
     public void salvar(Captador captador) {
+        List<Permissao> listPermissao = new ArrayList<>();
+
+        listPermissao.add(permissaoRepository.findByRole("ROLE_CAPTADOR"));
+        captador.setPermissoes(listPermissao);
+
         captadorRepository.save(captador);
     }
 
@@ -47,6 +50,7 @@ public class AplCaptador {
     /** Método para remover um captador pelo seu id.
      * @param captador - id do captador.
      */
+    @SuppressWarnings("unused")
     public void exlcuir(Long captador) {
         captadorRepository.delete(captador);
     }
