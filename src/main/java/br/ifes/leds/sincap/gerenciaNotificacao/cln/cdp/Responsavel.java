@@ -38,6 +38,16 @@ public class Responsavel extends Pessoa implements TelefonesResponsavelInterface
     @Size(min = 3, max = 255)
     @Column
     @NotNull
+    private String religiao;
+
+    @Size(min = 3, max = 255)
+    @Column
+    @NotNull
+    private String grauEscolaridade;
+
+    @Size(min = 3, max = 255)
+    @Column
+    @NotNull
     private String documentoSocial;
     
     @Enumerated(EnumType.STRING)

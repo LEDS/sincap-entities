@@ -40,6 +40,10 @@ public class ResponsavelDTO implements TelefonesResponsavelInterface {
     @Length(min = 5, max = 255)
     private String profissao;
     @Length(min = 5, max = 255)
+    private String religiao;
+    @Length(min = 5, max = 255)
+    private String grauEscolaridade;
+    @Length(min = 5, max = 255)
     private String documentoSocial;
     @NotNull
     private EstadoCivil estadoCivil;
