@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -64,14 +65,17 @@ public class ProcessoNotificacao extends ObjetoPersistente implements ProcessoNo
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn
     @NotNull
+    @Valid
     private Obito obito;
     
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(nullable = true)
+    @Valid
     private Entrevista entrevista;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(nullable = true)
+    @Valid
     private Captacao captacao;
     
     @OneToOne

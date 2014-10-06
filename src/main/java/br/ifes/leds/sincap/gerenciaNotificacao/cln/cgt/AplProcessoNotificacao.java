@@ -1,5 +1,6 @@
 package br.ifes.leds.sincap.gerenciaNotificacao.cln.cgt;
 
+import br.ifes.leds.reuse.ledsExceptions.CRUDExceptions.ViolacaoDeRIException;
 import br.ifes.leds.reuse.utility.Utility;
 import br.ifes.leds.sincap.controleInterno.cgd.FuncionarioRepository;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Captador;
@@ -19,9 +20,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoNotificacaoEnum.AGUARDANDOANALISEENTREVISTA;
 
@@ -44,6 +49,8 @@ public class AplProcessoNotificacao {
     private AplCaptador aplCaptador;
     @Autowired
     private FuncionarioRepository funcionarioRepository;
+
+    private static Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
     /**
      * Metodo que salva uma nova notificação contendo notificacao de obito
@@ -140,10 +147,20 @@ public class AplProcessoNotificacao {
         verificaDataCadastro(notificacaoBd.getEntrevista());
         verificaCausaNaoDoacao(notificacaoBd, notificacaoView);
 
+        validarProcesso(notificacaoBd);
 
         this.addNovoEstado(AGUARDANDOANALISEENTREVISTA, notificacaoBd, idFuncionario);
 
         return notificacaoRepository.save(notificacaoBd).getId();
+    }
+
+    private static void validarProcesso(ProcessoNotificacao notificacao) {
+        Set<ConstraintViolation<ProcessoNotificacao>> constraintViolations;
+        constraintViolations = validator.validate(notificacao);
+
+        if (constraintViolations != null && constraintViolations.size() > 0) {
+            throw new ViolacaoDeRIException(constraintViolations);
+        }
     }
 
     /**
