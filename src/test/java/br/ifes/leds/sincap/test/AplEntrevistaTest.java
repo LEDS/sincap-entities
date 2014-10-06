@@ -6,7 +6,6 @@
 
 package br.ifes.leds.sincap.test;
 
-import br.ifes.leds.reuse.ledsExceptions.CRUDExceptions.ViolacaoDeRIException;
 import br.ifes.leds.reuse.utility.Utility;
 import br.ifes.leds.reuse.utility.function.Function;
 import br.ifes.leds.sincap.controleInterno.cgd.FuncionarioRepository;
@@ -90,8 +89,7 @@ public class AplEntrevistaTest extends AbstractionTest{
     }
     
     @Test
-    public void salvarEntrevistaTest() throws ViolacaoDeRIException
-    {
+    public void salvarEntrevistaTest() {
         aplEntrevista.salvarEntrevista(this.entrevistaDTO);
 
         EntrevistaDTO entrevistaTest = utility.getObjectByMethod(aplEntrevista.getAllEntrevistas(), responsavelDTO.getDocumentoSocial(), getDocumentoSocialResp());
