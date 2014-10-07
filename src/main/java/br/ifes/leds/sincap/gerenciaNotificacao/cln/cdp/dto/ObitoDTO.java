@@ -56,4 +56,9 @@ public class ObitoDTO implements ObitoInterface {
     private CausaMortis quartaCausaMortis;
     private TipoObito tipoObito;
     private CorpoEncaminhamento corpoEncaminhamento;
+
+    @Override
+    public boolean haCausaNaoDoacao() {
+        return !this.isAptoDoacao();
+    }
 }

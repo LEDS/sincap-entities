@@ -120,7 +120,7 @@ public class AplProcessoNotificacaoTest extends AbstractionTest {
     public void salvarObito() {
         Long id = aplProcessoNotificacao.salvarNovaNotificacao(
                 notificacao,
-                notificacao.getNotificador());
+                notificacao.getNotificador()).getId();
 
         notificacao = aplProcessoNotificacao.obter(id);
 
@@ -134,7 +134,7 @@ public class AplProcessoNotificacaoTest extends AbstractionTest {
     public void analisarObito() {
         Long id = aplProcessoNotificacao.salvarNovaNotificacao(
                 notificacao,
-                notificacao.getNotificador());
+                notificacao.getNotificador()).getId();
         int quantidadeEstado = 0;
 
         notificacao = aplProcessoNotificacao.obter(id);
@@ -189,7 +189,7 @@ public class AplProcessoNotificacaoTest extends AbstractionTest {
         CaptacaoDTO captacaoDTO = mapper.map(captacaoData.criarCaptacao(df, captador), CaptacaoDTO.class);
 
         notificacao.setCaptacao(captacaoDTO);
-        Long id = aplProcessoNotificacao.salvarCaptacao(notificacao.getId(), notificacao.getCaptacao(), captacaoDTO.getCaptador());
+        Long id = aplProcessoNotificacao.salvarCaptacao(notificacao.getId(), notificacao.getCaptacao(), captacaoDTO.getCaptador()).getId();
 
         notificacao = aplProcessoNotificacao.obter(id);
     }
@@ -200,13 +200,14 @@ public class AplProcessoNotificacaoTest extends AbstractionTest {
 
         entrevista.setDataEntrevista(new DateTime(2014, 9, 1, 0, 0).toCalendar(Locale.getDefault()));
         entrevista.setDoacaoAutorizada(true);
+        entrevista.setEntrevistaRealizada(true);
 
-        Long id = aplProcessoNotificacao.salvarNovaNotificacao(notificacao, notificacao.getNotificador());
+        Long id = aplProcessoNotificacao.salvarNovaNotificacao(notificacao, notificacao.getNotificador()).getId();
         notificacao = aplProcessoNotificacao.obter(id);
 
         notificacao.setEntrevista(entrevista);
 
-        id = aplProcessoNotificacao.salvarEntrevista(notificacao, notificacao.getNotificador());
+        id = aplProcessoNotificacao.salvarEntrevista(notificacao, notificacao.getNotificador()).getId();
         notificacao = aplProcessoNotificacao.obter(id);
     }
 
