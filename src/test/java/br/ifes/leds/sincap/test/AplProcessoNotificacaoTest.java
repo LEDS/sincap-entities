@@ -7,13 +7,11 @@ import br.ifes.leds.sincap.controleInterno.cln.cdp.Captador;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Hospital;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Notificador;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Setor;
+import br.ifes.leds.sincap.gerenciaNotificacao.cgd.CausaNaoDoacaoRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.*;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.*;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cgt.AplProcessoNotificacao;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.util.dataFactory.CaptacaoData;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.util.dataFactory.CaptadorData;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.util.dataFactory.EntrevistaData;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.util.dataFactory.PacienteData;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.util.dataFactory.*;
 import org.dozer.Mapper;
 import org.fluttercode.datafactory.impl.DataFactory;
 import org.joda.time.DateTime;
@@ -25,6 +23,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+
+import static org.hamcrest.CoreMatchers.*;
+import static org.junit.Assert.assertThat;
 
 /**
  * @author 20102BSI0553
@@ -40,9 +41,13 @@ public class AplProcessoNotificacaoTest extends AbstractionTest {
     @Autowired
     private SetorRepository setorRepository;
     @Autowired
+    private CausaNaoDoacaoRepository causaNaoDoacaoRepository;
+    @Autowired
     private Mapper mapper;
     @Autowired
     private PacienteData pacienteData;
+    @Autowired
+    private ObitoData obitoData;
     @Autowired
     private EntrevistaData entrevistaData;
     @Autowired
@@ -128,6 +133,66 @@ public class AplProcessoNotificacaoTest extends AbstractionTest {
         Assert.assertNotNull(notificacao.getObito().getId());
 
         Assert.assertNotNull(notificacao.getHistorico());
+    }
+
+    @Test
+    public void salvarObitoDoacaoNaoAutorizada() {
+        ProcessoNotificacao processoNotificacao = new ProcessoNotificacao();
+        processoNotificacao.setObito(obitoData.criaObito(df));
+        processoNotificacao.getObito().setAptoDoacao(false);
+        processoNotificacao.getObito().setDataCadastro(null);
+//        11 = Sorologia positiva Hepatite B, Contra indicação médica
+        processoNotificacao.setCausaNaoDoacao(causaNaoDoacaoRepository.findOne(11L));
+
+        processoNotificacao = aplProcessoNotificacao.salvarNovaNotificacao(mapper.map(processoNotificacao, ProcessoNotificacaoDTO.class), 1L);
+
+        assertThat(processoNotificacao.getObito().getDataCadastro(), notNullValue());
+        assertThat(processoNotificacao.getDataAbertura(), notNullValue());
+        assertThat(processoNotificacao.getCausaNaoDoacao(), notNullValue());
+        assertThat(processoNotificacao.getCausaNaoDoacao().getId(), equalTo(11L));
+    }
+
+    @Test
+    public void salvarObitoDoacaoAutorizada() {
+        ProcessoNotificacao processoNotificacao = new ProcessoNotificacao();
+        processoNotificacao.setObito(obitoData.criaObito(df));
+        processoNotificacao.getObito().setAptoDoacao(true);
+        processoNotificacao.getObito().setDataCadastro(null);
+//        11 = Sorologia positiva Hepatite B, Contra indicação médica
+        processoNotificacao.setCausaNaoDoacao(causaNaoDoacaoRepository.findOne(11L));
+
+        processoNotificacao = aplProcessoNotificacao.salvarNovaNotificacao(mapper.map(processoNotificacao, ProcessoNotificacaoDTO.class), 1L);
+
+        assertThat(processoNotificacao.getObito().getDataCadastro(), notNullValue());
+        assertThat(processoNotificacao.getDataAbertura(), notNullValue());
+        assertThat(processoNotificacao.getCausaNaoDoacao(), nullValue());
+    }
+
+    @Test
+    public void editarObitoDeInaptoParaApto() {
+        ProcessoNotificacao processoNotificacao = new ProcessoNotificacao();
+        processoNotificacao.setObito(obitoData.criaObito(df));
+        processoNotificacao.getObito().setAptoDoacao(false);
+        processoNotificacao.getObito().setDataCadastro(null);
+//        11 = Sorologia positiva Hepatite B, Contra indicação médica
+        processoNotificacao.setCausaNaoDoacao(causaNaoDoacaoRepository.findOne(11L));
+
+//        Quando salvar e não for autorizada.
+        processoNotificacao = aplProcessoNotificacao.salvarNovaNotificacao(mapper.map(processoNotificacao, ProcessoNotificacaoDTO.class), 1L);
+        assertThat(processoNotificacao.getObito().getDataCadastro(), notNullValue());
+        assertThat(processoNotificacao.getDataAbertura(), notNullValue());
+        assertThat(processoNotificacao.getCausaNaoDoacao(), notNullValue());
+        assertThat(processoNotificacao.getCausaNaoDoacao().getId(), equalTo(11L));
+
+        Calendar dataCadastro = processoNotificacao.getObito().getDataCadastro();
+        Calendar dataAbertura = processoNotificacao.getDataAbertura();
+
+        processoNotificacao.getObito().setAptoDoacao(true);
+//        Quando salvar e for autorizada.
+        processoNotificacao = aplProcessoNotificacao.salvarNovaNotificacao(mapper.map(processoNotificacao, ProcessoNotificacaoDTO.class), 1L);
+        assertThat(processoNotificacao.getObito().getDataCadastro(), equalTo(dataCadastro));
+        assertThat(processoNotificacao.getDataAbertura(), equalTo(dataAbertura));
+        assertThat(processoNotificacao.getCausaNaoDoacao(), nullValue());
     }
 
     @Test
