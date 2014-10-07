@@ -42,6 +42,8 @@ public class EntrevistaDTO implements EntrevistaInterface {
     @Valid
     private ResponsavelDTO responsavel;
     @Valid
+    private ResponsavelDTO responsavel2;
+    @Valid
     private TestemunhaDTO testemunha1;
     @Valid
     private TestemunhaDTO testemunha2;

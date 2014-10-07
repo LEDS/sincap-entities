@@ -46,6 +46,9 @@ public class Entrevista extends ObjetoPersistente implements EntrevistaInterface
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @Valid
+    private Responsavel responsavel2;
+
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private Testemunha testemunha1;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
