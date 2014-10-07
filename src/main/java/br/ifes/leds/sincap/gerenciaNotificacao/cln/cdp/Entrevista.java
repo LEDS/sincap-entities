@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import java.util.Calendar;
@@ -42,13 +43,15 @@ public class Entrevista extends ObjetoPersistente implements DataCadastro, HaCau
     private boolean doacaoAutorizada;
     
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @NotNull
+    @Valid
     private Responsavel responsavel;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @Valid
     private Testemunha testemunha1;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @Valid
     private Testemunha testemunha2;
     
     @ManyToOne
