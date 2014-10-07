@@ -1,6 +1,5 @@
 package br.ifes.leds.sincap.test;
 
-import br.ifes.leds.reuse.ledsExceptions.CRUDExceptions.ViolacaoDeRIException;
 import br.ifes.leds.sincap.controleInterno.cgd.CaptadorRepository;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Captador;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.CaptacaoDTO;
@@ -41,7 +40,7 @@ public class AplCaptacaoTest extends AbstractionTest {
     }
 
     @Test
-    public void salvarCaptacaoTest() throws ViolacaoDeRIException {
+    public void salvarCaptacaoTest() {
         aplCaptacao.salvarCaptacao(captacaoDTO);
 
         CaptacaoDTO captacaoDTOSalvo = aplCaptacao.obterTodos().get(0);

@@ -1,6 +1,5 @@
 package br.ifes.leds.sincap.test;
 
-import br.ifes.leds.reuse.ledsExceptions.CRUDExceptions.ViolacaoDeRIException;
 import br.ifes.leds.sincap.controleInterno.cgd.HospitalRepository;
 import br.ifes.leds.sincap.controleInterno.cgd.NotificadorRepository;
 import br.ifes.leds.sincap.controleInterno.cgd.SetorRepository;
@@ -11,7 +10,10 @@ import br.ifes.leds.sincap.controleInterno.cln.cdp.Setor;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.*;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.*;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cgt.AplProcessoNotificacao;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.util.dataFactory.*;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.util.dataFactory.CaptacaoData;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.util.dataFactory.CaptadorData;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.util.dataFactory.EntrevistaData;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.util.dataFactory.PacienteData;
 import org.dozer.Mapper;
 import org.fluttercode.datafactory.impl.DataFactory;
 import org.joda.time.DateTime;
@@ -115,7 +117,7 @@ public class AplProcessoNotificacaoTest extends AbstractionTest {
     }
 
     @Test
-    public void salvarObito() throws ViolacaoDeRIException {
+    public void salvarObito() {
         Long id = aplProcessoNotificacao.salvarNovaNotificacao(
                 notificacao,
                 notificacao.getNotificador());
@@ -129,7 +131,7 @@ public class AplProcessoNotificacaoTest extends AbstractionTest {
     }
 
     @Test
-    public void analisarObito() throws ViolacaoDeRIException {
+    public void analisarObito() {
         Long id = aplProcessoNotificacao.salvarNovaNotificacao(
                 notificacao,
                 notificacao.getNotificador());
@@ -151,7 +153,7 @@ public class AplProcessoNotificacaoTest extends AbstractionTest {
 
     @Test
     public void recuperarNotificacoesNaoArquivadas()
-            throws ViolacaoDeRIException {
+            {
 
         aplProcessoNotificacao.salvarNovaNotificacao(notificacao, notificacao.getNotificador());
 
@@ -162,7 +164,7 @@ public class AplProcessoNotificacaoTest extends AbstractionTest {
     }
 
     @Test
-    public void salvarEntrevistaTest() throws ViolacaoDeRIException {
+    public void salvarEntrevistaTest() {
         adicionarEntrevista();
 
         Assert.assertNotNull(notificacao.getEntrevista());
@@ -172,7 +174,7 @@ public class AplProcessoNotificacaoTest extends AbstractionTest {
     }
 
     @Test
-    public void salvarCaptacacaoTest() throws ViolacaoDeRIException {
+    public void salvarCaptacacaoTest() {
         adicionarEntrevista();
         adicionarCaptacao();
 
@@ -192,7 +194,7 @@ public class AplProcessoNotificacaoTest extends AbstractionTest {
         notificacao = aplProcessoNotificacao.obter(id);
     }
 
-    private void adicionarEntrevista() throws ViolacaoDeRIException {
+    private void adicionarEntrevista() {
         EntrevistaDTO entrevista = mapper.map(
                 entrevistaData.criaEntrevista(df), EntrevistaDTO.class);
 
@@ -210,7 +212,7 @@ public class AplProcessoNotificacaoTest extends AbstractionTest {
 
     @Test
     //TODO: Utilizar um paciente cadastrado no teste
-    public void obterProcessoPorPacienteNome() throws ViolacaoDeRIException{
+    public void obterProcessoPorPacienteNome() {
         salvarObito();
         analisarObito();
         salvarEntrevistaTest();
