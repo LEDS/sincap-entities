@@ -46,4 +46,9 @@ public class EntrevistaDTO implements EntrevistaInterface {
     @Valid
     private TestemunhaDTO testemunha2;
     private Long funcionario;
+
+    @Override
+    public boolean haCausaNaoDoacao() {
+        return !this.isDoacaoAutorizada() || !this.isEntrevistaRealizada();
+    }
 }
