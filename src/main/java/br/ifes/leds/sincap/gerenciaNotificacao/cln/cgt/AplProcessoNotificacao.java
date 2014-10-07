@@ -9,6 +9,7 @@ import br.ifes.leds.sincap.controleInterno.cln.cdp.Notificador;
 import br.ifes.leds.sincap.controleInterno.cln.cgt.AplCaptador;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ProcessoNotificacaoRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.AtualizacaoEstado;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Entrevista;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoNotificacaoEnum;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.ProcessoNotificacao;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.CaptacaoDTO;
@@ -60,7 +61,7 @@ public class AplProcessoNotificacao {
      * @param idFuncionario          - Id do funcionario que criou a notificacao
      * @return long - Retorna o id do ProcessoNotificacao salvo
      */
-    public Long salvarNovaNotificacao(ProcessoNotificacaoDTO processoNotificacaoDTO, Long idFuncionario) {
+    public ProcessoNotificacao salvarNovaNotificacao(ProcessoNotificacaoDTO processoNotificacaoDTO, Long idFuncionario) {
 
         ProcessoNotificacao notificacao = instanciarNovoProcessoNotificacao(processoNotificacaoDTO);
 
@@ -72,72 +73,14 @@ public class AplProcessoNotificacao {
 
         notificacao.setCodigo(notificacao.getObito().getPaciente().getNumeroSUS());
 
-        return notificacaoRepository.save(notificacao).getId();
-    }
-
-    private void setDatasNovaNotificacao(ProcessoNotificacao notificacao) {
-        if (notificacao.getDataAbertura() == null) {
-            notificacao.setDataAbertura(Calendar.getInstance());
-        }
-
-        verificaDataCadastro(notificacao.getObito());
-    }
-
-    /**
-     * Verifica se a data de cadastro existe. Se não existir, então a data de cadastro é definida.
-     * @param notificacao A notificação a ser verificada. ({@code Obito}, {@code Entrevista} ou {@code Captacao})
-     */
-    private static void verificaDataCadastro(DataCadastro notificacao) {
-        if (notificacao.getDataCadastro() == null) {
-            notificacao.setDataCadastro(Calendar.getInstance());
-        }
-    }
-
-    private ProcessoNotificacao instanciarNovoProcessoNotificacao(ProcessoNotificacaoDTO processoNotificacao) {
-        ProcessoNotificacao notificacao;
-        ProcessoNotificacao notificacaoDTO = mapper.map(processoNotificacao, ProcessoNotificacao.class);
-
-        if (notificacaoDTO.getId() == null) {
-            notificacao = new ProcessoNotificacao();
-        } else {
-            notificacao = notificacaoRepository.findOne(notificacaoDTO.getId());
-        }
-
-        notificacao.setObito(notificacaoDTO.getObito());
-
-        verificaCausaNaoDoacao(notificacao, notificacaoDTO);
-
-        return notificacao;
-    }
-
-    /**
-     * Verifica se há alguma causa de não doação na notificação recebida dos controllers.
-     * Se houver, então é definida na notificacao a ser salva.
-     * @param notificacaoASerSalva O objeto a ser persistido no banco de dados.
-     * @param notificacaoView O objeto recebido dos controllers.
-     */
-    private static void verificaCausaNaoDoacao(ProcessoNotificacao notificacaoASerSalva, ProcessoNotificacao notificacaoView) {
-        boolean haCausaNaoDoacaoEmObito = notificacaoView.getObito() != null && notificacaoView.getObito().haCausaNaoDoacao();
-        boolean haCausaNaoDoacaoEmEntrevista =notificacaoView.getEntrevista() != null && notificacaoView.getEntrevista().haCausaNaoDoacao();
-
-        if (haCausaNaoDoacaoEmObito || haCausaNaoDoacaoEmEntrevista) {
-            notificacaoASerSalva.setCausaNaoDoacao(notificacaoView.getCausaNaoDoacao());
-        } else {
-            notificacaoASerSalva.setCausaNaoDoacao(null);
-        }
-    }
-
-    private static Notificador criarNotificador(Long idFuncionario) {
-        Notificador notificador = new Notificador();
-        notificador.setId(idFuncionario);
-        return notificador;
+        return notificacaoRepository.save(notificacao);
     }
 
     /**
      * Metodo que salva uma nova entrevista vinculada a um Processo de
      * Notificacao
      */
-    public Long salvarEntrevista(ProcessoNotificacaoDTO processoNotificacaoDTO, Long idFuncionario) {
+    public ProcessoNotificacao salvarEntrevista(ProcessoNotificacaoDTO processoNotificacaoDTO, Long idFuncionario) {
 
         ProcessoNotificacao notificacaoView = mapper.map(processoNotificacaoDTO, ProcessoNotificacao.class);
         ProcessoNotificacao notificacaoBd = notificacaoRepository.findOne(processoNotificacaoDTO.getId());
@@ -146,20 +89,15 @@ public class AplProcessoNotificacao {
 
         verificaDataCadastro(notificacaoBd.getEntrevista());
         verificaCausaNaoDoacao(notificacaoBd, notificacaoView);
+        verificaOQueDeveSerNull(notificacaoBd.getEntrevista());
 
-        validarProcesso(notificacaoBd);
+        addNovoEstado(AGUARDANDOANALISEENTREVISTA, notificacaoBd, idFuncionario);
 
-        this.addNovoEstado(AGUARDANDOANALISEENTREVISTA, notificacaoBd, idFuncionario);
-
-        return notificacaoRepository.save(notificacaoBd).getId();
-    }
-
-    private static void validarProcesso(ProcessoNotificacao notificacao) {
-        Set<ConstraintViolation<ProcessoNotificacao>> constraintViolations;
-        constraintViolations = validator.validate(notificacao);
-
-        if (constraintViolations != null && constraintViolations.size() > 0) {
-            throw new ViolacaoDeRIException(constraintViolations);
+        try {
+            return notificacaoRepository.save(notificacaoBd);
+        } catch (Exception e) {
+            validarProcesso(notificacaoBd);
+            return null;
         }
     }
 
@@ -170,7 +108,7 @@ public class AplProcessoNotificacao {
      * @param idProcesso  - Id do processo de notificacao
      * @param idCaptador  - Id do captador vinculado a notificacao
      */
-    public Long salvarCaptacao(Long idProcesso, CaptacaoDTO captacaoDTO, Long idCaptador) {
+    public ProcessoNotificacao salvarCaptacao(Long idProcesso, CaptacaoDTO captacaoDTO, Long idCaptador) {
 
         captacaoDTO.setCaptador(idCaptador);
         ProcessoNotificacaoDTO processo = this.obter(idProcesso);
@@ -182,7 +120,7 @@ public class AplProcessoNotificacao {
 
         notificacao.getCaptacao().setDataCadastro((new DateTime()).toCalendar(Locale.getDefault()));
 
-        return notificacaoRepository.save(notificacao).getId();
+        return notificacaoRepository.save(notificacao);
     }
 
     /**
@@ -454,6 +392,7 @@ public class AplProcessoNotificacao {
 
         return null;
     }
+
     public List<ProcessoNotificacaoDTO> retornarNotificacaoPorEstadoAtualEBancoOlhos(
             EstadoNotificacaoEnum estado, Long id) {
         Captador captador = aplCaptador.obter(id);
@@ -511,7 +450,8 @@ public class AplProcessoNotificacao {
 
     /**
      * Excluir Processo de Notificação
-     * @param processo - Processo de Notificação que será excluido
+     *
+     * @param processo      - Processo de Notificação que será excluido
      * @param idFuncionario - Id do funcionario quer irá excluir a notificação
      */
     public void excluirProcesso(ProcessoNotificacaoDTO processo, Long idFuncionario) {
@@ -541,5 +481,95 @@ public class AplProcessoNotificacao {
                 processoNotificacao,
                 EstadoNotificacaoEnum.NOTIFICACAOARQUIVADA,
                 idFuncionario);
+    }
+
+    private void setDatasNovaNotificacao(ProcessoNotificacao notificacao) {
+        if (notificacao.getDataAbertura() == null) {
+            notificacao.setDataAbertura(Calendar.getInstance());
+        }
+
+        verificaDataCadastro(notificacao.getObito());
+    }
+
+    /**
+     * Verifica se a data de cadastro existe. Se não existir, então a data de cadastro é definida.
+     *
+     * @param notificacao A notificação a ser verificada. ({@code Obito}, {@code Entrevista} ou {@code Captacao})
+     */
+    private static void verificaDataCadastro(DataCadastro notificacao) {
+        if (notificacao.getDataCadastro() == null) {
+            notificacao.setDataCadastro(Calendar.getInstance());
+        }
+    }
+
+    private ProcessoNotificacao instanciarNovoProcessoNotificacao(ProcessoNotificacaoDTO processoNotificacao) {
+        ProcessoNotificacao notificacaoASerRetornada;
+        ProcessoNotificacao notificacaoDTO = mapper.map(processoNotificacao, ProcessoNotificacao.class);
+
+        if (notificacaoDTO.getId() == null) {
+            notificacaoASerRetornada = new ProcessoNotificacao();
+        } else {
+            notificacaoASerRetornada = notificacaoRepository.findOne(notificacaoDTO.getId());
+        }
+
+        notificacaoASerRetornada.setObito(notificacaoDTO.getObito());
+
+        verificaCausaNaoDoacao(notificacaoASerRetornada, notificacaoDTO);
+
+        return notificacaoASerRetornada;
+    }
+
+    /**
+     * Verifica se há alguma causa de não doação na notificação recebida dos controllers.
+     * Se houver, então é definida na notificacao a ser salva.
+     *
+     * @param notificacaoASerSalva O objeto a ser persistido no banco de dados.
+     * @param notificacaoView      O objeto recebido dos controllers.
+     */
+    private static void verificaCausaNaoDoacao(ProcessoNotificacao notificacaoASerSalva, ProcessoNotificacao notificacaoView) {
+        boolean haCausaNaoDoacaoEmObito = notificacaoView.getObito() != null && notificacaoView.getObito().haCausaNaoDoacao();
+        boolean haCausaNaoDoacaoEmEntrevista = notificacaoView.getEntrevista() != null && notificacaoView.getEntrevista().haCausaNaoDoacao();
+
+        if (haCausaNaoDoacaoEmObito || haCausaNaoDoacaoEmEntrevista) {
+            notificacaoASerSalva.setCausaNaoDoacao(notificacaoView.getCausaNaoDoacao());
+        } else {
+            notificacaoASerSalva.setCausaNaoDoacao(null);
+        }
+    }
+
+    private static Notificador criarNotificador(Long idFuncionario) {
+        Notificador notificador = new Notificador();
+        notificador.setId(idFuncionario);
+        return notificador;
+    }
+
+    /**
+     * Valida o processo de notificação, verificando as restrições anotadas nas classes
+     * que compõem um processo.
+     *
+     * @param notificacao O objeto a ser validado.
+     * @throws ViolacaoDeRIException É lançada caso haja alguma violação de RI.
+     */
+    private static void validarProcesso(ProcessoNotificacao notificacao) throws ViolacaoDeRIException {
+        Set<ConstraintViolation<ProcessoNotificacao>> constraintViolations;
+        constraintViolations = validator.validate(notificacao);
+
+        if (constraintViolations != null && constraintViolations.size() > 0) {
+            throw new ViolacaoDeRIException(constraintViolations);
+        }
+    }
+
+    private static void verificaOQueDeveSerNull(Entrevista entrevista) {
+        if (entrevista != null) {
+            if (entrevista.haCausaNaoDoacao()) {
+                entrevista.setResponsavel(null);
+                entrevista.setTestemunha1(null);
+                entrevista.setTestemunha2(null);
+            }
+            if (!entrevista.isEntrevistaRealizada()) {
+                entrevista.setDataEntrevista(null);
+                entrevista.setDoacaoAutorizada(false);
+            }
+        }
     }
 }
