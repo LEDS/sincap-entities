@@ -10,6 +10,10 @@ import java.util.Set;
  */
 public class ViolacaoDeRIException extends RuntimeException {
 
+    public ViolacaoDeRIException(Throwable cause) {
+        super(cause);
+    }
+
     public ViolacaoDeRIException(Set<? extends ConstraintViolation<?>> constraintViolations) {
         this.constraintViolations = constraintViolations;
     }

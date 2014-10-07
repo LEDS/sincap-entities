@@ -3,8 +3,6 @@ package br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp;
 import br.ifes.leds.reuse.persistence.ObjetoPersistente;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Hospital;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Setor;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.interfaces.DataCadastro;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.interfaces.HaCausaNaoDoacao;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.interfaces.ObitoInterface;
 import br.ifes.leds.sincap.validacao.annotations.DatasObitoConsistentes;
 import lombok.EqualsAndHashCode;
@@ -27,7 +25,7 @@ import java.util.Calendar;
 @Entity
 @EqualsAndHashCode(callSuper = true)
 @DatasObitoConsistentes
-public class Obito extends ObjetoPersistente implements DataCadastro, HaCausaNaoDoacao, ObitoInterface {
+public class Obito extends ObjetoPersistente implements ObitoInterface {
 	
     @Temporal(TemporalType.TIMESTAMP)
     @NotNull

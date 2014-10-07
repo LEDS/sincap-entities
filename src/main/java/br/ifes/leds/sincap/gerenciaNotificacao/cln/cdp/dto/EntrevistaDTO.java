@@ -39,15 +39,18 @@ public class EntrevistaDTO implements EntrevistaInterface {
     @Past
     @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
     private Calendar dataCadastro; // Data e horario da notificação
-    @NotNull
     @Valid
     private ResponsavelDTO responsavel;
+    @Valid
     private ResponsavelDTO responsavel2;
-    @NotNull
     @Valid
     private TestemunhaDTO testemunha1;
-    @NotNull
     @Valid
     private TestemunhaDTO testemunha2;
     private Long funcionario;
+
+    @Override
+    public boolean haCausaNaoDoacao() {
+        return !this.isDoacaoAutorizada() || !this.isEntrevistaRealizada();
+    }
 }
