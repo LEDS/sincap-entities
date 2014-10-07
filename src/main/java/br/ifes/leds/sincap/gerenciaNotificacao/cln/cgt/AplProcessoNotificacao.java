@@ -97,7 +97,7 @@ public class AplProcessoNotificacao {
             return notificacaoRepository.save(notificacaoBd);
         } catch (Exception e) {
             validarProcesso(notificacaoBd);
-            return null;
+            throw new ViolacaoDeRIException(e);
         }
     }
 
