@@ -42,6 +42,7 @@ public class EntrevistaDTO implements EntrevistaInterface {
     @NotNull
     @Valid
     private ResponsavelDTO responsavel;
+    private ResponsavelDTO responsavel2;
     @NotNull
     @Valid
     private TestemunhaDTO testemunha1;
