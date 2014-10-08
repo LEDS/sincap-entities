@@ -8,11 +8,14 @@ import br.ifes.leds.sincap.validacao.annotations.DatasObitoConsistentes;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import org.joda.time.DateTime;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import java.util.Calendar;
+
+import static org.joda.time.Years.yearsBetween;
 
 /**
  * Obito.java
@@ -76,5 +79,16 @@ public class Obito extends ObjetoPersistente implements ObitoInterface {
     @Override
     public boolean haCausaNaoDoacao() {
         return !this.isAptoDoacao();
+    }
+
+    @Override
+    public Integer getIdadePaciente() {
+        if (this.paciente == null || this.paciente.getDataNascimento() == null || this.dataObito == null) {
+            return null;
+        } else {
+            DateTime dataNascimento = new DateTime(this.paciente.getDataNascimento());
+            DateTime dataObito = new DateTime(this.dataObito);
+            return yearsBetween(dataNascimento, dataObito).getYears();
+        }
     }
 }

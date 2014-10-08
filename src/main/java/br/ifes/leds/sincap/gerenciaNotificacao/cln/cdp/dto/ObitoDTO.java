@@ -9,11 +9,14 @@ import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CausaMortis;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CorpoEncaminhamento;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoObito;
 import lombok.experimental.Builder;
+import org.joda.time.DateTime;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
+
+import static org.joda.time.Years.yearsBetween;
 
 @Getter
 @Setter
@@ -60,5 +63,16 @@ public class ObitoDTO implements ObitoInterface {
     @Override
     public boolean haCausaNaoDoacao() {
         return !this.isAptoDoacao();
+    }
+
+    @Override
+    public Integer getIdadePaciente() {
+        if (this.paciente == null || this.paciente.getDataNascimento() == null || this.dataObito == null) {
+            return null;
+        } else {
+            DateTime dataNascimento = new DateTime(this.paciente.getDataNascimento());
+            DateTime dataObito = new DateTime(this.dataObito);
+            return yearsBetween(dataNascimento, dataObito).getYears();
+        }
     }
 }

@@ -10,4 +10,6 @@ public interface ObitoInterface extends DataCadastro, HaCausaNaoDoacao {
     public PacienteInterface getPaciente();
 
     public Calendar getDataObito();
+
+    public Integer getIdadePaciente();
 }
