@@ -472,7 +472,7 @@ public class AplProcessoNotificacao {
                 idFuncionario);
     }
 
-    public List<ProcessoNotificacao> obterPorPacienteNome(String searchString) {
+    public List<ProcessoNotificacao> obterPorPacienteNomeComEntrevistaDoacaoAutorizada(String searchString) {
         return notificacaoRepository.findByObitoPacienteNomeContainingAndEntrevistaIsNotNullAndEntrevistaDoacaoAutorizadaTrue(searchString);
     }
 

@@ -362,7 +362,7 @@ public class AplProcessoNotificacaoTest extends AbstractionTest {
         salvarObito();
         analisarObito();
         salvarEntrevistaTest();
-        List<ProcessoNotificacao> pn = aplProcessoNotificacao.obterPorPacienteNome("J");
+        List<ProcessoNotificacao> pn = aplProcessoNotificacao.obterPorPacienteNomeComEntrevistaDoacaoAutorizada("J");
         Assert.assertTrue(pn.size() > 0);
     }
 
