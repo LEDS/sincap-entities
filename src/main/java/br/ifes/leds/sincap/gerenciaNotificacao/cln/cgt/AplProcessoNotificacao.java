@@ -8,10 +8,7 @@ import br.ifes.leds.sincap.controleInterno.cln.cdp.Funcionario;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Notificador;
 import br.ifes.leds.sincap.controleInterno.cln.cgt.AplCaptador;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ProcessoNotificacaoRepository;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.AtualizacaoEstado;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Entrevista;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoNotificacaoEnum;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.ProcessoNotificacao;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.*;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.CaptacaoDTO;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.ProcessoNotificacaoDTO;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.interfaces.DataCadastro;
@@ -520,6 +517,13 @@ public class AplProcessoNotificacao {
         notificacaoASerRetornada.setObito(notificacaoDTO.getObito());
 
         verificaCausaNaoDoacao(notificacaoASerRetornada, notificacaoDTO);
+
+        if (notificacaoASerRetornada.getObito().getIdadePaciente() < 2 || notificacaoASerRetornada.getObito().getIdadePaciente() > 75) {
+            notificacaoASerRetornada.getObito().setAptoDoacao(false);
+            notificacaoASerRetornada.setCausaNaoDoacao(new CausaNaoDoacao());
+//            17 = Fora da faixa etária.
+            notificacaoASerRetornada.getCausaNaoDoacao().setId(17L);
+        }
 
         return notificacaoASerRetornada;
     }
