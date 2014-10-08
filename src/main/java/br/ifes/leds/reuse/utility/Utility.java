@@ -1,9 +1,9 @@
 package br.ifes.leds.reuse.utility;
 
 import br.ifes.leds.reuse.utility.function.Function;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.ProcessoNotificacao;
 import org.dozer.DozerBeanMapperSingletonWrapper;
 import org.dozer.Mapper;
+import org.joda.time.DateTime;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
@@ -11,6 +11,8 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+
+import static org.joda.time.Years.yearsBetween;
 
 /**
  *
@@ -82,14 +84,7 @@ public class Utility {
     }
 
     public int calculaIdade(Calendar dataNasc, Calendar dataFim){
-        int idade = dataFim.get(Calendar.YEAR) - dataNasc.get(Calendar.YEAR);
-
-        dataNasc.add(Calendar.YEAR, idade);
-
-        if (dataFim.before(dataNasc)) {
-            idade--;
-        }
-        return idade;
+        return yearsBetween(new DateTime(dataNasc), new DateTime(dataFim)).getYears();
     }
 
     public Long booleanToLong(boolean attribute) {
