@@ -73,7 +73,12 @@ public class AplProcessoNotificacao {
 
         notificacao.setCodigo(notificacao.getObito().getPaciente().getNumeroSUS());
 
-        return notificacaoRepository.save(notificacao);
+        try {
+            return notificacaoRepository.save(notificacao);
+        } catch (Exception e) {
+            validarProcesso(notificacao);
+            throw new ViolacaoDeRIException(e);
+        }
     }
 
     /**
@@ -498,7 +503,7 @@ public class AplProcessoNotificacao {
      */
     private static void verificaDataCadastro(DataCadastro notificacao) {
         if (notificacao.getDataCadastro() == null) {
-            notificacao.setDataCadastro(Calendar.getInstance());
+            notificacao.setDataCadastro(new DateTime().toCalendar(Locale.getDefault()));
         }
     }
 
@@ -563,6 +568,7 @@ public class AplProcessoNotificacao {
         if (entrevista != null) {
             if (entrevista.haCausaNaoDoacao()) {
                 entrevista.setResponsavel(null);
+                entrevista.setResponsavel2(null);
                 entrevista.setTestemunha1(null);
                 entrevista.setTestemunha2(null);
             }
