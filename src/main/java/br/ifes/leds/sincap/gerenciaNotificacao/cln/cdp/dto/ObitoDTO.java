@@ -1,13 +1,11 @@
 package br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto;
 
-import java.util.Calendar;
-
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.interfaces.ObitoInterface;
-import br.ifes.leds.sincap.validacao.annotations.DatasObitoConsistentes;
-import lombok.*;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CausaMortis;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CorpoEncaminhamento;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoObito;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.interfaces.ObitoInterface;
+import br.ifes.leds.sincap.validacao.annotations.DatasObitoConsistentes;
+import lombok.*;
 import lombok.experimental.Builder;
 import org.joda.time.DateTime;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -15,7 +13,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
+import java.util.Calendar;
 
+import static org.joda.time.Hours.hoursBetween;
 import static org.joda.time.Years.yearsBetween;
 
 @Getter
@@ -73,6 +73,15 @@ public class ObitoDTO implements ObitoInterface {
             DateTime dataNascimento = new DateTime(this.paciente.getDataNascimento());
             DateTime dataObito = new DateTime(this.dataObito);
             return yearsBetween(dataNascimento, dataObito).getYears();
+        }
+    }
+
+    @Override
+    public Integer getHorasObito() {
+        if (this.dataObito == null) {
+            return null;
+        } else {
+            return hoursBetween(new DateTime(this.dataObito), new DateTime()).getHours();
         }
     }
 }

@@ -9,12 +9,14 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.joda.time.DateTime;
+import org.joda.time.Hours;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import java.util.Calendar;
 
+import static org.joda.time.Hours.hoursBetween;
 import static org.joda.time.Years.yearsBetween;
 
 /**
@@ -89,6 +91,15 @@ public class Obito extends ObjetoPersistente implements ObitoInterface {
             DateTime dataNascimento = new DateTime(this.paciente.getDataNascimento());
             DateTime dataObito = new DateTime(this.dataObito);
             return yearsBetween(dataNascimento, dataObito).getYears();
+        }
+    }
+
+    @Override
+    public Integer getHorasObito() {
+        if (this.dataObito == null) {
+            return null;
+        } else {
+            return hoursBetween(new DateTime(this.dataObito), new DateTime()).getHours();
         }
     }
 }
