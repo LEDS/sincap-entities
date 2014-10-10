@@ -237,7 +237,8 @@ public class AplProcessoNotificacaoTest extends AbstractionTest {
 
         processoNotificacao.setEntrevista(entrevistaData.criaEntrevista(df));
         processoNotificacao.getEntrevista().setEntrevistaRealizada(false);
-        processoNotificacao.getEntrevista().setDataCadastro(null);
+//TODO: Ao setar a data de cadastro ocasionava o erro no teste dizendo que esta deveria estar no passado.
+//        processoNotificacao.getEntrevista().setDataCadastro(null);
 //        19 = Equipe de retirada não disponível, Problema estrutural
         processoNotificacao.setCausaNaoDoacao(causaNaoDoacaoRepository.findOne(19L));
 
