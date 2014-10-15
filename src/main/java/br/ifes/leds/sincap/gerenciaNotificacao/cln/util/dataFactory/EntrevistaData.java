@@ -55,14 +55,7 @@ public class EntrevistaData {
      */
     public Entrevista criaEntrevista(DataFactory df) {
         Entrevista entrevista = criaObjeto(Entrevista.class);
-        Calendar dataEntrevista = Calendar.getInstance();
-        Calendar dataCadastro = Calendar.getInstance();
-        Date dataAtual = new Date();
-        
-        dataCadastro.setTime(df.getDateBetween(df.getDate(2000, 1, 1), dataAtual));
-        entrevista.setDataCadastro(dataCadastro);
-        dataEntrevista.setTime(df.getDateBetween(dataCadastro.getTime(), dataAtual));
-        entrevista.setDataEntrevista(dataEntrevista);
+
         entrevista.setResponsavel(responsavelData.criarResponsavel(df));
         entrevista.setTestemunha1(testemunhaData.criarTestemunha(df));
         entrevista.setTestemunha2(testemunhaData.criarTestemunha(df));
