@@ -582,4 +582,11 @@ public class AplProcessoNotificacao {
             }
         }
     }
+    public Long quantidadeDoacaoInstituicao(Calendar dataInicio, Calendar dataFim,Long id){
+        ProcessoNotificacao pn = notificacaoRepository.findOne(id);
+        Long qtd = new Long(0);
+        qtd = notificacaoRepository.countByEntrevistaEntrevistaRealizadaTrueAndEntrevistaDoacaoAutorizadaTrueAndCaptacaoCaptacaoRealizadaTrueAndObitoAptoDoacaoTrueAndDataAberturaBetweenAndInstituicaoNotificadoraId(dataInicio,dataFim,pn.getObito().getHospital().getId());
+
+        return qtd;
+    }
 }
