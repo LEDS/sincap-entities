@@ -34,4 +34,12 @@ public interface ProcessoNotificacaoRepository extends JpaRepository<ProcessoNot
     public List<ProcessoNotificacao> findByUltimoEstadoEstadoNotificacaoAndObitoHospitalBancoOlhosIdOrderByUltimoEstadoDataAtualizacaosAsc(EstadoNotificacaoEnum estado, Long id);
 
     public List<ProcessoNotificacao> findByCodigoIgnoreCaseContainingOrNotificadorNomeIgnoreCaseContainingOrObitoPacienteNomeIgnoreCaseContainingOrObitoPacienteNomeMaeIgnoreCaseContaining(String codigo, String notificadornome, String obitoPacienteNome, String obitoPacienteNomeMae);
+
+    public Integer countByDataAberturaBetweenAndObitoHospitalId(Calendar dataAberturaInicio, Calendar dataAberturaFim,Long id);
+
+    public Integer countByDataAberturaBetweenAndObitoHospitalIdAndEntrevistaIsNotNullAndEntrevistaEntrevistaRealizadaTrue(Calendar dataAberturaInicio, Calendar dataAberturaFim,Long id);
+
+    public Integer countByDataAberturaBetweenAndObitoHospitalIdAndEntrevistaIsNotNullAndEntrevistaEntrevistaRealizadaTrueAndEntrevistaDoacaoAutorizadaFalse(Calendar dataAberturaInicio, Calendar dataAberturaFim,Long id);
+
+    public Integer countByDataAberturaBetweenAndObitoHospitalIdAndEntrevistaIsNotNullAndEntrevistaEntrevistaRealizadaTrueAndEntrevistaDoacaoAutorizadaTrueAndCaptacaoCaptacaoRealizadaTrue(Calendar dataAberturaInicio, Calendar dataAberturaFim,Long id);
 }
