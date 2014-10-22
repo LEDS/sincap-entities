@@ -12,6 +12,7 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.interfaces.DataCadastro;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,7 +26,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @EqualsAndHashCode(callSuper = true)
-public class Captacao extends ObjetoPersistente {
+public class Captacao extends ObjetoPersistente implements DataCadastro {
 
     @Column
     @NotNull

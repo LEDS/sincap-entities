@@ -5,9 +5,8 @@ import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
 
 import br.ifes.leds.reuse.persistence.ObjetoPersistente;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.Builder;
 
 /**
  * Telefone.java
@@ -17,6 +16,9 @@ import lombok.Setter;
 @Setter
 @Getter
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @EqualsAndHashCode(callSuper = true)
 public class Telefone extends ObjetoPersistente {
 	@Column

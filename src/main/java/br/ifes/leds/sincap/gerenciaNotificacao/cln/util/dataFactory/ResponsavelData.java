@@ -48,6 +48,8 @@ public class ResponsavelData {
     private Calendar dataNascimento;
     private Calendar dataInternacao;
     private List<String> listaProfissao;
+    private List<String> listaReligiao;
+    private List<String> listaGrauEscolaridade;
     private List<Parentesco> listaParentesco;
     private List<EstadoCivil> listaEstadoCivil;
     private List<Sexo> listaSexo;
@@ -84,6 +86,8 @@ public class ResponsavelData {
         dataNascimento = Calendar.getInstance();
         dataInternacao = Calendar.getInstance();
         listaProfissao = list.getListProf();
+        listaReligiao = list.getListaReligioes();
+        listaGrauEscolaridade = list.getListaGrauEscolaridade();
         listaSexo = list.getListSex();
         listaEstadoCivil = list.getListEst();
         listaParentesco = list.getListPar();
@@ -138,6 +142,8 @@ public class ResponsavelData {
                 df.getDate(2014, 1, 1)));
         responsavel.setDocumentoSocial(documentoComFoto);
         responsavel.setProfissao(df.getItem(listaProfissao));
+        responsavel.setReligiao(df.getItem(listaReligiao));
+        responsavel.setGrauEscolaridade(df.getItem(listaGrauEscolaridade));
         responsavel.setParentesco(df.getItem(listaParentesco));
     }
 

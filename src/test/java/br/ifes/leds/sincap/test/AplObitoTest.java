@@ -1,6 +1,5 @@
 package br.ifes.leds.sincap.test;
 
-import br.ifes.leds.reuse.ledsExceptions.CRUDExceptions.ViolacaoDeRIException;
 import br.ifes.leds.reuse.utility.Utility;
 import br.ifes.leds.reuse.utility.function.Function;
 import br.ifes.leds.sincap.controleInterno.cgd.HospitalRepository;
@@ -71,7 +70,7 @@ public class AplObitoTest extends AbstractionTest {
     }
 
     @Test
-    public void obterPacienteTest() throws ViolacaoDeRIException {
+    public void obterPacienteTest() {
         aplObito.salvarPaciente(pacienteDTO);
 
         PacienteDTO pacienteTmp = utility.getObjectByMethod(
@@ -83,7 +82,7 @@ public class AplObitoTest extends AbstractionTest {
     }
 
     @Test
-    public void salvarPacienteTest() throws ViolacaoDeRIException {
+    public void salvarPacienteTest() {
         aplObito.salvarPaciente(pacienteDTO);
 
         PacienteDTO pacienteTest = utility.getObjectByMethod(
@@ -113,7 +112,7 @@ public class AplObitoTest extends AbstractionTest {
     }
 
     @Test
-    public void salvarObitoTest() throws ViolacaoDeRIException {
+    public void salvarObitoTest() {
         aplObito.salvarObito(obitoDTO);
         
         /*

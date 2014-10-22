@@ -152,10 +152,19 @@ public class ProcessoNotificacaoData {
     public void criaEntrevistaRadom(DataFactory df,Integer QtdEnt){
      for (int i = 0; i < QtdEnt;i++){
             ProcessoNotificacao pn = criarAnaliseObito(df);
+            Calendar dataAtual = Calendar.getInstance();
+            Calendar dataCadastro = Calendar.getInstance();
+            Calendar dataEntrevista = Calendar.getInstance();
+
             List<AtualizacaoEstado> listAtualizacao = new ArrayList<>();
             listAtualizacao.add(AtualizaEstadoNotificacao(pn,1));
             listAtualizacao.add(AtualizaEstadoNotificacao(pn,2));
-            pn.setEntrevista(criarEntrevista(df));
+            Entrevista entrevista = criarEntrevista(df);
+            dataCadastro.setTime(df.getDateBetween(pn.getObito().getDataObito().getTime(),dataAtual.getTime()));
+            entrevista.setDataCadastro(dataCadastro);
+            dataEntrevista.setTime(df.getDateBetween(entrevista.getDataCadastro().getTime(),dataAtual.getTime()));
+            entrevista.setDataEntrevista(dataEntrevista);
+            pn.setEntrevista(entrevista);
             pn.setHistorico(listAtualizacao);
             
             for(AtualizacaoEstado ae : listAtualizacao){
@@ -184,12 +193,20 @@ public class ProcessoNotificacaoData {
      for (int i = 0; i < QtdCap;i++){
             ProcessoNotificacao pn = criarAnaliseObito(df);
             List<AtualizacaoEstado> listAtualizacao = new ArrayList<>();
+            Calendar dataAtual = Calendar.getInstance();
+            Calendar dataCadastro = Calendar.getInstance();
+            Calendar dataEntrevista = Calendar.getInstance();
             
             listAtualizacao.add(AtualizaEstadoNotificacao(pn,1));
             listAtualizacao.add(AtualizaEstadoNotificacao(pn,2));
             listAtualizacao.add(AtualizaEstadoNotificacao(pn,3));
-            
-            pn.setEntrevista(criarEntrevista(df));
+
+            Entrevista entrevista = criarEntrevista(df);
+            dataCadastro.setTime(df.getDateBetween(pn.getObito().getDataObito().getTime(),dataAtual.getTime()));
+            entrevista.setDataCadastro(dataCadastro);
+            dataEntrevista.setTime(df.getDateBetween(entrevista.getDataCadastro().getTime(),dataAtual.getTime()));
+            entrevista.setDataEntrevista(dataEntrevista);
+            pn.setEntrevista(entrevista);
             pn.setCaptacao(criaCaptacao(df));
             pn.setHistorico(listAtualizacao);
             

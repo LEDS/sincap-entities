@@ -2,11 +2,14 @@ package br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp;
 
 import br.ifes.leds.reuse.persistence.ObjetoPersistente;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Notificador;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.interfaces.ProcessoNotificacaoInterface;
+import br.ifes.leds.sincap.validacao.annotations.DataEntrevistaObitoConsistentes;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -28,7 +31,8 @@ import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoNotificacaoE
 @Getter
 @Entity
 @EqualsAndHashCode(callSuper = true)
-public class ProcessoNotificacao extends ObjetoPersistente {
+@DataEntrevistaObitoConsistentes
+public class ProcessoNotificacao extends ObjetoPersistente implements ProcessoNotificacaoInterface {
 
     @Column(unique = true, nullable = false)
     @NotNull
@@ -61,14 +65,17 @@ public class ProcessoNotificacao extends ObjetoPersistente {
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn
     @NotNull
+    @Valid
     private Obito obito;
     
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(nullable = true)
+    @Valid
     private Entrevista entrevista;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(nullable = true)
+    @Valid
     private Captacao captacao;
     
     @OneToOne

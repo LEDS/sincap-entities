@@ -74,14 +74,15 @@ public class ObitoData {
         Obito obito = criaObjeto(Obito.class);
         Calendar dataObito = Calendar.getInstance();
         Calendar dataEvento = Calendar.getInstance();
-        Date dataAtual = new Date();
+        Date dataAtual = criaObjeto(Date.class);
         List<CorpoEncaminhamento> listcorpoEncaminhamento = list.getListCorp();
         List<TipoObito> listTipoObito = list.getListTipoObito();
 
         
         obito.setAptoDoacao(df.chance(50));
         obito.setCorpoEncaminhamento(df.getItem(listcorpoEncaminhamento));
-        dataObito.setTime(df.getDateBetween(df.getDate(2000, 1, 1), dataAtual));
+        obito.setPaciente(pacienteData.criarPaciente(df));
+        dataObito.setTime(df.getDateBetween(obito.getPaciente().getDataInternacao().getTime(), dataAtual));
         obito.setDataObito(dataObito);
         dataEvento.setTime(df.getDateBetween(dataObito.getTime(), dataAtual));
         obito.setDataCadastro(dataEvento);
@@ -92,7 +93,6 @@ public class ObitoData {
         List<Setor> listSetor = setorRepository.findAll();
         obito.setSetor(df.getItem(listSetor));
         obito.setTipoObito(df.getItem(listTipoObito));
-        obito.setPaciente(pacienteData.criarPaciente(df));
         List<Hospital> listHospital = hospitalRepository.findAll();
         obito.setHospital(df.getItem(listHospital));
 

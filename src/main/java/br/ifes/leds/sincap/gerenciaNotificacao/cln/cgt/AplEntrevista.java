@@ -5,7 +5,6 @@
  */
 package br.ifes.leds.sincap.gerenciaNotificacao.cln.cgt;
 
-import br.ifes.leds.reuse.ledsExceptions.CRUDExceptions.ViolacaoDeRIException;
 import br.ifes.leds.reuse.utility.Utility;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.EntrevistaRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Entrevista;
@@ -44,7 +43,7 @@ public class AplEntrevista {
         return mapper.map(entrevista, EntrevistaDTO.class);
     }
 
-    public void salvarEntrevista(EntrevistaDTO entrevistaDTO) throws ViolacaoDeRIException {
+    public void salvarEntrevista(EntrevistaDTO entrevistaDTO) {
         salvarEntrevista(mapper.map(entrevistaDTO, Entrevista.class));
     }
 

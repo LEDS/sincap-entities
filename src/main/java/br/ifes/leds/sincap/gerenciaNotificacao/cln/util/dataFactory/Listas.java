@@ -25,6 +25,8 @@ public enum Listas {
     INSTANCE;
     
     private final List<String> listaProfissoes;
+    private final List<String> listaReligioes;
+    private final List<String> listaGrauEscolaridade;
     private final List<String> listCausaMortis;
     private final List<Sexo> listaSexo;
     private final List<EstadoCivil> listaEstado;
@@ -90,6 +92,22 @@ public enum Listas {
         listaProfissoes.add("Engenheiro(a) Técnico(a) de Química");
         listaProfissoes.add("Engenheiro(a) Técnico(a) de Segurança");
         listaProfissoes.add("Engenheiro(a) Técnico(a) de Transportes");
+
+        listaReligioes = new ArrayList<>();
+
+        listaReligioes.add("Católico(a)");
+        listaReligioes.add("Evangélico(a)");
+        listaReligioes.add("Budista");
+
+        listaGrauEscolaridade = new ArrayList<>();
+
+        listaGrauEscolaridade.add("Ensino Fundamental incompleto");
+        listaGrauEscolaridade.add("Ensino Fundamental completo");
+        listaGrauEscolaridade.add("Ensino Médio incompleto");
+        listaGrauEscolaridade.add("Ensino Médio completo");
+        listaGrauEscolaridade.add("Ensino Superior incompleto");
+        listaGrauEscolaridade.add("Ensino Superior completo");
+
         
         listaSexo = new ArrayList<>();
         
@@ -110,6 +128,7 @@ public enum Listas {
         listaParentesco.add(Parentesco.IRMAOS);
         listaParentesco.add(Parentesco.PAIS);
         listaParentesco.add(Parentesco.TIOS);
+        listaParentesco.add(Parentesco.AUTORIZACAO_JUDICIAL);
         
         listCorpoEncaminhamento = new ArrayList<>();
         
@@ -180,7 +199,21 @@ public enum Listas {
     public List<String> getListProf() {
         return listaProfissoes;
     }
-    
+
+    /**Método responsável por retornar uma lista de Religiões.
+     * @return listaReligioes - lista de Religiões.
+     */
+    public List<String> getListaReligioes() {
+        return listaReligioes;
+    }
+
+    /**Método responsável por retornar uma lista de Graus de Ecolaridades.
+     * @return listaGrauEscolaridade - lista de Graus de Escolaridade.
+     */
+    public List<String> getListaGrauEscolaridade() {
+        return listaGrauEscolaridade;
+    }
+
     /**Método responsável por retornar uma lista de Sexo.
      * @return listaSexo - lista de Sexo.
      */

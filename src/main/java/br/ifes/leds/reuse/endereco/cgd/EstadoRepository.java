@@ -17,4 +17,5 @@ import java.util.List;
 public interface EstadoRepository extends JpaRepository<Estado, Long> {
 
     public List<Estado> findByPaisNomeOrderByNomeAsc(String pais);
+    public Estado findBySigla(String sigla);
 }

@@ -1,17 +1,22 @@
 package br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto;
 
-import java.util.Calendar;
-
-import lombok.*;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CausaMortis;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CorpoEncaminhamento;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoObito;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.interfaces.ObitoInterface;
+import br.ifes.leds.sincap.validacao.annotations.DatasObitoConsistentes;
+import lombok.*;
 import lombok.experimental.Builder;
+import org.joda.time.DateTime;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
+import java.util.Calendar;
+
+import static org.joda.time.Hours.hoursBetween;
+import static org.joda.time.Years.yearsBetween;
 
 @Getter
 @Setter
@@ -19,7 +24,8 @@ import javax.validation.constraints.Past;
 @AllArgsConstructor
 @Builder
 @EqualsAndHashCode
-public class ObitoDTO {
+@DatasObitoConsistentes
+public class ObitoDTO implements ObitoInterface {
 
     private Long id;
 
@@ -53,4 +59,29 @@ public class ObitoDTO {
     private CausaMortis quartaCausaMortis;
     private TipoObito tipoObito;
     private CorpoEncaminhamento corpoEncaminhamento;
+
+    @Override
+    public boolean haCausaNaoDoacao() {
+        return !this.isAptoDoacao();
+    }
+
+    @Override
+    public Integer getIdadePaciente() {
+        if (this.paciente == null || this.paciente.getDataNascimento() == null || this.dataObito == null) {
+            return null;
+        } else {
+            DateTime dataNascimento = new DateTime(this.paciente.getDataNascimento());
+            DateTime dataObito = new DateTime(this.dataObito);
+            return yearsBetween(dataNascimento, dataObito).getYears();
+        }
+    }
+
+    @Override
+    public Integer getHorasObito() {
+        if (this.dataObito == null) {
+            return null;
+        } else {
+            return hoursBetween(new DateTime(this.dataObito), new DateTime()).getHours();
+        }
+    }
 }

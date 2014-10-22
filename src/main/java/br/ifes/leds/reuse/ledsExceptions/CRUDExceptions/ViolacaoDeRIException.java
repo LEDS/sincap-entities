@@ -1,30 +1,24 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.ifes.leds.reuse.ledsExceptions.CRUDExceptions;
 
+import lombok.Getter;
+
+import javax.validation.ConstraintViolation;
+import java.util.Set;
+
 /**
- *
  * @author leds-6752
  */
-public class ViolacaoDeRIException extends Exception {
-
-    public ViolacaoDeRIException() {
-        super();
-    }
-
-    public ViolacaoDeRIException(String message) {
-        super(message);
-    }
-
-    public ViolacaoDeRIException(String message, Throwable cause) {
-        super(message, cause);
-    }
+public class ViolacaoDeRIException extends RuntimeException {
 
     public ViolacaoDeRIException(Throwable cause) {
         super(cause);
     }
+
+    public ViolacaoDeRIException(Set<? extends ConstraintViolation<?>> constraintViolations) {
+        this.constraintViolations = constraintViolations;
+    }
+
+    @Getter
+    private Set<? extends ConstraintViolation<?>> constraintViolations;
 
 }

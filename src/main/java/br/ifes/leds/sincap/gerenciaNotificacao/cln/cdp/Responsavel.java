@@ -38,6 +38,16 @@ public class Responsavel extends Pessoa implements TelefonesResponsavelInterface
     @NotNull
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private DocumentoComFoto documentoSocial;
+
+    @Size(min = 3, max = 255)
+    @Column
+    @NotNull
+    private String religiao;
+
+    @Size(min = 3, max = 255)
+    @Column
+    @NotNull
+    private String grauEscolaridade;
     
     @Enumerated(EnumType.STRING)
     @NotNull

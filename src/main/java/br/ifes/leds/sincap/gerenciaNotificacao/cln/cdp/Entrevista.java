@@ -2,11 +2,13 @@ package br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp;
 
 import br.ifes.leds.reuse.persistence.ObjetoPersistente;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Funcionario;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.interfaces.EntrevistaInterface;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import java.util.Calendar;
@@ -19,7 +21,7 @@ import java.util.Calendar;
 @Getter
 @Entity
 @EqualsAndHashCode(callSuper = true)
-public class Entrevista extends ObjetoPersistente {
+public class Entrevista extends ObjetoPersistente implements EntrevistaInterface {
     
     @Temporal(TemporalType.TIMESTAMP)
     @NotNull
@@ -39,15 +41,25 @@ public class Entrevista extends ObjetoPersistente {
     private boolean doacaoAutorizada;
     
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @NotNull
+    @Valid
     private Responsavel responsavel;
+
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @Valid
+    private Responsavel responsavel2;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private Testemunha testemunha1;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @Valid
     private Testemunha testemunha2;
     
     @ManyToOne
     private Funcionario funcionario;
+
+    @Override
+    public boolean haCausaNaoDoacao() {
+        return !this.isDoacaoAutorizada() || !this.isEntrevistaRealizada();
+    }
 }
