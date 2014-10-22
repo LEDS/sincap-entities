@@ -81,4 +81,27 @@ public class AplRelatorio {
 
         return new Double((totalCaptacao*100)/totalDoacao);
     }
+
+    /**
+     * Esta função é responsável por preencher um objeto do relatório de TotalDoacaoInstituição.
+     * @param id - da instituição notificadora.
+     * @param datIni - Data Incial de abertura.
+     * @param datFim - Data Final de abertura.
+     * @return td - Obejto TotalDoacaoInstituicao.
+     */
+
+    public TotalDoacaoInstituicao relatorioTotalDoacaoInstituicao(Long id,Calendar datIni,Calendar datFim){
+
+        InstituicaoNotificadora in = instituicaoNotificadoraRepository.findOne(id);
+        TotalDoacaoInstituicao td = new TotalDoacaoInstituicao();
+
+        td.setNomeInstituicao(in.getNome());
+        td.setNumeroNotificacao(quantidadeNotificacoes(id,datFim,datIni));
+        td.setNumeroDoacao(quantidadeDoacao(id,datFim,datIni));
+        td.setNumeroEntrevista(quantidadeEntrevista(id,datFim,datIni));
+        td.setNumeroRecusa(quantidadeRecusa(id,datFim,datIni));
+        td.setPercentualEfetivacao(percentualEfetivacao(td.getNumeroDoacao(),td.getNumeroNotificacao()));
+
+        return td;
+    }
 }
