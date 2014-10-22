@@ -1,29 +1,29 @@
 package br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.relatorios;
 
-import br.ifes.leds.sincap.controleInterno.cln.cdp.InstituicaoNotificadora;
-import lombok.Getter;
-import lombok.Setter;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
+import lombok.*;
+import lombok.experimental.Builder;
 
 /**
- * Created by aleao on 21/10/14.
+ * @author aleao on 21/10/14.
  */
 @Getter
 @Setter
-@Entity
-public class TotalDoacaoInstituicao extends InstituicaoNotificadora{
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@EqualsAndHashCode
+public class TotalDoacaoInstituicao {
 
-    @Column
-    private Long numeroNotificacao;
-    @Column
-    private Long numeroEntrevista;
-    @Column
-    private Long numeroRecusa;
-    @Column
-    private Long numeroDoacao;
-    @Column
-    private Long percentualEfetivacao;
+    private String nomeInstituicao;
+
+    private Integer numeroNotificacao;
+
+    private Integer numeroEntrevista;
+
+    private Integer numeroRecusa;
+
+    private Integer numeroDoacao;
+
+    private Double percentualEfetivacao;
 
 }

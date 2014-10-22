@@ -2,6 +2,7 @@ package br.ifes.leds.sincap.gerenciaNotificacao.cln.cgt;
 
 import br.ifes.leds.sincap.controleInterno.cgd.HospitalRepository;
 import br.ifes.leds.sincap.controleInterno.cgd.InstituicaoNotificadoraRepository;
+import br.ifes.leds.sincap.controleInterno.cln.cdp.Instituicao;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.InstituicaoNotificadora;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ProcessoNotificacaoRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.relatorios.TotalDoacaoInstituicao;
@@ -21,9 +22,6 @@ public class AplRelatorio {
 
 
 
-    private TotalDoacaoInstituicao totalDoacaoInstituicao;
-
-
     /**
      * Esta função é responsável por buscar a quantidade de notificações
      * de uma instituição notificadora através do seu id.
@@ -33,7 +31,7 @@ public class AplRelatorio {
      * @return quantidadeNotificacoes.
      */
     private Integer quantidadeNotificacoes(Long id,Calendar datIni, Calendar datFim){
-        return processoNotificacaoRepository.countByDataAberturaBetweenAndObitoHospitalId(datIni,datFim,id);
+        return processoNotificacaoRepository.countByDataAberturaBetweenAndObitoHospitalId(datIni, datFim, id);
     }
 
     /**
@@ -45,7 +43,7 @@ public class AplRelatorio {
      * @return quantidadeNotificacoes.
      */
     private Integer quantidadeEntrevista(Long id,Calendar datIni, Calendar datFim){
-        return processoNotificacaoRepository.countByDataAberturaBetweenAndObitoHospitalIdAndEntrevistaIsNotNullAndEntrevistaEntrevistaRealizadaTrue(datIni,datFim,id);
+        return processoNotificacaoRepository.countByDataAberturaBetweenAndObitoHospitalIdAndEntrevistaIsNotNullAndEntrevistaEntrevistaRealizadaTrue(datIni, datFim, id);
     }
 
     /**
@@ -57,7 +55,7 @@ public class AplRelatorio {
      * @return quantidadeNotificacoes.
      */
     private Integer quantidadeRecusa(Long id,Calendar datIni, Calendar datFim){
-        return processoNotificacaoRepository.countByDataAberturaBetweenAndObitoHospitalIdAndEntrevistaIsNotNullAndEntrevistaEntrevistaRealizadaTrueAndEntrevistaDoacaoAutorizadaFalse(datIni,datFim,id);
+        return processoNotificacaoRepository.countByDataAberturaBetweenAndObitoHospitalIdAndEntrevistaIsNotNullAndEntrevistaEntrevistaRealizadaTrueAndEntrevistaDoacaoAutorizadaFalse(datIni, datFim, id);
     }
 
     /**
@@ -69,7 +67,7 @@ public class AplRelatorio {
      * @return quantidadeNotificacoes.
      */
     private Integer quantidadeDoacao(Long id,Calendar datIni, Calendar datFim){
-        return processoNotificacaoRepository.countByDataAberturaBetweenAndObitoHospitalIdAndEntrevistaIsNotNullAndEntrevistaEntrevistaRealizadaTrueAndEntrevistaDoacaoAutorizadaTrueAndCaptacaoCaptacaoRealizadaTrue(datIni,datFim,id);
+        return processoNotificacaoRepository.countByDataAberturaBetweenAndObitoHospitalIdAndEntrevistaIsNotNullAndEntrevistaEntrevistaRealizadaTrueAndEntrevistaDoacaoAutorizadaTrueAndCaptacaoCaptacaoRealizadaTrue(datIni, datFim, id);
     }
 
     /**
@@ -77,13 +75,10 @@ public class AplRelatorio {
      * Esta recebe como parametro o id da instituição,
      * o nº total de captações realizadas multiplica por 100
      * e divide pelo total de notificações da instuição.
-     * @param id - da instituição notificadora.
      * @return quantidadeNotificacoes.
      */
-    private Double percentualEfetivacao(Long id,Integer totalCaptacao, Integer totalDoacao){
+    private Double percentualEfetivacao(Integer totalCaptacao, Integer totalDoacao){
 
         return new Double((totalCaptacao*100)/totalDoacao);
     }
-
-
 }
