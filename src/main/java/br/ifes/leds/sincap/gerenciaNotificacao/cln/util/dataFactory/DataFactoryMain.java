@@ -11,6 +11,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Component;
 
+import java.util.Calendar;
+import java.util.Date;
+
 /**
  *
  * @author aleao
@@ -47,7 +50,10 @@ public class DataFactoryMain {
         DataFactory df = new DataFactory();
         df.randomize((int) System.currentTimeMillis());
 
-        
+        Calendar datIni = Calendar.getInstance();
+        Calendar datFim = Calendar.getInstance();
+
+
 //        nd.criaNotificadorRandom(df,5);
 //        hd.criaHospitalRandom(df, 5);
 //        sd.criaSetorRandom();
@@ -61,7 +67,9 @@ public class DataFactoryMain {
 //        cmd.criaCausaMortisRandom(df, 5);
 //        pnd.criarAnaliseObitoRandom(df,5);
 //        pnd.criaEntrevistaRadom(df, 5);
-        pnd.criaCaptacaoRadom(df, 5);
+//        pnd.criaCaptacaoRadom(df, 5);
+//        pnd.criaEntrevistaAutorizadaRadom(df,5,datIni,datFim);
+//        pnd.criaEntrevistaRecusadaRadom(df,5,datIni,datFim);
 //        cnd.criaCausaNaoDoacaoRandom(df, 5);
     }
 

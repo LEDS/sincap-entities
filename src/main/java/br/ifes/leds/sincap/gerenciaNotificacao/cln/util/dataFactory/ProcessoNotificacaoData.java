@@ -174,7 +174,82 @@ public class ProcessoNotificacaoData {
             salvarProcesso(pn);
         }
     }
-    
+
+    /**Método responsável por criar processo de notificação randomico até a
+     * etapa de Analise de Entrevista com entrevista autorizada de forma randomica.
+     * @param df - instancia DataFactory.
+     * @param QtdEnt - quantidade de processos.
+     */
+    @SuppressWarnings("unused")
+    public void criaEntrevistaAutorizadaRadom(DataFactory df,Integer QtdEnt,Calendar datIni,Calendar datFim){
+        for (int i = 0; i < QtdEnt;i++){
+            ProcessoNotificacao pn = criarAnaliseObito(df);
+            Calendar dataAtual = Calendar.getInstance();
+            Calendar dataCadastro = Calendar.getInstance();
+            Calendar dataEntrevista = Calendar.getInstance();
+
+            pn.getDataAbertura().setTime(df.getDateBetween(datIni.getTime(),datFim.getTime()));
+            pn.getObito().getDataCadastro().setTime(df.getDateBetween(datIni.getTime(),datFim.getTime()));
+            pn.getObito().getDataObito().setTime((df.getDateBetween(pn.getObito().getDataCadastro().getTime(),datFim.getTime())));
+
+            List<AtualizacaoEstado> listAtualizacao = new ArrayList<>();
+            listAtualizacao.add(AtualizaEstadoNotificacao(pn,1));
+            listAtualizacao.add(AtualizaEstadoNotificacao(pn,2));
+            Entrevista entrevista = criarEntrevista(df);
+            dataCadastro.setTime(df.getDateBetween(pn.getObito().getDataObito().getTime(),datFim.getTime()));
+            entrevista.setDataCadastro(dataCadastro);
+            dataEntrevista.setTime(df.getDateBetween(entrevista.getDataCadastro().getTime(),datFim.getTime()));
+            entrevista.setDataEntrevista(dataEntrevista);
+            entrevista.setDoacaoAutorizada(true);
+            entrevista.setEntrevistaRealizada(true);
+            pn.setEntrevista(entrevista);
+            pn.setHistorico(listAtualizacao);
+
+            for(AtualizacaoEstado ae : listAtualizacao){
+                pn.setUltimoEstado(ae);
+            }
+            salvaEstadoNotificacao(AtualizaEstadoNotificacao(pn,2));
+            salvarProcesso(pn);
+        }
+    }
+
+    /**Método responsável por criar processo de notificação randomico até a
+     * etapa de Analise de Entrevista com recusa de forma randomica.
+     * @param df - instancia DataFactory.
+     * @param QtdEnt - quantidade de processos.
+     */
+    @SuppressWarnings("unused")
+    public void criaEntrevistaRecusadaRadom(DataFactory df,Integer QtdEnt,Calendar datIni,Calendar datFim){
+        for (int i = 0; i < QtdEnt;i++){
+            ProcessoNotificacao pn = criarAnaliseObito(df);
+            Calendar dataAtual = Calendar.getInstance();
+            Calendar dataCadastro = Calendar.getInstance();
+            Calendar dataEntrevista = Calendar.getInstance();
+
+            pn.getDataAbertura().setTime(df.getDateBetween(datIni.getTime(),datFim.getTime()));
+            pn.getObito().getDataCadastro().setTime(df.getDateBetween(datIni.getTime(),datFim.getTime()));
+            pn.getObito().getDataObito().setTime((df.getDateBetween(pn.getObito().getDataCadastro().getTime(),datFim.getTime())));
+
+            List<AtualizacaoEstado> listAtualizacao = new ArrayList<>();
+            listAtualizacao.add(AtualizaEstadoNotificacao(pn,1));
+            listAtualizacao.add(AtualizaEstadoNotificacao(pn,2));
+            Entrevista entrevista = criarEntrevista(df);
+            dataCadastro.setTime(df.getDateBetween(pn.getObito().getDataObito().getTime(),datFim.getTime()));
+            entrevista.setDataCadastro(dataCadastro);
+            dataEntrevista.setTime(df.getDateBetween(entrevista.getDataCadastro().getTime(),datFim.getTime()));
+            entrevista.setDataEntrevista(dataEntrevista);
+            entrevista.setDoacaoAutorizada(false);
+            entrevista.setEntrevistaRealizada(true);
+            pn.setEntrevista(entrevista);
+            pn.setHistorico(listAtualizacao);
+
+            for(AtualizacaoEstado ae : listAtualizacao){
+                pn.setUltimoEstado(ae);
+            }
+            salvaEstadoNotificacao(AtualizaEstadoNotificacao(pn,2));
+            salvarProcesso(pn);
+        }
+    }
     /**Método responsável por criar uma Captacao.
      * @param df - instancia DataFactory.
      * @return captacao - Objeto Captacao.
