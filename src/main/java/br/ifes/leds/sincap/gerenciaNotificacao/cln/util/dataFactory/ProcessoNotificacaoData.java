@@ -256,9 +256,9 @@ public class ProcessoNotificacaoData {
      * @param QtdEnt - quantidade de processos.
      */
     @SuppressWarnings("unused")
-    public void criaEntrevistaRecusadaRadom(DataFactory df,Integer QtdEnt,Calendar datIni,Calendar datFim){
+    public void criaEntrevistaRecusadaRadom(DataFactory df,Hospital hospital,Integer QtdEnt,Calendar datIni,Calendar datFim){
         for (int i = 0; i < QtdEnt;i++){
-            ProcessoNotificacao pn = criarAnaliseObito(df);
+            ProcessoNotificacao pn = criarAnaliseObitoHospital(df, hospital);
             Calendar dataAtual = Calendar.getInstance();
             Calendar dataCadastro = Calendar.getInstance();
             Calendar dataEntrevista = Calendar.getInstance();
@@ -329,7 +329,40 @@ public class ProcessoNotificacaoData {
             salvarProcesso(pn);
         }
     }
-    
+
+    /**Método responsável por criar processo de notificação randomico até a
+     * etapa de Analise de Captacao de forma randomica.
+     * @param df - instancia DataFactory.
+     * @param QtdCap - quantidade de processos.
+     */
+    public void criaCaptacaoRealizadaRadom(DataFactory df,Hospital hospital,Integer QtdCap,Calendar datIni,Calendar datFim){
+        for (int i = 0; i < QtdCap;i++){
+            ProcessoNotificacao pn = criarAnaliseObitoHospital(df,hospital);
+            List<AtualizacaoEstado> listAtualizacao = new ArrayList<>();
+            Calendar dataAtual = Calendar.getInstance();
+            Calendar dataCadastro = Calendar.getInstance();
+            Calendar dataEntrevista = Calendar.getInstance();
+
+            listAtualizacao.add(AtualizaEstadoNotificacao(pn,1));
+            listAtualizacao.add(AtualizaEstadoNotificacao(pn,2));
+            listAtualizacao.add(AtualizaEstadoNotificacao(pn,3));
+
+            Entrevista entrevista = criarEntrevista(df);
+            dataCadastro.setTime(df.getDateBetween(pn.getObito().getDataObito().getTime(),dataAtual.getTime()));
+            entrevista.setDataCadastro(dataCadastro);
+            dataEntrevista.setTime(df.getDateBetween(entrevista.getDataCadastro().getTime(),dataAtual.getTime()));
+            entrevista.setDataEntrevista(dataEntrevista);
+            pn.setEntrevista(entrevista);
+            pn.setCaptacao(criaCaptacao(df));
+            pn.setHistorico(listAtualizacao);
+
+            for(AtualizacaoEstado ae : listAtualizacao){
+                pn.setUltimoEstado(ae);
+            }
+
+            salvarProcesso(pn);
+        }
+    }
     private static Date removeDias(Date date) {
             GregorianCalendar gc = new GregorianCalendar();  
             gc.setTime(date);  

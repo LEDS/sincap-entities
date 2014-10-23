@@ -43,7 +43,7 @@ public class CaptacaoData {
     public Captacao criarCaptacao(DataFactory df,Captador c){
         Captacao captacao = criaObjeto(Captacao.class);
 
-        captacao.setCaptacaoRealizada(df.chance(50));
+        captacao.setCaptacaoRealizada(true);
 
         if (captacao.isCaptacaoRealizada()) {
             captacao.setDataCaptacao(Calendar.getInstance());

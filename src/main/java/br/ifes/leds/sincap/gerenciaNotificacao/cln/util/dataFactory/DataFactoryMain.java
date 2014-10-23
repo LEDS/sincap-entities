@@ -72,7 +72,9 @@ public class DataFactoryMain {
 //        pnd.criarAnaliseObitoRandom(df,5);
 //        pnd.criaEntrevistaRadom(df, 5);
 //        pnd.criaCaptacaoRadom(df, 5);
-        pnd.criaEntrevistaAutorizadaRadom(df,hospital,5,datIni,datFim);
+//        pnd.criaEntrevistaAutorizadaRadom(df,hospital,5,datIni,datFim);
+//        pnd.criaEntrevistaRecusadaRadom(df,hospital,5,datIni,datFim);
+        pnd.criaCaptacaoRealizadaRadom(df,hospital,5,datIni,datFim);
 //        pnd.criaEntrevistaRecusadaRadom(df,5,datIni,datFim);
 //        cnd.criaCausaNaoDoacaoRandom(df, 5);
     }
