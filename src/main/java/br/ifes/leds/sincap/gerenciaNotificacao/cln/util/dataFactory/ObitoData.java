@@ -98,4 +98,38 @@ public class ObitoData {
 
         return obito;
     }
+
+    /**Método responsável por criar Objetos Obito randomico
+     * para um hospital específico.
+     * @param df - instancia DataFactory.
+     * @return obito - objeto Obito Randomico.
+     */
+    public Obito criaObitoHospital(DataFactory df,Hospital hospital) {
+        Obito obito = criaObjeto(Obito.class);
+        Calendar dataObito = Calendar.getInstance();
+        Calendar dataEvento = Calendar.getInstance();
+        Date dataAtual = criaObjeto(Date.class);
+        List<CorpoEncaminhamento> listcorpoEncaminhamento = list.getListCorp();
+        List<TipoObito> listTipoObito = list.getListTipoObito();
+
+
+        obito.setAptoDoacao(df.chance(50));
+        obito.setCorpoEncaminhamento(df.getItem(listcorpoEncaminhamento));
+        obito.setPaciente(pacienteData.criarPaciente(df));
+        dataObito.setTime(df.getDateBetween(obito.getPaciente().getDataInternacao().getTime(), dataAtual));
+        obito.setDataObito(dataObito);
+        dataEvento.setTime(df.getDateBetween(dataObito.getTime(), dataAtual));
+        obito.setDataCadastro(dataEvento);
+        obito.setPrimeiraCausaMortis(causaMortisData.criaCausaMortis(df));
+        obito.setSegundaCausaMortis(causaMortisData.criaCausaMortis(df));
+        obito.setTerceiraCausaMortis(causaMortisData.criaCausaMortis(df));
+        obito.setQuartaCausaMortis(causaMortisData.criaCausaMortis(df));
+        List<Setor> listSetor = setorRepository.findAll();
+        obito.setSetor(df.getItem(listSetor));
+        obito.setTipoObito(df.getItem(listTipoObito));
+        List<Hospital> listHospital = hospitalRepository.findAll();
+        obito.setHospital(hospital);
+
+        return obito;
+    }
 }

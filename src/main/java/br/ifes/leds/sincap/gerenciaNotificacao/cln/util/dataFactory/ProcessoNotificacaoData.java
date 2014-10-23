@@ -7,14 +7,20 @@
 package br.ifes.leds.sincap.gerenciaNotificacao.cln.util.dataFactory;
 
 import br.ifes.leds.sincap.controleInterno.cgd.CaptadorRepository;
+import br.ifes.leds.sincap.controleInterno.cgd.HospitalRepository;
 import br.ifes.leds.sincap.controleInterno.cgd.NotificadorRepository;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Captador;
+import br.ifes.leds.sincap.controleInterno.cln.cdp.Hospital;
+import br.ifes.leds.sincap.controleInterno.cln.cdp.InstituicaoNotificadora;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Notificador;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.AtualizacaoEstadoRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ProcessoNotificacaoRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.*;
 import org.fluttercode.datafactory.impl.DataFactory;
+import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -41,9 +47,12 @@ public class ProcessoNotificacaoData {
     @Autowired
     private ObitoData obitoData;
     @Autowired
+    private NotificadorData notificadorData;
+    @Autowired
     private EntrevistaData entrevistaData;
     @Autowired
     private CaptacaoData captacaoData;
+
 
 
     /**Método responsável por criar processo de notificação randomico até a
@@ -127,6 +136,34 @@ public class ProcessoNotificacaoData {
         
         return processoNotificacao;
     }
+
+    /**Método responsável por criar um processo de notificação randomico até a
+     * etapa de Analise de Óbito.
+     * @param df - instancia DataFactory.
+     * @return processoNotificacao - objeto ProcessoNotificacao.
+     */
+    public ProcessoNotificacao criarAnaliseObitoHospital(DataFactory df,Hospital hospital){
+
+        ProcessoNotificacao processoNotificacao = criaObjeto(ProcessoNotificacao.class);
+        Calendar dataAbertura = Calendar.getInstance();
+        Obito obito = obitoData.criaObitoHospital(df, hospital);
+        Date dataIni = removeDias(obito.getDataObito().getTime());
+        Notificador notificador = notificadorData.criaNotificador(df);
+        Set<InstituicaoNotificadora> set = new HashSet<>();
+        set.add(hospital);
+        notificador.setInstituicoesNotificadoras(set);
+        notificadorData.salvarNotificador(df,notificador);
+
+        processoNotificacao.setArquivado(false);
+        processoNotificacao.setNotificador(notificador);
+        processoNotificacao.setObito(obito);
+        dataAbertura.setTime(df.getDateBetween(dataIni, obito.getDataObito().getTime()));
+        processoNotificacao.setDataAbertura(dataAbertura);
+        processoNotificacao.setCodigo(df.getNumberText(8));
+        processoNotificacao.setEntrevista(null);
+
+        return processoNotificacao;
+    }
     
     /**Método responsável por salvar no banco de dados um Objeto ProcessoNotificacao.
      * @param pn - Objeto ProcessoNotificacao.
@@ -181,9 +218,9 @@ public class ProcessoNotificacaoData {
      * @param QtdEnt - quantidade de processos.
      */
     @SuppressWarnings("unused")
-    public void criaEntrevistaAutorizadaRadom(DataFactory df,Integer QtdEnt,Calendar datIni,Calendar datFim){
+    public void criaEntrevistaAutorizadaRadom(DataFactory df,Hospital hospital,Integer QtdEnt,Calendar datIni,Calendar datFim){
         for (int i = 0; i < QtdEnt;i++){
-            ProcessoNotificacao pn = criarAnaliseObito(df);
+            ProcessoNotificacao pn = criarAnaliseObitoHospital(df, hospital);
             Calendar dataAtual = Calendar.getInstance();
             Calendar dataCadastro = Calendar.getInstance();
             Calendar dataEntrevista = Calendar.getInstance();
@@ -208,7 +245,7 @@ public class ProcessoNotificacaoData {
             for(AtualizacaoEstado ae : listAtualizacao){
                 pn.setUltimoEstado(ae);
             }
-            salvaEstadoNotificacao(AtualizaEstadoNotificacao(pn,2));
+            salvaEstadoNotificacao(AtualizaEstadoNotificacao(pn, 2));
             salvarProcesso(pn);
         }
     }
