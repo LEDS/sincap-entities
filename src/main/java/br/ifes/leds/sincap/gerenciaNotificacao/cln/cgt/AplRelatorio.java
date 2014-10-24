@@ -98,12 +98,17 @@ public class AplRelatorio {
         TotalDoacaoInstituicao td = new TotalDoacaoInstituicao();
 
         td.setNomeInstituicao(in.getNome());
-        td.setNumeroNotificacao(quantidadeNotificacoes(id,datFim,datIni));
-        td.setNumeroDoacao(quantidadeDoacao(id,datFim,datIni));
-        td.setNumeroEntrevista(quantidadeEntrevista(id,datFim,datIni));
-        td.setNumeroRecusa(quantidadeRecusa(id,datFim,datIni));
-        td.setPercentualEfetivacao(percentualEfetivacao(td.getNumeroDoacao(),td.getNumeroNotificacao()));
+        td.setNumeroNotificacao(quantidadeNotificacoes(id,datIni,datFim));
+        td.setNumeroDoacao(quantidadeDoacao(id,datIni,datFim));
+        td.setNumeroEntrevista(quantidadeEntrevista(id,datIni,datFim));
+        td.setNumeroRecusa(quantidadeRecusa(id,datIni,datFim));
 
+        if(td.getNumeroDoacao()==0 || td.getNumeroNotificacao()==0 ){
+            td.setPercentualEfetivacao(0.0);
+        }
+        else{
+            td.setPercentualEfetivacao(percentualEfetivacao(td.getNumeroDoacao(),td.getNumeroNotificacao()));
+        }
         return td;
     }
 }
