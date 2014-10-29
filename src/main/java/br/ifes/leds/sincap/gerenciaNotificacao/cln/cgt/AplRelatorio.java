@@ -6,6 +6,7 @@ import br.ifes.leds.sincap.controleInterno.cln.cdp.Instituicao;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.InstituicaoNotificadora;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ProcessoNotificacaoRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.relatorios.TotalDoacaoInstituicao;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.relatorios.TotalNaoDoacaoInstituicao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,14 +25,6 @@ public class AplRelatorio {
 
 
 
-    /**
-     * Esta função é responsável por buscar a quantidade de notificações
-     * de uma instituição notificadora através do seu id.
-     * @param id - da instituição notificadora.
-     * @param datIni - Data Incial de abertura.
-     * @param datFim - Data final de abertura.
-     * @return quantidadeNotificacoes.
-     */
     private Integer quantidadeNotificacoes(Long id,Calendar datIni, Calendar datFim){
         return processoNotificacaoRepository.countByDataAberturaBetweenAndObitoHospitalId(datIni, datFim, id);
     }
@@ -84,13 +77,9 @@ public class AplRelatorio {
         return new Double((totalCaptacao*100)/totalDoacao);
     }
 
-    /**
+    /*
      * Esta função é responsável por preencher um objeto do relatório de TotalDoacaoInstituição.
-     * @param id - da instituição notificadora.
-     * @param datIni - Data Incial de abertura.
-     * @param datFim - Data Final de abertura.
-     * @return td - Obejto TotalDoacaoInstituicao.
-     */
+    */
 
     public TotalDoacaoInstituicao relatorioTotalDoacaoInstituicao(Long id,Calendar datIni,Calendar datFim){
 
@@ -109,6 +98,25 @@ public class AplRelatorio {
         else{
             td.setPercentualEfetivacao(percentualEfetivacao(td.getNumeroDoacao(),td.getNumeroNotificacao()));
         }
+        return td;
+    }
+
+    public TotalNaoDoacaoInstituicao relatorioTotalNaoDoacaoInstituicao(Long id,Calendar dataInicio,Calendar dataFinal){
+
+        InstituicaoNotificadora in = instituicaoNotificadoraRepository.findOne(id);
+        TotalNaoDoacaoInstituicao td = new TotalNaoDoacaoInstituicao();
+
+        td.setNome(in.getNome());
+
+        td.setRecusaFamiliar(quantidadeNotificacoes(id,dataInicio,dataFinal));
+
+        td.setContraInd(quantidadeDoacao(id,dataInicio,dataFinal));
+
+        td.setProblema(quantidadeEntrevista(id,dataInicio,dataFinal));
+
+        td.setTotal(td.getContraInd() + td.getProblema() + td.getRecusaFamiliar());
+
+
         return td;
     }
 }
