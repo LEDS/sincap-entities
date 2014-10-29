@@ -11,6 +11,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  *
  * @author Phillipe Lopes
@@ -18,5 +20,5 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 @Transactional
 public interface InstituicaoNotificadoraRepository extends JpaRepository<InstituicaoNotificadora, Long>{
-    
+    public List<InstituicaoNotificadora> findByIdIn(List<Long> id);
 }
