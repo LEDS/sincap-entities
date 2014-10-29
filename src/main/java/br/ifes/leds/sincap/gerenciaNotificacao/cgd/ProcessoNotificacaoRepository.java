@@ -1,7 +1,9 @@
 package br.ifes.leds.sincap.gerenciaNotificacao.cgd;
 
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CausaNaoDoacao;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoNotificacaoEnum;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.ProcessoNotificacao;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoNaoDoacao;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,5 +45,5 @@ public interface ProcessoNotificacaoRepository extends JpaRepository<ProcessoNot
 
     public Integer countByDataAberturaBetweenAndObitoHospitalIdAndEntrevistaIsNotNullAndEntrevistaEntrevistaRealizadaTrueAndEntrevistaDoacaoAutorizadaTrueAndCaptacaoCaptacaoRealizadaTrue(Calendar dataAberturaInicio, Calendar dataAberturaFim,Long id);
 
-    public Integer countByDataAberturaBetweenAndObitoHospitalAndCausaNaoDoacaoTipoNaoDoacaoContaining(Calendar dataInicio, Calendar dataFinal,Long id,String motivo);
+    public Integer countByDataAberturaBetweenAndObitoHospitalAndCausaNaoDoacaoTipoNaoDoacaoContaining(Calendar dataInicio, Calendar dataFinal,Long id,TipoNaoDoacao motivo);
 }
