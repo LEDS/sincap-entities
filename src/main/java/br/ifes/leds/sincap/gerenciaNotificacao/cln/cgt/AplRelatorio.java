@@ -5,12 +5,17 @@ import br.ifes.leds.sincap.controleInterno.cgd.InstituicaoNotificadoraRepository
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Instituicao;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.InstituicaoNotificadora;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ProcessoNotificacaoRepository;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoNaoDoacao;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.relatorios.TotalDoacaoInstituicao;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.relatorios.TotalNaoDoacaoInstituicao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
+
+import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoNaoDoacao.CONTRAINDICACAO_MEDICA;
+import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoNaoDoacao.PROBLEMAS_LOGISTICOS;
+import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoNaoDoacao.RECUSA_FAMILIAR;
 
 /**
  * Created by aleao on 21/10/14.
@@ -77,6 +82,11 @@ public class AplRelatorio {
         return new Double((totalCaptacao*100)/totalDoacao);
     }
 
+    private Integer quantNaoDoacao(Calendar DataInicio, Calendar DataFinal, Long idHops, TipoNaoDoacao causa)
+    {
+        return processoNotificacaoRepository.countByDataAberturaBetweenAndObitoHospitalAndCausaNaoDoacaoTipoNaoDoacaoContaining(DataInicio, DataFinal, idHops, causa);
+    }
+
     /*
      * Esta função é responsável por preencher um objeto do relatório de TotalDoacaoInstituição.
     */
@@ -87,9 +97,9 @@ public class AplRelatorio {
         TotalDoacaoInstituicao td = new TotalDoacaoInstituicao();
 
         td.setNomeInstituicao(in.getNome());
-        td.setNumeroNotificacao(quantidadeNotificacoes(id,datIni,datFim));
-        td.setNumeroDoacao(quantidadeDoacao(id,datIni,datFim));
-        td.setNumeroEntrevista(quantidadeEntrevista(id,datIni,datFim));
+        td.setNumeroNotificacao(quantidadeDoacao(id, datIni, datFim));
+        td.setNumeroDoacao(quantidadeDoacao(id, datIni, datFim));
+        td.setNumeroEntrevista(quantidadeEntrevista(id, datIni, datFim));
         td.setNumeroRecusa(quantidadeRecusa(id,datIni,datFim));
 
         if(td.getNumeroDoacao()==0 || td.getNumeroNotificacao()==0 ){
@@ -101,6 +111,9 @@ public class AplRelatorio {
         return td;
     }
 
+    /*
+     * Esta função é responsável por preencher um objeto do relatório de TotalNaoDoacaoInstituição.
+    */
     public TotalNaoDoacaoInstituicao relatorioTotalNaoDoacaoInstituicao(Long id,Calendar dataInicio,Calendar dataFinal){
 
         InstituicaoNotificadora in = instituicaoNotificadoraRepository.findOne(id);
@@ -108,11 +121,11 @@ public class AplRelatorio {
 
         td.setNome(in.getNome());
 
-        td.setRecusaFamiliar(quantidadeNotificacoes(id,dataInicio,dataFinal));
+        td.setRecusaFamiliar(quantNaoDoacao(dataInicio, dataFinal, id, RECUSA_FAMILIAR));
 
-        td.setContraInd(quantidadeDoacao(id,dataInicio,dataFinal));
+        td.setContraInd(quantNaoDoacao(dataInicio, dataFinal, id, CONTRAINDICACAO_MEDICA));
 
-        td.setProblema(quantidadeEntrevista(id,dataInicio,dataFinal));
+        td.setProblema(quantNaoDoacao(dataInicio, dataFinal, id, PROBLEMAS_LOGISTICOS));
 
         td.setTotal(td.getContraInd() + td.getProblema() + td.getRecusaFamiliar());
 
