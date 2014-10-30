@@ -13,6 +13,10 @@ import br.ifes.leds.sincap.controleInterno.cln.cdp.Notificador;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Telefone;
 import br.ifes.leds.sincap.controleInterno.cln.cgt.AplNotificador;
 import java.util.List;
+
+import br.ifes.leds.sincap.gerenciaNotificacao.cgd.DocumentoComFotoRepository;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoDocumentoComFoto;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DocumentoComFoto;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -37,11 +41,14 @@ public class AplNotificadorTest extends AbstractionTest {
         @Autowired
         private HospitalRepository hospitalRepository;
         @Autowired
+        private DocumentoComFotoRepository documentoComFotoRepository;
+        @Autowired
         private AplNotificador aplNotificador;
         
         private Notificador notificador;
         private Endereco endereco;
         private Telefone telefone;
+        private DocumentoComFoto documentoComFoto;
 	        
         /**  Metodo que responsavel por criar os objetos nescessários na realização dos testes.
          */
@@ -50,13 +57,17 @@ public class AplNotificadorTest extends AbstractionTest {
             notificador = new Notificador();
             endereco =  new Endereco();
             telefone = new Telefone();
+            documentoComFoto = new DocumentoComFoto();
+
+            documentoComFoto.setDocumento("1667187");
+            documentoComFoto.setTipoDocumentoComFoto(TipoDocumentoComFoto.RG);
             
             //Dados do Notificador                     
             notificador.setSenha("123456");
             notificador.setAtivo(true);
             notificador.setCpf("123.456.165-56");
             notificador.setSenha("123456");
-            notificador.setDocumentoSocial("1667187");
+            notificador.setDocumentoSocial(documentoComFoto);
             notificador.setEmail("teste@teste.com.br");
             notificador.setNome("Notificador Teste");
             
@@ -75,6 +86,7 @@ public class AplNotificadorTest extends AbstractionTest {
             telefone.setNumero("22222222"); 
             notificador.setTelefone(telefone); 
             telefoneRepository.save(telefone);
+            documentoComFotoRepository.save(documentoComFoto);
 
             Hospital hospital = hospitalRepository.findAll().get(0);
 

@@ -1,5 +1,6 @@
 package br.ifes.leds.sincap.controleInterno.cln.cdp;
 
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DocumentoComFoto;
 import br.ifes.leds.sincap.validacao.annotations.TelefoneFuncionarioConsistentes;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -42,10 +43,10 @@ public class Funcionario extends Pessoa {
     @NotNull
     private String cpf;
 
-    @Column
-    @Size(min = 3, max = 255)
+
     @NotNull
-    private String documentoSocial;
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    private DocumentoComFoto documentoSocial;
 
     @Column
     @Email

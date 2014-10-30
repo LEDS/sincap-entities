@@ -26,8 +26,7 @@ import javax.validation.constraints.NotNull;
 public class TestemunhaDTO {
 
     private Long id;
-    @Length(min = 5, max = 255)
-    private String documentoSocial;
+    private DocumentoComFotoDTO documentoSocial;
     @Length(min = 5, max = 255)
     private String nome;
     @Valid

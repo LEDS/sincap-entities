@@ -10,6 +10,7 @@ import br.ifes.leds.reuse.utility.Utility;
 import br.ifes.leds.reuse.utility.function.Function;
 import br.ifes.leds.sincap.controleInterno.cgd.FuncionarioRepository;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Funcionario;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.DocumentoComFotoDTO;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.EntrevistaDTO;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.ResponsavelDTO;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.TestemunhaDTO;
@@ -47,19 +48,12 @@ public class AplEntrevistaTest extends AbstractionTest{
     private DataFactory dataFactory;
     @Autowired
     private FuncionarioRepository funcionarioRepository;
-    // TODO Fazer testes de obter entrevista. 
-//    private final Method getNomeResponsavelDTO;
-//    private final Method getNomeTestemunhaDTO;
+    // TODO Fazer testes de obter entrevista.
     
     private EntrevistaDTO entrevistaDTO;
     private ResponsavelDTO responsavelDTO;
     private TestemunhaDTO testemunhaDTO1;
     private TestemunhaDTO testemunhaDTO2;
-    
-//    public AplEntrevistaTest() throws NoSuchMethodException, SecurityException {
-//        getNomeResponsavelDTO = ResponsavelDTO.class.getDeclaredMethod("getNome");
-//        getNomeTestemunhaDTO = TestemunhaDTO.class.getDeclaredMethod("getNome");
-//    }
     
     @Before
     public void before()
@@ -107,13 +101,13 @@ public class AplEntrevistaTest extends AbstractionTest{
                 entrevistaTest.getTestemunha2().getNome());
     }
 
-    private Function<EntrevistaDTO, String> getDocumentoSocialResp() {
-        return new Function<EntrevistaDTO, String>() {
+    private Function<EntrevistaDTO, DocumentoComFotoDTO> getDocumentoSocialResp() {
+        return new Function<EntrevistaDTO, DocumentoComFotoDTO>() {
             @Override
-            public String apply(EntrevistaDTO parameter) {
+            public DocumentoComFotoDTO apply(EntrevistaDTO parameter) {
                 if (parameter.getResponsavel() != null && parameter.getResponsavel().getDocumentoSocial() != null)
                     return parameter.getResponsavel().getDocumentoSocial();
-                return "Improvável :p";
+                return null;
             }
         };
     }

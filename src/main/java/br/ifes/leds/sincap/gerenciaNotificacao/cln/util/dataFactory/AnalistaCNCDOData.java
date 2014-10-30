@@ -15,6 +15,8 @@ import br.ifes.leds.sincap.controleInterno.cgd.TelefoneRepository;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.AnalistaCNCDO;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Telefone;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.AnalistaCNCDORepository;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoDocumentoComFoto;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DocumentoComFoto;
 import org.fluttercode.datafactory.impl.DataFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -63,12 +65,16 @@ public class AnalistaCNCDOData {
         AnalistaCNCDO analista = criaObjeto(AnalistaCNCDO.class);
         Endereco endereco = criaObjeto(Endereco.class);
         Telefone telefone = criaObjeto(Telefone.class);
+        DocumentoComFoto documentoComFoto = criaObjeto(DocumentoComFoto.class);
         
         //Preenchendo o objeto AnalistaCNCDO.
+        documentoComFoto.setDocumento(df.getNumberText(9));
+        documentoComFoto.setTipoDocumentoComFoto(TipoDocumentoComFoto.RG);
+
         analista.setAtivo(true);
         analista.setNome(df.getName());
         analista.setCpf(df.getNumberText(11));
-        analista.setDocumentoSocial(df.getNumberText(9));
+        analista.setDocumentoSocial(documentoComFoto);
         analista.setEmail(df.getEmailAddress());
         analista.setSenha("123456");
         

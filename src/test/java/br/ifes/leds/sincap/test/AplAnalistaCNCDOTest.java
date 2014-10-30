@@ -15,6 +15,9 @@ import br.ifes.leds.sincap.controleInterno.cgd.TelefoneRepository;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.AnalistaCNCDO;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Telefone;
 import br.ifes.leds.sincap.controleInterno.cln.cgt.AplAnalistaCNCDO;
+import br.ifes.leds.sincap.gerenciaNotificacao.cgd.DocumentoComFotoRepository;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoDocumentoComFoto;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DocumentoComFoto;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -39,9 +42,12 @@ public class AplAnalistaCNCDOTest extends AbstractionTest {
     private CidadeRepository cidadeRepository;
     @Autowired
     private EstadoRepository estadoRepository;
+    @Autowired
+    private DocumentoComFotoRepository documentoComFotoRepository;
 
     private Telefone telefone;
     private Endereco endereco;
+    private DocumentoComFoto documentoComFoto;
     private AnalistaCNCDO analista;
 
     /**
@@ -53,12 +59,16 @@ public class AplAnalistaCNCDOTest extends AbstractionTest {
         analista = new AnalistaCNCDO();
         endereco = new Endereco();
         telefone = new Telefone();
+        documentoComFoto = new DocumentoComFoto();
+
+        documentoComFoto.setDocumento("1668157");
+        documentoComFoto.setTipoDocumentoComFoto(TipoDocumentoComFoto.RG);
 
         //Dados
         analista.setAtivo(true);
         analista.setCpf("122.818.155-98");
         analista.setSenha("123456");
-        analista.setDocumentoSocial("1668157");
+        analista.setDocumentoSocial(documentoComFoto);
         analista.setEmail("analista@email.com.br");
         analista.setNome("Analista 1");
 
@@ -77,6 +87,7 @@ public class AplAnalistaCNCDOTest extends AbstractionTest {
         telefone.setNumero("22222222");
         analista.setTelefone(telefone);
         telefoneRepository.save(telefone);
+        documentoComFotoRepository.save(documentoComFoto);
     }
 
     /**

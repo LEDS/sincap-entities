@@ -12,6 +12,8 @@ import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ResponsavelRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoCivil;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Parentesco;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Responsavel;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoDocumentoComFoto;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DocumentoComFoto;
 import org.fluttercode.datafactory.impl.DataFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -126,7 +128,11 @@ public class ResponsavelData {
      * @param df - instancia DataFactory.
     */
     private void gerarDadosResponsavel(DataFactory df) {
-        // Dados do Paciente.
+        // Dados do Responsavel
+        DocumentoComFoto documentoComFoto = criaObjeto(DocumentoComFoto.class);
+        documentoComFoto.setDocumento(df.getNumberText(9));
+        documentoComFoto.setTipoDocumentoComFoto(TipoDocumentoComFoto.RG);
+
         responsavel.setNome(df.getName());
         responsavel.setNacionalidade("Brasileiro");
         responsavel.setEstadoCivil(df.getItem(listaEstadoCivil));
@@ -134,7 +140,7 @@ public class ResponsavelData {
         dataNascimento.setTime(df.getBirthDate());
         dataInternacao.setTime(df.getDateBetween(df.getDate(2000, 1, 1),
                 df.getDate(2014, 1, 1)));
-        responsavel.setDocumentoSocial(df.getNumberText(9));
+        responsavel.setDocumentoSocial(documentoComFoto);
         responsavel.setProfissao(df.getItem(listaProfissao));
         responsavel.setReligiao(df.getItem(listaReligiao));
         responsavel.setGrauEscolaridade(df.getItem(listaGrauEscolaridade));
