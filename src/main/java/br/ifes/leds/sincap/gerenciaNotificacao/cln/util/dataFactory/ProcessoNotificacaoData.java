@@ -14,6 +14,7 @@ import br.ifes.leds.sincap.controleInterno.cln.cdp.Hospital;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.InstituicaoNotificadora;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Notificador;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.AtualizacaoEstadoRepository;
+import br.ifes.leds.sincap.gerenciaNotificacao.cgd.CausaNaoDoacaoRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ProcessoNotificacaoRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.*;
 import org.fluttercode.datafactory.impl.DataFactory;
@@ -38,6 +39,8 @@ public class ProcessoNotificacaoData {
     
     @Autowired
     private ProcessoNotificacaoRepository processoNotificacaoRepository;
+    @Autowired
+    private CausaNaoDoacaoRepository causaNaoDoacaoRepository;
     @Autowired
     private NotificadorRepository notificadorRepository;
     @Autowired
@@ -262,6 +265,7 @@ public class ProcessoNotificacaoData {
             Calendar dataAtual = Calendar.getInstance();
             Calendar dataCadastro = Calendar.getInstance();
             Calendar dataEntrevista = Calendar.getInstance();
+            List<CausaNaoDoacao> listCausa = causaNaoDoacaoRepository.findAll();
 
             pn.getDataAbertura().setTime(df.getDateBetween(datIni.getTime(),datFim.getTime()));
             pn.getObito().getDataCadastro().setTime(df.getDateBetween(datIni.getTime(),datFim.getTime()));
@@ -273,11 +277,12 @@ public class ProcessoNotificacaoData {
             Entrevista entrevista = criarEntrevista(df);
             dataCadastro.setTime(df.getDateBetween(pn.getObito().getDataObito().getTime(),datFim.getTime()));
             entrevista.setDataCadastro(dataCadastro);
-            dataEntrevista.setTime(df.getDateBetween(entrevista.getDataCadastro().getTime(),datFim.getTime()));
+            dataEntrevista.setTime(df.getDateBetween(entrevista.getDataCadastro().getTime(), datFim.getTime()));
             entrevista.setDataEntrevista(dataEntrevista);
             entrevista.setDoacaoAutorizada(false);
             entrevista.setEntrevistaRealizada(true);
             pn.setEntrevista(entrevista);
+            pn.setCausaNaoDoacao(df.getItem(listCausa));
             pn.setHistorico(listAtualizacao);
 
             for(AtualizacaoEstado ae : listAtualizacao){
@@ -350,7 +355,7 @@ public class ProcessoNotificacaoData {
             Entrevista entrevista = criarEntrevista(df);
             dataCadastro.setTime(df.getDateBetween(pn.getObito().getDataObito().getTime(),dataAtual.getTime()));
             entrevista.setDataCadastro(dataCadastro);
-            dataEntrevista.setTime(df.getDateBetween(entrevista.getDataCadastro().getTime(),dataAtual.getTime()));
+            dataEntrevista.setTime(df.getDateBetween(entrevista.getDataCadastro().getTime(), dataAtual.getTime()));
             entrevista.setDataEntrevista(dataEntrevista);
             entrevista.setDoacaoAutorizada(true);
             entrevista.setEntrevistaRealizada(true);
