@@ -9,6 +9,8 @@ import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.relatorios.TotalDoacaoIns
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Calendar;
 
 /**
@@ -79,9 +81,12 @@ public class AplRelatorio {
      * e divide pelo total de notificações da instuição.
      * @return quantidadeNotificacoes.
      */
-    private Double percentualEfetivacao(Integer totalCaptacao, Integer totalDoacao){
+    private BigDecimal percentualEfetivacao(Integer totalCaptacao, Integer totalDoacao){
 
-        return new Double((totalCaptacao*100)/totalDoacao);
+        BigDecimal bTotalCaptacao = new BigDecimal(totalCaptacao*100);
+        BigDecimal bTotalDoacao = new BigDecimal(totalDoacao);
+
+        return bTotalCaptacao.divide(bTotalDoacao,2, RoundingMode.UP);
     }
 
     /**
@@ -104,7 +109,7 @@ public class AplRelatorio {
         td.setNumeroRecusa(quantidadeRecusa(id,datIni,datFim));
 
         if(td.getNumeroDoacao()==0 || td.getNumeroNotificacao()==0 ){
-            td.setPercentualEfetivacao(0.0);
+            td.setPercentualEfetivacao(new BigDecimal(0.00));
         }
         else{
             td.setPercentualEfetivacao(percentualEfetivacao(td.getNumeroDoacao(),td.getNumeroNotificacao()));

@@ -352,6 +352,8 @@ public class ProcessoNotificacaoData {
             entrevista.setDataCadastro(dataCadastro);
             dataEntrevista.setTime(df.getDateBetween(entrevista.getDataCadastro().getTime(),dataAtual.getTime()));
             entrevista.setDataEntrevista(dataEntrevista);
+            entrevista.setDoacaoAutorizada(true);
+            entrevista.setEntrevistaRealizada(true);
             pn.setEntrevista(entrevista);
             pn.setCaptacao(criaCaptacao(df));
             pn.setHistorico(listAtualizacao);
