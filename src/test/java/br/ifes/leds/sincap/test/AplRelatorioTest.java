@@ -28,9 +28,9 @@ public class AplRelatorioTest extends AbstractionTest {
     private AplRelatorio aplRelatorio;
     @Autowired
     AplProcessoNotificacao aplProcessoNotificacao;
-//    @Autowired
+    @Autowired
     HospitalData hospitalData;
-//    @Autowired
+    @Autowired
     ProcessoNotificacaoData processoNotificacaoData;
 
     private TotalDoacaoInstituicao totalDoacaoInstituicao;
@@ -55,28 +55,29 @@ public class AplRelatorioTest extends AbstractionTest {
 //        HospitalData hospitalData = (HospitalData) factory.getBean("hospitalData");
 //
 //        this.processoNotificacaoData = criaObjeto(ProcessoNotificacaoData.class);
-//        this.df = criaObjeto(DataFactory.class);
-//        this.datIni = Calendar.getInstance();
-//        this.datFim = Calendar.getInstance();
-//        this.listProcessoNotificacao = new ArrayList<>();
-//        this.hospital = hospitalData.criaHospital(df);
-//        hospitalData.salvarHospital(this.hospital);
-//
-//        processoNotificacaoData.criaEntrevistaAutorizadaRadom(df,hospital,5,datIni,datFim);
+        this.df = criaObjeto(DataFactory.class);
+        this.datIni = Calendar.getInstance();
+        this.datFim = Calendar.getInstance();
+        this.listProcessoNotificacao = new ArrayList<>();
+        this.hospital = hospitalData.criaHospital(df);
+        hospitalData.salvarHospital(this.hospital);
 
+        processoNotificacaoData.criaEntrevistaAutorizadaRadom(df,hospital,5,datIni,datFim);
+        processoNotificacaoData.criaEntrevistaRecusadaRadom(df,hospital,5,datIni,datFim);
     }
     @Test
     public void relatorioTotalDoacaoInstituicao() {
-//        TotalDoacaoInstituicao tdi ;
-//
-//        tdi= aplRelatorio.relatorioTotalDoacaoInstituicao(hospital.getId(),datIni,datFim);
-//        System.out.println(tdi.getNomeInstituicao());
-//        System.out.println(tdi.getNumeroNotificacao());
-//        System.out.println(tdi.getNumeroEntrevista());
-//        System.out.println(tdi.getNumeroDoacao());
-//        System.out.println(tdi.getPercentualEfetivacao());
-//
-//        Assert.assertEquals(tdi.getNumeroNotificacao(),new Integer(5));
+        TotalDoacaoInstituicao tdi ;
+
+        tdi= aplRelatorio.relatorioTotalDoacaoInstituicao(hospital.getId(),datIni,datFim);
+        System.out.println(tdi.getNomeInstituicao());
+        System.out.println(tdi.getNumeroNotificacao());
+        System.out.println(tdi.getNumeroEntrevista());
+        System.out.println(tdi.getNumeroRecusa());
+        System.out.println(tdi.getNumeroDoacao());
+        System.out.println(tdi.getPercentualEfetivacao());
+
+        Assert.assertEquals(tdi.getNumeroNotificacao(),new Integer(10));
     }
 
 }

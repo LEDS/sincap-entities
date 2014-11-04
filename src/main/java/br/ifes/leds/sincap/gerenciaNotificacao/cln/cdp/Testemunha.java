@@ -5,15 +5,16 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
 /**
  * Testemunha.java
  *
  * @author 20091BSI0273 Classe que representa uma Testemunha da autorizacao de
- * doacao
+ *         doacao
  */
 @Getter
 @Setter
@@ -21,7 +22,7 @@ import javax.validation.constraints.NotNull;
 @EqualsAndHashCode(callSuper = true)
 public class Testemunha extends Pessoa {
 
-    @Column
     @NotNull
-    private String documentoSocial;
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    private DocumentoComFoto documentoSocial;
 }

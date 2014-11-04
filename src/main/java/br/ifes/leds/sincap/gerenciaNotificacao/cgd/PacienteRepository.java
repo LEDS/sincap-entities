@@ -2,6 +2,7 @@ package br.ifes.leds.sincap.gerenciaNotificacao.cgd;
 
 import java.util.List;
 
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DocumentoComFoto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,10 +20,10 @@ public interface PacienteRepository extends JpaRepository<Paciente, Long> {
 	
 	/**
 	 * Metodo para encontrar um paciente pelo rg.
-	 * @param rg, String que representa o rg do Paciente
+	 * @param documentoSocial, String que representa o documento com foto do Paciente
 	 * @return
 	 */
-	public Paciente findByDocumentoSocial(String documentoSocial);
+	public Paciente findByDocumentoSocial(DocumentoComFoto documentoSocial);
 	
 	/**
 	 * Metodo para retornar uma lista de pacientes a partir de parte do nome do paciente e da mae do paciente.

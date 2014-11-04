@@ -15,6 +15,8 @@ import br.ifes.leds.sincap.controleInterno.cgd.TelefoneRepository;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Telefone;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.TestemunhaRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Testemunha;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoDocumentoComFoto;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DocumentoComFoto;
 import org.fluttercode.datafactory.impl.DataFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,6 +44,7 @@ public class TestemunhaData {
     private TestemunhaRepository testemunhaRepository;
     private Endereco endereco;
     private Telefone telefone;
+    private DocumentoComFoto documentoComFoto;
 
     /**Método responsável por criar Objetos Testemunha randomico, sendo nescessário apenas passar
      * uma instancia DataFactory e a quantidade a ser criada.
@@ -70,9 +73,13 @@ public class TestemunhaData {
         Testemunha testemunha = criaObjeto(Testemunha.class);
         endereco = criaObjeto(Endereco.class);
         telefone = criaObjeto(Telefone.class);
+        documentoComFoto = criaObjeto(DocumentoComFoto.class);
+
+        documentoComFoto.setDocumento(df.getNumberText(9));
+        documentoComFoto.setTipoDocumentoComFoto(TipoDocumentoComFoto.RG);
 
         testemunha.setNome(df.getName());
-        testemunha.setDocumentoSocial(df.getNumberText(11));
+        testemunha.setDocumentoSocial(documentoComFoto);
 
         //Endereco
         endereco.setLogradouro(df.getStreetName());

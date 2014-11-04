@@ -17,6 +17,8 @@ import br.ifes.leds.sincap.controleInterno.cln.cdp.Telefone;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.PacienteRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoCivil;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Paciente;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoDocumentoComFoto;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DocumentoComFoto;
 import org.fluttercode.datafactory.impl.DataFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -111,6 +113,10 @@ public class PacienteData {
      */
     private void gerarDadosPaciente(DataFactory df) {
         // Dados do Paciente.
+        DocumentoComFoto documentoComFoto = criaObjeto(DocumentoComFoto.class);
+        documentoComFoto.setDocumento(df.getNumberText(9));
+        documentoComFoto.setTipoDocumentoComFoto(TipoDocumentoComFoto.RG);
+
         paciente.setNome(df.getName());
         paciente.setNomeMae(df.getName());
         paciente.setNacionalidade("Brasileiro");
@@ -121,7 +127,7 @@ public class PacienteData {
         dataInternacao.setTime(df.getDateBetween(df.getDate(2000, 1, 1),
                 df.getDate(2014, 1, 1)));
         paciente.setDataInternacao(dataInternacao);
-        paciente.setDocumentoSocial(df.getNumberText(9));
+        paciente.setDocumentoSocial(documentoComFoto);
         paciente.setNumeroProntuario(df.getNumberText(7));
         paciente.setNumeroSUS(df.getNumberText(7));
         paciente.setProfissao(df.getItem(listaProfissao));
