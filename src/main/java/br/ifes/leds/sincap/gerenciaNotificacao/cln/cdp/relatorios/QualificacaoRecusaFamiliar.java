@@ -15,5 +15,5 @@ import lombok.experimental.Builder;
 public class QualificacaoRecusaFamiliar {
     private Long codigo;
     private String nomeRecusa;
-    private Double total;
+    private Long total;
 }
