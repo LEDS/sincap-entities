@@ -45,5 +45,5 @@ public interface ProcessoNotificacaoRepository extends JpaRepository<ProcessoNot
 
     public Integer countByDataAberturaBetweenAndObitoHospitalIdAndEntrevistaIsNotNullAndEntrevistaEntrevistaRealizadaTrueAndEntrevistaDoacaoAutorizadaTrueAndCaptacaoCaptacaoRealizadaTrue(Calendar dataAberturaInicio, Calendar dataAberturaFim,Long id);
 
-    public Integer countByDataAberturaBetweenAndObitoHospitalAndCausaNaoDoacaoTipoNaoDoacaoContaining(Calendar dataInicio, Calendar dataFinal,Long id,TipoNaoDoacao motivo);
+    public Integer countByDataAberturaBetweenAndObitoHospitalIdAndCausaNaoDoacaoTipoNaoDoacao(Calendar dataInicio, Calendar dataFinal,Long id,TipoNaoDoacao motivo);
 }
