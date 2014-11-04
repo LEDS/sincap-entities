@@ -84,7 +84,7 @@ public class AplRelatorio {
 
     private Integer quantNaoDoacao(Calendar DataInicio, Calendar DataFinal, Long idHops, TipoNaoDoacao causa)
     {
-        return processoNotificacaoRepository.countByDataAberturaBetweenAndObitoHospitalAndCausaNaoDoacaoTipoNaoDoacaoContaining(DataInicio, DataFinal, idHops, causa);
+        return processoNotificacaoRepository.countByDataAberturaBetweenAndObitoHospitalIdAndCausaNaoDoacaoTipoNaoDoacao(DataInicio, DataFinal, idHops, causa);
     }
 
     /*
@@ -114,10 +114,11 @@ public class AplRelatorio {
     /*
      * Esta função é responsável por preencher um objeto do relatório de TotalNaoDoacaoInstituição.
     */
-    public TotalNaoDoacaoInstituicao relatorioTotalNaoDoacaoInstituicao(Long id,Calendar dataInicio,Calendar dataFinal){
+    public TotalNaoDoacaoInstituicao relatorioTotalNaoDoacaoInstituicao(Long id,Calendar dataInicio, Calendar dataFinal){
 
         InstituicaoNotificadora in = instituicaoNotificadoraRepository.findOne(id);
         TotalNaoDoacaoInstituicao td = new TotalNaoDoacaoInstituicao();
+
 
         td.setNome(in.getNome());
 
