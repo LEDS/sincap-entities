@@ -60,6 +60,10 @@ public class AplRelatorioTest extends AbstractionTest {
         tdi= aplRelatorio.relatorioTotalDoacaoInstituicao(hospital.getId(),datIni,datFim);
 
         Assert.assertEquals(tdi.getNumeroNotificacao(),new Integer(15));
+        Assert.assertEquals(tdi.getNumeroEntrevista(),new Integer(15));
+        Assert.assertEquals(tdi.getNumeroRecusa(),new Integer(5));
+        Assert.assertEquals(tdi.getNumeroDoacao(),new Integer(5));
+        Assert.assertNotNull(tdi.getPercentualEfetivacao());
     }
 
 }
