@@ -46,11 +46,11 @@ public interface ProcessoNotificacaoRepository extends JpaRepository<ProcessoNot
 
     public Integer countByDataAberturaBetweenAndObitoHospitalIdAndEntrevistaIsNotNullAndEntrevistaEntrevistaRealizadaTrueAndEntrevistaDoacaoAutorizadaTrueAndCaptacaoCaptacaoRealizadaTrue(Calendar dataAberturaInicio, Calendar dataAberturaFim,Long id);
 
-    @Query(value = "select distinct new br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.relatorios.QualificacaoRecusaFamiliar(c.id, c.nome, count(c.id)) " +
+    @Query(value = "select distinct new br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.relatorios.QualificacaoRecusaFamiliar(c.id, c.nome, count(c.id) as total) " +
         "from br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.ProcessoNotificacao p join p.obito o " +
         "join p.entrevista e on (e.entrevistaRealizada is True and e.doacaoAutorizada is False) " +
         "join p.causaNaoDoacao c " +
-        "where p.dataAbertura between :dataInicial and :dataFinal " +
-        "group by c.id, c.nome")
-    public List<QualificacaoRecusaFamiliar> getRelatorioQualificacaoRecusaFamiliar(@Param("dataInicial") Calendar dataInicial, @Param("dataFinal") Calendar dataFinal);
+        "where p.dataAbertura between :dataInicial and :dataFinal and o.hospital.id in (:id)" +
+        "group by c.id, c.nome order by total desc")
+    public List<QualificacaoRecusaFamiliar> getRelatorioQualificacaoRecusaFamiliar(@Param("dataInicial") Calendar dataInicial, @Param("dataFinal") Calendar dataFinal,@Param("id")List<Long> id);
 }

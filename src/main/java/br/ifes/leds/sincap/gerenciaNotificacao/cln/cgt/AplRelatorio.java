@@ -5,6 +5,7 @@ import br.ifes.leds.sincap.controleInterno.cgd.InstituicaoNotificadoraRepository
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Instituicao;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.InstituicaoNotificadora;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ProcessoNotificacaoRepository;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.relatorios.QualificacaoRecusaFamiliar;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.relatorios.TotalDoacaoInstituicao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Calendar;
+import java.util.List;
 
 /**
  * Created by aleao on 21/10/14.
@@ -115,5 +117,14 @@ public class AplRelatorio {
             td.setPercentualEfetivacao(percentualEfetivacao(td.getNumeroDoacao(),td.getNumeroNotificacao()));
         }
         return td;
+    }
+    /**
+     * Esta função é responsável por preencher o relatório de QualificacaoRecusaFamiliar.
+     * @param datIni - Data Incial de abertura.
+     * @param datFim - Data Final de abertura.
+     * @return lista de Obejtos QualificacaoRecusaFamiliar.
+     */
+    public List<QualificacaoRecusaFamiliar> relatorioQualificacaoRecusa(Calendar datIni,Calendar datFim,List<Long> id){
+        return processoNotificacaoRepository.getRelatorioQualificacaoRecusaFamiliar(datIni,datFim,id);
     }
 }
