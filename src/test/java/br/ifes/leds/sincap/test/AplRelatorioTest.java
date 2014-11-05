@@ -2,6 +2,7 @@ package br.ifes.leds.sincap.test;
 
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Hospital;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.ProcessoNotificacao;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.relatorios.QualificacaoRecusaFamiliar;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.relatorios.TotalDoacaoInstituicao;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cgt.AplProcessoNotificacao;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cgt.AplRelatorio;
@@ -59,11 +60,20 @@ public class AplRelatorioTest extends AbstractionTest {
 
         tdi= aplRelatorio.relatorioTotalDoacaoInstituicao(hospital.getId(),datIni,datFim);
 
-        Assert.assertEquals(tdi.getNumeroNotificacao(),new Integer(15));
-        Assert.assertEquals(tdi.getNumeroEntrevista(),new Integer(15));
-        Assert.assertEquals(tdi.getNumeroRecusa(),new Integer(5));
-        Assert.assertEquals(tdi.getNumeroDoacao(),new Integer(5));
+        Assert.assertEquals(tdi.getNumeroNotificacao(), new Integer(15));
+        Assert.assertEquals(tdi.getNumeroEntrevista(), new Integer(15));
+        Assert.assertEquals(tdi.getNumeroRecusa(), new Integer(5));
+        Assert.assertEquals(tdi.getNumeroDoacao(), new Integer(5));
         Assert.assertNotNull(tdi.getPercentualEfetivacao());
+    }
+
+    @Test
+    public void relatorioQualificacaoRecusaFamiliar(){
+        List<Long> listHospital = new ArrayList<>();
+        listHospital.add(hospital.getId());
+        List<QualificacaoRecusaFamiliar> listQrf = aplRelatorio.relatorioQualificacaoRecusa(datIni,datFim,listHospital);
+
+        Assert.assertEquals(listQrf.size(),5);
     }
 
 }
