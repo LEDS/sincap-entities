@@ -48,6 +48,9 @@ public class Paciente extends Pessoa implements PacienteInterface {
     @Column
     private String nomeMae;
 
+    @Length(min=3,max=255)
+    private String religiao;
+
     @Length(min = 3, max = 255)
     @NotNull
     @Column

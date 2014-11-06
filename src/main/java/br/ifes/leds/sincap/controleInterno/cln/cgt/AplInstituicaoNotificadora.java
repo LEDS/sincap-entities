@@ -42,6 +42,13 @@ public class AplInstituicaoNotificadora {
     }
 
     /**
+     * Método responsável por buscar uma lista de código(Long) de intituições notificadoras.
+     * @return Lista de instituição Notificadora.
+     */
+    public List<Long> obter() {
+        return instituicaoNotificadoraRepository.getLong();
+    }
+    /**
      * Método responsável por cadastrar uma instituicao no banco.
      * @return Objeto instituição Notificadora.
      */

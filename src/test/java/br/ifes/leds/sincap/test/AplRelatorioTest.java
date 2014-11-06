@@ -2,6 +2,7 @@ package br.ifes.leds.sincap.test;
 
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Hospital;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.ProcessoNotificacao;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.relatorios.QualificacaoRecusaFamiliar;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.relatorios.TotalDoacaoInstituicao;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cgt.AplProcessoNotificacao;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cgt.AplRelatorio;
@@ -28,14 +29,10 @@ public class AplRelatorioTest extends AbstractionTest {
     private AplRelatorio aplRelatorio;
     @Autowired
     AplProcessoNotificacao aplProcessoNotificacao;
-//    @Autowired
+    @Autowired
     HospitalData hospitalData;
-//    @Autowired
+    @Autowired
     ProcessoNotificacaoData processoNotificacaoData;
-
-    private TotalDoacaoInstituicao totalDoacaoInstituicao;
-    private List<ProcessoNotificacao> listProcessoNotificacao;
-
 
     private DataFactory df;
 
@@ -46,37 +43,37 @@ public class AplRelatorioTest extends AbstractionTest {
 
     @Before
     public void before() {
-//        ApplicationContext context = new ClassPathXmlApplicationContext(
-//                "spring-context.xml");
-//
-//        BeanFactory factory = context;
-//
-//        ProcessoNotificacaoData processoNotificacaoData = (ProcessoNotificacaoData) factory.getBean("processoNotificacaoData");
-//        HospitalData hospitalData = (HospitalData) factory.getBean("hospitalData");
-//
-//        this.processoNotificacaoData = criaObjeto(ProcessoNotificacaoData.class);
-//        this.df = criaObjeto(DataFactory.class);
-//        this.datIni = Calendar.getInstance();
-//        this.datFim = Calendar.getInstance();
-//        this.listProcessoNotificacao = new ArrayList<>();
-//        this.hospital = hospitalData.criaHospital(df);
-//        hospitalData.salvarHospital(this.hospital);
-//
-//        processoNotificacaoData.criaEntrevistaAutorizadaRadom(df,hospital,5,datIni,datFim);
+        this.df = criaObjeto(DataFactory.class);
+        this.datIni = Calendar.getInstance();
+        this.datFim = Calendar.getInstance();
+        this.hospital = hospitalData.criaHospital(df);
+        hospitalData.salvarHospital(this.hospital);
 
+        processoNotificacaoData.criaEntrevistaAutorizadaRadom(df,hospital,5,datIni,datFim);
+        processoNotificacaoData.criaEntrevistaRecusadaRadom(df,hospital,5,datIni,datFim);
+        processoNotificacaoData.criaCaptacaoRealizadaRadom(df,hospital,5,datIni,datFim);
     }
+
     @Test
     public void relatorioTotalDoacaoInstituicao() {
-//        TotalDoacaoInstituicao tdi ;
-//
-//        tdi= aplRelatorio.relatorioTotalDoacaoInstituicao(hospital.getId(),datIni,datFim);
-//        System.out.println(tdi.getNomeInstituicao());
-//        System.out.println(tdi.getNumeroNotificacao());
-//        System.out.println(tdi.getNumeroEntrevista());
-//        System.out.println(tdi.getNumeroDoacao());
-//        System.out.println(tdi.getPercentualEfetivacao());
-//
-//        Assert.assertEquals(tdi.getNumeroNotificacao(),new Integer(5));
+        TotalDoacaoInstituicao tdi ;
+
+        tdi= aplRelatorio.relatorioTotalDoacaoInstituicao(hospital.getId(),datIni,datFim);
+
+        Assert.assertEquals(tdi.getNumeroNotificacao(), new Integer(15));
+        Assert.assertEquals(tdi.getNumeroEntrevista(), new Integer(15));
+        Assert.assertEquals(tdi.getNumeroRecusa(), new Integer(5));
+        Assert.assertEquals(tdi.getNumeroDoacao(), new Integer(5));
+        Assert.assertNotNull(tdi.getPercentualEfetivacao());
+    }
+
+    @Test
+    public void relatorioQualificacaoRecusaFamiliar(){
+        List<Long> listHospital = new ArrayList<>();
+        listHospital.add(hospital.getId());
+        List<QualificacaoRecusaFamiliar> listQrf = aplRelatorio.relatorioQualificacaoRecusa(datIni,datFim,listHospital);
+
+        Assert.assertEquals(listQrf.size(),5);
     }
 
 }

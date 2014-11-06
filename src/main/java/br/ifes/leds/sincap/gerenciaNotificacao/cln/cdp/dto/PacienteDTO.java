@@ -47,6 +47,9 @@ public class PacienteDTO implements PacienteInterface {
     @Length(min = 3, max = 255)
     private String nomeMae;
 
+    @Length(min=3,max = 255)
+    private String religiao;
+
     @Length(min = 3, max = 255)
     private String numeroProntuario;
 
