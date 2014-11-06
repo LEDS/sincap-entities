@@ -77,7 +77,7 @@ public class AplRelatorioTest extends AbstractionTest {
         System.out.println(tdi.getNumeroDoacao());
         System.out.println(tdi.getPercentualEfetivacao());
 
-        Assert.assertEquals(tdi.getNumeroNotificacao(),new Integer(10));
+        Assert.assertEquals(tdi.getNumeroEntrevista(),new Integer(10));
     }
 
 }

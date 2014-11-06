@@ -8,10 +8,13 @@ import br.ifes.leds.sincap.validacao.annotations.TelefoneResponsavelConsistentes
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
+import java.util.Calendar;
 
 /**
  * Responsavel.java
@@ -29,6 +32,10 @@ public class Responsavel extends Pessoa implements TelefonesResponsavelInterface
     @Column
     @NotNull
     private String nacionalidade;
+
+    @Past
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    private Calendar dataNascimento;
 
     @Size(min = 3, max = 255)
     @Column

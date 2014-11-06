@@ -15,9 +15,12 @@ import br.ifes.leds.sincap.validacao.annotations.TelefoneResponsavelConsistentes
 import lombok.*;
 import lombok.experimental.Builder;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import java.util.Calendar;
 
 /**
  *
@@ -35,6 +38,9 @@ public class ResponsavelDTO implements TelefonesResponsavelInterface {
     private Long id;
     @Length(min = 5, max = 255)
     private String nome;
+    @Past
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    private Calendar dataNascimento;
     @Length(min = 5, max = 255)
     private String nacionalidade;
     @Length(min = 5, max = 255)

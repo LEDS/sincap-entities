@@ -4,7 +4,10 @@ import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CausaNaoDoacao;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoNotificacaoEnum;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.ProcessoNotificacao;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoNaoDoacao;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.relatorios.QualificacaoRecusaFamiliar;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,5 +48,14 @@ public interface ProcessoNotificacaoRepository extends JpaRepository<ProcessoNot
 
     public Integer countByDataAberturaBetweenAndObitoHospitalIdAndEntrevistaIsNotNullAndEntrevistaEntrevistaRealizadaTrueAndEntrevistaDoacaoAutorizadaTrueAndCaptacaoCaptacaoRealizadaTrue(Calendar dataAberturaInicio, Calendar dataAberturaFim,Long id);
 
+    @Query(value = "select distinct new br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.relatorios.QualificacaoRecusaFamiliar(c.id, c.nome, count(c.id) as total) " +
+        "from br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.ProcessoNotificacao p join p.obito o " +
+        "join p.entrevista e on (e.entrevistaRealizada is True and e.doacaoAutorizada is False) " +
+        "join p.causaNaoDoacao c " +
+        "where p.dataAbertura between :dataInicial and :dataFinal and o.hospital.id in (:id)" +
+        "group by c.id, c.nome order by total desc")
+    public List<QualificacaoRecusaFamiliar> getRelatorioQualificacaoRecusaFamiliar(@Param("dataInicial") Calendar dataInicial, @Param("dataFinal") Calendar dataFinal,@Param("id")List<Long> id);
+
     public Integer countByDataAberturaBetweenAndObitoHospitalIdAndCausaNaoDoacaoTipoNaoDoacao(Calendar dataInicio, Calendar dataFinal,Long id,TipoNaoDoacao motivo);
 }
+
