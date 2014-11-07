@@ -104,7 +104,7 @@ public class AplRelatorio {
         TotalDoacaoInstituicao td = new TotalDoacaoInstituicao();
 
         td.setNomeInstituicao(in.getNome());
-        td.setNumeroNotificacao(quantidadeDoacao(id, datIni, datFim));
+        td.setNumeroNotificacao(quantidadeNotificacoes(id, datIni, datFim));
         td.setNumeroDoacao(quantidadeDoacao(id, datIni, datFim));
         td.setNumeroEntrevista(quantidadeEntrevista(id, datIni, datFim));
         td.setNumeroRecusa(quantidadeRecusa(id,datIni,datFim));
