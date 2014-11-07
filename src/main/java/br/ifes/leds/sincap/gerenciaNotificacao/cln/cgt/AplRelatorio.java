@@ -6,6 +6,7 @@ import br.ifes.leds.sincap.controleInterno.cln.cdp.Instituicao;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.InstituicaoNotificadora;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ProcessoNotificacaoRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoNaoDoacao;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.relatorios.QualificacaoRecusaFamiliar;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.relatorios.TotalDoacaoInstituicao;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.relatorios.TotalNaoDoacaoInstituicao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Calendar;
+import java.util.List;
 
 import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoNaoDoacao.CONTRAINDICACAO_MEDICA;
 import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoNaoDoacao.PROBLEMAS_LOGISTICOS;
@@ -124,7 +126,6 @@ public class AplRelatorio {
         InstituicaoNotificadora in = instituicaoNotificadoraRepository.findOne(id);
         TotalNaoDoacaoInstituicao td = new TotalNaoDoacaoInstituicao();
 
-
         td.setNome(in.getNome());
 
         td.setRecusaFamiliar(quantNaoDoacao(dataInicio, dataFinal, id, RECUSA_FAMILIAR));
@@ -135,7 +136,16 @@ public class AplRelatorio {
 
         td.setTotal(td.getContraInd() + td.getProblema() + td.getRecusaFamiliar());
 
-
         return td;
+    }
+
+    /**
+     * Esta função é responsável por preencher o relatório de QualificacaoRecusaFamiliar.
+     * @param datIni - Data Incial de abertura.
+     * @param datFim - Data Final de abertura.
+     * @return lista de Obejtos QualificacaoRecusaFamiliar.
+     */
+    public List<QualificacaoRecusaFamiliar> relatorioQualificacaoRecusa(Calendar datIni,Calendar datFim,List<Long> id){
+        return processoNotificacaoRepository.getRelatorioQualificacaoRecusaFamiliar(datIni,datFim,id);
     }
 }
