@@ -1,11 +1,19 @@
 package br.ifes.leds.sincap.gerenciaNotificacao.cgd;
 
 
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoObito;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.relatorios.FaixaEtaria;
+import org.joda.time.DateTime;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Obito;
+
+import java.util.Calendar;
+import java.util.List;
 
 /**
  * ObitoRepository.java
@@ -32,4 +40,12 @@ public interface ObitoRepository extends JpaRepository <Obito, Long> {
 //	 * @return Lista de Obito, do tipo dado ocorridos no intervalo de tempo dado.
 //	 */
 //	public List<Obito> findByDataObitoBetweenAndTipoObito(Calendar dataInicial, Calendar dataFinal, TipoObito tipoObito);
+@Query(nativeQuery = true,value = "select count(DATE_PART('YEAR',age(o.dataobito,p.datanascimento))) " +
+        "from Obito o " +
+        "join Paciente p " +
+        "ON (o.paciente_id = p.id)" +
+        "where DATE_PART('YEAR',age(o.dataobito,p.datanascimento)) between :idadeIni and :idadeFim " +
+        "and o.hospital_id = (:idHospital)and o.tipoobito = (:idTipo)" +
+        "and o.dataobito between :datIni and :datFim")
+public Long getFaixaEtaria(@Param("idadeIni") Integer idadeIni, @Param("idadeFim") Integer idadeFim,@Param("idHospital")Long idHospital,@Param("idTipo")Integer idTipo,@Param("datIni") Calendar datIni,@Param("datFim") Calendar datFim);
 }
