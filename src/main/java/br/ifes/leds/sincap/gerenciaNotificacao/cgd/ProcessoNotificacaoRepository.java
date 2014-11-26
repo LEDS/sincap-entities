@@ -57,5 +57,7 @@ public interface ProcessoNotificacaoRepository extends JpaRepository<ProcessoNot
     public List<QualificacaoRecusaFamiliar> getRelatorioQualificacaoRecusaFamiliar(@Param("dataInicial") Calendar dataInicial, @Param("dataFinal") Calendar dataFinal,@Param("id")List<Long> id);
 
     public Integer countByDataAberturaBetweenAndObitoHospitalIdAndCausaNaoDoacaoTipoNaoDoacao(Calendar dataInicio, Calendar dataFinal,Long id,TipoNaoDoacao motivo);
+
+    public Integer countByDataAberturaBetweenAndObitoHospitalIdAndCausaNaoDoacao(Calendar dataInicio, Calendar dataFinal,Long id,CausaNaoDoacao motivo);
 }
 
