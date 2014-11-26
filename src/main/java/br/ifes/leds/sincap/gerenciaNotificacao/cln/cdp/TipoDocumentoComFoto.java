@@ -6,5 +6,6 @@ package br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp;
 public enum TipoDocumentoComFoto {
     RG,
     CARTEIRA_DE_TRABALHO,
-    PASSAPORTE;
+    PASSAPORTE,
+    CONSELHO_REGIONAL;
 }
