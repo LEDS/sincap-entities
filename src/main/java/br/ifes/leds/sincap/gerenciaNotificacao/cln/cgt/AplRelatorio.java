@@ -5,8 +5,10 @@ import br.ifes.leds.sincap.controleInterno.cgd.InstituicaoNotificadoraRepository
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Instituicao;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.InstituicaoNotificadora;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ProcessoNotificacaoRepository;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CausaNaoDoacao;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoNaoDoacao;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.relatorios.QualificacaoRecusaFamiliar;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.relatorios.RelEntrevistaFamiliar;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.relatorios.TotalDoacaoInstituicao;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.relatorios.TotalNaoDoacaoInstituicao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -148,4 +150,43 @@ public class AplRelatorio {
     public List<QualificacaoRecusaFamiliar> relatorioQualificacaoRecusa(Calendar datIni,Calendar datFim,List<Long> id){
         return processoNotificacaoRepository.getRelatorioQualificacaoRecusaFamiliar(datIni,datFim,id);
     }
+
+
+//Relatorio CIHDOTT
+
+    private Integer quantRecFamiliar(Calendar DataInicio, Calendar DataFinal, Long idHops, CausaNaoDoacao causa)
+    {
+        return processoNotificacaoRepository.countByDataAberturaBetweenAndObitoHospitalIdAndCausaNaoDoacao(DataInicio, DataFinal, idHops, causa);
+    }
+   /* public RelEntrevistaFamiliar relatorioTotalEntrevistaFamiliar(Long id,Calendar dataInicio, Calendar dataFinal){
+
+        InstituicaoNotificadora in = instituicaoNotificadoraRepository.findOne(id);
+        TotalNaoDoacaoInstituicao td = new TotalNaoDoacaoInstituicao();
+
+        RelEntrevistaFamiliar rel = new RelEntrevistaFamiliar();
+        rel.setDesconhecimento(quantRecFamiliar(dataInicio, dataFinal, id,"Desconhecimento do desejo do potencial doador"));
+        rel.setPotencial(quantRecFamiliar(dataInicio, dataFinal, id, "Doador contrário à doação em vida"));
+        rel.setFamiliares(quantRecFamiliar(dataInicio, dataFinal, id, "Familiares indecisos"));
+        rel.setFamiliaresCorpo(quantRecFamiliar(dataInicio, dataFinal, id, "'Familiares desejam o corpo íntegro'"));
+        rel.setNaoEntendimento(quantRecFamiliar(dataInicio, dataFinal, id, "'Desconhecimento do desejo do potencial doador'"));
+        rel.setFamiliaresDescontentes(quantRecFamiliar(dataInicio, dataFinal, id," 'Familiares descontentes com o atendimento'"));
+        rel.setReceio(quantRecFamiliar(dataInicio, dataFinal, id, "'Receio de demora na liberação do corpo'"));
+        rel.setReligiao(quantRecFamiliar(dataInicio, dataFinal, id," 'Convicções religiosas'"));
+        rel.setOutros(quantRecFamiliar(dataInicio, dataFinal, id," 'Outros'"));
+
+
+        td.setNome(in.getNome());
+
+        td.setRecusaFamiliar(quantNaoDoacao(dataInicio, dataFinal, id, RECUSA_FAMILIAR));
+
+        td.setContraInd(quantNaoDoacao(dataInicio, dataFinal, id, CONTRAINDICACAO_MEDICA));
+
+        td.setProblema(quantNaoDoacao(dataInicio, dataFinal, id, PROBLEMAS_LOGISTICOS));
+
+        td.setTotal(td.getContraInd() + td.getProblema() + td.getRecusaFamiliar());
+
+        return td;
+    }*/
+
+
 }
