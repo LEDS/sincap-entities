@@ -1,9 +1,6 @@
 package br.ifes.leds.sincap.gerenciaNotificacao.cgd;
 
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CausaNaoDoacao;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoNotificacaoEnum;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.ProcessoNotificacao;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoNaoDoacao;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.*;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.relatorios.QualificacaoRecusaFamiliar;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -42,11 +39,23 @@ public interface ProcessoNotificacaoRepository extends JpaRepository<ProcessoNot
 
     public Integer countByDataAberturaBetweenAndObitoHospitalId(Calendar dataAberturaInicio, Calendar dataAberturaFim,Long id);
 
+    public Integer countByDataAberturaBetweenAndObitoHospitalIdAndObitoTipoObito(Calendar dataAberturaInicio, Calendar dataAberturaFim,Long id,TipoObito tipo);
+
     public Integer countByDataAberturaBetweenAndObitoHospitalIdAndEntrevistaIsNotNullAndEntrevistaEntrevistaRealizadaTrue(Calendar dataAberturaInicio, Calendar dataAberturaFim,Long id);
+
+    public Integer countByDataAberturaBetweenAndObitoHospitalIdAndEntrevistaIsNotNullAndEntrevistaEntrevistaRealizadaTrueAndObitoTipoObito(Calendar dataAberturaInicio, Calendar dataAberturaFim,Long id,TipoObito tipo);
 
     public Integer countByDataAberturaBetweenAndObitoHospitalIdAndEntrevistaIsNotNullAndEntrevistaEntrevistaRealizadaTrueAndEntrevistaDoacaoAutorizadaFalse(Calendar dataAberturaInicio, Calendar dataAberturaFim,Long id);
 
+    public Integer countByDataAberturaBetweenAndObitoHospitalIdAndEntrevistaIsNotNullAndEntrevistaEntrevistaRealizadaTrueAndEntrevistaDoacaoAutorizadaFalseAndObitoTipoObito(Calendar dataAberturaInicio, Calendar dataAberturaFim,Long id,TipoObito tipo);
+
     public Integer countByDataAberturaBetweenAndObitoHospitalIdAndEntrevistaIsNotNullAndEntrevistaEntrevistaRealizadaTrueAndEntrevistaDoacaoAutorizadaTrueAndCaptacaoCaptacaoRealizadaTrue(Calendar dataAberturaInicio, Calendar dataAberturaFim,Long id);
+
+    public Integer countByDataAberturaBetweenAndObitoHospitalIdAndEntrevistaIsNullAndEntrevistaEntrevistaRealizadaFalseAndEntrevistaDoacaoAutorizadaFalse(Calendar dataAberturaInicio, Calendar dataAberturaFim,Long id);
+
+    public Integer countByDataAberturaBetweenAndObitoHospitalIdAndEntrevistaIsNullAndEntrevistaEntrevistaRealizadaFalseAndEntrevistaDoacaoAutorizadaFalseAndObitoTipoObito(Calendar dataAberturaInicio, Calendar dataAberturaFim,Long id,TipoObito tipo);
+
+    public Integer countByDataAberturaBetweenAndObitoHospitalIdAndEntrevistaIsNotNullAndEntrevistaEntrevistaRealizadaTrueAndEntrevistaDoacaoAutorizadaTrueAndObitoTipoObito(Calendar dataAberturaInicio, Calendar dataAberturaFim,Long id,TipoObito tipo);
 
     @Query(value = "select distinct new br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.relatorios.QualificacaoRecusaFamiliar(c.id, c.nome, count(c.id) as total) " +
         "from br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.ProcessoNotificacao p join p.obito o " +
