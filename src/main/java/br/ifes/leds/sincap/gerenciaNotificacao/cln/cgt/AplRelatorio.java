@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -48,7 +49,7 @@ public class AplRelatorio {
 
 
     private Integer quantidadeNotificacoesPCR(Long id,Calendar datIni, Calendar datFim,TipoObito tipo){
-        return processoNotificacaoRepository.countByDataAberturaBetweenAndObitoHospitalIdAndObitoTipoObito(datIni, datFim, id,tipo);
+        return processoNotificacaoRepository.countByDataAberturaBetweenAndObitoHospitalIdAndObitoTipoObito(datIni, datFim, id, tipo);
     }
     /**
      * Esta função é responsável por buscar a quantidade de entrevistas
@@ -71,7 +72,7 @@ public class AplRelatorio {
      * @return quantidadeNotificacoes.
      */
     private Integer quantidadeEntrevistaRealizadaPCR(Long id,Calendar datIni, Calendar datFim,TipoObito tipo){
-        return processoNotificacaoRepository.countByDataAberturaBetweenAndObitoHospitalIdAndEntrevistaIsNotNullAndEntrevistaEntrevistaRealizadaTrueAndObitoTipoObito(datIni, datFim, id,tipo);
+        return processoNotificacaoRepository.countByDataAberturaBetweenAndObitoHospitalIdAndEntrevistaIsNotNullAndEntrevistaEntrevistaRealizadaTrueAndObitoTipoObito(datIni, datFim, id, tipo);
     }
 
     /**
@@ -95,7 +96,7 @@ public class AplRelatorio {
      * @return quantidadeNotificacoes.
      */
     private Integer quantidadeEntrevistaNaoRealizadaPCR(Long id,Calendar datIni, Calendar datFim,TipoObito tipo){
-        return processoNotificacaoRepository.countByDataAberturaBetweenAndObitoHospitalIdAndEntrevistaIsNullAndEntrevistaEntrevistaRealizadaFalseAndEntrevistaDoacaoAutorizadaFalseAndObitoTipoObito(datIni,datFim,id,tipo);
+        return processoNotificacaoRepository.countByDataAberturaBetweenAndObitoHospitalIdAndEntrevistaIsNullAndEntrevistaEntrevistaRealizadaFalseAndEntrevistaDoacaoAutorizadaFalseAndObitoTipoObito(datIni, datFim, id, tipo);
     }
 
     /**
@@ -106,7 +107,7 @@ public class AplRelatorio {
      * @return quantidadeNotificacoes.
      */
     private Integer quantidadeConsentimentoFamiliarPCR(Long id,Calendar datIni, Calendar datFim,TipoObito tipo){
-        return processoNotificacaoRepository.countByDataAberturaBetweenAndObitoHospitalIdAndEntrevistaIsNotNullAndEntrevistaEntrevistaRealizadaTrueAndEntrevistaDoacaoAutorizadaTrueAndObitoTipoObito(datIni, datFim,id,tipo);
+        return processoNotificacaoRepository.countByDataAberturaBetweenAndObitoHospitalIdAndEntrevistaIsNotNullAndEntrevistaEntrevistaRealizadaTrueAndEntrevistaDoacaoAutorizadaTrueAndObitoTipoObito(datIni, datFim, id, tipo);
     }
 
     /**
@@ -130,7 +131,7 @@ public class AplRelatorio {
      * @return quantidadeNotificacoes.
      */
     private Integer quantidadeRecusaPCR(Long id,Calendar datIni, Calendar datFim,TipoObito tipo){
-        return processoNotificacaoRepository.countByDataAberturaBetweenAndObitoHospitalIdAndEntrevistaIsNotNullAndEntrevistaEntrevistaRealizadaTrueAndEntrevistaDoacaoAutorizadaFalseAndObitoTipoObito(datIni, datFim, id,tipo);
+        return processoNotificacaoRepository.countByDataAberturaBetweenAndObitoHospitalIdAndEntrevistaIsNotNullAndEntrevistaEntrevistaRealizadaTrueAndEntrevistaDoacaoAutorizadaFalseAndObitoTipoObito(datIni, datFim, id, tipo);
     }
 
     /**
@@ -258,49 +259,49 @@ public class AplRelatorio {
         FaixaEtaria maiorSetenta = new FaixaEtaria();
         List<FaixaEtaria> listaFaixa =  new ArrayList<>();
         Long totalObitoPCR = quantidadeObitoPCR(0,200,listaHospital,datIni,datFim);
-        Long totalObitoME = quantidadeObitoME(0,200,listaHospital,datIni,datFim);
+        Long totalObitoME = quantidadeObitoME(0, 200, listaHospital, datIni, datFim);
 
         menorDois.setFaixa("Menor de 2 anos");
         menorDois.setTotalPCR(quantidadeObitoPCR(0, 2, listaHospital, datIni, datFim));
         menorDois.setTotalME(quantidadeObitoME(0, 2, listaHospital, datIni, datFim));
-        menorDois.setPercentualPCR(calculaPercentual(totalObitoPCR,menorDois.getTotalPCR()));
-        menorDois.setPercentualME(calculaPercentual(totalObitoME,menorDois.getTotalME()));
+        menorDois.setPercentualPCR(calculaPercentual(totalObitoPCR, menorDois.getTotalPCR()));
+        menorDois.setPercentualME(calculaPercentual(totalObitoME, menorDois.getTotalME()));
         listaFaixa.add(menorDois);
 
 
         doisDezoito.setFaixa("Entre 2 e 18 anos");
         doisDezoito.setTotalPCR(quantidadeObitoPCR(2, 17, listaHospital, datIni, datFim));
         doisDezoito.setTotalME(quantidadeObitoME(2, 17, listaHospital, datIni, datFim));
-        doisDezoito.setPercentualPCR(calculaPercentual(totalObitoPCR,doisDezoito.getTotalPCR()));
-        doisDezoito.setPercentualME(calculaPercentual(totalObitoME,doisDezoito.getTotalME()));
+        doisDezoito.setPercentualPCR(calculaPercentual(totalObitoPCR, doisDezoito.getTotalPCR()));
+        doisDezoito.setPercentualME(calculaPercentual(totalObitoME, doisDezoito.getTotalME()));
         listaFaixa.add(doisDezoito);
 
         dezoitoQuarenta.setFaixa("Entre 18 e 40 anos");
         dezoitoQuarenta.setTotalPCR(quantidadeObitoPCR(18, 39, listaHospital, datIni, datFim));
         dezoitoQuarenta.setTotalME(quantidadeObitoME(18, 39, listaHospital, datIni, datFim));
-        dezoitoQuarenta.setPercentualPCR(calculaPercentual(totalObitoPCR,dezoitoQuarenta.getTotalPCR()));
-        dezoitoQuarenta.setPercentualME(calculaPercentual(totalObitoME,dezoitoQuarenta.getTotalME()));
+        dezoitoQuarenta.setPercentualPCR(calculaPercentual(totalObitoPCR, dezoitoQuarenta.getTotalPCR()));
+        dezoitoQuarenta.setPercentualME(calculaPercentual(totalObitoME, dezoitoQuarenta.getTotalME()));
         listaFaixa.add(dezoitoQuarenta);
 
         quarentaSessenta.setFaixa("Entre 40 e 60 anos");
         quarentaSessenta.setTotalPCR(quantidadeObitoPCR(40, 59, listaHospital, datIni, datFim));
         quarentaSessenta.setTotalME(quantidadeObitoME(40, 59, listaHospital, datIni, datFim));
-        quarentaSessenta.setPercentualPCR(calculaPercentual(totalObitoPCR,quarentaSessenta.getTotalPCR()));
-        quarentaSessenta.setPercentualME(calculaPercentual(totalObitoME,quarentaSessenta.getTotalME()));
+        quarentaSessenta.setPercentualPCR(calculaPercentual(totalObitoPCR, quarentaSessenta.getTotalPCR()));
+        quarentaSessenta.setPercentualME(calculaPercentual(totalObitoME, quarentaSessenta.getTotalME()));
         listaFaixa.add(quarentaSessenta);
 
         SessentaSetenta.setFaixa("Entre 60 e 70 anos");
         SessentaSetenta.setTotalPCR(quantidadeObitoPCR(60, 69, listaHospital, datIni, datFim));
         SessentaSetenta.setTotalME(quantidadeObitoME(60, 69, listaHospital, datIni, datFim));
-        SessentaSetenta.setPercentualPCR(calculaPercentual(totalObitoPCR,SessentaSetenta.getTotalPCR()));
-        SessentaSetenta.setPercentualME(calculaPercentual(totalObitoME,SessentaSetenta.getTotalME()));
+        SessentaSetenta.setPercentualPCR(calculaPercentual(totalObitoPCR, SessentaSetenta.getTotalPCR()));
+        SessentaSetenta.setPercentualME(calculaPercentual(totalObitoME, SessentaSetenta.getTotalME()));
         listaFaixa.add(SessentaSetenta);
 
         maiorSetenta.setFaixa("Maior de 70 anos");
         maiorSetenta.setTotalPCR(quantidadeObitoPCR(70, 200, listaHospital, datIni, datFim));
         maiorSetenta.setTotalME(quantidadeObitoME(70, 200, listaHospital, datIni, datFim));
-        maiorSetenta.setPercentualPCR(calculaPercentual(totalObitoPCR,maiorSetenta.getTotalPCR()));
-        maiorSetenta.setPercentualME(calculaPercentual(totalObitoME,maiorSetenta.getTotalME()));
+        maiorSetenta.setPercentualPCR(calculaPercentual(totalObitoPCR, maiorSetenta.getTotalPCR()));
+        maiorSetenta.setPercentualME(calculaPercentual(totalObitoME, maiorSetenta.getTotalME()));
         listaFaixa.add(maiorSetenta);
 
         return listaFaixa;
@@ -353,30 +354,59 @@ public class AplRelatorio {
         List<ObitoCardio> liObito = new ArrayList<>();
 
         totalObito.setNome("Total de óbitos hospitalares");
-        totalObito.setTotal(quantidadeNotificacoesPCR(idHospital, dataInicio, dataFinal,TipoObito.PCR));
+        totalObito.setTotal(quantidadeNotificacoesPCR(idHospital, dataInicio, dataFinal, TipoObito.PCR));
         totalObito.setPercentual(calculaPercentual(100,100));
         liObito.add(totalObito);
 
         entrevistaRealizada.setNome("Entrevistas realizadas");
-        entrevistaRealizada.setTotal(quantidadeEntrevistaRealizadaPCR(idHospital, dataInicio, dataFinal,TipoObito.PCR));
+        entrevistaRealizada.setTotal(quantidadeEntrevistaRealizadaPCR(idHospital, dataInicio, dataFinal, TipoObito.PCR));
         entrevistaRealizada.setPercentual(calculaPercentual(totalObito.getTotal(),entrevistaRealizada.getTotal()));
         liObito.add(entrevistaRealizada);
 
         entrevistaNaoRealizada.setNome("Entrevistas não realizadas");
-        entrevistaNaoRealizada.setTotal(quantidadeEntrevistaNaoRealizadaPCR(idHospital, dataInicio, dataFinal,TipoObito.PCR));
+        entrevistaNaoRealizada.setTotal(quantidadeEntrevistaNaoRealizadaPCR(idHospital, dataInicio, dataFinal, TipoObito.PCR));
         entrevistaNaoRealizada.setPercentual(calculaPercentual(totalObito.getTotal(),entrevistaNaoRealizada.getTotal()));
         liObito.add(entrevistaNaoRealizada);
 
         consentimentoFamiliar.setNome("Consentimento Familiar");
-        consentimentoFamiliar.setTotal(quantidadeConsentimentoFamiliarPCR(idHospital, dataInicio, dataFinal,TipoObito.PCR));
+        consentimentoFamiliar.setTotal(quantidadeConsentimentoFamiliarPCR(idHospital, dataInicio, dataFinal, TipoObito.PCR));
         consentimentoFamiliar.setPercentual(calculaPercentual(totalObito.getTotal(),consentimentoFamiliar.getTotal()));
         liObito.add(consentimentoFamiliar);
 
         recusas.setNome("Recusas");
-        recusas.setTotal(quantidadeRecusaPCR(idHospital, dataInicio, dataFinal,TipoObito.PCR));
+        recusas.setTotal(quantidadeRecusaPCR(idHospital, dataInicio, dataFinal, TipoObito.PCR));
         recusas.setPercentual(calculaPercentual(totalObito.getTotal(),recusas.getTotal()));
         liObito.add(recusas);
 
         return liObito;
+    }
+
+    /**
+     * Esta função é responsável por preencher a lista de Obitos por ME por turno.
+     * @param idHospital - Id do Hospital.
+     * @param  dataInicio - Data inicial.
+     * @param  dataFinal - Data Final.
+     * @return lista de ObitosMETurno.
+     */
+
+    public List<ObitosMeTurno> retornaObitosMeTurno(Long idHospital,Calendar dataInicio,Calendar dataFinal){
+        List<ObitosMeTurno> listObitoMe = new ArrayList<>();
+        ObitosMeTurno obitosManha = new ObitosMeTurno();
+        ObitosMeTurno obitosTarde = new ObitosMeTurno();
+        ObitosMeTurno obitosNoite = new ObitosMeTurno();
+
+        obitosManha.setTurno("Manha");
+        obitosManha.setQuantidade(obitoRepository.getObitosMEPorTurno(dataInicio, dataFinal, idHospital, TipoObito.ME,7,12));
+        listObitoMe.add(obitosManha);
+
+        obitosTarde.setTurno("Tarde");
+        obitosTarde.setQuantidade(obitoRepository.getObitosMEPorTurno(dataInicio, dataFinal, idHospital, TipoObito.ME,13,18));
+        listObitoMe.add(obitosTarde);
+
+        obitosNoite.setTurno("Noite");
+        obitosNoite.setQuantidade(obitoRepository.getObitosMEPorTurno(dataInicio, dataFinal, idHospital, TipoObito.ME,19,6));
+        listObitoMe.add(obitosNoite);
+
+        return listObitoMe;
     }
 }
