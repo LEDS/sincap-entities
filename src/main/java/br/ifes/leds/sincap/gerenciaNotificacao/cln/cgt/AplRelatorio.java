@@ -415,51 +415,11 @@ public class AplRelatorio {
 
         return listObitoMe;
     }
-    public List<NaoDoacaoCIHDOTT> naoDoacaoMensalFamiliar(Long idHospital,Calendar dataInicio,Calendar dataFinal)
+    public List<NaoDoacaoCIHDOTT> naoDoacaoMensal(Long idHospital,Calendar dataInicio,Calendar dataFinal,TipoNaoDoacao tipo)
     {
-        List<NaoDoacaoCIHDOTT> naoDoacaoFamiliar = processoNotificacaoRepository.getNaoDoacaCIHDOTT(dataInicio,dataFinal,idHospital,TipoNaoDoacao.RECUSA_FAMILIAR);
+        List<NaoDoacaoCIHDOTT> naoDoacaoFamiliar = processoNotificacaoRepository.getNaoDoacaCIHDOTT(dataInicio,dataFinal,idHospital,tipo);
 
         return naoDoacaoFamiliar;
-
-
     }
 
-
-//Relatorio CIHDOTT
-
-   /*private Integer quantRecFamiliar(Calendar DataInicio, Calendar DataFinal, Long idHops, CausaNaoDoacao causa)
-    {
-        return processoNotificacaoRepository.countByDataAberturaBetweenAndObitoHospitalIdAndCausaNaoDoacao(DataInicio, DataFinal, idHops, causa);
-    }*/
-   /* public RelEntrevistaFamiliar relatorioTotalEntrevistaFamiliar(Long id,Calendar dataInicio, Calendar dataFinal){
-
-        InstituicaoNotificadora in = instituicaoNotificadoraRepository.findOne(id);
-        TotalNaoDoacaoInstituicao td = new TotalNaoDoacaoInstituicao();
-
-        RelEntrevistaFamiliar rel = new RelEntrevistaFamiliar();
-        rel.setDesconhecimento(quantRecFamiliar(dataInicio, dataFinal, id,"Desconhecimento do desejo do potencial doador"));
-        rel.setPotencial(quantRecFamiliar(dataInicio, dataFinal, id, "Doador contrário à doação em vida"));
-        rel.setFamiliares(quantRecFamiliar(dataInicio, dataFinal, id, "Familiares indecisos"));
-        rel.setFamiliaresCorpo(quantRecFamiliar(dataInicio, dataFinal, id, "'Familiares desejam o corpo íntegro'"));
-        rel.setNaoEntendimento(quantRecFamiliar(dataInicio, dataFinal, id, "'Desconhecimento do desejo do potencial doador'"));
-        rel.setFamiliaresDescontentes(quantRecFamiliar(dataInicio, dataFinal, id," 'Familiares descontentes com o atendimento'"));
-        rel.setReceio(quantRecFamiliar(dataInicio, dataFinal, id, "'Receio de demora na liberação do corpo'"));
-        rel.setReligiao(quantRecFamiliar(dataInicio, dataFinal, id," 'Convicções religiosas'"));
-        rel.setOutros(quantRecFamiliar(dataInicio, dataFinal, id," 'Outros'"));
-
-
-        td.setNome(in.getNome());
-
-        td.setRecusaFamiliar(quantNaoDoacao(dataInicio, dataFinal, id, RECUSA_FAMILIAR));
-
-        td.setContraInd(quantNaoDoacao(dataInicio, dataFinal, id, CONTRAINDICACAO_MEDICA));
-
-        td.setProblema(quantNaoDoacao(dataInicio, dataFinal, id, PROBLEMAS_LOGISTICOS));
-
-        td.setTotal(td.getContraInd() + td.getProblema() + td.getRecusaFamiliar());
-
-        return td;
-    }*/
-
-
-}
+  }

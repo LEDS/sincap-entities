@@ -6,6 +6,7 @@
 package br.ifes.leds.sincap.gerenciaNotificacao.cln.util.dataFactory;
 
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Hospital;
+import br.ifes.leds.sincap.controleInterno.cln.cgt.AplHospital;
 import org.fluttercode.datafactory.impl.DataFactory;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.ApplicationContext;
@@ -48,15 +49,16 @@ public class DataFactoryMain {
         CausaNaoDoacaoData cnd = (CausaNaoDoacaoData) factory.getBean("causaNaoDoacaoData");
         ProcessoNotificacaoData pnd = (ProcessoNotificacaoData) factory.getBean("processoNotificacaoData");
         HospitalData hospitalData = (HospitalData) factory.getBean("hospitalData");
+        AplHospital aplHospital = (AplHospital) factory.getBean("aplHospital");
 
         DataFactory df = new DataFactory();
         df.randomize((int) System.currentTimeMillis());
 
         Calendar datIni = Calendar.getInstance();
         Calendar datFim = Calendar.getInstance();
-        Hospital hospital = hospitalData.criaHospital(df);
-        hospitalData.salvarHospital(hospital);
-
+        //Hospital hospital = hospitalData.criaHospital(df);
+        //hospitalData.salvarHospital(hospital);
+        Hospital hospital = aplHospital.obter(new Long(1));
 
 //        nd.criaNotificadorRandom(df,5);
 //        hd.criaHospitalRandom(df, 5);
@@ -65,16 +67,16 @@ public class DataFactoryMain {
 //        bd.criaBancoOlhosRandom(df, 5);
 //        ad.criaAnalistaRandom(df, 5);
 //        cd.criaCaptadorRandom(df, 5);
-        pd.criaPacienteRandom(df, 5);
-        rd.criaResponsavelRandom(df, 5);
-        td.criaTestemunhaRandom(df, 5);
+//        pd.criaPacienteRandom(df, 5);
+//        rd.criaResponsavelRandom(df, 5);
+//        td.criaTestemunhaRandom(df, 5);
 //        cmd.criaCausaMortisRandom(df, 5);
 //        pnd.criarAnaliseObitoRandom(df,5);
 //        pnd.criaEntrevistaRadom(df, 5);
 //        pnd.criaCaptacaoRadom(df, 5);
-        pnd.criaEntrevistaAutorizadaRadom(df,hospital,5,datIni,datFim);
-        pnd.criaEntrevistaRecusadaRadom(df,hospital,5,datIni,datFim);
-        pnd.criaCaptacaoRealizadaRadom(df,hospital,5,datIni,datFim);
+        pnd.criaEntrevistaAutorizadaRadom(df,hospital,15,datIni,datFim);
+        pnd.criaEntrevistaRecusadaRadom(df,hospital,15,datIni,datFim);
+        pnd.criaCaptacaoRealizadaRadom(df,hospital,15,datIni,datFim);
 //        pnd.criaEntrevistaRecusadaRadom(df,5,datIni,datFim);
 //        cnd.criaCausaNaoDoacaoRandom(df, 5);
     }

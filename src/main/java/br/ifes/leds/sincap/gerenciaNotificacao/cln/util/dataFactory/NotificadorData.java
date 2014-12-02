@@ -84,8 +84,8 @@ public class NotificadorData {
         notificador.setAtivo(true);
         notificador.setCpf(df.getNumberText(11));
         notificador.setDocumentoSocial(documentoComFoto);
-        notificador.setEmail(df.getEmailAddress());
         notificador.setNome(df.getName());
+        notificador.setEmail(notificador.getNome().replaceAll(" ","").toLowerCase()+"@gmail.com");
         notificador.setTelefone(criarTelefone(df));
         notificador.setEndereco(criarEndereco(df));
         
