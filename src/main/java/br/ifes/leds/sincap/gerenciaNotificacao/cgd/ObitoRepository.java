@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Obito;
 
+import java.sql.Time;
 import java.util.Calendar;
 import java.util.List;
 
@@ -40,7 +41,7 @@ public interface ObitoRepository extends JpaRepository <Obito, Long> {
 //	 * @return Lista de Obito, do tipo dado ocorridos no intervalo de tempo dado.
 //	 */
 //	public List<Obito> findByDataObitoBetweenAndTipoObito(Calendar dataInicial, Calendar dataFinal, TipoObito tipoObito);
-@Query(nativeQuery = true,value = "select count(DATE_PART('YEAR',age(o.dataobito,p.datanascimento))) " +
+@Query(nativeQuery = true,value = "select count(o.id) " +
         "from Obito o " +
         "join Paciente p " +
         "ON (o.paciente_id = p.id)" +
@@ -48,4 +49,12 @@ public interface ObitoRepository extends JpaRepository <Obito, Long> {
         "and o.hospital_id = (:idHospital)and o.tipoobito = (:idTipo)" +
         "and o.dataobito between :datIni and :datFim")
 public Long getFaixaEtaria(@Param("idadeIni") Integer idadeIni, @Param("idadeFim") Integer idadeFim,@Param("idHospital")Long idHospital,@Param("idTipo")Integer idTipo,@Param("datIni") Calendar datIni,@Param("datFim") Calendar datFim);
+
+    @Query(value = "select count(o.id) " +
+            "from br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Obito o " +
+            "where o.dataObito between :dataInicial and :dataFinal " +
+            " and hour(o.dataObito) between :horaInicial and :horaFinal" +
+            " and o.hospital.id = (:idHospital)" +
+            " and o.tipoObito = (:tipo)")
+    public Long getObitosMEPorTurno(@Param("dataInicial") Calendar dataInicial, @Param("dataFinal") Calendar dataFinal,@Param("idHospital")Long idHospital,@Param("tipo")TipoObito tipo, @Param("horaInicial")Integer horaInicial, @Param("horaFinal")Integer horaFinal);
 }
