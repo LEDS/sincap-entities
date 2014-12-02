@@ -1,6 +1,7 @@
 package br.ifes.leds.sincap.gerenciaNotificacao.cgd;
 
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.*;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.relatorios.NaoDoacaoCIHDOTT;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.relatorios.QualificacaoRecusaFamiliar;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -65,8 +66,16 @@ public interface ProcessoNotificacaoRepository extends JpaRepository<ProcessoNot
         "group by c.id, c.nome order by total desc")
     public List<QualificacaoRecusaFamiliar> getRelatorioQualificacaoRecusaFamiliar(@Param("dataInicial") Calendar dataInicial, @Param("dataFinal") Calendar dataFinal,@Param("id")List<Long> id);
 
+
     public Integer countByDataAberturaBetweenAndObitoHospitalIdAndCausaNaoDoacaoTipoNaoDoacao(Calendar dataInicio, Calendar dataFinal,Long id,TipoNaoDoacao motivo);
 
-    public Integer countByDataAberturaBetweenAndObitoHospitalIdAndCausaNaoDoacao(Calendar dataInicio, Calendar dataFinal,Long id,CausaNaoDoacao motivo);
+    @Query(value = "select distinct new br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.relatorios.NaoDoacaoCIHDOTT(c.nome, count(p.id)) " +
+            "from br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.ProcessoNotificacao p join p.obito o " +
+            "join p.causaNaoDoacao c on (c.tipoNaoDoacao = :tipo)" +
+            "where p.dataAbertura between :dataInicial and :dataFinal and o.hospital.id in (:id)" +
+            "GROUP BY c.nome order by c.nome asc" )
+    public List<NaoDoacaoCIHDOTT> getNaoDoacaCIHDOTT(@Param ("dataInicial")Calendar dataInicio,@Param("dataFinal") Calendar dataFinal,@Param("id")Long id,@Param("tipo")TipoNaoDoacao tipo);
+
+
 }
 

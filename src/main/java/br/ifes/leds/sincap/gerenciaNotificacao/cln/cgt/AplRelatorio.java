@@ -90,7 +90,7 @@ public class AplRelatorio {
      * @return quantidadeNotificacoes.
      */
     private Integer quantidadeEntrevistaNaoRealizada(Long id,Calendar datIni, Calendar datFim){
-        return processoNotificacaoRepository.countByDataAberturaBetweenAndObitoHospitalIdAndEntrevistaIsNullAndEntrevistaEntrevistaRealizadaFalseAndEntrevistaDoacaoAutorizadaFalse(datIni,datFim,id);
+        return processoNotificacaoRepository.countByDataAberturaBetweenAndObitoHospitalIdAndEntrevistaIsNullAndEntrevistaEntrevistaRealizadaFalseAndEntrevistaDoacaoAutorizadaFalse(datIni, datFim, id);
     }
 
     /**
@@ -415,14 +415,22 @@ public class AplRelatorio {
 
         return listObitoMe;
     }
+    public List<NaoDoacaoCIHDOTT> naoDoacaoMensalFamiliar(Long idHospital,Calendar dataInicio,Calendar dataFinal)
+    {
+        List<NaoDoacaoCIHDOTT> naoDoacaoFamiliar = processoNotificacaoRepository.getNaoDoacaCIHDOTT(dataInicio,dataFinal,idHospital,TipoNaoDoacao.RECUSA_FAMILIAR);
+
+        return naoDoacaoFamiliar;
+
+
+    }
 
 
 //Relatorio CIHDOTT
 
-    private Integer quantRecFamiliar(Calendar DataInicio, Calendar DataFinal, Long idHops, CausaNaoDoacao causa)
+   /*private Integer quantRecFamiliar(Calendar DataInicio, Calendar DataFinal, Long idHops, CausaNaoDoacao causa)
     {
         return processoNotificacaoRepository.countByDataAberturaBetweenAndObitoHospitalIdAndCausaNaoDoacao(DataInicio, DataFinal, idHops, causa);
-    }
+    }*/
    /* public RelEntrevistaFamiliar relatorioTotalEntrevistaFamiliar(Long id,Calendar dataInicio, Calendar dataFinal){
 
         InstituicaoNotificadora in = instituicaoNotificadoraRepository.findOne(id);
