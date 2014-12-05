@@ -7,7 +7,6 @@
 package br.ifes.leds.sincap.gerenciaNotificacao.cln.util.dataFactory;
 
 import br.ifes.leds.sincap.controleInterno.cgd.CaptadorRepository;
-import br.ifes.leds.sincap.controleInterno.cgd.HospitalRepository;
 import br.ifes.leds.sincap.controleInterno.cgd.NotificadorRepository;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Captador;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Hospital;
@@ -18,16 +17,14 @@ import br.ifes.leds.sincap.gerenciaNotificacao.cgd.CausaNaoDoacaoRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ProcessoNotificacaoRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.*;
 import org.fluttercode.datafactory.impl.DataFactory;
-import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
 import static br.ifes.leds.reuse.utility.Factory.criaObjeto;
 import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoNotificacaoEnum.*;
+import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoNaoDoacao.RECUSA_FAMILIAR;
 
 /**Classe para a criação de objetos ProcessoNotificacao randomicos.
  *
@@ -265,7 +262,7 @@ public class ProcessoNotificacaoData {
             Calendar dataAtual = Calendar.getInstance();
             Calendar dataCadastro = Calendar.getInstance();
             Calendar dataEntrevista = Calendar.getInstance();
-            List<CausaNaoDoacao> listCausa = causaNaoDoacaoRepository.findAll();
+            List<CausaNaoDoacao> listCausa = causaNaoDoacaoRepository.findByTipoNaoDoacao(RECUSA_FAMILIAR);
 
             pn.getDataAbertura().setTime(df.getDateBetween(datIni.getTime(),datFim.getTime()));
             pn.getObito().getDataCadastro().setTime(df.getDateBetween(datIni.getTime(),datFim.getTime()));
@@ -306,6 +303,7 @@ public class ProcessoNotificacaoData {
      * @param df - instancia DataFactory.
      * @param QtdCap - quantidade de processos.
      */
+    @SuppressWarnings("unused")
     public void criaCaptacaoRadom(DataFactory df,Integer QtdCap){
      for (int i = 0; i < QtdCap;i++){
             ProcessoNotificacao pn = criarAnaliseObito(df);
