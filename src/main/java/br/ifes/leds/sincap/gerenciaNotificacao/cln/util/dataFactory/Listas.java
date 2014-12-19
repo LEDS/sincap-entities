@@ -6,10 +6,7 @@
 package br.ifes.leds.sincap.gerenciaNotificacao.cln.util.dataFactory;
 
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Sexo;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CorpoEncaminhamento;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoCivil;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Parentesco;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoObito;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +23,7 @@ public enum Listas {
     
     private final List<String> listaProfissoes;
     private final List<String> listaReligioes;
-    private final List<String> listaGrauEscolaridade;
+    private final List<Escolaridade> listaGrauEscolaridade;
     private final List<String> listCausaMortis;
     private final List<Sexo> listaSexo;
     private final List<EstadoCivil> listaEstado;
@@ -101,14 +98,15 @@ public enum Listas {
 
         listaGrauEscolaridade = new ArrayList<>();
 
-        listaGrauEscolaridade.add("Ensino Fundamental incompleto");
-        listaGrauEscolaridade.add("Ensino Fundamental completo");
-        listaGrauEscolaridade.add("Ensino Médio incompleto");
-        listaGrauEscolaridade.add("Ensino Médio completo");
-        listaGrauEscolaridade.add("Ensino Superior incompleto");
-        listaGrauEscolaridade.add("Ensino Superior completo");
+        listaGrauEscolaridade.add(Escolaridade.ANALFABETO);
+        listaGrauEscolaridade.add(Escolaridade.ENSINO_FUNDAMENTAL_COMPLETO);
+        listaGrauEscolaridade.add(Escolaridade.ENSINO_FUNDAMENTAL_INCOMPLETO);
+        listaGrauEscolaridade.add(Escolaridade.ENSINO_MEDIO_COMPLETO);
+        listaGrauEscolaridade.add(Escolaridade.ENSINO_MEDIO_INCOMPLETO);
+        listaGrauEscolaridade.add(Escolaridade.ENSINO_SUPERIOR_COMPLETO);
+        listaGrauEscolaridade.add(Escolaridade.ENSINO_SUPERIOR_INCOMPLETO);
 
-        
+
         listaSexo = new ArrayList<>();
         
         listaSexo.add(Sexo.FEMININO);
@@ -210,7 +208,7 @@ public enum Listas {
     /**Método responsável por retornar uma lista de Graus de Ecolaridades.
      * @return listaGrauEscolaridade - lista de Graus de Escolaridade.
      */
-    public List<String> getListaGrauEscolaridade() {
+    public List<Escolaridade> getListaGrauEscolaridade() {
         return listaGrauEscolaridade;
     }
 

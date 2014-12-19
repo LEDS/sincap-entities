@@ -8,6 +8,7 @@ package br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto;
 import br.ifes.leds.reuse.endereco.cdp.dto.EnderecoDTO;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Sexo;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Telefone;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Escolaridade;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoCivil;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Parentesco;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.interfaces.TelefonesResponsavelInterface;
@@ -51,7 +52,7 @@ public class ResponsavelDTO implements TelefonesResponsavelInterface {
     @Length(min = 5, max = 255)
     private String religiao;
     @Length(min = 5, max = 255)
-    private String grauEscolaridade;
+    private Escolaridade grauEscolaridade;
     @NotNull
     private EstadoCivil estadoCivil;
     private Sexo sexo;
