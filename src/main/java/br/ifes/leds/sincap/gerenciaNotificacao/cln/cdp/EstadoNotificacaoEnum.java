@@ -15,13 +15,13 @@ public enum EstadoNotificacaoEnum {
     EMANALISEOBITO("Em Análise de Óbito"),
     AGUARDANDOENTREVISTA("Aguardando Entrevista"),
     AGUARDANDOANALISEENTREVISTA("Aguardando Análise Entrevista"),
-    EMANALISEENTREVISTA("Em Analise da Entrevista"),
-    AGUARDANDOCAPTACAO("Aguardando Captacao"),
-    AGUARDANDOANALISECAPTACAO("Aguardando Análise da Captacao"),
+    EMANALISEENTREVISTA("Em Análise da Entrevista"),
+    AGUARDANDOCAPTACAO("Aguardando Captação"),
+    AGUARDANDOANALISECAPTACAO("Aguardando Análise da Captação"),
     EMANALISECAPTACAO("Em Análise de Captação"),
     AGUARDANDOARQUIVAMENTO("Aguardando Arquivamento"),
-    NOTIFICACAOARQUIVADA("Notificacao Arquivada"),
-    NOTIFICACAOEXCLUIDA("Notificacao Excluida");
+    NOTIFICACAOARQUIVADA("Notificação Arquivada"),
+    NOTIFICACAOEXCLUIDA("Notificação Excluída");
     
     private final String nome;
 
