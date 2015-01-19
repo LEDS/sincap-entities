@@ -1,14 +1,12 @@
 package br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto;
 
-import java.util.Calendar;
-
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.interfaces.PacienteInterface;
-import br.ifes.leds.sincap.validacao.annotations.DatasPacienteConsistentes;
-import lombok.*;
 import br.ifes.leds.reuse.endereco.cdp.dto.EnderecoDTO;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Sexo;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Telefone;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoCivil;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.interfaces.PacienteInterface;
+import br.ifes.leds.sincap.validacao.annotations.DatasPacienteConsistentes;
+import lombok.*;
 import lombok.experimental.Builder;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -16,6 +14,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
+import java.util.Calendar;
 
 @Getter
 @Setter
@@ -47,7 +46,6 @@ public class PacienteDTO implements PacienteInterface {
     @Length(min = 3, max = 255)
     private String nomeMae;
 
-    @Length(min=3,max = 255)
     private String religiao;
 
     @Length(min = 3, max = 255)
@@ -56,6 +54,10 @@ public class PacienteDTO implements PacienteInterface {
     @NotEmpty
     @Length(min = 3, max = 255)
     private String numeroSUS;
+
+    @Length(min = 3, max = 255)
+    @NotNull
+    private String registroHospitalar;
 
     @Length(min = 3, max = 255)
     private String nacionalidade;
