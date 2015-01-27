@@ -389,19 +389,20 @@ public class AplProcessoNotificacao {
      * estado atual indicado.
      *
      * @param estado Estado que será usado para filtrar as notificações.
-     * @return Notificações filtras pelo estado atual.
+     * @param idFuncionario
+     *@param idInstituicaoNotificadora @return Notificações filtras pelo estado atual.
      */
     public List<ProcessoNotificacao> retornarNotificacaoPorEstadoAtualEHospital(
-            EstadoNotificacaoEnum estado, Long id) {
+            EstadoNotificacaoEnum estado, Long idFuncionario, Long idInstituicaoNotificadora) {
 
-        Funcionario funcionario = funcionarioRepository.findOne(id);
+        Funcionario funcionario = funcionarioRepository.findOne(idFuncionario);
 
         if (funcionario instanceof Captador) {
             return notificacaoRepository
                     .findByUltimoEstadoEstadoNotificacaoAndObitoHospitalBancoOlhosIdOrderByUltimoEstadoDataAtualizacaosAsc(estado, ((Captador) funcionario).getBancoOlhos().getId());
         } else if (funcionario instanceof Notificador) {
             return notificacaoRepository
-                    .findByUltimoEstadoEstadoNotificacaoAndNotificadorInstituicoesNotificadorasIdOrderByUltimoEstadoDataAtualizacaosAsc(estado, id);
+                    .findByUltimoEstadoEstadoNotificacaoAndNotificadorInstituicoesNotificadorasIdOrderByUltimoEstadoDataAtualizacaosAsc(estado, idInstituicaoNotificadora);
         }
 
         return null;
