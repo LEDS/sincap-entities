@@ -16,8 +16,10 @@ import org.springframework.stereotype.Service;
 import java.util.Calendar;
 
 import static br.ifes.leds.reuse.utility.Factory.criaObjeto;
+import static br.ifes.leds.reuse.utility.Utility.hoje;
 
-/**Classe para a criação de objetos Captacao randomicos.
+/**
+ * Classe para a criação de objetos Captacao randomicos.
  *
  * @author aleao
  * @version 1.0
@@ -28,19 +30,23 @@ public class CaptacaoData {
     private CaptacaoRepository captacaoRepository;
 
 
-    /** Método responsável por salvar um objeto Captacao no banco de dados.
-     * @param c - Objeto Captacao. 
+    /**
+     * Método responsável por salvar um objeto Captacao no banco de dados.
+     *
+     * @param c - Objeto Captacao.
      */
-    public void salvarCaptacao(Captacao c){
+    public void salvarCaptacao(Captacao c) {
         captacaoRepository.save(c);
     }
-    
-    /**Método responsável por criar Objetos Captacao randomico.
+
+    /**
+     * Método responsável por criar Objetos Captacao randomico.
+     *
      * @param df - instancia DataFactory.
-     * @param c - objeto Captador. 
+     * @param c  - objeto Captador.
      * @return captacao - objeto Captacao Randomico.
      */
-    public Captacao criarCaptacao(DataFactory df,Captador c){
+    public Captacao criarCaptacao(DataFactory df, Captador c) {
         Captacao captacao = criaObjeto(Captacao.class);
 
         captacao.setCaptacaoRealizada(true);
@@ -48,10 +54,10 @@ public class CaptacaoData {
         if (captacao.isCaptacaoRealizada()) {
             captacao.setDataCaptacao(Calendar.getInstance());
         }
-        captacao.setDataCadastro(Calendar.getInstance());
+        captacao.setDataCadastro(hoje());
         captacao.setCaptador(c);
         captacao.setComentario("Comentario " + df.getRandomChar());
-        
+
         return captacao;
     }
 }

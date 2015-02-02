@@ -14,13 +14,13 @@ import org.fluttercode.datafactory.impl.DataFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import static br.ifes.leds.reuse.utility.Factory.criaObjeto;
+import static br.ifes.leds.reuse.utility.Utility.hoje;
 
-/**Classe para a criação de objetos Entrevista randomicos.
+/**
+ * Classe para a criação de objetos Entrevista randomicos.
  *
  * @author aleao
  * @version 1.0
@@ -37,25 +37,30 @@ public class EntrevistaData {
     @Autowired
     private TestemunhaData testemunhaData;
 
-    /**Método responsável por criar Objetos Entrevista randomico, sendo nescessário apenas passar
+    /**
+     * Método responsável por criar Objetos Entrevista randomico, sendo nescessário apenas passar
      * uma instancia DataFactory e a quantidade a ser criada.
-     * @param df - instancia DataFacotry.
-     * @param qtdEnt - quantidade de objetos a serem criados. 
+     *
+     * @param df     - instancia DataFacotry.
+     * @param qtdEnt - quantidade de objetos a serem criados.
      */
     @SuppressWarnings("unused")
-    public void criaEntrevistaRandom(DataFactory df,Integer qtdEnt){
-        for (int i = 0; i < qtdEnt; i++){
+    public void criaEntrevistaRandom(DataFactory df, Integer qtdEnt) {
+        for (int i = 0; i < qtdEnt; i++) {
             salvaEntrevista(criaEntrevista(df));
         }
     }
 
-     /**Método responsável por criar Objetos Entrevista randomico.
+    /**
+     * Método responsável por criar Objetos Entrevista randomico.
+     *
      * @param df - instancia DataFactory.
      * @return entrevista - objeto Entrevista Randomico.
      */
     public Entrevista criaEntrevista(DataFactory df) {
         Entrevista entrevista = criaObjeto(Entrevista.class);
 
+        entrevista.setDataCadastro(hoje());
         entrevista.setResponsavel(responsavelData.criarResponsavel(df));
         entrevista.setTestemunha1(testemunhaData.criarTestemunha(df));
         entrevista.setTestemunha2(testemunhaData.criarTestemunha(df));
@@ -63,14 +68,16 @@ public class EntrevistaData {
         entrevista.setEntrevistaRealizada(df.chance(50));
         List<Funcionario> listFuncionario = funcionarioRepository.findAll();
         entrevista.setFuncionario(df.getItem(listFuncionario));
-        
+
         return entrevista;
     }
-    
-    /** Método responsável por salvar um objeto Entrevista no banco de dados.
-     * @param ent - Objeto Entrevista. 
+
+    /**
+     * Método responsável por salvar um objeto Entrevista no banco de dados.
+     *
+     * @param ent - Objeto Entrevista.
      */
-    public void salvaEntrevista(Entrevista ent){
+    public void salvaEntrevista(Entrevista ent) {
         entrevistaRepository.save(ent);
     }
 }
