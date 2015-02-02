@@ -52,7 +52,7 @@ public class CaptacaoData {
         captacao.setCaptacaoRealizada(true);
 
         if (captacao.isCaptacaoRealizada()) {
-            captacao.setDataCaptacao(Calendar.getInstance());
+            captacao.setDataCaptacao(hoje());
         }
         captacao.setDataCadastro(hoje());
         captacao.setCaptador(c);
