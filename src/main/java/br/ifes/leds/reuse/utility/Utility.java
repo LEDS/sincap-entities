@@ -12,6 +12,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import static java.util.Calendar.*;
 import static org.joda.time.Years.yearsBetween;
 
 /**
@@ -65,6 +66,6 @@ public class Utility {
     }
 
     public static Calendar hoje() {
-        return Calendar.getInstance();
+        return new DateTime().withTime(0, 0, 0, 0).toCalendar(Locale.getDefault());
     }
 }

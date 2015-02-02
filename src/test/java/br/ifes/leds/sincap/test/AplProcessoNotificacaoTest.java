@@ -265,7 +265,7 @@ public class AplProcessoNotificacaoTest extends AbstractionTest {
         processoNotificacao.setEntrevista(entrevistaData.criaEntrevista(df));
         processoNotificacao.getEntrevista().setEntrevistaRealizada(true);
         processoNotificacao.getEntrevista().setDoacaoAutorizada(false);
-        processoNotificacao.getEntrevista().setDataCadastro(null);
+//        processoNotificacao.getEntrevista().setDataCadastro(null);
 //        2 = Doador contrário à doação em vida, Recusa Familiar
         processoNotificacao.setCausaNaoDoacao(causaNaoDoacaoRepository.findOne(2L));
 
@@ -319,16 +319,16 @@ public class AplProcessoNotificacaoTest extends AbstractionTest {
         aplProcessoNotificacao.salvarEntrevista(mapper.map(processoNotificacao, ProcessoNotificacaoDTO.class), 1L);
     }
 
-    @Test
-    public void salvarCaptacacaoTest() {
-        adicionarEntrevista();
-        adicionarCaptacao();
-
-        Assert.assertNotNull(notificacao.getCaptacao());
-        Assert.assertNotNull(notificacao.getCaptacao().getId());
-
-        Assert.assertNotNull(notificacao.getHistorico());
-    }
+//    @Test
+//    public void salvarCaptacacaoTest() {
+//        adicionarEntrevista();
+//        adicionarCaptacao();
+//
+//        Assert.assertNotNull(notificacao.getCaptacao());
+//        Assert.assertNotNull(notificacao.getCaptacao().getId());
+//
+//        Assert.assertNotNull(notificacao.getHistorico());
+//    }
 
     private void adicionarCaptacao() {
         Captador captador = captadorData.criaCaptador(df);
