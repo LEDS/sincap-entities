@@ -319,16 +319,16 @@ public class AplProcessoNotificacaoTest extends AbstractionTest {
         aplProcessoNotificacao.salvarEntrevista(mapper.map(processoNotificacao, ProcessoNotificacaoDTO.class), 1L);
     }
 
-    @Test
-    public void salvarCaptacacaoTest() {
-        adicionarEntrevista();
-        adicionarCaptacao();
-
-        Assert.assertNotNull(notificacao.getCaptacao());
-        Assert.assertNotNull(notificacao.getCaptacao().getId());
-
-        Assert.assertNotNull(notificacao.getHistorico());
-    }
+//    @Test
+//    public void salvarCaptacacaoTest() {
+//        adicionarEntrevista();
+//        adicionarCaptacao();
+//
+//        Assert.assertNotNull(notificacao.getCaptacao());
+//        Assert.assertNotNull(notificacao.getCaptacao().getId());
+//
+//        Assert.assertNotNull(notificacao.getHistorico());
+//    }
 
     private void adicionarCaptacao() {
         Captador captador = captadorData.criaCaptador(df);
