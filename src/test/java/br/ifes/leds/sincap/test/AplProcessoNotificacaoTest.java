@@ -265,7 +265,7 @@ public class AplProcessoNotificacaoTest extends AbstractionTest {
         processoNotificacao.setEntrevista(entrevistaData.criaEntrevista(df));
         processoNotificacao.getEntrevista().setEntrevistaRealizada(true);
         processoNotificacao.getEntrevista().setDoacaoAutorizada(false);
-        processoNotificacao.getEntrevista().setDataCadastro(null);
+//        processoNotificacao.getEntrevista().setDataCadastro(null);
 //        2 = Doador contrário à doação em vida, Recusa Familiar
         processoNotificacao.setCausaNaoDoacao(causaNaoDoacaoRepository.findOne(2L));
 

@@ -66,11 +66,6 @@ public class Utility {
     }
 
     public static Calendar hoje() {
-        Calendar hoje = Calendar.getInstance();
-        hoje.add(HOUR_OF_DAY, 0);
-        hoje.add(MINUTE, 0);
-        hoje.add(SECOND, 0);
-        hoje.add(MILLISECOND, 0);
-        return hoje;
+        return new DateTime().withTime(0, 0, 0, 0).toCalendar(Locale.getDefault());
     }
 }
