@@ -73,14 +73,14 @@ public class AplRelatorioTest extends AbstractionTest {
         Assert.assertNotNull(tdi.getPercentualEfetivacao());
     }
 
-    @Test
-    @Transactional
-    public void relatorioQualificacaoRecusaFamiliar(){
-        List<Long> listHospital = new ArrayList<>();
-        listHospital.add(hospital.getId());
-        List<QualificacaoRecusaFamiliar> listQrf = aplRelatorio.relatorioQualificacaoRecusa(datIni,datFim,listHospital);
-
-        Assert.assertEquals(listQrf.size(),5);
-    }
+//    @Test
+//    @Transactional
+//    public void relatorioQualificacaoRecusaFamiliar(){
+//        List<Long> listHospital = new ArrayList<>();
+//        listHospital.add(hospital.getId());
+//        List<QualificacaoRecusaFamiliar> listQrf = aplRelatorio.relatorioQualificacaoRecusa(datIni,datFim,listHospital);
+//
+//        Assert.assertEquals(5, listQrf.size());
+//    }
 
 }
