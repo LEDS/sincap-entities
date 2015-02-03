@@ -597,4 +597,16 @@ public class AplProcessoNotificacao {
             }
         }
     }
+
+    /**
+     * Esta função retorna a quantidade de notificações que possuem a causa de não doacao escolhida.
+     *
+      * @param id - Id da Causa de não doação.
+     * @return quantidade de notificações.
+     */
+
+
+    public Integer quantidadeCausaNaoDoacao(Long id){
+        return notificacaoRepository.countByCausaNaoDoacaoId(id);
+    }
 }

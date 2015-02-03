@@ -76,6 +76,7 @@ public interface ProcessoNotificacaoRepository extends JpaRepository<ProcessoNot
             "GROUP BY c.nome order by c.nome asc" )
     public List<NaoDoacaoCIHDOTT> getNaoDoacaCIHDOTT(@Param ("dataInicial")Calendar dataInicio,@Param("dataFinal") Calendar dataFinal,@Param("id")Long id,@Param("tipo")TipoNaoDoacao tipo);
 
+    public Integer countByCausaNaoDoacaoId(Long id);
 
 }
 
