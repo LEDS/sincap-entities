@@ -35,7 +35,7 @@ public class PacienteDTO implements PacienteInterface {
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private Calendar dataInternacao;
 
-    @NotNull
+   //@NotNull
     @Past
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private Calendar dataNascimento;
@@ -55,14 +55,14 @@ public class PacienteDTO implements PacienteInterface {
     @Length(min = 3, max = 255)
     private String numeroSUS;
 
-    @Length(min = 3, max = 255)
-    @NotNull
-    private String registroHospitalar;
+//    @Length(min = 3, max = 255)
+//    @NotNull
+//    private String registroHospitalar;
 
     @Length(min = 3, max = 255)
     private String nacionalidade;
 
-    @NotNull
+  //  @NotNull
     private DocumentoComFotoDTO documentoSocial;
 
     @NotNull

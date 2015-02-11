@@ -131,7 +131,7 @@ public class PacienteData {
         paciente.setNumeroProntuario(df.getNumberText(7));
         paciente.setNumeroSUS(df.getNumberText(7));
         paciente.setProfissao(df.getItem(listaProfissao));
-        paciente.setRegistroHospitalar(df.getNumberText(10));
+        //paciente.setRegistroHospitalar(df.getNumberText(10));
     }
 
     public void salvarPaciente(Paciente pac){
