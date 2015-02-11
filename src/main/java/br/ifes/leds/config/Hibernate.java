@@ -38,8 +38,8 @@ public class Hibernate {
         LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
         Map<String, String> properties = new HashMap<>();
 
-        properties.put("dialect", "org.hibernate.dialect.PostgreSQL82Dialect");
-        properties.put("dialect", "org.hibernate.dialect.PostgreSQL82Dialect");
+        properties.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQL82Dialect");
+        properties.put("hibernate.hbm2ddl.auto", "update");
 
         emf.setPackagesToScan("br.ifes.leds");
         emf.setDataSource(dataSource);
