@@ -3,8 +3,10 @@ package br.ifes.leds.sincap.gerenciaNotificacao.cln.cgt;
 import br.ifes.leds.reuse.ledsExceptions.CRUDExceptions.ViolacaoDeRIException;
 import br.ifes.leds.reuse.utility.Utility;
 import br.ifes.leds.sincap.controleInterno.cgd.FuncionarioRepository;
+import br.ifes.leds.sincap.controleInterno.cgd.HospitalRepository;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Captador;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Funcionario;
+import br.ifes.leds.sincap.controleInterno.cln.cdp.Hospital;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Notificador;
 import br.ifes.leds.sincap.controleInterno.cln.cgt.AplCaptador;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ProcessoNotificacaoRepository;
@@ -38,6 +40,8 @@ public class AplProcessoNotificacao {
 
     @Autowired
     private ProcessoNotificacaoRepository notificacaoRepository;
+    @Autowired
+    private HospitalRepository hospitalRepository;
     @Qualifier("mapper")
     @Autowired
     private Mapper mapper;
@@ -62,13 +66,16 @@ public class AplProcessoNotificacao {
 
         ProcessoNotificacao notificacao = instanciarNovoProcessoNotificacao(processoNotificacaoDTO);
 
+        final Long idHospital = notificacao.getObito().getHospital().getId();
+        final Hospital hospitalBd = hospitalRepository.findById(idHospital);
+
         notificacao.setNotificador(criarNotificador(idFuncionario));
 
         setDatasNovaNotificacao(notificacao);
 
         this.addEstadoInicial(notificacao, idFuncionario);
 
-        notificacao.setCodigo(notificacao.getObito().getPaciente().getNumeroSUS());
+        notificacao.setCodigo(hospitalBd.getSigla() + notificacao.getObito().getPaciente().getNumeroProntuario());
 
         try {
             return notificacaoRepository.save(notificacao);

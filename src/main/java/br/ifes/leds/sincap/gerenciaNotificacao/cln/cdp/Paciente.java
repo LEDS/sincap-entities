@@ -40,11 +40,11 @@ public class Paciente extends Pessoa implements PacienteInterface {
     private Calendar dataNascimento;
 
     @Column
-    @NotNull
+   // @NotNull
     private String profissao;
 
     @Length(min = 3, max = 255)
-    @NotNull
+   // @NotNull
     @Column
     private String nomeMae;
 
@@ -61,17 +61,16 @@ public class Paciente extends Pessoa implements PacienteInterface {
     @Column
     private String numeroSUS;
 
-    @Length(min = 3, max = 255)
-    @NotNull
-    @Column
-    private String registroHospitalar;
+//    @Length(min = 3, max = 255)
+//    @NotNull
+//    private String registroHospitalar;
 
     @Length(min = 3, max = 255)
-    @NotNull
+   // @NotNull
     @Column
     private String nacionalidade;
 
-    @NotNull
+   // @NotNull
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private DocumentoComFoto documentoSocial;
 
