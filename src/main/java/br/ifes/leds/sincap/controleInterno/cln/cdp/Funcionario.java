@@ -12,6 +12,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
 
+import static javax.persistence.FetchType.EAGER;
+
 /**
  * Funcionario
  *
@@ -53,6 +55,6 @@ public class Funcionario extends Pessoa {
     @NotNull
     private String email;
 
-    @ManyToMany
+    @ManyToMany(fetch = EAGER)
     private List<Permissao> permissoes;
 }
