@@ -6,7 +6,7 @@
 
   <beans>
     <context:component-scan base-package="br.ifes.leds"/>
-    <context:property-placeholder location="classpath:sincap.properties" />
+    <context:property-placeholder />
 
     <!-- Não funciona no Java Config por algum motivo desconhecido -->
     <bean id="mapper" class="org.dozer.DozerBeanMapper">
