@@ -90,6 +90,18 @@ public class AplProcessoNotificacao {
         }
     }
 
+    public ProcessoNotificacao salvarObito(ProcessoNotificacaoDTO processoNotificacaoDTO){
+
+        ProcessoNotificacao notificacao = mapearProcessoNotificacaoDTO(processoNotificacaoDTO);
+
+        try {
+            return notificacaoRepository.save(notificacao);
+        } catch (Exception e) {
+            validarProcesso(notificacao);
+            throw new ViolacaoDeRIException(e);
+        }
+    }
+
     /**
      * Metodo que salva uma nova entrevista vinculada a um Processo de
      * Notificacao
@@ -100,6 +112,7 @@ public class AplProcessoNotificacao {
         ProcessoNotificacao notificacaoBd = notificacaoRepository.findOne(processoNotificacaoDTO.getId());
 
         notificacaoBd.setEntrevista(notificacaoView.getEntrevista());
+        notificacaoBd.setObito(notificacaoView.getObito());
 
         verificaDataCadastro(notificacaoBd.getEntrevista());
         verificaCausaNaoDoacao(notificacaoBd, notificacaoView);
