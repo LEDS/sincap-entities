@@ -34,17 +34,13 @@ public class Paciente extends Pessoa implements PacienteInterface {
     @Temporal(TemporalType.TIMESTAMP)
     private Calendar dataInternacao;
 
-    @Past
-    @NotNull
     @Temporal(TemporalType.TIMESTAMP)
     private Calendar dataNascimento;
 
     @Column
-   // @NotNull
     private String profissao;
 
     @Length(min = 3, max = 255)
-   // @NotNull
     @Column
     private String nomeMae;
 
@@ -56,21 +52,13 @@ public class Paciente extends Pessoa implements PacienteInterface {
     @Column
     private String numeroProntuario;
 
-    @Length(min = 3, max = 255)
-    @NotNull
     @Column
     private String numeroSUS;
 
-//    @Length(min = 3, max = 255)
-//    @NotNull
-//    private String registroHospitalar;
-
     @Length(min = 3, max = 255)
-   // @NotNull
     @Column
     private String nacionalidade;
 
-   // @NotNull
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private DocumentoComFoto documentoSocial;
 

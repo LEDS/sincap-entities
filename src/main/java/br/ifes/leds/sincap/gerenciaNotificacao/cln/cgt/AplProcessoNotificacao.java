@@ -29,6 +29,7 @@ import java.util.Locale;
 import java.util.Set;
 
 import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoNotificacaoEnum.AGUARDANDOANALISEENTREVISTA;
+import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoDocumentoComFoto.PNI;
 
 /**
  * AplProcessoNotificacao.java
@@ -525,11 +526,13 @@ public class AplProcessoNotificacao {
 
         verificaCausaNaoDoacao(notificacaoASerRetornada, notificacaoDTO);
 
-        if (notificacaoASerRetornada.getObito().getIdadePaciente() < 2 || notificacaoASerRetornada.getObito().getIdadePaciente() > 75) {
-            notificacaoASerRetornada.getObito().setAptoDoacao(false);
-            notificacaoASerRetornada.setCausaNaoDoacao(new CausaNaoDoacao());
+        if (notificacaoASerRetornada.getObito().getPaciente().getDocumentoSocial().getTipoDocumentoComFoto() != PNI) {
+            if (notificacaoASerRetornada.getObito().getIdadePaciente() < 2 || notificacaoASerRetornada.getObito().getIdadePaciente() > 75) {
+                notificacaoASerRetornada.getObito().setAptoDoacao(false);
+                notificacaoASerRetornada.setCausaNaoDoacao(new CausaNaoDoacao());
 //            17 = Fora da faixa etária.
-            notificacaoASerRetornada.getCausaNaoDoacao().setId(17L);
+                notificacaoASerRetornada.getCausaNaoDoacao().setId(17L);
+            }
         }
 
         return notificacaoASerRetornada;

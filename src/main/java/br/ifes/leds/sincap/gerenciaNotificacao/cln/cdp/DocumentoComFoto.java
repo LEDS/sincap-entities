@@ -21,8 +21,6 @@ import javax.validation.constraints.Size;
 @EqualsAndHashCode(callSuper = true)
 public class DocumentoComFoto extends ObjetoPersistente {
     @Column
-    @NotNull
-    @Size(min = 3, max = 255)
     private String documento;
 
     @Column
