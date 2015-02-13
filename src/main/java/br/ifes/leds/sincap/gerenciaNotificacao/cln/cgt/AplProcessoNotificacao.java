@@ -9,6 +9,7 @@ import br.ifes.leds.sincap.controleInterno.cln.cdp.Funcionario;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Hospital;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Notificador;
 import br.ifes.leds.sincap.controleInterno.cln.cgt.AplCaptador;
+import br.ifes.leds.sincap.controleInterno.cln.cgt.AplHospital;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ProcessoNotificacaoRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.*;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.CaptacaoDTO;
@@ -19,6 +20,7 @@ import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
@@ -51,6 +53,8 @@ public class AplProcessoNotificacao {
     @Autowired
     private AplCaptador aplCaptador;
     @Autowired
+    private AplHospital aplHospital;
+    @Autowired
     private FuncionarioRepository funcionarioRepository;
 
     private static Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
@@ -68,7 +72,7 @@ public class AplProcessoNotificacao {
         ProcessoNotificacao notificacao = instanciarNovoProcessoNotificacao(processoNotificacaoDTO);
 
         final Long idHospital = notificacao.getObito().getHospital().getId();
-        final Hospital hospitalBd = hospitalRepository.findById(idHospital);
+        final Hospital hospitalBd = aplHospital.obter(idHospital);
 
         notificacao.setNotificador(criarNotificador(idFuncionario));
 
