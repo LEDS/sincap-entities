@@ -4,6 +4,7 @@ import br.ifes.leds.reuse.persistence.ObjetoPersistente;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Notificador;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.interfaces.ProcessoNotificacaoInterface;
 import br.ifes.leds.sincap.validacao.annotations.DataEntrevistaObitoConsistentes;
+import br.ifes.leds.sincap.validacao.annotations.EntrevistaValida;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -32,6 +33,7 @@ import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoNotificacaoE
 @Entity
 @EqualsAndHashCode(callSuper = true)
 @DataEntrevistaObitoConsistentes
+@EntrevistaValida
 public class ProcessoNotificacao extends ObjetoPersistente implements ProcessoNotificacaoInterface {
 
     @Column(unique = true, nullable = false)
