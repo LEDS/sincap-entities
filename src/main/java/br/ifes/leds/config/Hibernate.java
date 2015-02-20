@@ -22,10 +22,11 @@ public class Hibernate {
         Map<String, String> properties = new HashMap<>();
 
         properties.put("hibernate.dialect", dialect);
-        properties.put("hibernate.hbm2ddl.auto", "create");
+        properties.put("hibernate.hbm2ddl.auto", "update");
 
         if (dialect.matches(".*H2.*"))
-            properties.put("hibernate.hbm2ddl.import_files", "sql/endereco.sql,sql/dados.sql");
+            properties.put("hibernate.hbm2ddl.auto", "create");
+        properties.put("hibernate.hbm2ddl.import_files", "sql/endereco.sql,sql/dados.sql");
 
         emf.setPackagesToScan("br.ifes.leds");
         emf.setDataSource(dataSource);
