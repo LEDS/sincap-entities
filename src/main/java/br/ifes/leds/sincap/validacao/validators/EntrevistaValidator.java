@@ -19,21 +19,25 @@ public class EntrevistaValidator implements ConstraintValidator<EntrevistaValida
     @Override
     public boolean isValid(ProcessoNotificacao processo, ConstraintValidatorContext context) {
         boolean isValid = processo.getEntrevista() == null;
-        
-        if (processo.getId() == null) {
-            context.buildConstraintViolationWithTemplate("{EntrevistaValida.processoSemId}").addConstraintViolation();
-            isValid = false;
-        }
 
-        if (entrevistaNaoRealizada(processo)) {
-            isValid = validacao(context)
-                .condicao(temProblemasEstruturais(processo), "EntrevistaValida.problemasEstruturais", "Causa Não doação")
-                .condicao(naoTemDataEntrevista(processo), "EntrevistaValida.dataEntrevista", "Data de entrevista")
-                .condicao(processo.getEntrevista().getResponsavel() == null, "EntrevistaValida.responsavel1", "Responsável 1")
-                .condicao(processo.getEntrevista().getResponsavel2() == null, "EntrevistaValida.responsavel2", "Responsável 2")
-                .condicao(processo.getEntrevista().getTestemunha1() == null, "EntrevistaValida.testemunha1", "Testemunha 1")
-                .condicao(processo.getEntrevista().getTestemunha2() == null, "EntrevistaValida.testemunha2", "Testemunha 2")
-                .build();
+        if (processo.getEntrevista() != null) {
+            isValid = true;
+
+            if (processo.getId() == null) {
+                context.buildConstraintViolationWithTemplate("{EntrevistaValida.processoSemId}").addConstraintViolation();
+                isValid = false;
+            }
+
+            if (entrevistaNaoRealizada(processo)) {
+                isValid = isValid && validacao(context)
+                        .condicao(temProblemasEstruturais(processo), "EntrevistaValida.problemasEstruturais", "Causa Não doação")
+                        .condicao(naoTemDataEntrevista(processo), "EntrevistaValida.dataEntrevista", "Data de entrevista")
+                        .condicao(processo.getEntrevista().getResponsavel() == null, "EntrevistaValida.responsavel1", "Responsável 1")
+                        .condicao(processo.getEntrevista().getResponsavel2() == null, "EntrevistaValida.responsavel2", "Responsável 2")
+                        .condicao(processo.getEntrevista().getTestemunha1() == null, "EntrevistaValida.testemunha1", "Testemunha 1")
+                        .condicao(processo.getEntrevista().getTestemunha2() == null, "EntrevistaValida.testemunha2", "Testemunha 2")
+                        .build();
+            }
         }
 
         return isValid;

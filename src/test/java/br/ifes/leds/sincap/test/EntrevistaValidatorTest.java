@@ -43,7 +43,11 @@ public class EntrevistaValidatorTest extends AbstractionTest {
     }
     
     @Test
-    public void processoSemId() {
+    public void processoSemIdComEntrevistaValida() {
+        processoNotificacao.setEntrevista(entrevistaNaoRealizada());
+        processoNotificacao.setCausaNaoDoacao(new CausaNaoDoacao());
+        processoNotificacao.getCausaNaoDoacao().setTipoNaoDoacao(PROBLEMAS_ESTRUTURAIS);
+
         final Set<ConstraintViolation<ProcessoNotificacao>> violations = validator.validate(processoNotificacao);
         boolean processoComId = sim;
 
@@ -53,6 +57,13 @@ public class EntrevistaValidatorTest extends AbstractionTest {
         }
 
         assertFalse("Processo sem ID está sendo válido", processoComId);
+    }
+
+    @Test
+    public void processoSemIdSemEntrevista() {
+        Set<ConstraintViolation<ProcessoNotificacao>> violations = validator.validate(processoNotificacao);
+
+        assertEquals(0, violations.size());
     }
 
     @Test
