@@ -85,7 +85,23 @@ public class EntrevistaValidatorTest extends AbstractionTest {
         processoNotificacao.getCausaNaoDoacao().setTipoNaoDoacao(PROBLEMAS_ESTRUTURAIS);
         Set<ConstraintViolation<ProcessoNotificacao>> violations = validator.validate(processoNotificacao);
 
-        assertEquals("Entrevista nao validando quando deveria.", 0, violations.size());
+        assertEquals("Entrevista validando quando não deveria.", 0, violations.size());
+    }
+
+    @Test
+    public void entrevistaNaoRealizadaSemCausaNaoDoacao() {
+        processoNotificacao.setId(1L);
+        processoNotificacao.setEntrevista(entrevistaNaoRealizada());
+        Set<ConstraintViolation<ProcessoNotificacao>> violations = validator.validate(processoNotificacao);
+        boolean temErro = nao;
+
+        for (ConstraintViolation<ProcessoNotificacao> violation : violations) {
+            if (violation.getMessage().equals("Causa da entrevista não ter sido realizada não informada")) {
+                temErro = sim;
+            }
+        }
+
+        assertTrue("Causa de não doação não validando.", temErro);
     }
 
     private Entrevista entrevistaNaoRealizada() {

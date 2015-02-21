@@ -1,8 +1,6 @@
 package br.ifes.leds.sincap.validacao.validators;
 
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.ProcessoNotificacao;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoNaoDoacao;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.interfaces.ProcessoNotificacaoInterface;
 import br.ifes.leds.sincap.validacao.annotations.EntrevistaValida;
 
 import javax.validation.ConstraintValidator;
@@ -25,10 +23,9 @@ public class EntrevistaValidator implements ConstraintValidator<EntrevistaValida
             context.buildConstraintViolationWithTemplate("{EntrevistaValida.processoSemId}").addConstraintViolation();
             isValid = false;
         }
-        
-        if (processo.getEntrevista() != null && entrevistaNaoRealizada(processo)) {
-            isValid = processo.getCausaNaoDoacao() != null
-                    && processo.getCausaNaoDoacao().getTipoNaoDoacao() == PROBLEMAS_ESTRUTURAIS
+
+        if (entrevistaNaoRealizada(processo)) {
+            isValid = causaNaoDoacaoProblemasEstruturais(processo, context)
                     && processo.getEntrevista().getDataEntrevista() == null
                     && processo.getEntrevista().getResponsavel() == null
                     && processo.getEntrevista().getResponsavel2() == null
@@ -39,7 +36,17 @@ public class EntrevistaValidator implements ConstraintValidator<EntrevistaValida
         return isValid;
     }
 
-    private static boolean entrevistaNaoRealizada(ProcessoNotificacao processo) {
-        return !processo.getEntrevista().isEntrevistaRealizada();
+    private boolean causaNaoDoacaoProblemasEstruturais(ProcessoNotificacao processo, ConstraintValidatorContext context) {
+        boolean isValid = processo.getCausaNaoDoacao() != null &&  processo.getCausaNaoDoacao().getTipoNaoDoacao() == PROBLEMAS_ESTRUTURAIS;
+        if (!isValid) {
+            context.buildConstraintViolationWithTemplate("{EntrevistaValida.problemasEstruturais}").addConstraintViolation();
+        }
+
+        return isValid;
     }
+
+    private boolean entrevistaNaoRealizada(ProcessoNotificacao processo) {
+        return processo.getEntrevista() != null && !processo.getEntrevista().isEntrevistaRealizada();
+    }
+
 }
