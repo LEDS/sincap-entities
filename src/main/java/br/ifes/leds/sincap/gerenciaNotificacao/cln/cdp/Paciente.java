@@ -1,21 +1,21 @@
 package br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp;
 
-import java.util.Calendar;
+import br.ifes.leds.sincap.controleInterno.cln.cdp.Pessoa;
+import br.ifes.leds.sincap.controleInterno.cln.cdp.Sexo;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.interfaces.PacienteInterface;
+import br.ifes.leds.sincap.validacao.annotations.DatasPacienteConsistentes;
+import br.ifes.leds.sincap.validacao.groups.entrevista.EntrevistaRealizadaDoacaoAutorizada;
+import br.ifes.leds.sincap.validacao.groups.entrevista.EntrevistaRealizadaDoacaoNaoAutorizada;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.groups.Default;
-
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.interfaces.PacienteInterface;
-import br.ifes.leds.sincap.validacao.annotations.DatasPacienteConsistentes;
-import br.ifes.leds.sincap.validacao.groups.EtapaEntrevista;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import br.ifes.leds.sincap.controleInterno.cln.cdp.Pessoa;
-import br.ifes.leds.sincap.controleInterno.cln.cdp.Sexo;
-import org.hibernate.validator.constraints.Length;
+import java.util.Calendar;
 
 
 /**
@@ -31,22 +31,22 @@ import org.hibernate.validator.constraints.Length;
 @EqualsAndHashCode(callSuper = true)
 public class Paciente extends Pessoa implements PacienteInterface {
 
-    @Past(groups = {Default.class, EtapaEntrevista.class})
-    @NotNull(groups = {Default.class, EtapaEntrevista.class})
+    @Past(groups = {Default.class, EntrevistaRealizadaDoacaoAutorizada.class, EntrevistaRealizadaDoacaoNaoAutorizada.class})
+    @NotNull(groups = {Default.class, EntrevistaRealizadaDoacaoAutorizada.class, EntrevistaRealizadaDoacaoNaoAutorizada.class})
     @Temporal(TemporalType.TIMESTAMP)
     private Calendar dataInternacao;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Past(groups = {EtapaEntrevista.class})
-    @NotNull(groups = {EtapaEntrevista.class})
+    @Past(groups = {EntrevistaRealizadaDoacaoAutorizada.class, EntrevistaRealizadaDoacaoNaoAutorizada.class})
+    @NotNull(groups = {EntrevistaRealizadaDoacaoAutorizada.class, EntrevistaRealizadaDoacaoNaoAutorizada.class})
     private Calendar dataNascimento;
 
     @Column
-    @NotNull(groups = {EtapaEntrevista.class})
+    @NotNull(groups = {EntrevistaRealizadaDoacaoAutorizada.class, EntrevistaRealizadaDoacaoNaoAutorizada.class})
     private String profissao;
 
     @Length(min = 3, max = 255)
-    @NotNull(groups = {EtapaEntrevista.class})
+    @NotNull(groups = {EntrevistaRealizadaDoacaoAutorizada.class, EntrevistaRealizadaDoacaoNaoAutorizada.class})
     @Column
     private String nomeMae;
 
@@ -54,21 +54,21 @@ public class Paciente extends Pessoa implements PacienteInterface {
     private String religiao;
 
     @Length(min = 3, max = 255)
-    @NotNull(groups = {Default.class, EtapaEntrevista.class})
+    @NotNull(groups = {Default.class, EntrevistaRealizadaDoacaoAutorizada.class, EntrevistaRealizadaDoacaoNaoAutorizada.class})
     @Column
     private String numeroProntuario;
 
-    @Length(min = 3, max = 255, groups = {EtapaEntrevista.class})
-    @NotNull(groups = {EtapaEntrevista.class})
+    @Length(min = 3, max = 255, groups = {EntrevistaRealizadaDoacaoAutorizada.class, EntrevistaRealizadaDoacaoNaoAutorizada.class})
+    @NotNull(groups = {EntrevistaRealizadaDoacaoAutorizada.class, EntrevistaRealizadaDoacaoNaoAutorizada.class})
     @Column
     private String numeroSUS;
 
-    @Length(min = 3, max = 255, groups = {Default.class, EtapaEntrevista.class})
-    @NotNull(groups = {EtapaEntrevista.class})
+    @Length(min = 3, max = 255, groups = {Default.class, EntrevistaRealizadaDoacaoAutorizada.class, EntrevistaRealizadaDoacaoNaoAutorizada.class})
+    @NotNull(groups = {EntrevistaRealizadaDoacaoAutorizada.class, EntrevistaRealizadaDoacaoNaoAutorizada.class})
     @Column
     private String nacionalidade;
 
-    @NotNull(groups = {EtapaEntrevista.class})
+    @NotNull(groups = {EntrevistaRealizadaDoacaoAutorizada.class, EntrevistaRealizadaDoacaoNaoAutorizada.class})
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private DocumentoComFoto documentoSocial;
 

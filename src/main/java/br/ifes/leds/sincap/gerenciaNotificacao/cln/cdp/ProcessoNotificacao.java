@@ -4,7 +4,9 @@ import br.ifes.leds.reuse.persistence.ObjetoPersistente;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Notificador;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.interfaces.ProcessoNotificacaoInterface;
 import br.ifes.leds.sincap.validacao.annotations.DataEntrevistaObitoConsistentes;
-import br.ifes.leds.sincap.validacao.annotations.EntrevistaValida;
+import br.ifes.leds.sincap.validacao.groups.entrevista.EntrevistaNaoRealizada;
+import br.ifes.leds.sincap.validacao.groups.entrevista.EntrevistaRealizadaDoacaoAutorizada;
+import br.ifes.leds.sincap.validacao.groups.entrevista.EntrevistaRealizadaDoacaoNaoAutorizada;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,6 +14,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -33,7 +36,6 @@ import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoNotificacaoE
 @Entity
 @EqualsAndHashCode(callSuper = true)
 @DataEntrevistaObitoConsistentes
-@EntrevistaValida
 public class ProcessoNotificacao extends ObjetoPersistente implements ProcessoNotificacaoInterface {
 
     @Column(unique = true, nullable = false)
@@ -82,6 +84,9 @@ public class ProcessoNotificacao extends ObjetoPersistente implements ProcessoNo
     
     @OneToOne
     @JoinColumn
+    @Valid
+    @Null(groups = {EntrevistaRealizadaDoacaoAutorizada.class})
+    @NotNull(message = "{EntrevistaValida.problemasEstruturais}", groups = {EntrevistaNaoRealizada.class})
     private CausaNaoDoacao causaNaoDoacao;
 
     public boolean isExcluido() {
@@ -141,5 +146,11 @@ public class ProcessoNotificacao extends ObjetoPersistente implements ProcessoNo
     @SuppressWarnings("unused")
     public void setHistoricoModificavel(List<AtualizacaoEstado> historico) {
         this.setHistorico(historico);
+    }
+
+    @Override
+    @NotNull(message = "{EntrevistaValida.processoSemId}", groups = {EntrevistaNaoRealizada.class, EntrevistaRealizadaDoacaoAutorizada.class, EntrevistaRealizadaDoacaoNaoAutorizada.class})
+    public Long getId() {
+        return super.getId();
     }
 }

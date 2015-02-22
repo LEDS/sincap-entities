@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
+import br.ifes.leds.sincap.validacao.annotations.ProblemasEstruturais;
+import br.ifes.leds.sincap.validacao.groups.entrevista.EntrevistaNaoRealizada;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,5 +28,6 @@ public class CausaNaoDoacao extends ObjetoPersistente {
     private String nome;
 
     @Enumerated(value = EnumType.STRING)
+    @ProblemasEstruturais(groups = {EntrevistaNaoRealizada.class})
     private TipoNaoDoacao tipoNaoDoacao;
 }

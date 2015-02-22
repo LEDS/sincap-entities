@@ -2,6 +2,8 @@ package br.ifes.leds.sincap.test;
 
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.*;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.*;
+import br.ifes.leds.sincap.validacao.groups.entrevista.EntrevistaNaoRealizada;
+import br.ifes.leds.sincap.validacao.groups.entrevista.EntrevistaRealizadaDoacaoNaoAutorizada;
 import org.dozer.Mapper;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -49,7 +51,7 @@ public class EntrevistaValidatorTest extends AbstractionTest {
         processoNotificacao.setCausaNaoDoacao(new CausaNaoDoacao());
         processoNotificacao.getCausaNaoDoacao().setTipoNaoDoacao(PROBLEMAS_ESTRUTURAIS);
 
-        final Set<ConstraintViolation<ProcessoNotificacao>> violations = validator.validate(processoNotificacao);
+        final Set<ConstraintViolation<ProcessoNotificacao>> violations = validator.validate(processoNotificacao, EntrevistaNaoRealizada.class);
         boolean processoComId = sim;
 
         for (ConstraintViolation<ProcessoNotificacao> violation : violations) {
@@ -64,7 +66,7 @@ public class EntrevistaValidatorTest extends AbstractionTest {
     public void processoSemIdSemEntrevista() {
         final Set<ConstraintViolation<ProcessoNotificacao>> violations = validator.validate(processoNotificacao);
 
-        assertEquals(0, violations.size());
+        assertTrue(violations.isEmpty());
     }
 
     @Test
@@ -95,7 +97,7 @@ public class EntrevistaValidatorTest extends AbstractionTest {
         processoNotificacao.setEntrevista(entrevistaNaoRealizada());
         processoNotificacao.setCausaNaoDoacao(new CausaNaoDoacao());
         processoNotificacao.getCausaNaoDoacao().setTipoNaoDoacao(PROBLEMAS_ESTRUTURAIS);
-        final Set<ConstraintViolation<ProcessoNotificacao>> violations = validator.validate(processoNotificacao);
+        final Set<ConstraintViolation<ProcessoNotificacao>> violations = validator.validate(processoNotificacao, EntrevistaNaoRealizada.class);
 
         assertEquals("Entrevista validando quando não deveria.", 0, violations.size());
     }
@@ -104,7 +106,7 @@ public class EntrevistaValidatorTest extends AbstractionTest {
     public void entrevistaNaoRealizadaSemCausaNaoDoacao() {
         processoNotificacao.setId(1L);
         processoNotificacao.setEntrevista(entrevistaNaoRealizada());
-        final Set<ConstraintViolation<ProcessoNotificacao>> violations = validator.validate(processoNotificacao);
+        final Set<ConstraintViolation<ProcessoNotificacao>> violations = validator.validate(processoNotificacao, EntrevistaNaoRealizada.class);
         final boolean temErro = temErro(violations, "Causa da entrevista não ter sido realizada não informada");
 
         assertTrue("Causa de não doação não validando.", temErro);
@@ -119,7 +121,7 @@ public class EntrevistaValidatorTest extends AbstractionTest {
         processoNotificacao.getEntrevista().setResponsavel2(new Responsavel());
         processoNotificacao.getEntrevista().setTestemunha1(new Testemunha());
         processoNotificacao.getEntrevista().setTestemunha2(new Testemunha());
-        final Set<ConstraintViolation<ProcessoNotificacao>> violations = validator.validate(processoNotificacao);
+        final Set<ConstraintViolation<ProcessoNotificacao>> violations = validator.validate(processoNotificacao, EntrevistaNaoRealizada.class);
         final boolean temErro = temErro(violations, "Campo testemunha 1 está preenchido");
 
         assertTrue("Validação da entrevista não realizada com dados a mais está errada.", temErro);
@@ -133,7 +135,7 @@ public class EntrevistaValidatorTest extends AbstractionTest {
         processoNotificacao.setEntrevista(entrevistaRealizada());
         processoNotificacao.getEntrevista().setDoacaoAutorizada(nao);
 
-        final Set<ConstraintViolation<ProcessoNotificacao>> violations = validator.validate(processoNotificacao);
+        final Set<ConstraintViolation<ProcessoNotificacao>> violations = validator.validate(processoNotificacao, EntrevistaRealizadaDoacaoNaoAutorizada.class);
 
         assertEquals(0, violations.size());
     }
