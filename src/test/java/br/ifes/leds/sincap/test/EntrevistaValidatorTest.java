@@ -17,18 +17,14 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Random;
 import java.util.Set;
 
 import static br.ifes.leds.sincap.controleInterno.cln.cdp.Sexo.MASCULINO;
 import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoCivil.SOLTEIRO;
 import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoDocumentoComFoto.RG;
-import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoNaoDoacao.CONTRAINDICACAO_MEDICA;
-import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoNaoDoacao.PROBLEMAS_ESTRUTURAIS;
-import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoNaoDoacao.RECUSA_FAMILIAR;
-import static java.util.Calendar.DAY_OF_MONTH;
-import static java.util.Calendar.MONTH;
-import static java.util.Calendar.YEAR;
-import static java.util.Locale.filter;
+import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoNaoDoacao.*;
+import static java.util.Calendar.*;
 import static java.util.Locale.getDefault;
 import static org.junit.Assert.*;
 
@@ -184,6 +180,18 @@ public class EntrevistaValidatorTest extends AbstractionTest {
     }
 
     @Test
+    public void entrevistaRealizadaDoacaoNaoAutorizadaCausaNaoDoacaoErrada() {
+        processoNotificacao.setId(id());
+        processoNotificacao.setCausaNaoDoacao(new CausaNaoDoacao());
+        processoNotificacao.getCausaNaoDoacao().setTipoNaoDoacao(PROBLEMAS_ESTRUTURAIS);
+
+        final Set<ConstraintViolation<ProcessoNotificacao>> violations = validator.validate(processoNotificacao, EntrevistaRealizadaDoacaoNaoAutorizada.class);
+        final boolean temErro = temErro(violations, "Causa de recusa familiar não informada");
+
+        assertTrue(temErro);
+    }
+
+    @Test
     public void entrevistaRealizadaDoacaoAutorizadaCausaDoacaoExiste() {
         processoNotificacao.setId(1L);
         processoNotificacao.setEntrevista(entrevistaDoacaoAutorizada());
@@ -293,5 +301,9 @@ public class EntrevistaValidatorTest extends AbstractionTest {
         vinteAnos.set(YEAR, vinteAnos.get(YEAR) - 20);
 
         return vinteAnos;
+    }
+
+    private static long id() {
+        return new Random().nextLong();
     }
 }

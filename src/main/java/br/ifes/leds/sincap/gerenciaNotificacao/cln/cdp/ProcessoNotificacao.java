@@ -81,12 +81,15 @@ public class ProcessoNotificacao extends ObjetoPersistente implements ProcessoNo
     @JoinColumn(nullable = true)
     @Valid
     private Captacao captacao;
-    
+
     @OneToOne
     @JoinColumn
     @Valid
     @Null(message = "{EntrevistaValida.causaNaoDoacaoExiste}", groups = {EntrevistaRealizadaDoacaoAutorizada.class})
-    @NotNull(message = "{EntrevistaValida.problemasEstruturais}", groups = {EntrevistaNaoRealizada.class})
+    @NotNull.List({
+        @NotNull(message = "{EntrevistaValida.problemasEstruturais}", groups = {EntrevistaNaoRealizada.class}),
+        @NotNull(message = "{EntrevistaValida.recusaFamiliar}", groups = {EntrevistaRealizadaDoacaoNaoAutorizada.class})
+    })
     private CausaNaoDoacao causaNaoDoacao;
 
     public boolean isExcluido() {
