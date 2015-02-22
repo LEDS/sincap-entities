@@ -15,7 +15,6 @@ import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
-import javax.validation.groups.ConvertGroup;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -86,7 +85,7 @@ public class ProcessoNotificacao extends ObjetoPersistente implements ProcessoNo
     @OneToOne
     @JoinColumn
     @Valid
-    @Null(groups = {EntrevistaRealizadaDoacaoAutorizada.class})
+    @Null(message = "{EntrevistaValida.causaNaoDoacaoExiste}", groups = {EntrevistaRealizadaDoacaoAutorizada.class})
     @NotNull(message = "{EntrevistaValida.problemasEstruturais}", groups = {EntrevistaNaoRealizada.class})
     private CausaNaoDoacao causaNaoDoacao;
 

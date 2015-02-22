@@ -3,6 +3,7 @@ package br.ifes.leds.sincap.test;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.*;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.*;
 import br.ifes.leds.sincap.validacao.groups.entrevista.EntrevistaNaoRealizada;
+import br.ifes.leds.sincap.validacao.groups.entrevista.EntrevistaRealizadaDoacaoAutorizada;
 import br.ifes.leds.sincap.validacao.groups.entrevista.EntrevistaRealizadaDoacaoNaoAutorizada;
 import org.dozer.Mapper;
 import org.junit.Before;
@@ -21,11 +22,13 @@ import java.util.Set;
 import static br.ifes.leds.sincap.controleInterno.cln.cdp.Sexo.MASCULINO;
 import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoCivil.SOLTEIRO;
 import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoDocumentoComFoto.RG;
+import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoNaoDoacao.CONTRAINDICACAO_MEDICA;
 import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoNaoDoacao.PROBLEMAS_ESTRUTURAIS;
 import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoNaoDoacao.RECUSA_FAMILIAR;
 import static java.util.Calendar.DAY_OF_MONTH;
 import static java.util.Calendar.MONTH;
 import static java.util.Calendar.YEAR;
+import static java.util.Locale.filter;
 import static java.util.Locale.getDefault;
 import static org.junit.Assert.*;
 
@@ -180,11 +183,34 @@ public class EntrevistaValidatorTest extends AbstractionTest {
         assertEquals(1, violations.size());
     }
 
+    @Test
+    public void entrevistaRealizadaDoacaoAutorizadaCausaDoacaoExiste() {
+        processoNotificacao.setId(1L);
+        processoNotificacao.setEntrevista(entrevistaDoacaoAutorizada());
+        processoNotificacao.setCausaNaoDoacao(new CausaNaoDoacao());
+        processoNotificacao.getCausaNaoDoacao().setTipoNaoDoacao(CONTRAINDICACAO_MEDICA);
+
+        final Set<ConstraintViolation<ProcessoNotificacao>> violations = validator.validate(processoNotificacao, EntrevistaRealizadaDoacaoAutorizada.class);
+        final boolean temErro = temErro(violations, "Causa de não doação está definida mesmo com doação autorizada");
+
+        assertTrue(temErro);
+    }
+
     private Entrevista entrevistaRealizada() {
         final EntrevistaDTO entrevistaDTO = EntrevistaDTO.builder()
             .dataCadastro(hoje())
             .entrevistaRealizada(sim)
             .build();
+
+        return mapper.map(entrevistaDTO, Entrevista.class);
+    }
+
+    private Entrevista entrevistaDoacaoAutorizada() {
+        final EntrevistaDTO entrevistaDTO = EntrevistaDTO.builder()
+                .dataCadastro(hoje())
+                .entrevistaRealizada(sim)
+                .doacaoAutorizada(sim)
+                .build();
 
         return mapper.map(entrevistaDTO, Entrevista.class);
     }
