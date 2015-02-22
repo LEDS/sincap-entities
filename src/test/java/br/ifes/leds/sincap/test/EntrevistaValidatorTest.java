@@ -168,6 +168,18 @@ public class EntrevistaValidatorTest extends AbstractionTest {
         assertTrue(temErro);
     }
 
+    @Test
+    public void entrevistaRealizadaPacienteDadosFaltando() {
+        processoNotificacao.setId(1L);
+        processoNotificacao.getObito().getPaciente().setDataNascimento(null);
+        processoNotificacao.setCausaNaoDoacao(new CausaNaoDoacao());
+        processoNotificacao.getCausaNaoDoacao().setTipoNaoDoacao(RECUSA_FAMILIAR);
+
+        final Set<ConstraintViolation<ProcessoNotificacao>> violations = validator.validate(processoNotificacao, EntrevistaNaoRealizada.class);
+
+        assertEquals(1, violations.size());
+    }
+
     private Entrevista entrevistaRealizada() {
         final EntrevistaDTO entrevistaDTO = EntrevistaDTO.builder()
             .dataCadastro(hoje())
