@@ -18,9 +18,14 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Set;
 
+import static br.ifes.leds.sincap.controleInterno.cln.cdp.Sexo.MASCULINO;
+import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoCivil.SOLTEIRO;
+import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoDocumentoComFoto.RG;
 import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoNaoDoacao.PROBLEMAS_ESTRUTURAIS;
 import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoNaoDoacao.RECUSA_FAMILIAR;
 import static java.util.Calendar.DAY_OF_MONTH;
+import static java.util.Calendar.MONTH;
+import static java.util.Calendar.YEAR;
 import static java.util.Locale.getDefault;
 import static org.junit.Assert.*;
 
@@ -29,7 +34,7 @@ public class EntrevistaValidatorTest extends AbstractionTest {
     public static final boolean sim = true;
     public static final boolean nao = false;
     private static Validator validator;
-    
+
     @Autowired
     private Mapper mapper;
     private ProcessoNotificacao processoNotificacao;
@@ -140,7 +145,7 @@ public class EntrevistaValidatorTest extends AbstractionTest {
     }
 
     @Test
-    public void entrevistaRealizadaDoacaoNaoAutorizadaComDadosPaciente() {
+    public void entrevistaRealizadaComDadosPaciente() {
         processoNotificacao.setId(1L);
         processoNotificacao.setCausaNaoDoacao(new CausaNaoDoacao());
         processoNotificacao.getCausaNaoDoacao().setTipoNaoDoacao(RECUSA_FAMILIAR);
@@ -149,7 +154,18 @@ public class EntrevistaValidatorTest extends AbstractionTest {
 
         final Set<ConstraintViolation<ProcessoNotificacao>> violations = validator.validate(processoNotificacao, EntrevistaRealizadaDoacaoNaoAutorizada.class);
 
-        assertEquals(0, violations.size());
+        assertTrue(violations.isEmpty());
+    }
+
+    @Test
+    public void entrevistaRealizadaPacienteNull() {
+        processoNotificacao.setId(1L);
+        processoNotificacao.getObito().setPaciente(null);
+
+        final Set<ConstraintViolation<ProcessoNotificacao>> violations = validator.validate(processoNotificacao, EntrevistaRealizadaDoacaoNaoAutorizada.class);
+        final boolean temErro = temErro(violations, "Entrevista realizada sem os dados do paciente");
+
+        assertTrue(temErro);
     }
 
     private Entrevista entrevistaRealizada() {
@@ -182,7 +198,21 @@ public class EntrevistaValidatorTest extends AbstractionTest {
                         .aptoDoacao(sim)
                         .primeiraCausaMortis(new CausaMortis())
                         .segundaCausaMortis(new CausaMortis())
-                        .paciente(new PacienteDTO())
+                        .paciente(PacienteDTO.builder()
+                                .dataInternacao(haDezMeses())
+                                .dataNascimento(haVinteAnos())
+                                .profissao("Alguma Profissão")
+                                .nomeMae("Nome da Mãe")
+                                .numeroProntuario("HOSP123456789")
+                                .numeroSUS("123456789")
+                                .nacionalidade("Brasileira")
+                                .documentoSocial(DocumentoComFotoDTO.builder()
+                                        .documento("2131432")
+                                        .tipoDocumentoComFoto(RG)
+                                        .build())
+                                .sexo(MASCULINO)
+                                .EstadoCivil(SOLTEIRO)
+                                .build())
                         .setor(1L)
                         .hospital(1L)
                         .build()).build();
@@ -209,5 +239,21 @@ public class EntrevistaValidatorTest extends AbstractionTest {
         ontem.set(DAY_OF_MONTH, ontem.get(DAY_OF_MONTH) - 1);
         
         return ontem;
+    }
+
+    private static Calendar haDezMeses() {
+        final Calendar haDezMeses = hoje();
+
+        haDezMeses.set(MONTH, haDezMeses.get(MONTH) - 10);
+
+        return haDezMeses;
+    }
+
+    private Calendar haVinteAnos() {
+        final Calendar vinteAnos = hoje();
+
+        vinteAnos.set(YEAR, vinteAnos.get(YEAR) - 20);
+
+        return vinteAnos;
     }
 }

@@ -5,13 +5,15 @@ import br.ifes.leds.sincap.controleInterno.cln.cdp.Hospital;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Setor;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.interfaces.ObitoInterface;
 import br.ifes.leds.sincap.validacao.annotations.DatasObitoConsistentes;
+import br.ifes.leds.sincap.validacao.groups.entrevista.EntrevistaRealizadaDoacaoAutorizada;
+import br.ifes.leds.sincap.validacao.groups.entrevista.EntrevistaRealizadaDoacaoNaoAutorizada;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.joda.time.DateTime;
-import org.joda.time.Hours;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import java.util.Calendar;
@@ -65,7 +67,11 @@ public class Obito extends ObjetoPersistente implements ObitoInterface {
 
     @JoinColumn(nullable = false)
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @NotNull
+    @Valid
+    @NotNull.List({
+            @NotNull,
+            @NotNull(message = "{EntrevistaValida.semDadosPaciente}", groups = {EntrevistaRealizadaDoacaoAutorizada.class, EntrevistaRealizadaDoacaoNaoAutorizada.class})
+    })
     private Paciente paciente;
 
     @OneToOne
