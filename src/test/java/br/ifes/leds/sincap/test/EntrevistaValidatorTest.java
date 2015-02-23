@@ -1,8 +1,10 @@
 package br.ifes.leds.sincap.test;
 
+import br.ifes.leds.sincap.controleInterno.cln.cdp.Telefone;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.*;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.*;
 import br.ifes.leds.sincap.validacao.groups.entrevista.EntrevistaNaoRealizada;
+import br.ifes.leds.sincap.validacao.groups.entrevista.EntrevistaPacienteMenorIdade;
 import br.ifes.leds.sincap.validacao.groups.entrevista.EntrevistaRealizadaDoacaoAutorizada;
 import br.ifes.leds.sincap.validacao.groups.entrevista.EntrevistaRealizadaDoacaoNaoAutorizada;
 import org.dozer.Mapper;
@@ -19,7 +21,9 @@ import javax.validation.ValidatorFactory;
 import java.util.*;
 
 import static br.ifes.leds.sincap.controleInterno.cln.cdp.Sexo.MASCULINO;
+import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Escolaridade.ENSINO_MEDIO_COMPLETO;
 import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoCivil.SOLTEIRO;
+import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Parentesco.AUTORIZACAO_JUDICIAL;
 import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoDocumentoComFoto.RG;
 import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoNaoDoacao.*;
 import static java.util.Calendar.*;
@@ -249,6 +253,59 @@ public class EntrevistaValidatorTest extends AbstractionTest {
                 violations,
                 hasItem(Matchers.<ConstraintViolation<ProcessoNotificacao>>hasProperty("message", is("Não pode ser nulo")))
         );
+    }
+
+    @Test
+    public void entrevistaRealizadaDoacaoAutorizadaMenorDeIdade() {
+        processoNotificacao.setId(id());
+        processoNotificacao.getObito().getPaciente().setDataNascimento(dezesseisAnos());
+        processoNotificacao.setEntrevista(entrevistaDoacaoAutorizada());
+        processoNotificacao.getEntrevista().setResponsavel(responsavel());
+        processoNotificacao.getEntrevista().setTestemunha1(testemunha());
+        processoNotificacao.getEntrevista().setTestemunha2(testemunha());
+
+        final Set<ConstraintViolation<ProcessoNotificacao>> violations = validator.validate(processoNotificacao, EntrevistaPacienteMenorIdade.class);
+
+        assertThat(
+                "Não validando responsável 2 quando paciente é menor de idade",
+                violations,
+                contains(hasProperty("message", is("Paciente menor de idade precisa de dois responsáveis")))
+        );
+    }
+
+    private Responsavel responsavel() {
+        final ResponsavelDTO responsavelDTO = ResponsavelDTO.builder()
+                .nacionalidade("Brasileira")
+                .dataNascimento(haVinteAnos())
+                .profissao("Alguma")
+                .documentoSocial(DocumentoComFotoDTO.builder()
+                        .documento("fdsafads")
+                        .tipoDocumentoComFoto(RG)
+                        .build())
+                .religiao("Católica")
+                .grauEscolaridade(ENSINO_MEDIO_COMPLETO)
+                .estadoCivil(SOLTEIRO)
+                .sexo(MASCULINO)
+                .parentesco(AUTORIZACAO_JUDICIAL)
+                .telefone(Telefone.builder()
+                        .numero("1231321321")
+                        .build())
+                .build();
+
+        responsavelDTO.setNome("Fulano de Tal");
+        return mapper.map(responsavelDTO, Responsavel.class);
+    }
+
+    private Testemunha testemunha() {
+        final TestemunhaDTO testemunhaDTO = TestemunhaDTO.builder()
+                .nome("Testemunha")
+                .documentoSocial(DocumentoComFotoDTO.builder()
+                        .documento("432534534ES")
+                        .tipoDocumentoComFoto(RG)
+                        .build())
+                .build();
+
+        return mapper.map(testemunhaDTO, Testemunha.class);
     }
 
     private Entrevista entrevistaRealizada() {

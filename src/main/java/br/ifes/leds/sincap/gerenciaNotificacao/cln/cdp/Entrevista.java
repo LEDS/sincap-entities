@@ -4,6 +4,7 @@ import br.ifes.leds.reuse.persistence.ObjetoPersistente;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Funcionario;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.interfaces.EntrevistaInterface;
 import br.ifes.leds.sincap.validacao.groups.entrevista.EntrevistaNaoRealizada;
+import br.ifes.leds.sincap.validacao.groups.entrevista.EntrevistaPacienteMenorIdade;
 import br.ifes.leds.sincap.validacao.groups.entrevista.EntrevistaRealizadaDoacaoAutorizada;
 import br.ifes.leds.sincap.validacao.groups.entrevista.EntrevistaRealizadaDoacaoNaoAutorizada;
 import lombok.EqualsAndHashCode;
@@ -56,7 +57,8 @@ public class Entrevista extends ObjetoPersistente implements EntrevistaInterface
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @Valid
-    @ConvertGroup(from = EntrevistaRealizadaDoacaoAutorizada.class, to = Default.class)
+    @ConvertGroup(from = EntrevistaPacienteMenorIdade.class, to = Default.class)
+    @NotNull(message = "{EntrevistaValida.menorDeIdade}", groups = EntrevistaPacienteMenorIdade.class)
     @Null(message = "{EntrevistaValida.responsavel2}", groups = {EntrevistaNaoRealizada.class, EntrevistaRealizadaDoacaoNaoAutorizada.class})
     private Responsavel responsavel2;
 
