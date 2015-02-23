@@ -4,6 +4,7 @@ import br.ifes.leds.reuse.persistence.ObjetoPersistente;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Funcionario;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.interfaces.EntrevistaInterface;
 import br.ifes.leds.sincap.validacao.groups.entrevista.EntrevistaNaoRealizada;
+import br.ifes.leds.sincap.validacao.groups.entrevista.EntrevistaRealizadaDoacaoAutorizada;
 import br.ifes.leds.sincap.validacao.groups.entrevista.EntrevistaRealizadaDoacaoNaoAutorizada;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -46,6 +47,7 @@ public class Entrevista extends ObjetoPersistente implements EntrevistaInterface
     
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @Valid
+    @NotNull(message = "{EntrevistaValida.autorizada.responsavel1}", groups = EntrevistaRealizadaDoacaoAutorizada.class)
     @Null(message = "{EntrevistaValida.responsavel1}", groups = {EntrevistaNaoRealizada.class, EntrevistaRealizadaDoacaoNaoAutorizada.class})
     private Responsavel responsavel;
 
@@ -55,11 +57,14 @@ public class Entrevista extends ObjetoPersistente implements EntrevistaInterface
     private Responsavel responsavel2;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @Valid
+    @NotNull(message = "{EntrevistaValida.autorizada.testemunha1}", groups = EntrevistaRealizadaDoacaoAutorizada.class)
     @Null(message = "{EntrevistaValida.testemunha1}", groups = {EntrevistaNaoRealizada.class, EntrevistaRealizadaDoacaoNaoAutorizada.class})
     private Testemunha testemunha1;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @Valid
+    @NotNull(message = "{EntrevistaValida.autorizada.testemunha2}", groups = EntrevistaRealizadaDoacaoAutorizada.class)
     @Null(message = "{EntrevistaValida.testemunha2}", groups = {EntrevistaNaoRealizada.class, EntrevistaRealizadaDoacaoNaoAutorizada.class})
     private Testemunha testemunha2;
     

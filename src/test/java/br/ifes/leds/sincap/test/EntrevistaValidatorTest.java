@@ -215,6 +215,26 @@ public class EntrevistaValidatorTest extends AbstractionTest {
         assertFalse("Entrevista tem erro de causa de não doação quando não deveria", temErro);
     }
 
+    @Test
+    public void entrevistaRealizadaDoacaoAutorizadaResponsavelIncompleto() {
+        processoNotificacao.setId(1L);
+        processoNotificacao.setEntrevista(entrevistaDoacaoAutorizada());
+        processoNotificacao.getEntrevista().setResponsavel(null);
+        processoNotificacao.getEntrevista().setTestemunha1(null);
+        processoNotificacao.getEntrevista().setTestemunha2(null);
+
+        final Set<ConstraintViolation<ProcessoNotificacao>> violations = validator.validate(processoNotificacao, EntrevistaRealizadaDoacaoAutorizada.class);
+        final boolean responsavel1 = temErro(violations, "Dados do responsável 1 não preenchidos");
+        final boolean testemunha1 = temErro(violations, "Dados da testemunha 1 não preenchidos");
+        final boolean testemunha2 = temErro(violations, "Dados da testemunha 2 não preenchidos");
+
+
+        assertEquals(3, violations.size());
+        assertTrue(responsavel1);
+        assertTrue(testemunha1);
+        assertTrue(testemunha2);
+    }
+
     private Entrevista entrevistaRealizada() {
         final EntrevistaDTO entrevistaDTO = EntrevistaDTO.builder()
             .dataCadastro(hoje())
