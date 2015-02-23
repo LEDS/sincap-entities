@@ -1,9 +1,11 @@
 package br.ifes.leds.sincap.test.entrevista;
 
+import br.ifes.leds.reuse.ledsExceptions.CRUDExceptions.ViolacaoDeRIException;
 import br.ifes.leds.reuse.utility.Utility;
 import br.ifes.leds.reuse.utility.function.Function;
 import br.ifes.leds.sincap.controleInterno.cgd.FuncionarioRepository;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Funcionario;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.ProcessoNotificacao;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.DocumentoComFotoDTO;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.EntrevistaDTO;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.ResponsavelDTO;
@@ -12,7 +14,7 @@ import br.ifes.leds.sincap.gerenciaNotificacao.cln.cgt.AplEntrevista;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.util.dataFactory.ResponsavelData;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.util.dataFactory.TestemunhaData;
 import br.ifes.leds.sincap.test.AbstractionTest;
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.dozer.Mapper;
 import org.fluttercode.datafactory.impl.DataFactory;
 import org.junit.Before;
@@ -22,6 +24,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.GregorianCalendar;
 
 import static br.ifes.leds.reuse.utility.Factory.criaObjeto;
+import static br.ifes.leds.sincap.test.entrevista.EntrevistaTestUtil.dezesseisAnos;
+import static br.ifes.leds.sincap.test.entrevista.EntrevistaTestUtil.id;
+import static org.junit.Assert.assertThat;
 
 /**
  * @author Breno Grillo
@@ -42,6 +47,8 @@ public class AplEntrevistaTest extends AbstractionTest {
     private DataFactory dataFactory;
     @Autowired
     private FuncionarioRepository funcionarioRepository;
+    @Autowired
+    private EntrevistaTestUtil util;
     // TODO Fazer testes de obter entrevista.
 
     private EntrevistaDTO entrevistaDTO;
@@ -72,6 +79,15 @@ public class AplEntrevistaTest extends AbstractionTest {
         this.entrevistaDTO.setResponsavel(responsavelDTO);
         this.entrevistaDTO.setTestemunha1(testemunhaDTO1);
         this.entrevistaDTO.setTestemunha2(testemunhaDTO2);
+    }
+
+    @Test(expected = ViolacaoDeRIException.class)
+    public void validacaoTest() {
+        final ProcessoNotificacao notificacao = util.processoComObitoValido();
+        notificacao.setEntrevista(util.entrevistaDoacaoAutorizada());
+        notificacao.getObito().getPaciente().setDataNascimento(dezesseisAnos());
+
+        aplEntrevista.salvarEntrevista(notificacao, id());
     }
 
     @Test
