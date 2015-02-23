@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package br.ifes.leds.sincap.test;
 
 import br.ifes.leds.reuse.utility.Utility;
@@ -29,11 +23,10 @@ import java.util.GregorianCalendar;
 import static br.ifes.leds.reuse.utility.Factory.criaObjeto;
 
 /**
- *
  * @author Breno Grillo
  */
-public class AplEntrevistaTest extends AbstractionTest{
-    
+public class AplEntrevistaTest extends AbstractionTest {
+
     @Autowired
     private AplEntrevista aplEntrevista;
     @Autowired
@@ -49,15 +42,14 @@ public class AplEntrevistaTest extends AbstractionTest{
     @Autowired
     private FuncionarioRepository funcionarioRepository;
     // TODO Fazer testes de obter entrevista.
-    
+
     private EntrevistaDTO entrevistaDTO;
     private ResponsavelDTO responsavelDTO;
     private TestemunhaDTO testemunhaDTO1;
     private TestemunhaDTO testemunhaDTO2;
-    
+
     @Before
-    public void before()
-    {
+    public void before() {
         this.entrevistaDTO = criaObjeto(EntrevistaDTO.class);
         this.responsavelDTO = mapper.map(responsavelData.criarResponsavel(dataFactory),
                 ResponsavelDTO.class);
@@ -65,14 +57,13 @@ public class AplEntrevistaTest extends AbstractionTest{
                 TestemunhaDTO.class);
         this.testemunhaDTO2 = mapper.map(testemunhaData.criarTestemunha(dataFactory),
                 TestemunhaDTO.class);
-        
+
         preencherDadosEntrevista();
     }
-  
-    private void preencherDadosEntrevista()
-    {
+
+    private void preencherDadosEntrevista() {
         Funcionario funcionario = funcionarioRepository.findAll().get(0);
-        
+
         this.entrevistaDTO.setDataEntrevista(new GregorianCalendar(2014, 5, 27, 18, 30));
         this.entrevistaDTO.setDataCadastro(new GregorianCalendar(2014, 5, 27, 22, 55));
         this.entrevistaDTO.setDoacaoAutorizada(true);
@@ -81,23 +72,23 @@ public class AplEntrevistaTest extends AbstractionTest{
         this.entrevistaDTO.setTestemunha1(testemunhaDTO1);
         this.entrevistaDTO.setTestemunha2(testemunhaDTO2);
     }
-    
+
     @Test
     public void salvarEntrevistaTest() {
         aplEntrevista.salvarEntrevista(this.entrevistaDTO);
 
         EntrevistaDTO entrevistaTest = utility.getObjectByMethod(aplEntrevista.getAllEntrevistas(), responsavelDTO.getDocumentoSocial(), getDocumentoSocialResp());
-        
+
         Assert.assertNotNull(entrevistaTest);
         Assert.assertNotNull(entrevistaTest.getResponsavel().getId());
         Assert.assertNotNull(entrevistaTest.getTestemunha1().getId());
         Assert.assertNotNull(entrevistaTest.getTestemunha2().getId());
-     
-        Assert.assertEquals(this.entrevistaDTO.getResponsavel().getEndereco().getCep(), 
-                entrevistaTest.getResponsavel().getEndereco().getCep());        
-        Assert.assertEquals(this.entrevistaDTO.getTestemunha1().getNome(), 
+
+        Assert.assertEquals(this.entrevistaDTO.getResponsavel().getEndereco().getCep(),
+                entrevistaTest.getResponsavel().getEndereco().getCep());
+        Assert.assertEquals(this.entrevistaDTO.getTestemunha1().getNome(),
                 entrevistaTest.getTestemunha1().getNome());
-        Assert.assertEquals(this.entrevistaDTO.getTestemunha2().getNome(), 
+        Assert.assertEquals(this.entrevistaDTO.getTestemunha2().getNome(),
                 entrevistaTest.getTestemunha2().getNome());
     }
 
