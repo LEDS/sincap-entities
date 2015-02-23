@@ -192,7 +192,7 @@ public class EntrevistaValidatorTest extends AbstractionTest {
     }
 
     @Test
-    public void entrevistaRealizadaDoacaoAutorizadaCausaDoacaoExiste() {
+    public void entrevistaRealizadaDoacaoAutorizadaCausaNaoDoacaoExiste() {
         processoNotificacao.setId(1L);
         processoNotificacao.setEntrevista(entrevistaDoacaoAutorizada());
         processoNotificacao.setCausaNaoDoacao(new CausaNaoDoacao());
@@ -202,6 +202,17 @@ public class EntrevistaValidatorTest extends AbstractionTest {
         final boolean temErro = temErro(violations, "Causa de não doação está definida mesmo com doação autorizada");
 
         assertTrue(temErro);
+    }
+
+    @Test
+    public void entrevistaRealizadaDoacaoAutorizadaCausaNaoDoacaoNull() {
+        processoNotificacao.setId(1L);
+        processoNotificacao.setEntrevista(entrevistaDoacaoAutorizada());
+
+        final Set<ConstraintViolation<ProcessoNotificacao>> violations = validator.validate(processoNotificacao, EntrevistaRealizadaDoacaoAutorizada.class);
+        final boolean temErro = temErro(violations, "Causa de não doação está definida mesmo com doação autorizada");
+
+        assertFalse("Entrevista tem erro de causa de não doação quando não deveria", temErro);
     }
 
     private Entrevista entrevistaRealizada() {
