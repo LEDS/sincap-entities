@@ -1,4 +1,4 @@
-package br.ifes.leds.sincap.test;
+package br.ifes.leds.sincap.test.entrevista;
 
 import br.ifes.leds.reuse.utility.Utility;
 import br.ifes.leds.reuse.utility.function.Function;
@@ -11,6 +11,7 @@ import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.TestemunhaDTO;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cgt.AplEntrevista;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.util.dataFactory.ResponsavelData;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.util.dataFactory.TestemunhaData;
+import br.ifes.leds.sincap.test.AbstractionTest;
 import junit.framework.Assert;
 import org.dozer.Mapper;
 import org.fluttercode.datafactory.impl.DataFactory;

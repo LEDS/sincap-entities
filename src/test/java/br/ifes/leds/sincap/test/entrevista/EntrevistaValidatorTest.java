@@ -1,8 +1,9 @@
-package br.ifes.leds.sincap.test;
+package br.ifes.leds.sincap.test.entrevista;
 
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Telefone;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.*;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.*;
+import br.ifes.leds.sincap.test.AbstractionTest;
 import br.ifes.leds.sincap.validacao.groups.entrevista.EntrevistaNaoRealizada;
 import br.ifes.leds.sincap.validacao.groups.entrevista.EntrevistaPacienteMenorIdade;
 import br.ifes.leds.sincap.validacao.groups.entrevista.EntrevistaRealizadaDoacaoAutorizada;
@@ -46,12 +47,12 @@ public class EntrevistaValidatorTest extends AbstractionTest {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
     }
-    
+
     @Before
     public void before() {
         this.processoNotificacao = processoComObitoValido();
     }
-    
+
     @Test
     public void processoSemIdComEntrevistaValida() {
         processoNotificacao.setEntrevista(entrevistaNaoRealizada());
@@ -89,12 +90,12 @@ public class EntrevistaValidatorTest extends AbstractionTest {
 
         assertTrue("Processo com ID está sendo inválido", processoComId);
     }
-    
+
     @Test
     public void processoComEntrevistaNull() {
         processoNotificacao.setId(1L);
         final Set<ConstraintViolation<ProcessoNotificacao>> violations = validator.validate(processoNotificacao);
-        
+
         assertEquals(0, violations.size());
     }
 
@@ -273,7 +274,7 @@ public class EntrevistaValidatorTest extends AbstractionTest {
         );
     }
 
-    private Responsavel responsavel() {
+    Responsavel responsavel() {
         final ResponsavelDTO responsavelDTO = ResponsavelDTO.builder()
                 .nacionalidade("Brasileira")
                 .dataNascimento(haVinteAnos())
@@ -296,7 +297,7 @@ public class EntrevistaValidatorTest extends AbstractionTest {
         return mapper.map(responsavelDTO, Responsavel.class);
     }
 
-    private Testemunha testemunha() {
+    Testemunha testemunha() {
         final TestemunhaDTO testemunhaDTO = TestemunhaDTO.builder()
                 .nome("Testemunha")
                 .documentoSocial(DocumentoComFotoDTO.builder()
@@ -308,16 +309,16 @@ public class EntrevistaValidatorTest extends AbstractionTest {
         return mapper.map(testemunhaDTO, Testemunha.class);
     }
 
-    private Entrevista entrevistaRealizada() {
+    Entrevista entrevistaRealizada() {
         final EntrevistaDTO entrevistaDTO = EntrevistaDTO.builder()
-            .dataCadastro(hoje())
-            .entrevistaRealizada(sim)
-            .build();
+                .dataCadastro(hoje())
+                .entrevistaRealizada(sim)
+                .build();
 
         return mapper.map(entrevistaDTO, Entrevista.class);
     }
 
-    private Entrevista entrevistaDoacaoAutorizada() {
+    Entrevista entrevistaDoacaoAutorizada() {
         final EntrevistaDTO entrevistaDTO = EntrevistaDTO.builder()
                 .dataCadastro(hoje())
                 .entrevistaRealizada(sim)
@@ -327,16 +328,16 @@ public class EntrevistaValidatorTest extends AbstractionTest {
         return mapper.map(entrevistaDTO, Entrevista.class);
     }
 
-    private Entrevista entrevistaNaoRealizada() {
+    Entrevista entrevistaNaoRealizada() {
         EntrevistaDTO entrevistaDTO = EntrevistaDTO.builder()
-            .dataCadastro(hoje())
-            .entrevistaRealizada(nao)
-        .build();
+                .dataCadastro(hoje())
+                .entrevistaRealizada(nao)
+                .build();
 
         return mapper.map(entrevistaDTO, Entrevista.class);
     }
-    
-    private ProcessoNotificacao processoComObitoValido() {
+
+    ProcessoNotificacao processoComObitoValido() {
         final ProcessoNotificacaoDTO notificacaoDTO = ProcessoNotificacaoDTO.builder()
                 .codigo("SOMECODE")
                 .dataAbertura(hoje())
@@ -366,11 +367,11 @@ public class EntrevistaValidatorTest extends AbstractionTest {
                         .setor(1L)
                         .hospital(1L)
                         .build()).build();
-        
+
         return mapper.map(notificacaoDTO, ProcessoNotificacao.class);
     }
 
-    private static boolean temErro(Set<ConstraintViolation<ProcessoNotificacao>> violations, String msgErro) {
+    static boolean temErro(Set<ConstraintViolation<ProcessoNotificacao>> violations, String msgErro) {
         boolean temErro = nao;
         for (ConstraintViolation<ProcessoNotificacao> violation : violations) {
             if (violation.getMessage().equals(msgErro))
@@ -379,19 +380,19 @@ public class EntrevistaValidatorTest extends AbstractionTest {
         return temErro;
     }
 
-    private static Calendar hoje() {
+    static Calendar hoje() {
         return Calendar.getInstance(getDefault());
     }
 
-    private static Calendar ontem() {
+    static Calendar ontem() {
         final Calendar ontem = hoje();
 
         ontem.set(DAY_OF_MONTH, ontem.get(DAY_OF_MONTH) - 1);
-        
+
         return ontem;
     }
 
-    private static Calendar haDezMeses() {
+    static Calendar haDezMeses() {
         final Calendar haDezMeses = hoje();
 
         haDezMeses.set(MONTH, haDezMeses.get(MONTH) - 10);
@@ -399,7 +400,7 @@ public class EntrevistaValidatorTest extends AbstractionTest {
         return haDezMeses;
     }
 
-    private Calendar haVinteAnos() {
+    Calendar haVinteAnos() {
         final Calendar vinteAnos = hoje();
 
         vinteAnos.set(YEAR, vinteAnos.get(YEAR) - 20);
@@ -407,7 +408,7 @@ public class EntrevistaValidatorTest extends AbstractionTest {
         return vinteAnos;
     }
 
-    private Calendar dezesseisAnos() {
+    Calendar dezesseisAnos() {
         final Calendar dezesseis = hoje();
 
         dezesseis.set(YEAR, dezesseis.get(YEAR) - 16);
@@ -415,7 +416,7 @@ public class EntrevistaValidatorTest extends AbstractionTest {
         return dezesseis;
     }
 
-    private static long id() {
+    static long id() {
         return new Random().nextLong();
     }
 }
