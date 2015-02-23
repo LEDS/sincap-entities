@@ -15,6 +15,8 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.Past;
+import javax.validation.groups.ConvertGroup;
+import javax.validation.groups.Default;
 import java.util.Calendar;
 
 /**
@@ -47,23 +49,27 @@ public class Entrevista extends ObjetoPersistente implements EntrevistaInterface
     
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @Valid
+    @ConvertGroup(from = EntrevistaRealizadaDoacaoAutorizada.class, to = Default.class)
     @NotNull(message = "{EntrevistaValida.autorizada.responsavel1}", groups = EntrevistaRealizadaDoacaoAutorizada.class)
     @Null(message = "{EntrevistaValida.responsavel1}", groups = {EntrevistaNaoRealizada.class, EntrevistaRealizadaDoacaoNaoAutorizada.class})
     private Responsavel responsavel;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @Valid
+    @ConvertGroup(from = EntrevistaRealizadaDoacaoAutorizada.class, to = Default.class)
     @Null(message = "{EntrevistaValida.responsavel2}", groups = {EntrevistaNaoRealizada.class, EntrevistaRealizadaDoacaoNaoAutorizada.class})
     private Responsavel responsavel2;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @Valid
+    @ConvertGroup(from = EntrevistaRealizadaDoacaoAutorizada.class, to = Default.class)
     @NotNull(message = "{EntrevistaValida.autorizada.testemunha1}", groups = EntrevistaRealizadaDoacaoAutorizada.class)
     @Null(message = "{EntrevistaValida.testemunha1}", groups = {EntrevistaNaoRealizada.class, EntrevistaRealizadaDoacaoNaoAutorizada.class})
     private Testemunha testemunha1;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @Valid
+    @ConvertGroup(from = EntrevistaRealizadaDoacaoAutorizada.class, to = Default.class)
     @NotNull(message = "{EntrevistaValida.autorizada.testemunha2}", groups = EntrevistaRealizadaDoacaoAutorizada.class)
     @Null(message = "{EntrevistaValida.testemunha2}", groups = {EntrevistaNaoRealizada.class, EntrevistaRealizadaDoacaoNaoAutorizada.class})
     private Testemunha testemunha2;

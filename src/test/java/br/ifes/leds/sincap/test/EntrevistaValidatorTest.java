@@ -6,6 +6,7 @@ import br.ifes.leds.sincap.validacao.groups.entrevista.EntrevistaNaoRealizada;
 import br.ifes.leds.sincap.validacao.groups.entrevista.EntrevistaRealizadaDoacaoAutorizada;
 import br.ifes.leds.sincap.validacao.groups.entrevista.EntrevistaRealizadaDoacaoNaoAutorizada;
 import org.dozer.Mapper;
+import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -15,10 +16,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 import static br.ifes.leds.sincap.controleInterno.cln.cdp.Sexo.MASCULINO;
 import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoCivil.SOLTEIRO;
@@ -26,6 +24,7 @@ import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoDocumentoComFo
 import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoNaoDoacao.*;
 import static java.util.Calendar.*;
 import static java.util.Locale.getDefault;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
 public class EntrevistaValidatorTest extends AbstractionTest {
@@ -216,8 +215,8 @@ public class EntrevistaValidatorTest extends AbstractionTest {
     }
 
     @Test
-    public void entrevistaRealizadaDoacaoAutorizadaResponsavelIncompleto() {
-        processoNotificacao.setId(1L);
+    public void entrevistaRealizadaDoacaoAutorizadaResponsavelNull() {
+        processoNotificacao.setId(id());
         processoNotificacao.setEntrevista(entrevistaDoacaoAutorizada());
         processoNotificacao.getEntrevista().setResponsavel(null);
         processoNotificacao.getEntrevista().setTestemunha1(null);
@@ -233,6 +232,23 @@ public class EntrevistaValidatorTest extends AbstractionTest {
         assertTrue(responsavel1);
         assertTrue(testemunha1);
         assertTrue(testemunha2);
+    }
+
+    @Test
+    public void entrevistaRealizadaDoacaoAutorizadaResponsavelIncompleto() {
+        processoNotificacao.setId(id());
+        processoNotificacao.setEntrevista(entrevistaDoacaoAutorizada());
+        processoNotificacao.getEntrevista().setResponsavel(new Responsavel());
+        processoNotificacao.getEntrevista().setTestemunha1(new Testemunha());
+        processoNotificacao.getEntrevista().setTestemunha2(new Testemunha());
+
+        final Set<ConstraintViolation<ProcessoNotificacao>> violations = validator.validate(processoNotificacao, EntrevistaRealizadaDoacaoAutorizada.class);
+
+        assertThat(
+                "Doação autorizada não validando os responsáveis e testemunhas",
+                violations,
+                hasItem(Matchers.<ConstraintViolation<ProcessoNotificacao>>hasProperty("message", is("Não pode ser nulo")))
+        );
     }
 
     private Entrevista entrevistaRealizada() {
@@ -332,6 +348,14 @@ public class EntrevistaValidatorTest extends AbstractionTest {
         vinteAnos.set(YEAR, vinteAnos.get(YEAR) - 20);
 
         return vinteAnos;
+    }
+
+    private Calendar dezesseisAnos() {
+        final Calendar dezesseis = hoje();
+
+        dezesseis.set(YEAR, dezesseis.get(YEAR) - 16);
+
+        return dezesseis;
     }
 
     private static long id() {
