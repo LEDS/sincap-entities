@@ -84,7 +84,6 @@ public class AplEntrevista {
         addNovoEstado(AGUARDANDOANALISEENTREVISTA, notificacaoBd, idFuncionario);
         notificacaoBd.setCausaNaoDoacao(notificacaoView.getCausaNaoDoacao());
         notificacaoBd.setEntrevista(notificacaoView.getEntrevista());
-        notificacaoBd.getEntrevista().setDoacaoAutorizada(false);
 
         verificaDataCadastro(notificacaoBd.getEntrevista());
 

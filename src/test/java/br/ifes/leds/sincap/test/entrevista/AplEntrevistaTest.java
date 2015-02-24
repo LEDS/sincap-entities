@@ -56,7 +56,9 @@ public class AplEntrevistaTest extends AbstractionTest {
                         hasProperty("tipoNaoDoacao", is(PROBLEMAS_ESTRUTURAIS)),
                         hasProperty("nome", is("Família não localizada")))
         );
-        assertThat(notificacaoSalva.getObito().getPaciente(), allOf(
+        assertThat(
+                "Nome do paciente não está atualizando",
+                notificacaoSalva.getObito().getPaciente(), allOf(
                 hasProperty("nome", is("Fulano de Tal")),
                 hasProperty("numeroProntuario", notNullValue())
         ));
@@ -76,12 +78,13 @@ public class AplEntrevistaTest extends AbstractionTest {
         notificacaoDTO.getObito().getPaciente().setNome("Fulano de Tal");
         notificacaoDTO.getObito().getPaciente().setNumeroSUS("algumnumerosusalterado15645");
         notificacaoDTO.setCausaNaoDoacao(recusaFamiliar());
-        notificacaoDTO.setEntrevista(entrevistaRealizdaDTO());
+        notificacaoDTO.setEntrevista(entrevistaRealizadaDTO());
         notificacaoDTO.getEntrevista().setDoacaoAutorizada(nao);
 
         final ProcessoNotificacao notificacaoSalva = aplEntrevista.salvarEntrevista(notificacaoDTO, 1L);
 
         assertThat(
+                "Dados do paciente não estão atualizando corretamente.",
                 notificacaoSalva.getObito().getPaciente(),
                 allOf(
                         hasProperty("nome", is("Fulano de Tal")),
@@ -100,7 +103,38 @@ public class AplEntrevistaTest extends AbstractionTest {
                 hasProperty("entrevistaRealizada", is(sim)),
                 hasProperty("doacaoAutorizada", is(nao)),
                 hasProperty("dataCadastro", notNullValue()),
-                hasProperty("dataEntrevista", nullValue())
+                hasProperty("dataEntrevista", notNullValue())
+        ));
+    }
+
+    @Test
+    public void salvarEntrevistaRealizadaDoacaoAutorizada() {
+        final ProcessoNotificacao notificacao = notificacaoRepository.saveAndFlush(util.processoComObitoValido());
+        final ProcessoNotificacaoDTO notificacaoDTO = mapper.map(notificacao, ProcessoNotificacaoDTO.class);
+        notificacaoDTO.getObito().getPaciente().setNome("Fulano de Tal");
+        notificacaoDTO.getObito().getPaciente().setNumeroSUS("algumnumerosusalterado15645");
+        notificacaoDTO.setEntrevista(entrevistaDoacaoAutorizadaDTO());
+        notificacaoDTO.getEntrevista().setResponsavel(responsavelDTO());
+        notificacaoDTO.getEntrevista().setTestemunha1(testemunhaDTO());
+        notificacaoDTO.getEntrevista().setTestemunha2(testemunhaDTO());
+
+        final ProcessoNotificacao notificacaoSalva = aplEntrevista.salvarEntrevista(notificacaoDTO, 1L);
+
+        assertThat(
+                "Dados do paciente não estão atualizando corretamente.",
+                notificacaoSalva.getObito().getPaciente(),
+                allOf(
+                        hasProperty("nome", is("Fulano de Tal")),
+                        hasProperty("numeroSUS", is("algumnumerosusalterado15645"))
+                )
+        );
+        assertThat(notificacaoSalva, hasProperty("causaNaoDoacao", nullValue()));
+        assertThat(notificacaoSalva.getUltimoEstado(), hasProperty("estadoNotificacao", is(AGUARDANDOANALISEENTREVISTA)));
+        assertThat(notificacaoSalva.getEntrevista(), allOf(
+                hasProperty("entrevistaRealizada", is(sim)),
+                hasProperty("doacaoAutorizada", is(sim)),
+                hasProperty("dataCadastro", notNullValue()),
+                hasProperty("dataEntrevista", notNullValue())
         ));
     }
 

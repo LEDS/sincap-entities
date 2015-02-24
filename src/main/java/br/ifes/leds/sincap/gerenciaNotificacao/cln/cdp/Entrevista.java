@@ -37,6 +37,7 @@ public class Entrevista extends ObjetoPersistente implements EntrevistaInterface
     
     @Temporal(TemporalType.TIMESTAMP)
     @Past
+    @NotNull(message = "{EntrevistaValida.dataEntrevistaObrigatoria}", groups = {EntrevistaRealizadaDoacaoAutorizada.class, EntrevistaRealizadaDoacaoNaoAutorizada.class})
     @Null(message = "{EntrevistaValida.dataEntrevista}", groups = {EntrevistaNaoRealizada.class})
     private Calendar dataEntrevista; //Data e horario de quando a entrevista foi realizada.
     

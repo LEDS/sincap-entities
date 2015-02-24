@@ -25,8 +25,16 @@ public class EntrevistaTestUtil {
     private Mapper mapper;
 
     Responsavel responsavel() {
-        final ResponsavelDTO responsavelDTO = ResponsavelDTO.builder()
+        final ResponsavelDTO responsavelDTO = responsavelDTO();
+
+        responsavelDTO.setNome("Fulano de Tal");
+        return mapper.map(responsavelDTO, Responsavel.class);
+    }
+
+    static ResponsavelDTO responsavelDTO() {
+        return ResponsavelDTO.builder()
                 .nacionalidade("Brasileira")
+                .nome("Nome do Responsavel")
                 .dataNascimento(haVinteAnos())
                 .profissao("Alguma")
                 .documentoSocial(DocumentoComFotoDTO.builder()
@@ -41,33 +49,39 @@ public class EntrevistaTestUtil {
                 .telefone(Telefone.builder()
                         .numero("1231321321")
                         .build())
+                .telefone2(Telefone.builder()
+                                .numero("1231321312")
+                                .build()
+                )
                 .build();
-
-        responsavelDTO.setNome("Fulano de Tal");
-        return mapper.map(responsavelDTO, Responsavel.class);
     }
 
     Testemunha testemunha() {
-        final TestemunhaDTO testemunhaDTO = TestemunhaDTO.builder()
+        final TestemunhaDTO testemunhaDTO = testemunhaDTO();
+
+        return mapper.map(testemunhaDTO, Testemunha.class);
+    }
+
+    static TestemunhaDTO testemunhaDTO() {
+        return TestemunhaDTO.builder()
                 .nome("Testemunha")
                 .documentoSocial(DocumentoComFotoDTO.builder()
                         .documento("432534534ES")
                         .tipoDocumentoComFoto(RG)
                         .build())
                 .build();
-
-        return mapper.map(testemunhaDTO, Testemunha.class);
     }
 
     Entrevista entrevistaRealizada() {
-        final EntrevistaDTO entrevistaDTO = entrevistaRealizdaDTO();
+        final EntrevistaDTO entrevistaDTO = entrevistaRealizadaDTO();
 
         return mapper.map(entrevistaDTO, Entrevista.class);
     }
 
-    static EntrevistaDTO entrevistaRealizdaDTO() {
+    static EntrevistaDTO entrevistaRealizadaDTO() {
         return EntrevistaDTO.builder()
                 .dataCadastro(hoje())
+                .dataEntrevista(hoje())
                 .entrevistaRealizada(sim)
                 .build();
     }
@@ -81,6 +95,7 @@ public class EntrevistaTestUtil {
     static EntrevistaDTO entrevistaDoacaoAutorizadaDTO() {
         return EntrevistaDTO.builder()
                 .dataCadastro(hoje())
+                .dataEntrevista(hoje())
                 .entrevistaRealizada(sim)
                 .doacaoAutorizada(sim)
                 .build();
