@@ -10,7 +10,6 @@ import br.ifes.leds.reuse.utility.Utility;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Funcionario;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.CausaNaoDoacaoRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.EntrevistaRepository;
-import br.ifes.leds.sincap.gerenciaNotificacao.cgd.PacienteRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ProcessoNotificacaoRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.AtualizacaoEstado;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoNotificacaoEnum;
@@ -55,8 +54,6 @@ public class AplEntrevista {
     @Autowired
     private CausaNaoDoacaoRepository naoDoacaoRepository;
     @Autowired
-    private PacienteRepository pacienteRepository;
-    @Autowired
     private EntrevistaRepository entrevistaRepository;
     @Autowired
     private ProcessoNotificacaoRepository notificacaoRepository;
@@ -68,19 +65,30 @@ public class AplEntrevista {
     }
 
     public ProcessoNotificacao salvarEntrevista(ProcessoNotificacaoDTO processoNotificacaoDTO, Long idFuncionario) {
+        final ProcessoNotificacao notificacaoBd;
+
+        try {
+            notificacaoBd = notificacaoRepository.findOne(processoNotificacaoDTO.getId());
+        } catch (Exception e) {
+            throw new ViolacaoDeRIException(e);
+        }
+
         ProcessoNotificacao notificacaoView = mapper.map(processoNotificacaoDTO, ProcessoNotificacao.class);
+        notificacaoView.getObito().setDataObito(notificacaoBd.getObito().getDataObito());
+
         if (notificacaoView.getCausaNaoDoacao() != null && notificacaoView.getCausaNaoDoacao().getId() != null) {
             notificacaoView.setCausaNaoDoacao(naoDoacaoRepository.findOne(notificacaoView.getCausaNaoDoacao().getId()));
         }
+
         validarEntrevista(notificacaoView);
 
+
         if (!notificacaoView.getEntrevista().isEntrevistaRealizada()) {
-            pacienteRepository.updateNome(notificacaoView.getObito().getPaciente().getId(), notificacaoView.getObito().getPaciente().getNome());
+            notificacaoBd.getObito().getPaciente().setNome(notificacaoView.getObito().getPaciente().getNome());
         } else {
-            pacienteRepository.saveAndFlush(notificacaoView.getObito().getPaciente());
+            notificacaoBd.getObito().setPaciente(notificacaoView.getObito().getPaciente());
         }
 
-        final ProcessoNotificacao notificacaoBd = notificacaoRepository.findOne(processoNotificacaoDTO.getId());
         addNovoEstado(AGUARDANDOANALISEENTREVISTA, notificacaoBd, idFuncionario);
         notificacaoBd.setCausaNaoDoacao(notificacaoView.getCausaNaoDoacao());
         notificacaoBd.setEntrevista(notificacaoView.getEntrevista());
