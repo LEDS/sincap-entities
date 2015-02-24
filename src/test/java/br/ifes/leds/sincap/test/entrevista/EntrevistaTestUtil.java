@@ -69,13 +69,17 @@ public class EntrevistaTestUtil {
     }
 
     Entrevista entrevistaDoacaoAutorizada() {
-        final EntrevistaDTO entrevistaDTO = EntrevistaDTO.builder()
+        final EntrevistaDTO entrevistaDTO = entrevistaDoacaoAutorizadaDTO();
+
+        return mapper.map(entrevistaDTO, Entrevista.class);
+    }
+
+    static EntrevistaDTO entrevistaDoacaoAutorizadaDTO() {
+        return EntrevistaDTO.builder()
                 .dataCadastro(hoje())
                 .entrevistaRealizada(sim)
                 .doacaoAutorizada(sim)
                 .build();
-
-        return mapper.map(entrevistaDTO, Entrevista.class);
     }
 
     Entrevista entrevistaNaoRealizada() {
@@ -88,7 +92,13 @@ public class EntrevistaTestUtil {
     }
 
     ProcessoNotificacao processoComObitoValido() {
-        final ProcessoNotificacaoDTO notificacaoDTO = ProcessoNotificacaoDTO.builder()
+        final ProcessoNotificacaoDTO notificacaoDTO = processoComObitoValidoDTO();
+
+        return mapper.map(notificacaoDTO, ProcessoNotificacao.class);
+    }
+
+    static ProcessoNotificacaoDTO processoComObitoValidoDTO() {
+        return ProcessoNotificacaoDTO.builder()
                 .codigo("SOMECODE")
                 .dataAbertura(hoje())
                 .historico(new ArrayList<AtualizacaoEstadoDTO>())
@@ -117,8 +127,6 @@ public class EntrevistaTestUtil {
                         .setor(1L)
                         .hospital(1L)
                         .build()).build();
-
-        return mapper.map(notificacaoDTO, ProcessoNotificacao.class);
     }
 
     static Calendar hoje() {

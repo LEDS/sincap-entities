@@ -6,14 +6,12 @@ import br.ifes.leds.reuse.utility.function.Function;
 import br.ifes.leds.sincap.controleInterno.cgd.FuncionarioRepository;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Funcionario;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.ProcessoNotificacao;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.DocumentoComFotoDTO;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.EntrevistaDTO;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.ResponsavelDTO;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.TestemunhaDTO;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.*;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cgt.AplEntrevista;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.util.dataFactory.ResponsavelData;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.util.dataFactory.TestemunhaData;
 import br.ifes.leds.sincap.test.AbstractionTest;
+import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.dozer.Mapper;
 import org.fluttercode.datafactory.impl.DataFactory;
@@ -25,7 +23,10 @@ import java.util.GregorianCalendar;
 
 import static br.ifes.leds.reuse.utility.Factory.criaObjeto;
 import static br.ifes.leds.sincap.test.entrevista.EntrevistaTestUtil.dezesseisAnos;
-import static br.ifes.leds.sincap.test.entrevista.EntrevistaTestUtil.id;
+import static br.ifes.leds.sincap.test.entrevista.EntrevistaTestUtil.entrevistaDoacaoAutorizadaDTO;
+import static br.ifes.leds.sincap.test.entrevista.EntrevistaTestUtil.processoComObitoValidoDTO;
+import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.hasProperty;
 import static org.junit.Assert.assertThat;
 
 /**
@@ -83,11 +84,11 @@ public class AplEntrevistaTest extends AbstractionTest {
 
     @Test(expected = ViolacaoDeRIException.class)
     public void validacaoTest() {
-        final ProcessoNotificacao notificacao = util.processoComObitoValido();
-        notificacao.setEntrevista(util.entrevistaDoacaoAutorizada());
-        notificacao.getObito().getPaciente().setDataNascimento(dezesseisAnos());
+        final ProcessoNotificacaoDTO notificacaoDTO = processoComObitoValidoDTO();
+        notificacaoDTO.setEntrevista(entrevistaDoacaoAutorizadaDTO());
+        notificacaoDTO.getObito().getPaciente().setDataNascimento(dezesseisAnos());
 
-        aplEntrevista.salvarEntrevista(notificacao, id());
+        aplEntrevista.salvarEntrevista(notificacaoDTO, 1L);
     }
 
     @Test
