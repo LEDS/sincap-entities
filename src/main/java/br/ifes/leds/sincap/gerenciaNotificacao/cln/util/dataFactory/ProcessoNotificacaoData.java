@@ -161,8 +161,9 @@ public class ProcessoNotificacaoData {
         processoNotificacao.setDataAbertura(dataAbertura);
         processoNotificacao.setCodigo(df.getNumberText(8));
         processoNotificacao.setEntrevista(null);
+        processoNotificacao.setHistorico(new ArrayList<AtualizacaoEstado>());
 
-        return processoNotificacao;
+        return processoNotificacaoRepository.save(processoNotificacao);
     }
     
     /**Método responsável por salvar no banco de dados um Objeto ProcessoNotificacao.

@@ -53,6 +53,8 @@ public class AplProcessoNotificacao {
     @Autowired
     private AplCaptador aplCaptador;
     @Autowired
+    private AplEntrevista aplEntrevista;
+    @Autowired
     private AplHospital aplHospital;
     @Autowired
     private FuncionarioRepository funcionarioRepository;
@@ -107,25 +109,7 @@ public class AplProcessoNotificacao {
      * Notificacao
      */
     public ProcessoNotificacao salvarEntrevista(ProcessoNotificacaoDTO processoNotificacaoDTO, Long idFuncionario) {
-
-        ProcessoNotificacao notificacaoView = mapper.map(processoNotificacaoDTO, ProcessoNotificacao.class);
-        ProcessoNotificacao notificacaoBd = notificacaoRepository.findOne(processoNotificacaoDTO.getId());
-
-        notificacaoBd.setEntrevista(notificacaoView.getEntrevista());
-        notificacaoBd.setObito(notificacaoView.getObito());
-
-        verificaDataCadastro(notificacaoBd.getEntrevista());
-        verificaCausaNaoDoacao(notificacaoBd, notificacaoView);
-        verificaOQueDeveSerNull(notificacaoBd.getEntrevista());
-
-        addNovoEstado(AGUARDANDOANALISEENTREVISTA, notificacaoBd, idFuncionario);
-
-        try {
-            return notificacaoRepository.save(notificacaoBd);
-        } catch (Exception e) {
-            validarProcesso(notificacaoBd);
-            throw new ViolacaoDeRIException(e);
-        }
+        return aplEntrevista.salvarEntrevista(processoNotificacaoDTO, idFuncionario);
     }
 
     /**

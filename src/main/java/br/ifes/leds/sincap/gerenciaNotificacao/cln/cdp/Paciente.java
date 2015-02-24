@@ -1,19 +1,21 @@
 package br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp;
 
-import java.util.Calendar;
+import br.ifes.leds.sincap.controleInterno.cln.cdp.Pessoa;
+import br.ifes.leds.sincap.controleInterno.cln.cdp.Sexo;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.interfaces.PacienteInterface;
+import br.ifes.leds.sincap.validacao.annotations.DatasPacienteConsistentes;
+import br.ifes.leds.sincap.validacao.groups.entrevista.EntrevistaRealizadaDoacaoAutorizada;
+import br.ifes.leds.sincap.validacao.groups.entrevista.EntrevistaRealizadaDoacaoNaoAutorizada;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
-
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.interfaces.PacienteInterface;
-import br.ifes.leds.sincap.validacao.annotations.DatasPacienteConsistentes;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import br.ifes.leds.sincap.controleInterno.cln.cdp.Pessoa;
-import br.ifes.leds.sincap.controleInterno.cln.cdp.Sexo;
-import org.hibernate.validator.constraints.Length;
+import javax.validation.groups.Default;
+import java.util.Calendar;
 
 
 /**
@@ -29,18 +31,22 @@ import org.hibernate.validator.constraints.Length;
 @EqualsAndHashCode(callSuper = true)
 public class Paciente extends Pessoa implements PacienteInterface {
 
-    @Past
-    @NotNull
+    @Past(groups = {Default.class, EntrevistaRealizadaDoacaoAutorizada.class, EntrevistaRealizadaDoacaoNaoAutorizada.class})
+    @NotNull(groups = {Default.class, EntrevistaRealizadaDoacaoAutorizada.class, EntrevistaRealizadaDoacaoNaoAutorizada.class})
     @Temporal(TemporalType.TIMESTAMP)
     private Calendar dataInternacao;
 
     @Temporal(TemporalType.TIMESTAMP)
+    @Past(groups = {EntrevistaRealizadaDoacaoAutorizada.class, EntrevistaRealizadaDoacaoNaoAutorizada.class})
+    @NotNull(groups = {EntrevistaRealizadaDoacaoAutorizada.class, EntrevistaRealizadaDoacaoNaoAutorizada.class})
     private Calendar dataNascimento;
 
     @Column
+    @NotNull(groups = {EntrevistaRealizadaDoacaoAutorizada.class, EntrevistaRealizadaDoacaoNaoAutorizada.class})
     private String profissao;
 
     @Length(min = 3, max = 255)
+    @NotNull(groups = {EntrevistaRealizadaDoacaoAutorizada.class, EntrevistaRealizadaDoacaoNaoAutorizada.class})
     @Column
     private String nomeMae;
 
@@ -48,17 +54,21 @@ public class Paciente extends Pessoa implements PacienteInterface {
     private String religiao;
 
     @Length(min = 3, max = 255)
-    @NotNull
+    @NotNull(groups = {Default.class, EntrevistaRealizadaDoacaoAutorizada.class, EntrevistaRealizadaDoacaoNaoAutorizada.class})
     @Column
     private String numeroProntuario;
 
+    @Length(min = 3, max = 255, groups = {EntrevistaRealizadaDoacaoAutorizada.class, EntrevistaRealizadaDoacaoNaoAutorizada.class})
+    @NotNull(groups = {EntrevistaRealizadaDoacaoAutorizada.class, EntrevistaRealizadaDoacaoNaoAutorizada.class})
     @Column
     private String numeroSUS;
 
-    @Length(min = 3, max = 255)
+    @Length(min = 3, max = 255, groups = {Default.class, EntrevistaRealizadaDoacaoAutorizada.class, EntrevistaRealizadaDoacaoNaoAutorizada.class})
+    @NotNull(groups = {EntrevistaRealizadaDoacaoAutorizada.class, EntrevistaRealizadaDoacaoNaoAutorizada.class})
     @Column
     private String nacionalidade;
 
+    @NotNull(groups = {EntrevistaRealizadaDoacaoAutorizada.class, EntrevistaRealizadaDoacaoNaoAutorizada.class})
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private DocumentoComFoto documentoSocial;
 

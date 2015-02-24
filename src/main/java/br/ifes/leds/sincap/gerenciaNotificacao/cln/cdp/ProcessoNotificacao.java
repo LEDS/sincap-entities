@@ -4,6 +4,9 @@ import br.ifes.leds.reuse.persistence.ObjetoPersistente;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Notificador;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.interfaces.ProcessoNotificacaoInterface;
 import br.ifes.leds.sincap.validacao.annotations.DataEntrevistaObitoConsistentes;
+import br.ifes.leds.sincap.validacao.groups.entrevista.EntrevistaNaoRealizada;
+import br.ifes.leds.sincap.validacao.groups.entrevista.EntrevistaRealizadaDoacaoAutorizada;
+import br.ifes.leds.sincap.validacao.groups.entrevista.EntrevistaRealizadaDoacaoNaoAutorizada;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,6 +14,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -77,9 +81,15 @@ public class ProcessoNotificacao extends ObjetoPersistente implements ProcessoNo
     @JoinColumn(nullable = true)
     @Valid
     private Captacao captacao;
-    
+
     @OneToOne
     @JoinColumn
+    @Valid
+    @Null(message = "{EntrevistaValida.causaNaoDoacaoExiste}", groups = {EntrevistaRealizadaDoacaoAutorizada.class})
+    @NotNull.List({
+        @NotNull(message = "{EntrevistaValida.problemasEstruturais}", groups = {EntrevistaNaoRealizada.class}),
+        @NotNull(message = "{EntrevistaValida.recusaFamiliar}", groups = {EntrevistaRealizadaDoacaoNaoAutorizada.class})
+    })
     private CausaNaoDoacao causaNaoDoacao;
 
     public boolean isExcluido() {
@@ -139,5 +149,11 @@ public class ProcessoNotificacao extends ObjetoPersistente implements ProcessoNo
     @SuppressWarnings("unused")
     public void setHistoricoModificavel(List<AtualizacaoEstado> historico) {
         this.setHistorico(historico);
+    }
+
+    @Override
+    @NotNull(message = "{EntrevistaValida.processoSemId}", groups = {EntrevistaNaoRealizada.class, EntrevistaRealizadaDoacaoAutorizada.class, EntrevistaRealizadaDoacaoNaoAutorizada.class})
+    public Long getId() {
+        return super.getId();
     }
 }
