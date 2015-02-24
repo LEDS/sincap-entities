@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:spring-context.xml")
 @Transactional
-@ActiveProfiles("prod")
+@ActiveProfiles("dev")
 public abstract class AbstractionTest {
 
 }
