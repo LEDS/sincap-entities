@@ -1,13 +1,12 @@
 package br.ifes.leds.sincap.gerenciaNotificacao.cgd;
 
-import java.util.List;
-
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.DocumentoComFoto;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Paciente;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Paciente;
 
 /**
  * PacienteRepository. java
@@ -17,27 +16,9 @@ import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Paciente;
 @Repository
 @Transactional
 public interface PacienteRepository extends JpaRepository<Paciente, Long> {
-	
-	/**
-	 * Metodo para encontrar um paciente pelo rg.
-	 * @param documentoSocial, String que representa o documento com foto do Paciente
-	 * @return
-	 */
-	public Paciente findByDocumentoSocial(DocumentoComFoto documentoSocial);
-	
-	/**
-	 * Metodo para retornar uma lista de pacientes a partir de parte do nome do paciente e da mae do paciente.
-	 * Ex: Joao da Silva e Maria da Silva, Joao% e Maria%, %Silva e Maria%.
-	 * @param nome, String que representa o nome do paciente
-	 * @param nomeMae, String que representa o nome da mae do paciente
-	 * @return, Lista de paciente relacionado ao nome e nome da mae dados.
-	 */
-	public List <Paciente> findByNomeLikeIgnoreCaseAndNomeMaeLikeIgnoreCase (String nome, String nomeMae);
-	
-	/**
-	 * Metodo que retorna uma lista de pacientes relacionados ao numero de prontuario do paciente no hsopital onde ocorreu obito do mesmo.
-	 * @param numeroProntuario, String
-	 * @return
-	 */
-	public List <Paciente> findByNumeroProntuarioLike (String numeroProntuario);
+
+    @SuppressWarnings("JpaQlInspection")
+    @Modifying(clearAutomatically = true)
+    @Query(value = "update Paciente p set p.nome = :nome where p.id = :id")
+    public void updateNome(@Param("id") Long id, @Param("nome") String nome);
 }

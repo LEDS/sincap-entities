@@ -83,12 +83,16 @@ public class EntrevistaTestUtil {
     }
 
     Entrevista entrevistaNaoRealizada() {
-        EntrevistaDTO entrevistaDTO = EntrevistaDTO.builder()
+        EntrevistaDTO entrevistaDTO = entrevistaNaoRealizadaDTO();
+
+        return mapper.map(entrevistaDTO, Entrevista.class);
+    }
+
+    static EntrevistaDTO entrevistaNaoRealizadaDTO() {
+        return EntrevistaDTO.builder()
                 .dataCadastro(hoje())
                 .entrevistaRealizada(nao)
                 .build();
-
-        return mapper.map(entrevistaDTO, Entrevista.class);
     }
 
     ProcessoNotificacao processoComObitoValido() {
