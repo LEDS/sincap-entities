@@ -8,12 +8,12 @@ import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.ProcessoNotificacaoDT
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cgt.AplEntrevista;
 import br.ifes.leds.sincap.test.AbstractionTest;
 import org.dozer.Mapper;
-import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoNotificacaoEnum.AGUARDANDOANALISEENTREVISTA;
 import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoNaoDoacao.PROBLEMAS_ESTRUTURAIS;
+import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoNaoDoacao.RECUSA_FAMILIAR;
 import static br.ifes.leds.sincap.test.entrevista.EntrevistaTestUtil.*;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
@@ -62,8 +62,43 @@ public class AplEntrevistaTest extends AbstractionTest {
         ));
         assertThat(notificacaoSalva.getUltimoEstado(), hasProperty("estadoNotificacao", is(AGUARDANDOANALISEENTREVISTA)));
         assertThat(notificacaoSalva.getEntrevista(), allOf(
-                hasProperty("entrevistaRealizada", is(false)),
-                hasProperty("doacaoAutorizada", is(false)),
+                hasProperty("entrevistaRealizada", is(nao)),
+                hasProperty("doacaoAutorizada", is(nao)),
+                hasProperty("dataCadastro", notNullValue()),
+                hasProperty("dataEntrevista", nullValue())
+        ));
+    }
+
+    @Test
+    public void salvarEntrevistaRealizadaDoacaoNaoAutorizada() {
+        final ProcessoNotificacao notificacao = notificacaoRepository.saveAndFlush(util.processoComObitoValido());
+        final ProcessoNotificacaoDTO notificacaoDTO = mapper.map(notificacao, ProcessoNotificacaoDTO.class);
+        notificacaoDTO.getObito().getPaciente().setNome("Fulano de Tal");
+        notificacaoDTO.getObito().getPaciente().setNumeroSUS("algumnumerosusalterado15645");
+        notificacaoDTO.setCausaNaoDoacao(recusaFamiliar());
+        notificacaoDTO.setEntrevista(entrevistaRealizdaDTO());
+        notificacaoDTO.getEntrevista().setDoacaoAutorizada(nao);
+
+        final ProcessoNotificacao notificacaoSalva = aplEntrevista.salvarEntrevista(notificacaoDTO, 1L);
+
+        assertThat(
+                notificacaoSalva.getObito().getPaciente(),
+                allOf(
+                        hasProperty("nome", is("Fulano de Tal")),
+                        hasProperty("numeroSUS", is("algumnumerosusalterado15645"))
+                ));
+
+        assertThat(
+                notificacaoSalva.getCausaNaoDoacao(),
+                allOf(
+                        hasProperty("nome", is("Familiares indecisos")),
+                        hasProperty("tipoNaoDoacao", is(RECUSA_FAMILIAR))
+                )
+        );
+        assertThat(notificacaoSalva.getUltimoEstado(), hasProperty("estadoNotificacao", is(AGUARDANDOANALISEENTREVISTA)));
+        assertThat(notificacaoSalva.getEntrevista(), allOf(
+                hasProperty("entrevistaRealizada", is(sim)),
+                hasProperty("doacaoAutorizada", is(nao)),
                 hasProperty("dataCadastro", notNullValue()),
                 hasProperty("dataEntrevista", nullValue())
         ));
@@ -71,5 +106,9 @@ public class AplEntrevistaTest extends AbstractionTest {
 
     private static long problemaEstrutural() {
         return 20L;
+    }
+
+    private static long recusaFamiliar() {
+        return 3L;
     }
 }

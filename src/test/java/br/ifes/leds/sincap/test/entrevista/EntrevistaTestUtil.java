@@ -60,12 +60,16 @@ public class EntrevistaTestUtil {
     }
 
     Entrevista entrevistaRealizada() {
-        final EntrevistaDTO entrevistaDTO = EntrevistaDTO.builder()
+        final EntrevistaDTO entrevistaDTO = entrevistaRealizdaDTO();
+
+        return mapper.map(entrevistaDTO, Entrevista.class);
+    }
+
+    static EntrevistaDTO entrevistaRealizdaDTO() {
+        return EntrevistaDTO.builder()
                 .dataCadastro(hoje())
                 .entrevistaRealizada(sim)
                 .build();
-
-        return mapper.map(entrevistaDTO, Entrevista.class);
     }
 
     Entrevista entrevistaDoacaoAutorizada() {

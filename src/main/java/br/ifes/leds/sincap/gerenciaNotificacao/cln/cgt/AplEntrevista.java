@@ -72,10 +72,13 @@ public class AplEntrevista {
         if (notificacaoView.getCausaNaoDoacao() != null && notificacaoView.getCausaNaoDoacao().getId() != null) {
             notificacaoView.setCausaNaoDoacao(naoDoacaoRepository.findOne(notificacaoView.getCausaNaoDoacao().getId()));
         }
-
         validarEntrevista(notificacaoView);
 
-        pacienteRepository.updateNome(notificacaoView.getObito().getPaciente().getId(), notificacaoView.getObito().getPaciente().getNome());
+        if (!notificacaoView.getEntrevista().isEntrevistaRealizada()) {
+            pacienteRepository.updateNome(notificacaoView.getObito().getPaciente().getId(), notificacaoView.getObito().getPaciente().getNome());
+        } else {
+            pacienteRepository.saveAndFlush(notificacaoView.getObito().getPaciente());
+        }
 
         final ProcessoNotificacao notificacaoBd = notificacaoRepository.findOne(processoNotificacaoDTO.getId());
         addNovoEstado(AGUARDANDOANALISEENTREVISTA, notificacaoBd, idFuncionario);
