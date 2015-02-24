@@ -4,7 +4,6 @@ import br.ifes.leds.reuse.ledsExceptions.CRUDExceptions.ViolacaoDeRIException;
 import br.ifes.leds.sincap.controleInterno.cgd.HospitalRepository;
 import br.ifes.leds.sincap.controleInterno.cgd.NotificadorRepository;
 import br.ifes.leds.sincap.controleInterno.cgd.SetorRepository;
-import br.ifes.leds.sincap.controleInterno.cln.cdp.Captador;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Hospital;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Notificador;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Setor;
@@ -51,10 +50,6 @@ public class AplProcessoNotificacaoTest extends AbstractionTest {
     private ObitoData obitoData;
     @Autowired
     private EntrevistaData entrevistaData;
-    @Autowired
-    private CaptacaoData captacaoData;
-    @Autowired
-    private CaptadorData captadorData;
     @Autowired
     private DataFactory df;
 
@@ -229,83 +224,6 @@ public class AplProcessoNotificacaoTest extends AbstractionTest {
         Assert.assertNotNull(notificacao.getHistorico());
     }
 
-    @Test
-    public void salvarEntrevistaEntrevistaNaoRealizada() {
-        ProcessoNotificacao processoNotificacao = getProcessoComObito(true, null);
-        processoNotificacao = aplProcessoNotificacao.salvarNovaNotificacao(mapper.map(processoNotificacao, ProcessoNotificacaoDTO.class), 1L);
-        Calendar dataAbertura = processoNotificacao.getDataAbertura();
-
-        processoNotificacao.setEntrevista(entrevistaData.criaEntrevista(df));
-        processoNotificacao.getEntrevista().setEntrevistaRealizada(false);
-//TODO: Ao setar a data de cadastro ocasionava o erro no teste dizendo que esta deveria estar no passado.
-//        processoNotificacao.getEntrevista().setDataCadastro(null);
-//        19 = Equipe de retirada não disponível, Problema estrutural
-        processoNotificacao.setCausaNaoDoacao(causaNaoDoacaoRepository.findOne(19L));
-
-        processoNotificacao = aplProcessoNotificacao.salvarEntrevista(mapper.map(processoNotificacao, ProcessoNotificacaoDTO.class), 1L);
-
-        assertThat(processoNotificacao.getEntrevista().isEntrevistaRealizada(), is(false));
-        assertThat(processoNotificacao.getEntrevista().isDoacaoAutorizada(), is(false));
-        assertThat(processoNotificacao.getDataAbertura(), equalTo(dataAbertura));
-        assertThat(processoNotificacao.getEntrevista().getDataCadastro(), notNullValue());
-        assertThat(processoNotificacao.getCausaNaoDoacao().getId(), is(19L));
-        assertThat(processoNotificacao.getEntrevista().getResponsavel(), nullValue());
-        assertThat(processoNotificacao.getEntrevista().getResponsavel2(), nullValue());
-        assertThat(processoNotificacao.getEntrevista().getResponsavel2(), nullValue());
-        assertThat(processoNotificacao.getEntrevista().getTestemunha1(), nullValue());
-        assertThat(processoNotificacao.getEntrevista().getTestemunha2(), nullValue());
-    }
-
-    @Test
-    public void salvarEntrevistaDoacaoNaoAutorizada() {
-        ProcessoNotificacao processoNotificacao = getProcessoComObito(true, null);
-        processoNotificacao = aplProcessoNotificacao.salvarNovaNotificacao(mapper.map(processoNotificacao, ProcessoNotificacaoDTO.class), 1L);
-        Calendar dataAbertura = processoNotificacao.getDataAbertura();
-
-        processoNotificacao.setEntrevista(entrevistaData.criaEntrevista(df));
-        processoNotificacao.getEntrevista().setEntrevistaRealizada(true);
-        processoNotificacao.getEntrevista().setDoacaoAutorizada(false);
-//        processoNotificacao.getEntrevista().setDataCadastro(null);
-//        2 = Doador contrário à doação em vida, Recusa Familiar
-        processoNotificacao.setCausaNaoDoacao(causaNaoDoacaoRepository.findOne(2L));
-
-        processoNotificacao = aplProcessoNotificacao.salvarEntrevista(mapper.map(processoNotificacao, ProcessoNotificacaoDTO.class), 1L);
-
-        assertThat(processoNotificacao.getEntrevista().isEntrevistaRealizada(), is(true));
-        assertThat(processoNotificacao.getEntrevista().isDoacaoAutorizada(), is(false));
-        assertThat(processoNotificacao.getDataAbertura(), equalTo(dataAbertura));
-        assertThat(processoNotificacao.getEntrevista().getDataCadastro(), notNullValue());
-        assertThat(processoNotificacao.getCausaNaoDoacao().getId(), is(2L));
-        assertThat(processoNotificacao.getEntrevista().getResponsavel(), nullValue());
-        assertThat(processoNotificacao.getEntrevista().getResponsavel2(), nullValue());
-        assertThat(processoNotificacao.getEntrevista().getTestemunha1(), nullValue());
-        assertThat(processoNotificacao.getEntrevista().getTestemunha2(), nullValue());
-    }
-
-    @Test
-    public void salvarEntrevistaDoacaoAutorizada() {
-        ProcessoNotificacao processoNotificacao = getProcessoComObito(true, null);
-        processoNotificacao = aplProcessoNotificacao.salvarNovaNotificacao(mapper.map(processoNotificacao, ProcessoNotificacaoDTO.class), 1L);
-        Calendar dataAbertura = processoNotificacao.getDataAbertura();
-
-        processoNotificacao.setEntrevista(entrevistaData.criaEntrevista(df));
-        processoNotificacao.getEntrevista().setEntrevistaRealizada(true);
-        processoNotificacao.getEntrevista().setDoacaoAutorizada(true);
-//        2 = Doador contrário à doação em vida, Recusa Familiar
-        processoNotificacao.setCausaNaoDoacao(causaNaoDoacaoRepository.findOne(2L));
-
-        processoNotificacao = aplProcessoNotificacao.salvarEntrevista(mapper.map(processoNotificacao, ProcessoNotificacaoDTO.class), 1L);
-
-        assertThat(processoNotificacao.getEntrevista().isEntrevistaRealizada(), is(true));
-        assertThat(processoNotificacao.getEntrevista().isDoacaoAutorizada(), is(true));
-        assertThat(processoNotificacao.getDataAbertura(), equalTo(dataAbertura));
-        assertThat(processoNotificacao.getEntrevista().getDataCadastro(), notNullValue());
-        assertThat(processoNotificacao.getCausaNaoDoacao(), nullValue());
-        assertThat(processoNotificacao.getEntrevista().getResponsavel(), notNullValue());
-        assertThat(processoNotificacao.getEntrevista().getTestemunha1(), notNullValue());
-        assertThat(processoNotificacao.getEntrevista().getTestemunha2(), notNullValue());
-    }
-
     @Test(expected = ViolacaoDeRIException.class)
     public void salvarEntrevistaComDadosInvalidos() {
         ProcessoNotificacao processoNotificacao = getProcessoComObito(true, null);
@@ -317,27 +235,6 @@ public class AplProcessoNotificacaoTest extends AbstractionTest {
         processoNotificacao.getEntrevista().getResponsavel().setReligiao("AB");
 
         aplProcessoNotificacao.salvarEntrevista(mapper.map(processoNotificacao, ProcessoNotificacaoDTO.class), 1L);
-    }
-
-//    @Test
-//    public void salvarCaptacacaoTest() {
-//        adicionarEntrevista();
-//        adicionarCaptacao();
-//
-//        Assert.assertNotNull(notificacao.getCaptacao());
-//        Assert.assertNotNull(notificacao.getCaptacao().getId());
-//
-//        Assert.assertNotNull(notificacao.getHistorico());
-//    }
-
-    private void adicionarCaptacao() {
-        Captador captador = captadorData.criaCaptador(df);
-        CaptacaoDTO captacaoDTO = mapper.map(captacaoData.criarCaptacao(df, captador), CaptacaoDTO.class);
-
-        notificacao.setCaptacao(captacaoDTO);
-        Long id = aplProcessoNotificacao.salvarCaptacao(notificacao.getId(), notificacao.getCaptacao(), captacaoDTO.getCaptador()).getId();
-
-        notificacao = aplProcessoNotificacao.obter(id);
     }
 
     private void adicionarEntrevista() {
