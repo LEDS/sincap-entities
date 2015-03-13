@@ -128,7 +128,7 @@ public class AplObitoTest extends AbstractionTest {
         assertNotNull(obitoTest);
         assertNotNull(obitoTest.getSetor());
         assertNotNull(obitoTest.getPaciente().getId());
-        assertEquals(obitoTest.getPaciente().getEndereco().getCep(), obitoTest.getPaciente().getEndereco().getCep());
+//        assertEquals(obitoTest.getPaciente().getEndereco().getCep(), obitoTest.getPaciente().getEndereco().getCep());
     }
 
 }
