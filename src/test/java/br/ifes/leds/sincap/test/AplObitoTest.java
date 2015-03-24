@@ -70,27 +70,6 @@ public class AplObitoTest extends AbstractionTest {
     }
 
     @Test
-    public void obterPacienteTest() {
-        aplObito.salvarPaciente(pacienteDTO);
-
-        PacienteDTO pacienteTmp = utility.getObjectByMethod(
-                aplObito.obterTodosPacientes(), this.pacienteDTO.getNome(), getNomePaciente());
-        Long idTest = pacienteTmp.getId();
-
-        assertNotNull(aplObito.obterPaciente(idTest));
-        assertEquals(idTest, aplObito.obterPaciente(idTest).getId());
-    }
-
-    private Function<PacienteDTO, String> getNomePaciente() {
-        return new Function<PacienteDTO, String>() {
-            @Override
-            public String apply(PacienteDTO parameter) {
-                return parameter.getNome();
-            }
-        };
-    }
-
-    @Test
     public void salvarObitoTest() {
         aplObito.salvarObito(obitoDTO);
         
