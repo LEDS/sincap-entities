@@ -82,6 +82,9 @@ public class ProcessoNotificacao extends ObjetoPersistente implements ProcessoNo
     @Valid
     private Captacao captacao;
 
+    @OneToMany(mappedBy = "processo",fetch = FetchType.EAGER)
+    private List<Comentario> comentario;
+
     @OneToOne
     @JoinColumn
     @Valid
