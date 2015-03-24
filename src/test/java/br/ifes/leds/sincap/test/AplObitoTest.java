@@ -81,27 +81,6 @@ public class AplObitoTest extends AbstractionTest {
         assertEquals(idTest, aplObito.obterPaciente(idTest).getId());
     }
 
-    @Test
-    public void salvarPacienteTest() {
-        aplObito.salvarPaciente(pacienteDTO);
-
-        PacienteDTO pacienteTest = utility.getObjectByMethod(
-                aplObito.obterTodosPacientes(), this.pacienteDTO.getNome(), getNomePaciente());
-
-        assertNotNull(pacienteTest.getId());
-        assertNotNull(pacienteTest.getEndereco());
-        assertNotNull(pacienteTest.getTelefone());
-
-        assertEquals(this.pacienteDTO.getNome(), pacienteTest.getNome());
-        assertEquals(this.pacienteDTO.getNacionalidade(), pacienteTest.getNacionalidade());
-        assertEquals(this.pacienteDTO.getNomeMae(), pacienteTest.getNomeMae());
-        assertEquals(this.pacienteDTO.getNumeroProntuario(), pacienteTest.getNumeroProntuario());
-        assertEquals(this.pacienteDTO.getNumeroSUS(), pacienteTest.getNumeroSUS());
-        assertEquals(this.pacienteDTO.getProfissao(), pacienteTest.getProfissao());
-        assertEquals(this.pacienteDTO.getEndereco().getBairro(), pacienteTest.getEndereco().getBairro());
-        assertEquals(this.pacienteDTO.getDocumentoSocial(), pacienteTest.getDocumentoSocial());
-    }
-
     private Function<PacienteDTO, String> getNomePaciente() {
         return new Function<PacienteDTO, String>() {
             @Override
