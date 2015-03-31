@@ -15,6 +15,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.List;
 
 import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoNaoDoacao.*;
@@ -217,6 +218,16 @@ public class AplRelatorio {
     public List<QualificacaoRecusaFamiliar> relatorioQualificacaoRecusa(Calendar datIni, Calendar datFim, Long id) {
         final List<Long> ids = new ArrayList<>();
         ids.add(id);
+        return processoNotificacaoRepository.getRelatorioQualificacaoRecusaFamiliar(datIni, datFim, ids);
+    }
+
+    public <E extends InstituicaoNotificadora> List<QualificacaoRecusaFamiliar> relatorioQualificacaoRecusa(Calendar datIni, Calendar datFim, Collection<E> hospitais) {
+        final List<Long> ids = new ArrayList<>();
+
+        for (E hospital : hospitais) {
+            ids.add(hospital.getId());
+        }
+
         return processoNotificacaoRepository.getRelatorioQualificacaoRecusaFamiliar(datIni, datFim, ids);
     }
 
