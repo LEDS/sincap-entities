@@ -1,29 +1,25 @@
 package br.ifes.leds.sincap.gerenciaNotificacao.cln.cgt;
 
-import br.ifes.leds.sincap.controleInterno.cgd.HospitalRepository;
 import br.ifes.leds.sincap.controleInterno.cgd.InstituicaoNotificadoraRepository;
-import br.ifes.leds.sincap.controleInterno.cln.cdp.Hospital;
-import br.ifes.leds.sincap.controleInterno.cln.cdp.Instituicao;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.InstituicaoNotificadora;
 import br.ifes.leds.sincap.controleInterno.cln.cgt.AplHospital;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ObitoRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ProcessoNotificacaoRepository;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CausaNaoDoacao;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Obito;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.ProcessoNotificacao;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoNaoDoacao;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoObito;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.relatorios.FaixaEtaria;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.relatorios.QualificacaoRecusaFamiliar;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.relatorios.RelEntrevistaFamiliar;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.relatorios.TotalDoacaoInstituicao;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.relatorios.TotalNaoDoacaoInstituicao;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.relatorios.*;
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.validation.constraints.Null;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -217,12 +213,33 @@ public class AplRelatorio {
         return td;
     }
 
-    /**
-     * Esta função é responsável por preencher o relatório de QualificacaoRecusaFamiliar.
-     * @param datIni - Data Incial de abertura.
-     * @param datFim - Data Final de abertura.
-     * @return lista de Obejtos QualificacaoRecusaFamiliar.
-     */
+    public RelatorioCronologia relatorioCronologia(ProcessoNotificacao processo)
+    {
+        RelatorioCronologia td = new RelatorioCronologia();
+
+
+        td.setData(processo.getObito().getDataObito());
+        td.setHora(processo.getObito().getHorasObito());
+        td.setNome(processo.getObito().getPaciente().getNome());
+        td.setIdade(processo.getObito().getIdadePaciente());
+        td.setCausaObito(processo.getObito().getPrimeiraCausaMortis().getNome());
+        td.setSetorObito(processo.getObito().getSetor().getNome());
+        if(processo.getCausaNaoDoacao()!= null)
+        {
+            td.setCausaNaoDoacao(processo.getCausaNaoDoacao().getNome());
+        }
+
+        boolean b = (processo.getCaptacao() != null && processo.getCaptacao().isCaptacaoRealizada());
+
+        if (b==false)
+            td.setDoaTecido("Não");
+        else
+            td.setDoaTecido("Sim");
+
+        return td;
+
+    }
+
     public List<QualificacaoRecusaFamiliar> relatorioQualificacaoRecusa(Calendar datIni,Calendar datFim,List<Long> id){
         return processoNotificacaoRepository.getRelatorioQualificacaoRecusaFamiliar(datIni,datFim,id);
     }
@@ -420,6 +437,15 @@ public class AplRelatorio {
         List<NaoDoacaoCIHDOTT> naoDoacaoFamiliar = processoNotificacaoRepository.getNaoDoacaCIHDOTT(dataInicio,dataFinal,idHospital,tipo);
 
         return naoDoacaoFamiliar;
+    }
+   public List<Obito> todosObitosPorHospital(Long idHospital,Calendar dataInicial,Calendar dataFinal)
+   {
+
+         List<Obito> listaObitos = obitoRepository.findByDataObitoBetweenAndHospitalIdOrderByDataObitoAsc(dataInicial, dataFinal, idHospital);
+
+       return listaObitos;
+
+
     }
 
   }
