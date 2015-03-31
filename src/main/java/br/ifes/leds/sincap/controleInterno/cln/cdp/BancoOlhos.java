@@ -5,8 +5,11 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import java.util.List;
+
+import static javax.persistence.FetchType.EAGER;
 
 /**
  * BancoOlhos.java
@@ -19,6 +22,6 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 public class BancoOlhos extends Instituicao {
 
-    @OneToMany(mappedBy = "bancoOlhos")
+    @OneToMany(mappedBy = "bancoOlhos", fetch = EAGER)
     private List<Hospital> hospitais;
 }
