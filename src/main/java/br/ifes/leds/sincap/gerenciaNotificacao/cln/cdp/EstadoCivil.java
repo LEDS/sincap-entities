@@ -6,5 +6,5 @@ package br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp;
  * Enum que representa o estado civil de uma pessoa
  */
 public enum EstadoCivil {	
-	SOLTEIRO, UNIAO_ESTAVEL, VIUVO, DIVORCIADO
+	CASADO, SOLTEIRO, UNIAO_ESTAVEL, VIUVO, DIVORCIADO
 }
