@@ -1,36 +1,23 @@
 package br.ifes.leds.sincap.gerenciaNotificacao.cln.cgt;
 
-import br.ifes.leds.sincap.controleInterno.cgd.HospitalRepository;
 import br.ifes.leds.sincap.controleInterno.cgd.InstituicaoNotificadoraRepository;
-import br.ifes.leds.sincap.controleInterno.cln.cdp.Hospital;
-import br.ifes.leds.sincap.controleInterno.cln.cdp.Instituicao;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.InstituicaoNotificadora;
 import br.ifes.leds.sincap.controleInterno.cln.cgt.AplHospital;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ObitoRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ProcessoNotificacaoRepository;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CausaNaoDoacao;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoNaoDoacao;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoObito;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.relatorios.FaixaEtaria;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.relatorios.QualificacaoRecusaFamiliar;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.relatorios.RelEntrevistaFamiliar;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.relatorios.TotalDoacaoInstituicao;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.relatorios.TotalNaoDoacaoInstituicao;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.relatorios.*;
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoNaoDoacao.CONTRAINDICACAO_MEDICA;
-import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoNaoDoacao.PROBLEMAS_LOGISTICOS;
-import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoNaoDoacao.RECUSA_FAMILIAR;
+import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoNaoDoacao.*;
 
 /**
  * Created by aleao on 21/10/14.
@@ -164,7 +151,7 @@ public class AplRelatorio {
         BigDecimal bTotalCaptacao = new BigDecimal(totalCaptacao*100);
         BigDecimal bTotalDoacao = new BigDecimal(totalDoacao);
 
-        return bTotalCaptacao.divide(bTotalDoacao,2, RoundingMode.UP);
+        return bTotalCaptacao.divide(bTotalDoacao, 2, RoundingMode.UP);
     }
 
     private Integer quantNaoDoacao(Calendar DataInicio, Calendar DataFinal, Long idHops, TipoNaoDoacao causa)
@@ -226,6 +213,14 @@ public class AplRelatorio {
     public List<QualificacaoRecusaFamiliar> relatorioQualificacaoRecusa(Calendar datIni,Calendar datFim,List<Long> id){
         return processoNotificacaoRepository.getRelatorioQualificacaoRecusaFamiliar(datIni,datFim,id);
     }
+
+    public List<QualificacaoRecusaFamiliar> relatorioQualificacaoRecusa(Calendar datIni, Calendar datFim, Long id) {
+        final List<Long> ids = new ArrayList<>();
+        ids.add(id);
+        return processoNotificacaoRepository.getRelatorioQualificacaoRecusaFamiliar(datIni, datFim, ids);
+    }
+
+
 
     /**
      * Esta função é responsável por buscar a quantidade de pacientes que morreram
