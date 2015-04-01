@@ -58,6 +58,15 @@ public class AplComentario {
     public Comentario obter(Long id){
         return comentarioRepository.findOne(id);
     }
+
+    /***
+     * Metodo responsavel por obter um comentario atraves do seu id.
+     * @param id - Id do comentario.
+     * @return objeto Comentario.
+     */
+    public List<Comentario> obterByProcessoNotificacao(Long id){
+        return comentarioRepository.findByProcessoId(id);
+    }
     
     /***
      * Metodo que retorna a quantidade de comentarios.
