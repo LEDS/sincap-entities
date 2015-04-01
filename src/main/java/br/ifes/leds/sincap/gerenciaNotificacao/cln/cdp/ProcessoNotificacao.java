@@ -129,9 +129,10 @@ public class ProcessoNotificacao extends ObjetoPersistente implements ProcessoNo
         if(this.comentarios == null){
             this.comentarios = new ArrayList<>();
         }
-
+        this.comentarios.clear();
         this.comentarios.add(comentario);
     }
+
 
     /**
      * Sobrescreve o get original para retornar uma lista imutável.

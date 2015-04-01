@@ -16,7 +16,7 @@ import java.util.Calendar;
  */
 @Setter
 @Getter
-@AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 @Entity
 public class Comentario extends ObjetoPersistente  {
 
