@@ -82,8 +82,8 @@ public class ProcessoNotificacao extends ObjetoPersistente implements ProcessoNo
     @Valid
     private Captacao captacao;
 
-    @OneToMany(mappedBy = "processo",fetch = FetchType.EAGER)
-    private List<Comentario> comentario;
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comentario> comentarios;
 
     @OneToOne
     @JoinColumn
@@ -117,6 +117,20 @@ public class ProcessoNotificacao extends ObjetoPersistente implements ProcessoNo
 
         this.ultimoEstado = estado;
         this.historico.add(estado);
+    }
+
+    /**
+     * Cria uma lista de comentários caso ela não exista e adiciona o comentário
+     * passado por parâmetro a lista.
+     *
+     * @param comentario O comentário que será incluído na lista de comentários
+     */
+    public void addComentario(Comentario comentario){
+        if(this.comentarios == null){
+            this.comentarios = new ArrayList<>();
+        }
+
+        this.comentarios.add(comentario);
     }
 
     /**

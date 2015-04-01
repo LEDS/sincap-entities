@@ -7,10 +7,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Calendar;
 
@@ -23,14 +20,10 @@ import java.util.Calendar;
 @Entity
 public class Comentario extends ObjetoPersistente  {
 
-    @ManyToOne
-    @NotNull
-    private ProcessoNotificacao processo;
-
     @OneToOne
     private Funcionario funcionario;
 
-    @Column
+    @Temporal(TemporalType.TIMESTAMP)
     private Calendar dataComentario;
 
     @Column

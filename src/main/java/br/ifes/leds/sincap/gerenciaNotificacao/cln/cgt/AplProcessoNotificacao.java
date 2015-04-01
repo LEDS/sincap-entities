@@ -92,6 +92,42 @@ public class AplProcessoNotificacao {
         }
     }
 
+    /**
+     * Metodo que salva uma nova notificação contendo notificacao de obito e o comentário
+     *
+     * @param processoNotificacaoDTO - ProcessoNotificacao - Notificacao que
+     *                               sera salva
+     * @param idFuncionario          - Id do funcionario que criou a notificacao
+     *
+     * @param comentario - Representa o comentário adicionado na view
+     * @return long - Retorna o id do ProcessoNotificacao salvo
+     *
+     */
+    public ProcessoNotificacao salvarNovaNotificacao(ProcessoNotificacaoDTO processoNotificacaoDTO, Long idFuncionario, Comentario comentario) {
+
+        ProcessoNotificacao notificacao = instanciarNovoProcessoNotificacao(processoNotificacaoDTO);
+
+        final Long idHospital = notificacao.getObito().getHospital().getId();
+        final Hospital hospitalBd = aplHospital.obter(idHospital);
+
+        notificacao.setNotificador(criarNotificador(idFuncionario));
+
+        setDatasNovaNotificacao(notificacao);
+
+        this.addEstadoInicial(notificacao, idFuncionario);
+
+        notificacao.setCodigo(hospitalBd.getSigla() + notificacao.getObito().getPaciente().getNumeroProntuario());
+
+        notificacao.addComentario(comentario);
+
+        try {
+            return notificacaoRepository.save(notificacao);
+        } catch (Exception e) {
+            validarProcesso(notificacao);
+            throw new ViolacaoDeRIException(e);
+        }
+    }
+
     public ProcessoNotificacao salvarObito(ProcessoNotificacaoDTO processoNotificacaoDTO){
 
         ProcessoNotificacao notificacao = mapearProcessoNotificacaoDTO(processoNotificacaoDTO);
