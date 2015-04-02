@@ -15,7 +15,7 @@
 SincapEntities.iml
 
 #Sincap Properties
-src/main/resources/sincap.properties
-src/test/resources/sincap.properties
+/src/main/resources/sincap.properties
+/src/test/resources/sincap.properties
 
 
