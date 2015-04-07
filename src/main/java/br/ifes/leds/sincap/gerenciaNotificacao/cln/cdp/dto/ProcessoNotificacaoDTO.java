@@ -1,5 +1,6 @@
 package br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto;
 
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Comentario;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.interfaces.ProcessoNotificacaoInterface;
 import br.ifes.leds.sincap.validacao.annotations.DataEntrevistaObitoConsistentes;
 import lombok.*;
@@ -39,6 +40,7 @@ public class ProcessoNotificacaoDTO implements ProcessoNotificacaoInterface {
     private Calendar dataAbertura;
 
     private List<AtualizacaoEstadoDTO> historico = new ArrayList<>();
+    private List<Comentario> comentarios = new ArrayList<>();
     private String codigo;
     private Calendar dataArquivamento;
     private boolean arquivado;
