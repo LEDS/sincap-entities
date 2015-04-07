@@ -20,7 +20,6 @@ import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
@@ -30,7 +29,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
-import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoNotificacaoEnum.AGUARDANDOANALISEENTREVISTA;
 import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoDocumentoComFoto.PNI;
 
 /**
@@ -605,5 +603,10 @@ public class AplProcessoNotificacao {
 
     public Integer quantidadeCausaNaoDoacao(Long id){
         return notificacaoRepository.countByCausaNaoDoacaoId(id);
+    }
+
+    public ProcessoNotificacao retornaProcesso(Long id)
+    {
+      return  notificacaoRepository.findByObito_id(id);
     }
 }

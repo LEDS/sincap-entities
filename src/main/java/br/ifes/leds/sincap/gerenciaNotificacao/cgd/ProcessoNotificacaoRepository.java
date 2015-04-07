@@ -78,5 +78,7 @@ public interface ProcessoNotificacaoRepository extends JpaRepository<ProcessoNot
 
     public Integer countByCausaNaoDoacaoId(Long id);
 
+    public ProcessoNotificacao findByObito_id(Long id);
+
 }
 

@@ -1,18 +1,14 @@
 package br.ifes.leds.sincap.gerenciaNotificacao.cgd;
 
 
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Obito;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoObito;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.relatorios.FaixaEtaria;
-import org.joda.time.DateTime;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Obito;
-
-import java.sql.Time;
 import java.util.Calendar;
 import java.util.List;
 
@@ -57,4 +53,14 @@ public Long getFaixaEtaria(@Param("idadeIni") Integer idadeIni, @Param("idadeFim
             " and o.hospital.id = (:idHospital)" +
             " and o.tipoObito = (:tipo)")
     public Long getObitosMEPorTurno(@Param("dataInicial") Calendar dataInicial, @Param("dataFinal") Calendar dataFinal,@Param("idHospital")Long idHospital,@Param("tipo")TipoObito tipo, @Param("horaInicial")Integer horaInicial, @Param("horaFinal")Integer horaFinal);
+
+//    @Query(value = "select distinct new br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Obito (o.id) " +
+//           "from br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Obito o " +
+//           "where o.dataObito between :dataInicial and :dataFinal " +
+//           "and o.hospital.id in (:id)"+
+//           "order by o.dataObito asc ")
+//
+//    public List<Obito> getTotalObitoPorHospital(@Param ("dataInicial")Calendar dataInicial,@Param("dataFinal") Calendar dataFinal,@Param("id")Long id);
+    public List<Obito> findByDataObitoBetweenAndHospitalIdOrderByDataObitoAsc(Calendar dataInicial, Calendar dataFinal, Long id);
+
 }
