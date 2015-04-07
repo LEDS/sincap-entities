@@ -2,17 +2,17 @@ package br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp;
 
 import br.ifes.leds.reuse.persistence.ObjetoPersistente;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Funcionario;
-import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.Calendar;
 
+import static javax.persistence.TemporalType.TIMESTAMP;
+
 /**
- * Created by aleao on 24/03/2015.
+ * @author aleao on 24/03/2015.
  */
 @Setter
 @Getter
@@ -23,7 +23,7 @@ public class Comentario extends ObjetoPersistente  {
     @OneToOne
     private Funcionario funcionario;
 
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TIMESTAMP)
     private Calendar dataComentario;
 
     @Column
