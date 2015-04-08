@@ -27,5 +27,8 @@ public class Comentario extends ObjetoPersistente  {
     private Calendar dataComentario;
 
     @Column
+    private String momento;
+
+    @Column
     private String descricao;
 }

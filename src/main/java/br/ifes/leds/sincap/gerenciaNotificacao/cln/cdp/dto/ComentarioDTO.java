@@ -19,5 +19,7 @@ public class ComentarioDTO {
 
     private Calendar dataComentario;
 
+    private String momento;
+
     private String descricao;
 }
