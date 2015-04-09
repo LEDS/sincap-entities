@@ -196,19 +196,24 @@ public class AplProcessoNotificacao {
      * entra para ser analisado,
      * o mesmo troca o seu estado para EMANALISEOBITO
      */
+    public long entrarAnaliseObito(ProcessoNotificacaoDTO processoNotificacaoDTO, Long idFuncionario,Comentario comentario) {
+
+        return this.addNovoEstadoNoProcessoNotificacao(processoNotificacaoDTO, EstadoNotificacaoEnum.EMANALISEOBITO, idFuncionario,comentario);
+    }
+
+    //TODO: Revisar nescessidade da sobrecarga.
     public long entrarAnaliseObito(ProcessoNotificacaoDTO processoNotificacaoDTO, Long idFuncionario) {
 
         return this.addNovoEstadoNoProcessoNotificacao(processoNotificacaoDTO, EstadoNotificacaoEnum.EMANALISEOBITO, idFuncionario);
     }
-
     /**
      * Quando um processo de notificacao esta em analisa uma das opcoes eh
      * recusar essa analise, dado a erros que haja na notificacao, por exemplo;
      * Voltar para o estado AGUARDANDOANALISEOBITO.
      */
-    public Long recusarAnaliseObito(ProcessoNotificacaoDTO processoNotificacaoDTO, Long idFuncionario) {
+    public Long recusarAnaliseObito(ProcessoNotificacaoDTO processoNotificacaoDTO, Long idFuncionario,Comentario comentario) {
 
-        return this.addNovoEstadoNoProcessoNotificacao(processoNotificacaoDTO, EstadoNotificacaoEnum.AGUARDANDOCORRECAOOBITO, idFuncionario);
+        return this.addNovoEstadoNoProcessoNotificacao(processoNotificacaoDTO, EstadoNotificacaoEnum.AGUARDANDOCORRECAOOBITO, idFuncionario,comentario);
     }
 
     /**
@@ -216,19 +221,20 @@ public class AplProcessoNotificacao {
      * uma das opcoes eh aceitar essa analise,
      * logo, o estado muda para AGUARDANDOENTREVISTA.
      */
-    public Long validarAnaliseObito(ProcessoNotificacaoDTO processoNotificacaoDTO, Long idFuncionario) {
+    public Long validarAnaliseObito(ProcessoNotificacaoDTO processoNotificacaoDTO, Long idFuncionario,Comentario comentario) {
         Long situacao;
+
 
         if (processoNotificacaoDTO.getCausaNaoDoacao() == null) {
             situacao = this.addNovoEstadoNoProcessoNotificacao(
                     processoNotificacaoDTO,
                     EstadoNotificacaoEnum.AGUARDANDOENTREVISTA,
-                    idFuncionario);
+                    idFuncionario,comentario);
         } else {
             situacao = this.addNovoEstadoNoProcessoNotificacao(
                     processoNotificacaoDTO,
                     EstadoNotificacaoEnum.AGUARDANDOARQUIVAMENTO,
-                    idFuncionario);
+                    idFuncionario,comentario);
         }
 
         return situacao;
@@ -306,6 +312,20 @@ public class AplProcessoNotificacao {
 
     private Long addNovoEstadoNoProcessoNotificacao(ProcessoNotificacaoDTO processoNotificacaoDTO,
                                                     EstadoNotificacaoEnum enumEstado,
+                                                    Long idFuncionario,Comentario comentario) {
+
+        ProcessoNotificacao notificacao = mapearProcessoNotificacaoDTO(processoNotificacaoDTO);
+
+        this.addNovoEstado(enumEstado, notificacao, idFuncionario);
+
+        notificacao.addComentario(comentario);
+        notificacaoRepository.save(notificacao);
+
+        return notificacao.getId();
+    }
+
+    private Long addNovoEstadoNoProcessoNotificacao(ProcessoNotificacaoDTO processoNotificacaoDTO,
+                                                    EstadoNotificacaoEnum enumEstado,
                                                     Long idFuncionario) {
 
         ProcessoNotificacao notificacao = mapearProcessoNotificacaoDTO(processoNotificacaoDTO);
@@ -316,7 +336,6 @@ public class AplProcessoNotificacao {
 
         return notificacao.getId();
     }
-
     private ProcessoNotificacao mapearProcessoNotificacaoDTO(ProcessoNotificacaoDTO processoNotificacaoDTO) {
 
         return mapper.map(processoNotificacaoDTO, ProcessoNotificacao.class);
