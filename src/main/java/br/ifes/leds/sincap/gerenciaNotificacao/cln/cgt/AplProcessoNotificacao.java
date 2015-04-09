@@ -25,10 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
+import java.util.*;
 
 import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoNotificacaoEnum.AGUARDANDOANALISEENTREVISTA;
 import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoDocumentoComFoto.PNI;
@@ -60,6 +57,28 @@ public class AplProcessoNotificacao {
     private FuncionarioRepository funcionarioRepository;
 
     private static Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+
+
+    public static HashMap<EstadoNotificacaoEnum,String> mapaMomentoComentario= mapaMomentoComentario();
+
+
+    public static HashMap<EstadoNotificacaoEnum,String> mapaMomentoComentario(){
+        HashMap<EstadoNotificacaoEnum,String> estados = new HashMap<>();
+
+        estados.put(EstadoNotificacaoEnum.AGUARDANDOANALISEOBITO,"Notificação");
+        estados.put(EstadoNotificacaoEnum.AGUARDANDOCORRECAOOBITO, "Notificação");
+        estados.put(EstadoNotificacaoEnum.AGUARDANDOANALISEENTREVISTA,"Entrevista");
+        estados.put(EstadoNotificacaoEnum.AGUARDANDOCORRECAOENTREVISTA, "Entrevista");
+        estados.put(EstadoNotificacaoEnum.AGUARDANDOANALISECAPTACAO,"Captação");
+        estados.put(EstadoNotificacaoEnum.AGUARDANDOCORRECAOCAPTACACAO, "Captação");
+
+
+        return estados;
+    }
+
+    public String retornaMomentoComentario(EstadoNotificacaoEnum estado){
+        return mapaMomentoComentario.get(estado);
+    }
 
     /**
      * Metodo que salva uma nova notificação contendo notificacao de obito
@@ -117,6 +136,8 @@ public class AplProcessoNotificacao {
         this.addEstadoInicial(notificacao, idFuncionario);
 
         notificacao.setCodigo(hospitalBd.getSigla() + notificacao.getObito().getPaciente().getNumeroProntuario());
+
+        comentario.setMomento(retornaMomentoComentario(notificacao.getUltimoEstado().getEstadoNotificacao()));
 
         notificacao.addComentario(comentario);
 
