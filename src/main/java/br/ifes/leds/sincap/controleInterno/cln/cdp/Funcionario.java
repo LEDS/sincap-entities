@@ -29,7 +29,6 @@ import static javax.persistence.FetchType.EAGER;
 public class Funcionario extends Pessoa {
 
     @Column
-    @Size(min = 3, max = 50)
     @NotNull
     private String senha;
 

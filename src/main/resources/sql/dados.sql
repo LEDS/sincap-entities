@@ -48,10 +48,10 @@ INSERT INTO documentocomfoto (documento, tipodocumentocomfoto) VALUES ('22222222
 INSERT INTO documentocomfoto (documento, tipodocumentocomfoto) VALUES ('333333333333', 'RG');
 INSERT INTO documentocomfoto (documento, tipodocumentocomfoto) VALUES ('55555555555', 'RG');
 
-INSERT INTO funcionario (nome,ativo,cpf,documentosocial_id,email,senha,endereco_id,telefone_id) VALUES ('Notificador 1', true, '111.111.111-11', 1, 'notificador1@email.com', 'abc123', 1,1);
-INSERT INTO funcionario (nome,ativo,cpf,documentosocial_id,email,senha,endereco_id,telefone_id) VALUES ('Captador 1', true, '222.222.222-22', 2, 'captador1@email.com', 'abc123', 2,2);
-INSERT INTO funcionario (nome,ativo,cpf,documentosocial_id,email,senha) VALUES ('Analista 1', true, '333.333.333-33', 3, 'analista@email.com', 'abc123');
-INSERT INTO funcionario (nome,ativo,cpf,documentosocial_id,email,senha) VALUES ('Sincap backdoor', true, '555.555.555-55', 4, 'sincap@email.com', 'abc123');
+INSERT INTO funcionario (nome,ativo,cpf,documentosocial_id,email,senha,endereco_id,telefone_id) VALUES ('Notificador 1', true, '111.111.111-11', 1, 'notificador1@email.com', '$2a$10$0QTW5I1JwlNKTT/fcBIYT.XeD9YMdgpkoBqia1Vcor5Ugb2CLhdLe', 1,1);
+INSERT INTO funcionario (nome,ativo,cpf,documentosocial_id,email,senha,endereco_id,telefone_id) VALUES ('Captador 1', true, '222.222.222-22', 2, 'captador1@email.com', '$2a$10$lBmi0ZG/OkDueOQrOZNgzuEW4m.VG.l/sGfWFpQI/TJWedMsxmqy.', 2,2);
+INSERT INTO funcionario (nome,ativo,cpf,documentosocial_id,email,senha) VALUES ('Analista 1', true, '333.333.333-33', 3, 'analista@email.com', '$2a$10$BjBCqVmiKLZ/zlu6nKF3MO.CpXKJeYo1rAbo.3APTX7n/HPpKqCly');
+INSERT INTO funcionario (nome,ativo,cpf,documentosocial_id,email,senha) VALUES ('Sincap backdoor', true, '555.555.555-55', 4, 'sincap@email.com', '$2a$10$GlKSwYNkbp02ZnhWUAoAyuo2f.80lJLbn41hEvbh4Ttf1X9/WOkNC');
 INSERT INTO notificador VALUES (1);
 INSERT INTO captador VALUES (2,1);
 INSERT INTO analistacncdo VALUES (3);
