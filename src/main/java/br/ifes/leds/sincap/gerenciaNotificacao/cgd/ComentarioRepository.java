@@ -1,7 +1,5 @@
 package br.ifes.leds.sincap.gerenciaNotificacao.cgd;
 
-import br.ifes.leds.sincap.controleInterno.cln.cdp.Captador;
-import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Captacao;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Comentario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -17,4 +15,6 @@ import java.util.List;
 @Repository
 @Transactional
 public interface ComentarioRepository extends JpaRepository<Comentario, Long> {
+
+    List<Comentario> findByProcessoId(Long idProcesso);
 }

@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Calendar;
 
 import static javax.persistence.TemporalType.TIMESTAMP;
@@ -38,5 +39,6 @@ public class Comentario extends ObjetoPersistente  {
             joinColumns = @JoinColumn(name = "comentarios_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "processonotificacao_id", referencedColumnName = "id")
     )
+    @NotNull
     private ProcessoNotificacao processo;
 }
