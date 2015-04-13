@@ -62,6 +62,12 @@ public class AplProcessoNotificacao {
     public static HashMap<EstadoNotificacaoEnum,String> mapaMomentoComentario= mapaMomentoComentario();
 
 
+    public void salvarComentario(Long idProcesso, Comentario comentario){
+        ProcessoNotificacao processo = getProcessoNotificacao(idProcesso);
+        processo.addComentario(comentario);
+        notificacaoRepository.save(processo);
+    }
+
     public static HashMap<EstadoNotificacaoEnum,String> mapaMomentoComentario(){
         HashMap<EstadoNotificacaoEnum,String> estados = new HashMap<>();
 
@@ -139,9 +145,10 @@ public class AplProcessoNotificacao {
 
         comentario.setMomento(retornaMomentoComentario(notificacao.getUltimoEstado().getEstadoNotificacao()));
 
-        notificacao.addComentario(comentario);
-
         try {
+            notificacaoRepository.save(notificacao);
+            comentario.setProcesso(notificacao);
+            notificacao.addComentario(comentario);
             return notificacaoRepository.save(notificacao);
         } catch (Exception e) {
             validarProcesso(notificacao);
@@ -221,7 +228,7 @@ public class AplProcessoNotificacao {
      * uma das opcoes eh aceitar essa analise,
      * logo, o estado muda para AGUARDANDOENTREVISTA.
      */
-    public Long validarAnaliseObito(ProcessoNotificacaoDTO processoNotificacaoDTO, Long idFuncionario,Comentario comentario) {
+    public Long validarAnaliseObito(ProcessoNotificacaoDTO processoNotificacaoDTO, Long idFuncionario) {
         Long situacao;
 
 
@@ -229,12 +236,12 @@ public class AplProcessoNotificacao {
             situacao = this.addNovoEstadoNoProcessoNotificacao(
                     processoNotificacaoDTO,
                     EstadoNotificacaoEnum.AGUARDANDOENTREVISTA,
-                    idFuncionario,comentario);
+                    idFuncionario);
         } else {
             situacao = this.addNovoEstadoNoProcessoNotificacao(
                     processoNotificacaoDTO,
                     EstadoNotificacaoEnum.AGUARDANDOARQUIVAMENTO,
-                    idFuncionario,comentario);
+                    idFuncionario);
         }
 
         return situacao;
@@ -318,7 +325,6 @@ public class AplProcessoNotificacao {
 
         this.addNovoEstado(enumEstado, notificacao, idFuncionario);
 
-        notificacao.addComentario(comentario);
         notificacaoRepository.save(notificacao);
 
         return notificacao.getId();
@@ -328,7 +334,7 @@ public class AplProcessoNotificacao {
                                                     EstadoNotificacaoEnum enumEstado,
                                                     Long idFuncionario) {
 
-        ProcessoNotificacao notificacao = mapearProcessoNotificacaoDTO(processoNotificacaoDTO);
+        ProcessoNotificacao notificacao = notificacaoRepository.findOne(processoNotificacaoDTO.getId());
 
         this.addNovoEstado(enumEstado, notificacao, idFuncionario);
 

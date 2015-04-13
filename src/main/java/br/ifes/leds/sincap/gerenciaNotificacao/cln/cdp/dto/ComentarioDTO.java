@@ -17,6 +17,8 @@ public class ComentarioDTO {
 
     private FuncionarioDTO funcionario;
 
+    private Long processo;
+
     private Calendar dataComentario;
 
     private String momento;

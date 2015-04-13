@@ -189,6 +189,16 @@
     </mapping>
 
     <mapping map-null="false" map-empty-string="false">
+        <class-a>br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Comentario</class-a>
+        <class-b>br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.ComentarioDTO</class-b>
+
+        <field>
+            <a>processo.id</a>
+            <b>processo</b>
+        </field>
+    </mapping>
+
+    <mapping map-null="false" map-empty-string="false">
         <class-a>br.ifes.leds.sincap.controleInterno.cln.cdp.dto.FuncionarioDTO</class-a>
         <class-b>br.ifes.leds.sincap.controleInterno.cln.cdp.Funcionario</class-b>
 
