@@ -3,13 +3,13 @@ package br.ifes.leds.sincap.gerenciaNotificacao.cln.cgt;
 import br.ifes.leds.reuse.ledsExceptions.CRUDExceptions.ViolacaoDeRIException;
 import br.ifes.leds.reuse.utility.Utility;
 import br.ifes.leds.sincap.controleInterno.cgd.FuncionarioRepository;
-import br.ifes.leds.sincap.controleInterno.cgd.HospitalRepository;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Captador;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Funcionario;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Hospital;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Notificador;
 import br.ifes.leds.sincap.controleInterno.cln.cgt.AplCaptador;
 import br.ifes.leds.sincap.controleInterno.cln.cgt.AplHospital;
+import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ComentarioRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ProcessoNotificacaoRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.*;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.CaptacaoDTO;
@@ -20,14 +20,12 @@ import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import java.util.*;
 
-import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoNotificacaoEnum.AGUARDANDOANALISEENTREVISTA;
 import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoDocumentoComFoto.PNI;
 
 /**
@@ -40,8 +38,6 @@ public class AplProcessoNotificacao {
 
     @Autowired
     private ProcessoNotificacaoRepository notificacaoRepository;
-    @Autowired
-    private HospitalRepository hospitalRepository;
     @Qualifier("mapper")
     @Autowired
     private Mapper mapper;
@@ -65,7 +61,7 @@ public class AplProcessoNotificacao {
     public void salvarComentario(Long idProcesso, Comentario comentario){
         ProcessoNotificacao processo = getProcessoNotificacao(idProcesso);
         processo.addComentario(comentario);
-        notificacaoRepository.save(processo);
+        notificacaoRepository.saveAndFlush(processo);
     }
 
     public static HashMap<EstadoNotificacaoEnum,String> mapaMomentoComentario(){
@@ -338,9 +334,7 @@ public class AplProcessoNotificacao {
 
         this.addNovoEstado(enumEstado, notificacao, idFuncionario);
 
-        notificacaoRepository.save(notificacao);
-
-        return notificacao.getId();
+        return notificacaoRepository.save(notificacao).getId();
     }
     private ProcessoNotificacao mapearProcessoNotificacaoDTO(ProcessoNotificacaoDTO processoNotificacaoDTO) {
 
