@@ -39,6 +39,7 @@ public class ProcessoNotificacaoDTO implements ProcessoNotificacaoInterface {
     private Calendar dataAbertura;
 
     private List<AtualizacaoEstadoDTO> historico = new ArrayList<>();
+    private List<ComentarioDTO> comentarios = new ArrayList<>();
     private String codigo;
     private Calendar dataArquivamento;
     private boolean arquivado;

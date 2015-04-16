@@ -3,13 +3,13 @@ package br.ifes.leds.sincap.gerenciaNotificacao.cln.cgt;
 import br.ifes.leds.reuse.ledsExceptions.CRUDExceptions.ViolacaoDeRIException;
 import br.ifes.leds.reuse.utility.Utility;
 import br.ifes.leds.sincap.controleInterno.cgd.FuncionarioRepository;
-import br.ifes.leds.sincap.controleInterno.cgd.HospitalRepository;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Captador;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Funcionario;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Hospital;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Notificador;
 import br.ifes.leds.sincap.controleInterno.cln.cgt.AplCaptador;
 import br.ifes.leds.sincap.controleInterno.cln.cgt.AplHospital;
+import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ComentarioRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ProcessoNotificacaoRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.*;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.CaptacaoDTO;
@@ -24,10 +24,7 @@ import org.springframework.stereotype.Service;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
+import java.util.*;
 
 import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoDocumentoComFoto.PNI;
 
@@ -41,8 +38,6 @@ public class AplProcessoNotificacao {
 
     @Autowired
     private ProcessoNotificacaoRepository notificacaoRepository;
-    @Autowired
-    private HospitalRepository hospitalRepository;
     @Qualifier("mapper")
     @Autowired
     private Mapper mapper;
@@ -58,6 +53,34 @@ public class AplProcessoNotificacao {
     private FuncionarioRepository funcionarioRepository;
 
     private static Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+
+
+    public static HashMap<EstadoNotificacaoEnum,String> mapaMomentoComentario= mapaMomentoComentario();
+
+
+    public void salvarComentario(Long idProcesso, Comentario comentario){
+        ProcessoNotificacao processo = getProcessoNotificacao(idProcesso);
+        processo.addComentario(comentario);
+        notificacaoRepository.saveAndFlush(processo);
+    }
+
+    public static HashMap<EstadoNotificacaoEnum,String> mapaMomentoComentario(){
+        HashMap<EstadoNotificacaoEnum,String> estados = new HashMap<>();
+
+        estados.put(EstadoNotificacaoEnum.AGUARDANDOANALISEOBITO,"Notificação");
+        estados.put(EstadoNotificacaoEnum.AGUARDANDOCORRECAOOBITO, "Notificação");
+        estados.put(EstadoNotificacaoEnum.AGUARDANDOANALISEENTREVISTA,"Entrevista");
+        estados.put(EstadoNotificacaoEnum.AGUARDANDOCORRECAOENTREVISTA, "Entrevista");
+        estados.put(EstadoNotificacaoEnum.AGUARDANDOANALISECAPTACAO,"Captação");
+        estados.put(EstadoNotificacaoEnum.AGUARDANDOCORRECAOCAPTACACAO, "Captação");
+
+
+        return estados;
+    }
+
+    public String retornaMomentoComentario(EstadoNotificacaoEnum estado){
+        return mapaMomentoComentario.get(estado);
+    }
 
     /**
      * Metodo que salva uma nova notificação contendo notificacao de obito
@@ -83,6 +106,45 @@ public class AplProcessoNotificacao {
         notificacao.setCodigo(hospitalBd.getSigla() + notificacao.getObito().getPaciente().getNumeroProntuario());
 
         try {
+            return notificacaoRepository.save(notificacao);
+        } catch (Exception e) {
+            validarProcesso(notificacao);
+            throw new ViolacaoDeRIException(e);
+        }
+    }
+
+    /**
+     * Metodo que salva uma nova notificação contendo notificacao de obito e o comentário
+     *
+     * @param processoNotificacaoDTO - ProcessoNotificacao - Notificacao que
+     *                               sera salva
+     * @param idFuncionario          - Id do funcionario que criou a notificacao
+     *
+     * @param comentario - Representa o comentário adicionado na view
+     * @return long - Retorna o id do ProcessoNotificacao salvo
+     *
+     */
+    public ProcessoNotificacao salvarNovaNotificacao(ProcessoNotificacaoDTO processoNotificacaoDTO, Long idFuncionario, Comentario comentario) {
+
+        ProcessoNotificacao notificacao = instanciarNovoProcessoNotificacao(processoNotificacaoDTO);
+
+        final Long idHospital = notificacao.getObito().getHospital().getId();
+        final Hospital hospitalBd = aplHospital.obter(idHospital);
+
+        notificacao.setNotificador(criarNotificador(idFuncionario));
+
+        setDatasNovaNotificacao(notificacao);
+
+        this.addEstadoInicial(notificacao, idFuncionario);
+
+        notificacao.setCodigo(hospitalBd.getSigla() + notificacao.getObito().getPaciente().getNumeroProntuario());
+
+        comentario.setMomento(retornaMomentoComentario(notificacao.getUltimoEstado().getEstadoNotificacao()));
+
+        try {
+            notificacaoRepository.save(notificacao);
+            comentario.setProcesso(notificacao);
+            notificacao.addComentario(comentario);
             return notificacaoRepository.save(notificacao);
         } catch (Exception e) {
             validarProcesso(notificacao);
@@ -137,19 +199,24 @@ public class AplProcessoNotificacao {
      * entra para ser analisado,
      * o mesmo troca o seu estado para EMANALISEOBITO
      */
+    public long entrarAnaliseObito(ProcessoNotificacaoDTO processoNotificacaoDTO, Long idFuncionario,Comentario comentario) {
+
+        return this.addNovoEstadoNoProcessoNotificacao(processoNotificacaoDTO, EstadoNotificacaoEnum.EMANALISEOBITO, idFuncionario,comentario);
+    }
+
+    //TODO: Revisar nescessidade da sobrecarga.
     public long entrarAnaliseObito(ProcessoNotificacaoDTO processoNotificacaoDTO, Long idFuncionario) {
 
         return this.addNovoEstadoNoProcessoNotificacao(processoNotificacaoDTO, EstadoNotificacaoEnum.EMANALISEOBITO, idFuncionario);
     }
-
     /**
      * Quando um processo de notificacao esta em analisa uma das opcoes eh
      * recusar essa analise, dado a erros que haja na notificacao, por exemplo;
      * Voltar para o estado AGUARDANDOANALISEOBITO.
      */
-    public Long recusarAnaliseObito(ProcessoNotificacaoDTO processoNotificacaoDTO, Long idFuncionario) {
+    public Long recusarAnaliseObito(ProcessoNotificacaoDTO processoNotificacaoDTO, Long idFuncionario,Comentario comentario) {
 
-        return this.addNovoEstadoNoProcessoNotificacao(processoNotificacaoDTO, EstadoNotificacaoEnum.AGUARDANDOCORRECAOOBITO, idFuncionario);
+        return this.addNovoEstadoNoProcessoNotificacao(processoNotificacaoDTO, EstadoNotificacaoEnum.AGUARDANDOCORRECAOOBITO, idFuncionario,comentario);
     }
 
     /**
@@ -159,6 +226,7 @@ public class AplProcessoNotificacao {
      */
     public Long validarAnaliseObito(ProcessoNotificacaoDTO processoNotificacaoDTO, Long idFuncionario) {
         Long situacao;
+
 
         if (processoNotificacaoDTO.getCausaNaoDoacao() == null) {
             situacao = this.addNovoEstadoNoProcessoNotificacao(
@@ -247,7 +315,7 @@ public class AplProcessoNotificacao {
 
     private Long addNovoEstadoNoProcessoNotificacao(ProcessoNotificacaoDTO processoNotificacaoDTO,
                                                     EstadoNotificacaoEnum enumEstado,
-                                                    Long idFuncionario) {
+                                                    Long idFuncionario,Comentario comentario) {
 
         ProcessoNotificacao notificacao = mapearProcessoNotificacaoDTO(processoNotificacaoDTO);
 
@@ -258,6 +326,16 @@ public class AplProcessoNotificacao {
         return notificacao.getId();
     }
 
+    private Long addNovoEstadoNoProcessoNotificacao(ProcessoNotificacaoDTO processoNotificacaoDTO,
+                                                    EstadoNotificacaoEnum enumEstado,
+                                                    Long idFuncionario) {
+
+        ProcessoNotificacao notificacao = notificacaoRepository.findOne(processoNotificacaoDTO.getId());
+
+        this.addNovoEstado(enumEstado, notificacao, idFuncionario);
+
+        return notificacaoRepository.save(notificacao).getId();
+    }
     private ProcessoNotificacao mapearProcessoNotificacaoDTO(ProcessoNotificacaoDTO processoNotificacaoDTO) {
 
         return mapper.map(processoNotificacaoDTO, ProcessoNotificacao.class);
