@@ -214,9 +214,9 @@ public class AplProcessoNotificacao {
      * recusar essa analise, dado a erros que haja na notificacao, por exemplo;
      * Voltar para o estado AGUARDANDOANALISEOBITO.
      */
-    public Long recusarAnaliseObito(ProcessoNotificacaoDTO processoNotificacaoDTO, Long idFuncionario,Comentario comentario) {
+    public Long recusarAnaliseObito(ProcessoNotificacaoDTO processoNotificacaoDTO, Long idFuncionario) {
 
-        return this.addNovoEstadoNoProcessoNotificacao(processoNotificacaoDTO, EstadoNotificacaoEnum.AGUARDANDOCORRECAOOBITO, idFuncionario,comentario);
+        return this.addNovoEstadoNoProcessoNotificacao(processoNotificacaoDTO, EstadoNotificacaoEnum.AGUARDANDOCORRECAOOBITO, idFuncionario);
     }
 
     /**
@@ -224,23 +224,18 @@ public class AplProcessoNotificacao {
      * uma das opcoes eh aceitar essa analise,
      * logo, o estado muda para AGUARDANDOENTREVISTA.
      */
-    public Long validarAnaliseObito(ProcessoNotificacaoDTO processoNotificacaoDTO, Long idFuncionario) {
-        Long situacao;
-
+    public void validarAnaliseObito(ProcessoNotificacaoDTO processoNotificacaoDTO, Long idFuncionario) {
 
         if (processoNotificacaoDTO.getCausaNaoDoacao() == null) {
-            situacao = this.addNovoEstadoNoProcessoNotificacao(
+           this.addNovoEstadoNoProcessoNotificacao(
                     processoNotificacaoDTO,
                     EstadoNotificacaoEnum.AGUARDANDOENTREVISTA,
                     idFuncionario);
         } else {
-            situacao = this.addNovoEstadoNoProcessoNotificacao(
+           this.addNovoEstadoNoProcessoNotificacao(
                     processoNotificacaoDTO,
                     EstadoNotificacaoEnum.AGUARDANDOARQUIVAMENTO,
-                    idFuncionario);
-        }
-
-        return situacao;
+                    idFuncionario);        }
     }
 
     /**
@@ -330,7 +325,7 @@ public class AplProcessoNotificacao {
                                                     EstadoNotificacaoEnum enumEstado,
                                                     Long idFuncionario) {
 
-        ProcessoNotificacao notificacao = notificacaoRepository.findOne(processoNotificacaoDTO.getId());
+        ProcessoNotificacao notificacao = this.mapearProcessoNotificacaoDTO(processoNotificacaoDTO);
 
         this.addNovoEstado(enumEstado, notificacao, idFuncionario);
 
@@ -601,6 +596,7 @@ public class AplProcessoNotificacao {
         }
 
         notificacaoASerRetornada.setObito(notificacaoDTO.getObito());
+        notificacaoASerRetornada.setComentarios(notificacaoDTO.getComentarios());
 
         verificaCausaNaoDoacao(notificacaoASerRetornada, notificacaoDTO);
 

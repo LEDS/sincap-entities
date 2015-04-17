@@ -15,6 +15,7 @@ import lombok.experimental.Builder;
 @Builder
 @EqualsAndHashCode
 public class FuncionarioDTO {
+    private Long id;
     private String senha;
     private String nome;
     private boolean ativo;
