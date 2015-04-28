@@ -306,6 +306,25 @@ public class AplProcessoNotificacaoTest extends AbstractionTest {
         Assert.assertNotNull(notificacao.getComentarios());
     }
 
+    @Test
+    public void recusarObitoComComentario(){
+
+        ComentarioDTO comentarioNotificacao = criaComentario(EstadoNotificacaoEnum.AGUARDANDOANALISEOBITO.toString(),"Comentario Notificacao");
+
+        Long id = aplProcessoNotificacao.salvarNovaNotificacao(notificacao, notificacao.getNotificador(),comentarioNotificacao).getId();
+        notificacao = aplProcessoNotificacao.obter(id);
+
+        ComentarioDTO comentarioAnalise = criaComentario(EstadoNotificacaoEnum.AGUARDANDOANALISEOBITO.toString(),"Comentario Recusa");
+
+        defineNoProcesso(comentarioAnalise,notificacao);
+
+        aplProcessoNotificacao.recusarAnaliseObito(notificacao, notificacao.getNotificador());
+        notificacao = aplProcessoNotificacao.obter(id);
+
+        Assert.assertEquals(2,notificacao.getComentarios().size());
+        Assert.assertNotNull(notificacao.getComentarios());
+    }
+
     private ComentarioDTO criaComentario(String momento,String descricao) {
     /*Cria o DTO do funcionário a partir dos parâmetros passados*/
         FuncionarioDTO funcionarioDTO = new FuncionarioDTO();
