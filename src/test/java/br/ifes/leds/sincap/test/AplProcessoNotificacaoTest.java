@@ -288,12 +288,6 @@ public class AplProcessoNotificacaoTest extends AbstractionTest {
 
     }
 
-    @Test
-    public void confirmarObitoComComentario(){
-        salvarNotificacaoComComentarioObito();
-
-
-    }
 
     private ComentarioDTO criaComentario(String momento,String descricao) {
     /*Cria o DTO do funcionário a partir dos parâmetros passados*/
