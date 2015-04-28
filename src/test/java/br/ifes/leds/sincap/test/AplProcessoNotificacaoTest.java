@@ -7,6 +7,7 @@ import br.ifes.leds.sincap.controleInterno.cgd.SetorRepository;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Hospital;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Notificador;
 import br.ifes.leds.sincap.controleInterno.cln.cdp.Setor;
+import br.ifes.leds.sincap.controleInterno.cln.cdp.dto.FuncionarioDTO;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.CausaNaoDoacaoRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.*;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.*;
@@ -270,5 +271,43 @@ public class AplProcessoNotificacaoTest extends AbstractionTest {
         processoNotificacao.getObito().setAptoDoacao(aptoDoacao);
         processoNotificacao.getObito().setDataCadastro(dataCadastro);
         return processoNotificacao;
+    }
+
+    @Test
+    public void salvarNotificacaoComComentarioObito(){
+
+        ComentarioDTO comentario = criaComentario(EstadoNotificacaoEnum.AGUARDANDOANALISEOBITO.toString(),"Comentario Inicial");
+
+
+        Long id = aplProcessoNotificacao.salvarNovaNotificacao(notificacao, notificacao.getNotificador(),comentario).getId();
+        notificacao = aplProcessoNotificacao.obter(id);
+
+
+        Assert.assertEquals(1,notificacao.getComentarios().size());
+        Assert.assertNotNull(notificacao.getComentarios());
+
+    }
+
+    @Test
+    public void confirmarObitoComComentario(){
+        salvarNotificacaoComComentarioObito();
+
+
+    }
+
+    private ComentarioDTO criaComentario(String momento,String descricao) {
+    /*Cria o DTO do funcionário a partir dos parâmetros passados*/
+        FuncionarioDTO funcionarioDTO = new FuncionarioDTO();
+        funcionarioDTO.setId(notificacao.getNotificador());
+
+
+        /*Cria o DTO do comentário a partir dos parâmetros passados*/
+        ComentarioDTO comentario = new ComentarioDTO();
+        comentario.setFuncionario(funcionarioDTO);
+        comentario.setDataComentario(Calendar.getInstance());
+        comentario.setDescricao(descricao);
+        comentario.setMomento(momento);
+
+        return comentario;
     }
 }
