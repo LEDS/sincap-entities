@@ -276,18 +276,35 @@ public class AplProcessoNotificacaoTest extends AbstractionTest {
     @Test
     public void salvarNotificacaoComComentarioObito(){
 
-        ComentarioDTO comentario = criaComentario(EstadoNotificacaoEnum.AGUARDANDOANALISEOBITO.toString(),"Comentario Inicial");
+        ComentarioDTO comentario = criaComentario(EstadoNotificacaoEnum.AGUARDANDOANALISEOBITO.toString(),"Comentario Notificacao");
 
 
-        Long id = aplProcessoNotificacao.salvarNovaNotificacao(notificacao, notificacao.getNotificador(),comentario).getId();
-        notificacao = aplProcessoNotificacao.obter(id);
+        ProcessoNotificacao processoSalvo = aplProcessoNotificacao.salvarNovaNotificacao(notificacao, notificacao.getNotificador(), comentario);
 
-
-        Assert.assertEquals(1,notificacao.getComentarios().size());
-        Assert.assertNotNull(notificacao.getComentarios());
+        Assert.assertEquals(1,processoSalvo.getComentarios().size());
+        Assert.assertNotNull(processoSalvo.getComentarios());
 
     }
 
+
+    @Test
+    public void confirmarObitoComComentario(){
+
+        ComentarioDTO comentarioNotificacao = criaComentario(EstadoNotificacaoEnum.AGUARDANDOANALISEOBITO.toString(),"Comentario Notificacao");
+
+        Long id = aplProcessoNotificacao.salvarNovaNotificacao(notificacao, notificacao.getNotificador(),comentarioNotificacao).getId();
+        notificacao = aplProcessoNotificacao.obter(id);
+
+        ComentarioDTO comentarioAnalise = criaComentario(EstadoNotificacaoEnum.AGUARDANDOANALISEOBITO.toString(),"Comentario Confirmação");
+
+        defineNoProcesso(comentarioAnalise,notificacao);
+
+        aplProcessoNotificacao.validarAnaliseObito(notificacao, notificacao.getNotificador());
+        notificacao = aplProcessoNotificacao.obter(id);
+
+        Assert.assertEquals(2,notificacao.getComentarios().size());
+        Assert.assertNotNull(notificacao.getComentarios());
+    }
 
     private ComentarioDTO criaComentario(String momento,String descricao) {
     /*Cria o DTO do funcionário a partir dos parâmetros passados*/
@@ -303,5 +320,13 @@ public class AplProcessoNotificacaoTest extends AbstractionTest {
         comentario.setMomento(momento);
 
         return comentario;
+    }
+
+    public void defineNoProcesso(ComentarioDTO comentario, ProcessoNotificacaoDTO processo) {
+
+        comentario.setProcesso(processo.getId());
+
+        /*Faz o link entre o processo e o comentário*/
+        processo.getComentarios().add(comentario);
     }
 }
