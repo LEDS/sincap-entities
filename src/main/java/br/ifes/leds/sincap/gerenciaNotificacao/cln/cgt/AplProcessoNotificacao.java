@@ -143,6 +143,7 @@ public class AplProcessoNotificacao {
 
         try {
             notificacao.addComentario(comentario);
+
             return notificacaoRepository.save(notificacao);
         } catch (Exception e) {
             validarProcesso(notificacao);

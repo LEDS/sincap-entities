@@ -19,7 +19,7 @@ import static javax.persistence.TemporalType.TIMESTAMP;
 @Getter
 @EqualsAndHashCode(callSuper = true)
 @Entity
-public class Comentario extends ObjetoPersistente  {
+public class Comentario extends ObjetoPersistente{
 
     @OneToOne
     private Funcionario funcionario;

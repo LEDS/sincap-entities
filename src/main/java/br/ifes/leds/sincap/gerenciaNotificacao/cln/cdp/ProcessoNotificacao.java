@@ -123,12 +123,14 @@ public class ProcessoNotificacao extends ObjetoPersistente implements ProcessoNo
      * @param comentario O comentário que será incluído na lista de comentários
      */
     public void addComentario(Comentario comentario){
+
         if(this.comentarios == null){
+
             this.comentarios = new HashSet<>();
         }
+
         this.comentarios.add(comentario);
     }
-
 
     /**
      * Sobrescreve o get original para retornar uma lista imutável.
@@ -180,4 +182,27 @@ public class ProcessoNotificacao extends ObjetoPersistente implements ProcessoNo
     public void setHistorico(List<AtualizacaoEstado> historico) {
         this.historico = new HashSet<>(historico);
     }
+
+    public List<Comentario> getComentarios()
+    {
+        if (this.comentarios != null){
+            return new ArrayList<>(this.comentarios);
+        }
+        else{
+            return new ArrayList<Comentario>();
+        }
+    }
+
+    public void setComentarios (List<Comentario> comentarios)
+    {
+        if (this.comentarios != null)
+        {
+            this.comentarios.addAll(comentarios);
+        }
+        else{
+
+            this.comentarios = new HashSet<>(comentarios);
+        }
+    }
+
 }

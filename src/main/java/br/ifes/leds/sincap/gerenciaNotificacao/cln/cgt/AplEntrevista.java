@@ -12,6 +12,7 @@ import br.ifes.leds.sincap.gerenciaNotificacao.cgd.CausaNaoDoacaoRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.EntrevistaRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ProcessoNotificacaoRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.AtualizacaoEstado;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Comentario;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoNotificacaoEnum;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.ProcessoNotificacao;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.EntrevistaDTO;
@@ -65,6 +66,7 @@ public class AplEntrevista {
     }
 
     public ProcessoNotificacao salvarEntrevista(ProcessoNotificacaoDTO processoNotificacaoDTO, Long idFuncionario) {
+
         ProcessoNotificacao notificacaoBd;
 
         try {
@@ -73,7 +75,10 @@ public class AplEntrevista {
             throw new ViolacaoDeRIException(e);
         }
 
+
+
         ProcessoNotificacao notificacaoView = mapper.map(processoNotificacaoDTO, ProcessoNotificacao.class);
+
         notificacaoView.getObito().setDataObito(notificacaoBd.getObito().getDataObito());
 
         if (notificacaoView.getCausaNaoDoacao() != null && notificacaoView.getCausaNaoDoacao().getId() != null) {
@@ -92,6 +97,7 @@ public class AplEntrevista {
         addNovoEstado(AGUARDANDOANALISEENTREVISTA, notificacaoBd, idFuncionario);
         notificacaoBd.setCausaNaoDoacao(notificacaoView.getCausaNaoDoacao());
         notificacaoBd.setEntrevista(notificacaoView.getEntrevista());
+        notificacaoBd.addComentario(notificacaoView.getComentarios().get(0));
 
         verificaDataCadastro(notificacaoBd.getEntrevista());
 
