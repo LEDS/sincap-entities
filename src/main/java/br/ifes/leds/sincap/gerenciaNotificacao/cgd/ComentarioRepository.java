@@ -16,5 +16,4 @@ import java.util.List;
 @Transactional
 public interface ComentarioRepository extends JpaRepository<Comentario, Long> {
 
-    List<Comentario> findByProcessoId(Long idProcesso);
 }

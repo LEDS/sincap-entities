@@ -32,13 +32,4 @@ public class Comentario extends ObjetoPersistente  {
 
     @Column
     private String descricao;
-
-    @ManyToOne
-    @JoinTable(
-            name = "processonotificacao_comentario",
-            joinColumns = @JoinColumn(name = "comentarios_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "processonotificacao_id", referencedColumnName = "id")
-    )
-    @NotNull
-    private ProcessoNotificacao processo;
 }

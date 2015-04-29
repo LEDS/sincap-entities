@@ -65,7 +65,7 @@ public class AplEntrevista {
     }
 
     public ProcessoNotificacao salvarEntrevista(ProcessoNotificacaoDTO processoNotificacaoDTO, Long idFuncionario) {
-        final ProcessoNotificacao notificacaoBd;
+        ProcessoNotificacao notificacaoBd;
 
         try {
             notificacaoBd = notificacaoRepository.findOne(processoNotificacaoDTO.getId());
@@ -95,7 +95,7 @@ public class AplEntrevista {
 
         verificaDataCadastro(notificacaoBd.getEntrevista());
 
-        return notificacaoRepository.saveAndFlush(notificacaoBd);
+        return notificacaoRepository.save(notificacaoBd);
     }
 
     /**

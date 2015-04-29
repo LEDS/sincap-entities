@@ -142,8 +142,6 @@ public class AplProcessoNotificacao {
         notificacao.setCodigo(hospitalBd.getSigla() + notificacao.getObito().getPaciente().getNumeroProntuario());
 
         try {
-            notificacaoRepository.save(notificacao);
-            comentario.setProcesso(notificacao);
             notificacao.addComentario(comentario);
             return notificacaoRepository.save(notificacao);
         } catch (Exception e) {

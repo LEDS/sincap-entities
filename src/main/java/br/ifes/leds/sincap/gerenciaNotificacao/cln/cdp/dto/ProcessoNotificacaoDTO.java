@@ -46,4 +46,9 @@ public class ProcessoNotificacaoDTO implements ProcessoNotificacaoInterface {
     private Long notificador;
     private Long causaNaoDoacao;
     private AtualizacaoEstadoDTO ultimoEstado;
+
+    public void adicionarComentario (ComentarioDTO comentario)
+    {
+        this.comentarios.add(comentario);
+    }
 }

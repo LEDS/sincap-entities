@@ -15,10 +15,7 @@ import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoNotificacaoEnum.NOTIFICACAOEXCLUIDA;
 
@@ -56,7 +53,7 @@ public class ProcessoNotificacao extends ObjetoPersistente implements ProcessoNo
     
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @NotNull
-    private List<AtualizacaoEstado> historico;
+    private Set<AtualizacaoEstado> historico;
 
     @OneToOne
     private AtualizacaoEstado ultimoEstado;
@@ -82,8 +79,8 @@ public class ProcessoNotificacao extends ObjetoPersistente implements ProcessoNo
     @Valid
     private Captacao captacao;
 
-    @OneToMany(mappedBy = "processo", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Comentario> comentarios;
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Comentario> comentarios;
 
     @OneToOne
     @JoinColumn
@@ -112,7 +109,7 @@ public class ProcessoNotificacao extends ObjetoPersistente implements ProcessoNo
      */
     public void mudarEstadoAtual(AtualizacaoEstado estado) {
         if (this.historico == null) {
-            this.historico = new ArrayList<>();
+            this.historico = new HashSet<>();
         }
 
         this.ultimoEstado = estado;
@@ -127,7 +124,7 @@ public class ProcessoNotificacao extends ObjetoPersistente implements ProcessoNo
      */
     public void addComentario(Comentario comentario){
         if(this.comentarios == null){
-            this.comentarios = new ArrayList<>();
+            this.comentarios = new HashSet<>();
         }
         this.comentarios.add(comentario);
     }
@@ -141,7 +138,7 @@ public class ProcessoNotificacao extends ObjetoPersistente implements ProcessoNo
      */
     @SuppressWarnings("unused")
     public List<AtualizacaoEstado> getHistorico() {
-        return Collections.unmodifiableList(this.historico);
+        return Collections.unmodifiableList(new ArrayList<>(this.historico));
     }
 
     /**
@@ -153,7 +150,13 @@ public class ProcessoNotificacao extends ObjetoPersistente implements ProcessoNo
      */
     @SuppressWarnings("unused")
     public List<AtualizacaoEstado> getHistoricoModificavel() {
-        return this.historico;
+
+        if (this.historico !=null){
+            return new ArrayList<>(this.historico);
+        }
+
+        return new ArrayList<>();
+
     }
 
     /**
@@ -165,12 +168,16 @@ public class ProcessoNotificacao extends ObjetoPersistente implements ProcessoNo
      */
     @SuppressWarnings("unused")
     public void setHistoricoModificavel(List<AtualizacaoEstado> historico) {
-        this.setHistorico(historico);
+        this.historico = new HashSet<>(historico);
     }
 
     @Override
     @NotNull(message = "{EntrevistaValida.processoSemId}", groups = {EntrevistaNaoRealizada.class, EntrevistaRealizadaDoacaoAutorizada.class, EntrevistaRealizadaDoacaoNaoAutorizada.class})
     public Long getId() {
         return super.getId();
+    }
+
+    public void setHistorico(List<AtualizacaoEstado> historico) {
+        this.historico = new HashSet<>(historico);
     }
 }
