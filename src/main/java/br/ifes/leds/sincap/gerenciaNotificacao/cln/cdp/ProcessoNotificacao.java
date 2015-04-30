@@ -79,6 +79,7 @@ public class ProcessoNotificacao extends ObjetoPersistente implements ProcessoNo
     @Valid
     private Captacao captacao;
 
+    @OrderBy(value = "dataComentario DESC")
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Comentario> comentarios;
 
