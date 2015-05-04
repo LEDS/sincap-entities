@@ -97,8 +97,10 @@ public class AplEntrevista {
         addNovoEstado(AGUARDANDOANALISEENTREVISTA, notificacaoBd, idFuncionario);
         notificacaoBd.setCausaNaoDoacao(notificacaoView.getCausaNaoDoacao());
         notificacaoBd.setEntrevista(notificacaoView.getEntrevista());
-        notificacaoBd.addComentario(notificacaoView.getComentarios().get(0));
 
+        if(!notificacaoView.getComentarios().isEmpty()) {
+            notificacaoBd.addComentario(notificacaoView.getComentarios().get(0));
+        }
         verificaDataCadastro(notificacaoBd.getEntrevista());
 
         return notificacaoRepository.save(notificacaoBd);
