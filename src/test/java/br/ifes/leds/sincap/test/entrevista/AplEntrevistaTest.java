@@ -80,6 +80,9 @@ public class AplEntrevistaTest extends AbstractionTest {
         notificacaoDTO.setCausaNaoDoacao(recusaFamiliar());
         notificacaoDTO.setEntrevista(entrevistaRealizadaDTO());
         notificacaoDTO.getEntrevista().setDoacaoAutorizada(nao);
+        notificacaoDTO.getEntrevista().setResponsavel(responsavelDTO());
+        notificacaoDTO.getEntrevista().setTestemunha1(testemunhaDTO());
+        notificacaoDTO.getEntrevista().setTestemunha2(testemunhaDTO());
 
         final ProcessoNotificacao notificacaoSalva = aplEntrevista.salvarEntrevista(notificacaoDTO, 1L);
 

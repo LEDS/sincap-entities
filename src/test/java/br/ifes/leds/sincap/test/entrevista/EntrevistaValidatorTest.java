@@ -146,6 +146,9 @@ public class EntrevistaValidatorTest extends AbstractionTest {
         processoNotificacao.getCausaNaoDoacao().setTipoNaoDoacao(RECUSA_FAMILIAR);
         processoNotificacao.setEntrevista(util.entrevistaRealizada());
         processoNotificacao.getEntrevista().setDoacaoAutorizada(nao);
+        processoNotificacao.getEntrevista().setResponsavel(new Responsavel());
+        processoNotificacao.getEntrevista().setTestemunha1(new Testemunha());
+        processoNotificacao.getEntrevista().setTestemunha2(new Testemunha());
 
         final Set<ConstraintViolation<ProcessoNotificacao>> violations = validator.validate(processoNotificacao, EntrevistaRealizadaDoacaoNaoAutorizada.class);
 
