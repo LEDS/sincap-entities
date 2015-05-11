@@ -6,6 +6,7 @@ import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.interfaces.PacienteInterf
 import br.ifes.leds.sincap.validacao.annotations.DatasPacienteConsistentes;
 import br.ifes.leds.sincap.validacao.groups.entrevista.EntrevistaRealizadaDoacaoAutorizada;
 import br.ifes.leds.sincap.validacao.groups.entrevista.EntrevistaRealizadaDoacaoNaoAutorizada;
+import br.ifes.leds.sincap.validacao.groups.obito.ObitoPNI;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -38,7 +39,7 @@ public class Paciente extends Pessoa implements PacienteInterface {
 
     @Temporal(TemporalType.TIMESTAMP)
     @Past(groups = {EntrevistaRealizadaDoacaoAutorizada.class, EntrevistaRealizadaDoacaoNaoAutorizada.class})
-    @NotNull(groups = {EntrevistaRealizadaDoacaoAutorizada.class, EntrevistaRealizadaDoacaoNaoAutorizada.class})
+    @NotNull(groups = {EntrevistaRealizadaDoacaoAutorizada.class, EntrevistaRealizadaDoacaoNaoAutorizada.class,ObitoPNI.class})
     private Calendar dataNascimento;
 
     @Column
@@ -46,7 +47,7 @@ public class Paciente extends Pessoa implements PacienteInterface {
     private String profissao;
 
     @Length(min = 3, max = 255)
-    @NotNull(groups = {EntrevistaRealizadaDoacaoAutorizada.class, EntrevistaRealizadaDoacaoNaoAutorizada.class})
+    @NotNull(groups = {EntrevistaRealizadaDoacaoAutorizada.class, EntrevistaRealizadaDoacaoNaoAutorizada.class,ObitoPNI.class})
     @Column
     private String nomeMae;
 
@@ -59,7 +60,7 @@ public class Paciente extends Pessoa implements PacienteInterface {
     private String numeroProntuario;
 
     @Length(min = 3, max = 255, groups = {EntrevistaRealizadaDoacaoAutorizada.class, EntrevistaRealizadaDoacaoNaoAutorizada.class})
-    @NotNull(groups = {EntrevistaRealizadaDoacaoAutorizada.class, EntrevistaRealizadaDoacaoNaoAutorizada.class})
+    @NotNull(groups = {EntrevistaRealizadaDoacaoAutorizada.class, EntrevistaRealizadaDoacaoNaoAutorizada.class,ObitoPNI.class})
     @Column
     private String numeroSUS;
 
@@ -68,7 +69,7 @@ public class Paciente extends Pessoa implements PacienteInterface {
     @Column
     private String nacionalidade;
 
-    @NotNull(groups = {EntrevistaRealizadaDoacaoAutorizada.class, EntrevistaRealizadaDoacaoNaoAutorizada.class})
+    @NotNull(groups = {EntrevistaRealizadaDoacaoAutorizada.class, EntrevistaRealizadaDoacaoNaoAutorizada.class, ObitoPNI.class})
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private DocumentoComFoto documentoSocial;
 
