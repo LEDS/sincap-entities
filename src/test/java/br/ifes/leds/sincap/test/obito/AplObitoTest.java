@@ -1,4 +1,4 @@
-package br.ifes.leds.sincap.test;
+package br.ifes.leds.sincap.test.obito;
 
 import br.ifes.leds.reuse.utility.Utility;
 import br.ifes.leds.reuse.utility.function.Function;
@@ -11,6 +11,7 @@ import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.ObitoDTO;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.PacienteDTO;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cgt.AplObito;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.util.dataFactory.PacienteData;
+import br.ifes.leds.sincap.test.AbstractionTest;
 import org.dozer.Mapper;
 import org.fluttercode.datafactory.impl.DataFactory;
 import org.junit.Before;
