@@ -13,6 +13,7 @@ import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ComentarioRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ProcessoNotificacaoRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.*;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.CaptacaoDTO;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.ComentarioDTO;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.ProcessoNotificacaoDTO;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.interfaces.DataCadastro;
 import org.dozer.Mapper;
@@ -120,13 +121,14 @@ public class AplProcessoNotificacao {
      *                               sera salva
      * @param idFuncionario          - Id do funcionario que criou a notificacao
      *
-     * @param comentario - Representa o comentário adicionado na view
+     * @param comentarioDTO - Representa o comentário adicionado na view
      * @return long - Retorna o id do ProcessoNotificacao salvo
      *
      */
-    public ProcessoNotificacao salvarNovaNotificacao(ProcessoNotificacaoDTO processoNotificacaoDTO, Long idFuncionario, Comentario comentario) {
+    public ProcessoNotificacao salvarNovaNotificacao(ProcessoNotificacaoDTO processoNotificacaoDTO, Long idFuncionario, ComentarioDTO comentarioDTO) {
 
         ProcessoNotificacao notificacao = instanciarNovoProcessoNotificacao(processoNotificacaoDTO);
+        Comentario comentario = mapearComentarioDTO(comentarioDTO);
 
         final Long idHospital = notificacao.getObito().getHospital().getId();
         final Hospital hospitalBd = aplHospital.obter(idHospital);
@@ -139,12 +141,9 @@ public class AplProcessoNotificacao {
 
         notificacao.setCodigo(hospitalBd.getSigla() + notificacao.getObito().getPaciente().getNumeroProntuario());
 
-        comentario.setMomento(retornaMomentoComentario(notificacao.getUltimoEstado().getEstadoNotificacao()));
-
         try {
-            notificacaoRepository.save(notificacao);
-            comentario.setProcesso(notificacao);
             notificacao.addComentario(comentario);
+
             return notificacaoRepository.save(notificacao);
         } catch (Exception e) {
             validarProcesso(notificacao);
@@ -214,9 +213,9 @@ public class AplProcessoNotificacao {
      * recusar essa analise, dado a erros que haja na notificacao, por exemplo;
      * Voltar para o estado AGUARDANDOANALISEOBITO.
      */
-    public Long recusarAnaliseObito(ProcessoNotificacaoDTO processoNotificacaoDTO, Long idFuncionario,Comentario comentario) {
+    public Long recusarAnaliseObito(ProcessoNotificacaoDTO processoNotificacaoDTO, Long idFuncionario) {
 
-        return this.addNovoEstadoNoProcessoNotificacao(processoNotificacaoDTO, EstadoNotificacaoEnum.AGUARDANDOCORRECAOOBITO, idFuncionario,comentario);
+        return this.addNovoEstadoNoProcessoNotificacao(processoNotificacaoDTO, EstadoNotificacaoEnum.AGUARDANDOCORRECAOOBITO, idFuncionario);
     }
 
     /**
@@ -224,23 +223,18 @@ public class AplProcessoNotificacao {
      * uma das opcoes eh aceitar essa analise,
      * logo, o estado muda para AGUARDANDOENTREVISTA.
      */
-    public Long validarAnaliseObito(ProcessoNotificacaoDTO processoNotificacaoDTO, Long idFuncionario) {
-        Long situacao;
-
+    public void validarAnaliseObito(ProcessoNotificacaoDTO processoNotificacaoDTO, Long idFuncionario) {
 
         if (processoNotificacaoDTO.getCausaNaoDoacao() == null) {
-            situacao = this.addNovoEstadoNoProcessoNotificacao(
+           this.addNovoEstadoNoProcessoNotificacao(
                     processoNotificacaoDTO,
                     EstadoNotificacaoEnum.AGUARDANDOENTREVISTA,
                     idFuncionario);
         } else {
-            situacao = this.addNovoEstadoNoProcessoNotificacao(
+           this.addNovoEstadoNoProcessoNotificacao(
                     processoNotificacaoDTO,
                     EstadoNotificacaoEnum.AGUARDANDOARQUIVAMENTO,
-                    idFuncionario);
-        }
-
-        return situacao;
+                    idFuncionario);        }
     }
 
     /**
@@ -330,7 +324,7 @@ public class AplProcessoNotificacao {
                                                     EstadoNotificacaoEnum enumEstado,
                                                     Long idFuncionario) {
 
-        ProcessoNotificacao notificacao = notificacaoRepository.findOne(processoNotificacaoDTO.getId());
+        ProcessoNotificacao notificacao = this.mapearProcessoNotificacaoDTO(processoNotificacaoDTO);
 
         this.addNovoEstado(enumEstado, notificacao, idFuncionario);
 
@@ -339,6 +333,10 @@ public class AplProcessoNotificacao {
     private ProcessoNotificacao mapearProcessoNotificacaoDTO(ProcessoNotificacaoDTO processoNotificacaoDTO) {
 
         return mapper.map(processoNotificacaoDTO, ProcessoNotificacao.class);
+    }
+
+    private Comentario mapearComentarioDTO(ComentarioDTO comentarioDTO){
+        return mapper.map(comentarioDTO, Comentario.class);
     }
 
     public void addNovoEstado(EstadoNotificacaoEnum enumEstado, ProcessoNotificacao processo, Long idFuncionario) {
@@ -405,8 +403,8 @@ public class AplProcessoNotificacao {
      */
     public ProcessoNotificacaoDTO obter(Long id) {
         ProcessoNotificacao processoNotificacao = getProcessoNotificacao(id);
-
-        return mapper.map(processoNotificacao, ProcessoNotificacaoDTO.class);
+        ProcessoNotificacaoDTO processoNotificacaoDTO = mapper.map(processoNotificacao, ProcessoNotificacaoDTO.class);
+        return processoNotificacaoDTO;
     }
 
     public ProcessoNotificacao getProcessoNotificacao(Long id) {
@@ -601,6 +599,7 @@ public class AplProcessoNotificacao {
         }
 
         notificacaoASerRetornada.setObito(notificacaoDTO.getObito());
+        notificacaoASerRetornada.setComentarios(notificacaoDTO.getComentarios());
 
         verificaCausaNaoDoacao(notificacaoASerRetornada, notificacaoDTO);
 

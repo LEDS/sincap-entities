@@ -7,9 +7,7 @@ import lombok.experimental.Builder;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
+import java.util.*;
 
 /**
  *
@@ -39,11 +37,22 @@ public class ProcessoNotificacaoDTO implements ProcessoNotificacaoInterface {
     private Calendar dataAbertura;
 
     private List<AtualizacaoEstadoDTO> historico = new ArrayList<>();
-    private List<ComentarioDTO> comentarios = new ArrayList<>();
+    private List<ComentarioDTO> comentarios = new  ArrayList<>();
+
     private String codigo;
+
     private Calendar dataArquivamento;
+
     private boolean arquivado;
+
     private Long notificador;
+
     private Long causaNaoDoacao;
+
     private AtualizacaoEstadoDTO ultimoEstado;
+
+    public void adicionarComentario (ComentarioDTO comentario)
+    {
+        this.comentarios.add(comentario);
+    }
 }
