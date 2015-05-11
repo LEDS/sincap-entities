@@ -7,6 +7,8 @@ import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.interfaces.ObitoInterface
 import br.ifes.leds.sincap.validacao.annotations.DatasObitoConsistentes;
 import br.ifes.leds.sincap.validacao.groups.entrevista.EntrevistaRealizadaDoacaoAutorizada;
 import br.ifes.leds.sincap.validacao.groups.entrevista.EntrevistaRealizadaDoacaoNaoAutorizada;
+import br.ifes.leds.sincap.validacao.groups.obito.ObitoEncaminhado;
+import br.ifes.leds.sincap.validacao.groups.obito.ObitoNaoEncaminhado;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,6 +17,7 @@ import org.joda.time.DateTime;
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import javax.validation.constraints.Past;
 import java.util.Calendar;
 
@@ -52,17 +55,21 @@ public class Obito extends ObjetoPersistente implements ObitoInterface {
     private CorpoEncaminhamento corpoEncaminhamento;
 
     @OneToOne(cascade = {CascadeType.ALL}, orphanRemoval = true)
-    @NotNull
+    @NotNull(groups = ObitoNaoEncaminhado.class)
+    @Null(groups = ObitoEncaminhado.class)
     private CausaMortis primeiraCausaMortis;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @NotNull
+    @Null(groups = ObitoEncaminhado.class)
     private CausaMortis segundaCausaMortis;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @Null(groups = ObitoEncaminhado.class)
     private CausaMortis terceiraCausaMortis;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @Null(groups = ObitoEncaminhado.class)
     private CausaMortis quartaCausaMortis;
 
     @JoinColumn(nullable = false)
