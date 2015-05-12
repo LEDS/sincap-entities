@@ -8,7 +8,7 @@ import static junit.framework.Assert.assertTrue;
 public class AplObitoTest extends AbstractionTest {
 
     @Test
-    public void test_validacao_novo_obito_pni_nao_encaminhado_apto_dados_validos() throws Exception {
+    public void testVoid() throws Exception {
         assertTrue(true);
     }
 }

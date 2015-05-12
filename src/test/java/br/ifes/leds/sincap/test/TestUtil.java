@@ -14,6 +14,7 @@ import java.util.Random;
 import static br.ifes.leds.sincap.controleInterno.cln.cdp.Sexo.MASCULINO;
 import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoCivil.SOLTEIRO;
 import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoDocumentoComFoto.RG;
+import static java.util.Calendar.HOUR_OF_DAY;
 
 public abstract class TestUtil {
     public static final boolean sim = true;
@@ -70,6 +71,14 @@ public abstract class TestUtil {
         ontem.set(Calendar.DAY_OF_MONTH, ontem.get(Calendar.DAY_OF_MONTH) - 1);
 
         return ontem;
+    }
+
+    public static Calendar haDuasHoras() {
+        final Calendar haDuasHoras = hoje();
+
+        haDuasHoras.set(HOUR_OF_DAY, haDuasHoras.get(HOUR_OF_DAY) - 3);
+
+        return haDuasHoras;
     }
 
     public static Calendar haDezMeses() {

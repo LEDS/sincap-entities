@@ -36,7 +36,7 @@ public class EntrevistaValidatorTest extends AbstractionTest {
 
     @BeforeClass
     public static void setUp() {
-        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        final ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
     }
 
