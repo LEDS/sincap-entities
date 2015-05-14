@@ -93,6 +93,7 @@ public class AplObito {
 
     public static void validarObito(ProcessoNotificacao processo){
         Set<ConstraintViolation<ProcessoNotificacao>> violations;
+
         if(processo.getHistorico().isEmpty()){
             //validações do novo processo.
             if(processo.getId() != null){
@@ -107,19 +108,17 @@ public class AplObito {
             } else{
                 if(processo.getObito().getPaciente().getDocumentoSocial().getTipoDocumentoComFoto().equals("PNI")){
                     violations = validator.validate(processo, ObitoPNI.class);
-                } else {
-                    if(processo.getObito().getCorpoEncaminhamento().equals("NAO_ENCAMINHADO")){
-                        violations = validator.validate(processo, ObitoNaoEncaminhado.class);
-                    } else {
-                        violations = validator.validate(processo, ObitoEncaminhado.class);
-                        if(processo.getObito().isAptoDoacao()){
-                            violations = validator.validate(processo, ObitoApto.class);
-                        } else {
-                            violations = validator.validate(processo, ObitoInapto.class);
-                        }
-                    }
                 }
-
+                if(processo.getObito().getCorpoEncaminhamento().equals("NAO_ENCAMINHADO")){
+                    violations = validator.validate(processo, ObitoNaoEncaminhado.class);
+                } else {
+                    violations = validator.validate(processo, ObitoEncaminhado.class);
+                }
+                if(processo.getObito().isAptoDoacao()){
+                    violations = validator.validate(processo, ObitoApto.class);
+                } else {
+                    violations = validator.validate(processo, ObitoInapto.class);
+                }
             }
         }
     }
