@@ -55,7 +55,7 @@ public class Obito extends ObjetoPersistente implements ObitoInterface {
     private CorpoEncaminhamento corpoEncaminhamento;
 
     @OneToOne(cascade = {CascadeType.ALL}, orphanRemoval = true)
-    @NotNull(groups = ObitoNaoEncaminhado.class)
+    @NotNull(message ="{ObitoValido.naoEncaminhado}",groups = ObitoNaoEncaminhado.class)
     @Null(message ="{ObitoValido.encaminhado}", groups = ObitoEncaminhado.class)
     private CausaMortis primeiraCausaMortis;
 

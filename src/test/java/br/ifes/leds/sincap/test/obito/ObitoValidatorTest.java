@@ -3,10 +3,7 @@ package br.ifes.leds.sincap.test.obito;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CorpoEncaminhamento;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.ProcessoNotificacao;
 import br.ifes.leds.sincap.test.AbstractionTest;
-import br.ifes.leds.sincap.validacao.groups.obito.NotificacaoSalva;
-import br.ifes.leds.sincap.validacao.groups.obito.NovaNotificacao;
-import br.ifes.leds.sincap.validacao.groups.obito.ObitoEncaminhado;
-import br.ifes.leds.sincap.validacao.groups.obito.ObitoPNI;
+import br.ifes.leds.sincap.validacao.groups.obito.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -18,6 +15,7 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import java.util.Set;
 
+import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CorpoEncaminhamento.NAO_ENCAMINHADO;
 import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CorpoEncaminhamento.SVO;
 import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoDocumentoComFoto.PNI;
 import static br.ifes.leds.sincap.test.TestUtil.*;
@@ -100,5 +98,23 @@ public class ObitoValidatorTest extends AbstractionTest {
 
         assertThat("Quando um obito é encaminhado a primeira causa não é obrigatória.",
                 temErro(violations, "Primeira causa não é obrigatória."), is(true));
+    }
+
+    @Test
+    public void testValidacaoObitoPniNaoEncaminhadoApto() throws Exception{
+        processoComObitoValido.getObito().setDataObito(haDuasHoras());
+        processoComObitoValido.getObito().getPaciente().getDocumentoSocial().setDocumento(null);
+        processoComObitoValido.getObito().getPaciente().getDocumentoSocial().setTipoDocumentoComFoto(PNI);
+        processoComObitoValido.getObito().setCorpoEncaminhamento(NAO_ENCAMINHADO);
+        processoComObitoValido.getObito().setPrimeiraCausaMortis(null);
+        processoComObitoValido.getObito().setSegundaCausaMortis(null);
+
+        final Set<ConstraintViolation<ProcessoNotificacao>> violations = validator.validate(processoComObitoValido, ObitoNaoEncaminhado.class);
+
+        assertThat("Primeira causa de Óbito é obrigatória.",
+                violations.size(), greaterThanOrEqualTo(1));
+
+        assertThat("Quando um obito  não é encaminhado a 1ª causa é obrigatória.",
+                temErro(violations, "Primeira causa é obrigatória."), is(true));
     }
 }
