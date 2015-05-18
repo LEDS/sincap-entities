@@ -7,6 +7,7 @@ import br.ifes.leds.sincap.validacao.annotations.DataEntrevistaObitoConsistentes
 import br.ifes.leds.sincap.validacao.groups.entrevista.EntrevistaNaoRealizada;
 import br.ifes.leds.sincap.validacao.groups.entrevista.EntrevistaRealizadaDoacaoAutorizada;
 import br.ifes.leds.sincap.validacao.groups.entrevista.EntrevistaRealizadaDoacaoNaoAutorizada;
+import br.ifes.leds.sincap.validacao.groups.obito.NotificacaoSalva;
 import br.ifes.leds.sincap.validacao.groups.obito.NovaNotificacao;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -176,7 +177,7 @@ public class ProcessoNotificacao extends ObjetoPersistente implements ProcessoNo
     }
 
     @Override
-    @NotNull(message = "{EntrevistaValida.processoSemId}", groups = {EntrevistaNaoRealizada.class, EntrevistaRealizadaDoacaoAutorizada.class, EntrevistaRealizadaDoacaoNaoAutorizada.class})
+    @NotNull(message = "{EntrevistaValida.processoSemId}", groups = {EntrevistaNaoRealizada.class, EntrevistaRealizadaDoacaoAutorizada.class, EntrevistaRealizadaDoacaoNaoAutorizada.class, NotificacaoSalva.class})
     @Null(message = "{ObitoValido.processoComId}", groups = NovaNotificacao.class)
     public Long getId() {
         return super.getId();
