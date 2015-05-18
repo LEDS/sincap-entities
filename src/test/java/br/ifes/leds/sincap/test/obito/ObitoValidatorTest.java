@@ -2,6 +2,8 @@ package br.ifes.leds.sincap.test.obito;
 
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.ProcessoNotificacao;
 import br.ifes.leds.sincap.test.AbstractionTest;
+import br.ifes.leds.sincap.validacao.groups.obito.NovaNotificacao;
+import org.hamcrest.Matchers;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,8 @@ import java.util.Set;
 
 import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoDocumentoComFoto.PNI;
 import static br.ifes.leds.sincap.test.TestUtil.haDuasHoras;
+import static br.ifes.leds.sincap.test.TestUtil.id;
+import static br.ifes.leds.sincap.test.TestUtil.temErro;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
@@ -31,15 +35,33 @@ public class ObitoValidatorTest extends AbstractionTest {
     }
 
     @Test
-    public void test_validacao_novo_obito_pni_nao_encaminhado_apto_dados_validos() throws Exception {
+    public void testValidacaoNovoObitoPniNaoEncaminhadoAptoDadosValidos() throws Exception {
         final ProcessoNotificacao obito = obitoTestUtil.processoComObitoValido();
 
         obito.getObito().setDataObito(haDuasHoras());
         obito.getObito().getPaciente().getDocumentoSocial().setDocumento(null);
         obito.getObito().getPaciente().getDocumentoSocial().setTipoDocumentoComFoto(PNI);
 
-        final Set<ConstraintViolation<ProcessoNotificacao>> violations = validator.validate(obito);
+        final Set<ConstraintViolation<ProcessoNotificacao>> violations = validator.validate(obito, NovaNotificacao.class);
 
         assertThat("Óbito não possui violações", violations, empty());
+    }
+
+    @Test
+    public void testValidacaoNovoObitoPniNaoEncaminhadoAptoIdProcessoPreenchido() throws Exception {
+        final ProcessoNotificacao obito = obitoTestUtil.processoComObitoValido();
+
+        obito.setId(id());
+        obito.getObito().setDataObito(haDuasHoras());
+        obito.getObito().getPaciente().getDocumentoSocial().setDocumento(null);
+        obito.getObito().getPaciente().getDocumentoSocial().setTipoDocumentoComFoto(PNI);
+
+        final Set<ConstraintViolation<ProcessoNotificacao>> violations = validator.validate(obito, NovaNotificacao.class);
+
+        assertThat("Id do processo está preenchido quando não deveria",
+                violations.size(), greaterThanOrEqualTo(1));
+
+        assertThat("Mensagem de erro está errada",
+                temErro(violations, "Id do processo de notificação está preenchida para uma nova notificação."), is(true));
     }
 }

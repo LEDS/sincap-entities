@@ -6,10 +6,8 @@ import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.*;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Locale;
-import java.util.Random;
+import javax.validation.ConstraintViolation;
+import java.util.*;
 
 import static br.ifes.leds.sincap.controleInterno.cln.cdp.Sexo.MASCULINO;
 import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoCivil.SOLTEIRO;
@@ -22,6 +20,15 @@ public abstract class TestUtil {
 
     @Autowired
     protected Mapper mapper;
+
+    public static boolean temErro(Set<ConstraintViolation<ProcessoNotificacao>> violations, String msgErro) {
+        boolean temErro = nao;
+        for (ConstraintViolation<ProcessoNotificacao> violation : violations) {
+            if (violation.getMessage().equals(msgErro))
+                temErro = sim;
+        }
+        return temErro;
+    }
 
     public ProcessoNotificacao processoComObitoValido() {
         final ProcessoNotificacaoDTO notificacaoDTO = processoComObitoValidoDTO();

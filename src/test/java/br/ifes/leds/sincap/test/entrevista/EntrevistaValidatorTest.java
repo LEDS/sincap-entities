@@ -5,6 +5,7 @@ import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.ProcessoNotificacao;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Responsavel;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Testemunha;
 import br.ifes.leds.sincap.test.AbstractionTest;
+import br.ifes.leds.sincap.test.TestUtil;
 import br.ifes.leds.sincap.validacao.groups.entrevista.EntrevistaNaoRealizada;
 import br.ifes.leds.sincap.validacao.groups.entrevista.EntrevistaPacienteMenorIdade;
 import br.ifes.leds.sincap.validacao.groups.entrevista.EntrevistaRealizadaDoacaoAutorizada;
@@ -107,7 +108,7 @@ public class EntrevistaValidatorTest extends AbstractionTest {
         processoNotificacao.setId(1L);
         processoNotificacao.setEntrevista(util.entrevistaNaoRealizada());
         final Set<ConstraintViolation<ProcessoNotificacao>> violations = validator.validate(processoNotificacao, EntrevistaNaoRealizada.class);
-        final boolean temErro = temErro(violations, "Causa da entrevista não ter sido realizada não informada");
+        final boolean temErro = TestUtil.temErro(violations, "Causa da entrevista não ter sido realizada não informada");
 
         assertTrue("Causa de não doação não validando.", temErro);
     }
@@ -119,7 +120,7 @@ public class EntrevistaValidatorTest extends AbstractionTest {
         processoNotificacao.setCausaNaoDoacao(new CausaNaoDoacao());
         processoNotificacao.getCausaNaoDoacao().setTipoNaoDoacao(RECUSA_FAMILIAR);
         final Set<ConstraintViolation<ProcessoNotificacao>> violations = validator.validate(processoNotificacao, EntrevistaNaoRealizada.class);
-        final boolean temErro = temErro(violations, "Causa da entrevista não ter sido realizada não informada");
+        final boolean temErro = TestUtil.temErro(violations, "Causa da entrevista não ter sido realizada não informada");
 
         assertTrue(temErro);
     }
@@ -134,7 +135,7 @@ public class EntrevistaValidatorTest extends AbstractionTest {
         processoNotificacao.getEntrevista().setTestemunha1(new Testemunha());
         processoNotificacao.getEntrevista().setTestemunha2(new Testemunha());
         final Set<ConstraintViolation<ProcessoNotificacao>> violations = validator.validate(processoNotificacao, EntrevistaNaoRealizada.class);
-        final boolean temErro = temErro(violations, "Campo testemunha 1 está preenchido");
+        final boolean temErro = TestUtil.temErro(violations, "Campo testemunha 1 está preenchido");
 
         assertTrue("Validação da entrevista não realizada com dados a mais está errada.", temErro);
     }
@@ -158,7 +159,7 @@ public class EntrevistaValidatorTest extends AbstractionTest {
         processoNotificacao.getObito().setPaciente(null);
 
         final Set<ConstraintViolation<ProcessoNotificacao>> violations = validator.validate(processoNotificacao, EntrevistaRealizadaDoacaoNaoAutorizada.class);
-        final boolean temErro = temErro(violations, "Entrevista realizada sem os dados do paciente");
+        final boolean temErro = TestUtil.temErro(violations, "Entrevista realizada sem os dados do paciente");
 
         assertTrue(temErro);
     }
@@ -182,7 +183,7 @@ public class EntrevistaValidatorTest extends AbstractionTest {
         processoNotificacao.getCausaNaoDoacao().setTipoNaoDoacao(PROBLEMAS_ESTRUTURAIS);
 
         final Set<ConstraintViolation<ProcessoNotificacao>> violations = validator.validate(processoNotificacao, EntrevistaRealizadaDoacaoNaoAutorizada.class);
-        final boolean temErro = temErro(violations, "Causa de recusa familiar não informada");
+        final boolean temErro = TestUtil.temErro(violations, "Causa de recusa familiar não informada");
 
         assertTrue(temErro);
     }
@@ -195,7 +196,7 @@ public class EntrevistaValidatorTest extends AbstractionTest {
         processoNotificacao.getCausaNaoDoacao().setTipoNaoDoacao(CONTRAINDICACAO_MEDICA);
 
         final Set<ConstraintViolation<ProcessoNotificacao>> violations = validator.validate(processoNotificacao, EntrevistaRealizadaDoacaoAutorizada.class);
-        final boolean temErro = temErro(violations, "Causa de não doação está definida mesmo com doação autorizada");
+        final boolean temErro = TestUtil.temErro(violations, "Causa de não doação está definida mesmo com doação autorizada");
 
         assertTrue(temErro);
     }
@@ -206,7 +207,7 @@ public class EntrevistaValidatorTest extends AbstractionTest {
         processoNotificacao.setEntrevista(util.entrevistaDoacaoAutorizada());
 
         final Set<ConstraintViolation<ProcessoNotificacao>> violations = validator.validate(processoNotificacao, EntrevistaRealizadaDoacaoAutorizada.class);
-        final boolean temErro = temErro(violations, "Causa de não doação está definida mesmo com doação autorizada");
+        final boolean temErro = TestUtil.temErro(violations, "Causa de não doação está definida mesmo com doação autorizada");
 
         assertFalse("Entrevista tem erro de causa de não doação quando não deveria", temErro);
     }
@@ -220,9 +221,9 @@ public class EntrevistaValidatorTest extends AbstractionTest {
         processoNotificacao.getEntrevista().setTestemunha2(null);
 
         final Set<ConstraintViolation<ProcessoNotificacao>> violations = validator.validate(processoNotificacao, EntrevistaRealizadaDoacaoAutorizada.class);
-        final boolean responsavel1 = temErro(violations, "Dados do responsável 1 não preenchidos");
-        final boolean testemunha1 = temErro(violations, "Dados da testemunha 1 não preenchidos");
-        final boolean testemunha2 = temErro(violations, "Dados da testemunha 2 não preenchidos");
+        final boolean responsavel1 = TestUtil.temErro(violations, "Dados do responsável 1 não preenchidos");
+        final boolean testemunha1 = TestUtil.temErro(violations, "Dados da testemunha 1 não preenchidos");
+        final boolean testemunha2 = TestUtil.temErro(violations, "Dados da testemunha 2 não preenchidos");
 
 
         assertEquals(3, violations.size());
@@ -264,15 +265,6 @@ public class EntrevistaValidatorTest extends AbstractionTest {
                 violations,
                 contains(hasProperty("message", is("Paciente menor de idade precisa de dois responsáveis")))
         );
-    }
-
-    static boolean temErro(Set<ConstraintViolation<ProcessoNotificacao>> violations, String msgErro) {
-        boolean temErro = nao;
-        for (ConstraintViolation<ProcessoNotificacao> violation : violations) {
-            if (violation.getMessage().equals(msgErro))
-                temErro = sim;
-        }
-        return temErro;
     }
 
 }
