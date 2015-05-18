@@ -1,9 +1,12 @@
 package br.ifes.leds.sincap.test.obito;
 
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CorpoEncaminhamento;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.ProcessoNotificacao;
 import br.ifes.leds.sincap.test.AbstractionTest;
 import br.ifes.leds.sincap.validacao.groups.obito.NotificacaoSalva;
 import br.ifes.leds.sincap.validacao.groups.obito.NovaNotificacao;
+import br.ifes.leds.sincap.validacao.groups.obito.ObitoEncaminhado;
+import br.ifes.leds.sincap.validacao.groups.obito.ObitoPNI;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -15,8 +18,10 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import java.util.Set;
 
+import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CorpoEncaminhamento.SVO;
 import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoDocumentoComFoto.PNI;
 import static br.ifes.leds.sincap.test.TestUtil.*;
+import static br.ifes.leds.sincap.test.obito.ObitoTestUtil.causaMortis;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 
@@ -80,5 +85,20 @@ public class ObitoValidatorTest extends AbstractionTest {
 
         assertThat("Mensagem de erro sobre atualização de processo sem id está errada",
                 temErro(violations, "Processo sem ID"), is(true));
+    }
+
+    @Test
+    public void testValidacaoObitoPniEncaminhadoApto() throws Exception{
+        processoComObitoValido.getObito().setDataObito(haDuasHoras());
+        processoComObitoValido.getObito().getPaciente().getDocumentoSocial().setDocumento(null);
+        processoComObitoValido.getObito().getPaciente().getDocumentoSocial().setTipoDocumentoComFoto(PNI);
+
+        final Set<ConstraintViolation<ProcessoNotificacao>> violations = validator.validate(processoComObitoValido, ObitoEncaminhado.class);
+
+        assertThat("Primeira causa de Óbito não é obrigatória.",
+                violations.size(), greaterThanOrEqualTo(1));
+
+        assertThat("Quando um obito é encaminhado a primeira causa não é obrigatória.",
+                temErro(violations, "Primeira causa não é obrigatória."), is(true));
     }
 }

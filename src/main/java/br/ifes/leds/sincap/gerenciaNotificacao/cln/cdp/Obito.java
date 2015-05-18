@@ -56,20 +56,20 @@ public class Obito extends ObjetoPersistente implements ObitoInterface {
 
     @OneToOne(cascade = {CascadeType.ALL}, orphanRemoval = true)
     @NotNull(groups = ObitoNaoEncaminhado.class)
-    @Null(groups = ObitoEncaminhado.class)
+    @Null(message ="{ObitoValido.encaminhado}", groups = ObitoEncaminhado.class)
     private CausaMortis primeiraCausaMortis;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @NotNull
-    @Null(groups = ObitoEncaminhado.class)
+    @Null(message ="{ObitoValido.encaminhado}", groups = ObitoEncaminhado.class)
     private CausaMortis segundaCausaMortis;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @Null(groups = ObitoEncaminhado.class)
+    @Null(message ="{ObitoValido.encaminhado}", groups = ObitoEncaminhado.class)
     private CausaMortis terceiraCausaMortis;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @Null(groups = ObitoEncaminhado.class)
+    @Null(message ="{ObitoValido.encaminhado}", groups = ObitoEncaminhado.class)
     private CausaMortis quartaCausaMortis;
 
     @JoinColumn(nullable = false)
