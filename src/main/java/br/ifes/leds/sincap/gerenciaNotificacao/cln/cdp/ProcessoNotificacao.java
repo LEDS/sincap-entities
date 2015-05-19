@@ -10,6 +10,7 @@ import br.ifes.leds.sincap.validacao.groups.entrevista.EntrevistaRealizadaDoacao
 import br.ifes.leds.sincap.validacao.groups.obito.NotificacaoSalva;
 import br.ifes.leds.sincap.validacao.groups.obito.NovaNotificacao;
 import br.ifes.leds.sincap.validacao.groups.obito.ObitoApto;
+import br.ifes.leds.sincap.validacao.groups.obito.ObitoInapto;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -94,8 +95,9 @@ public class ProcessoNotificacao extends ObjetoPersistente implements ProcessoNo
             @Null (message = "{EntrevistaValida.causaNaoDoacaoExiste}", groups = {EntrevistaRealizadaDoacaoAutorizada.class})
             })
     @NotNull.List({
-        @NotNull(message = "{EntrevistaValida.problemasEstruturais}", groups = {EntrevistaNaoRealizada.class}),
-        @NotNull(message = "{EntrevistaValida.recusaFamiliar}", groups = {EntrevistaRealizadaDoacaoNaoAutorizada.class})
+            @NotNull(message = "{ObitoValido.pacienteInapto}", groups = {ObitoInapto.class}),
+            @NotNull(message = "{EntrevistaValida.problemasEstruturais}", groups = {EntrevistaNaoRealizada.class}),
+            @NotNull(message = "{EntrevistaValida.recusaFamiliar}", groups = {EntrevistaRealizadaDoacaoNaoAutorizada.class})
     })
     private CausaNaoDoacao causaNaoDoacao;
 
