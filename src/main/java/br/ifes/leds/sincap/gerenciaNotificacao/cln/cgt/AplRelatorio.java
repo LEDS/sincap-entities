@@ -215,12 +215,31 @@ public class AplRelatorio {
         td.setData(processo.getObito().getDataObito());
         td.setHora(processo.getObito().getHorasObito());
         td.setNome(processo.getObito().getPaciente().getNome());
-        td.setIdade(processo.getObito().getIdadePaciente());
-        td.setCausaObito(processo.getObito().getPrimeiraCausaMortis().getNome());
-        td.setSetorObito(processo.getObito().getSetor().getNome());
+        if(processo.getObito().getIdadePaciente() == null){
+            td.setIdade(0);//idade nao informada
+        }
+        else{
+            td.setIdade(processo.getObito().getIdadePaciente());
+        }
+        if(td.getCausaNaoDoacao()==null){
+            td.setCausaObito("Não informado");
+        }
+        else{
+            td.setCausaObito(processo.getObito().getPrimeiraCausaMortis().getNome());
+        }
+
+        if(processo.getObito().getSetor().getNome()==null){
+            td.setSetorObito("Não informado.");
+        }
+        else {
+            td.setSetorObito(processo.getObito().getSetor().getNome());
+        }
         if(processo.getCausaNaoDoacao()!= null)
         {
             td.setCausaNaoDoacao(processo.getCausaNaoDoacao().getNome());
+        }
+        else{
+            td.setCausaNaoDoacao("Não informado.");
         }
 
         boolean b = (processo.getCaptacao() != null && processo.getCaptacao().isCaptacaoRealizada());
@@ -229,6 +248,8 @@ public class AplRelatorio {
             td.setDoaTecido("Não");
         else
             td.setDoaTecido("Sim");
+
+        td.setObservacao("Não informado"); //verificar o que seria essa observacao
 
         return td;
 
