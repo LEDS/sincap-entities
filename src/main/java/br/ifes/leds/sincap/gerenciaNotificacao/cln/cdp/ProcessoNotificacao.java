@@ -9,6 +9,7 @@ import br.ifes.leds.sincap.validacao.groups.entrevista.EntrevistaRealizadaDoacao
 import br.ifes.leds.sincap.validacao.groups.entrevista.EntrevistaRealizadaDoacaoNaoAutorizada;
 import br.ifes.leds.sincap.validacao.groups.obito.NotificacaoSalva;
 import br.ifes.leds.sincap.validacao.groups.obito.NovaNotificacao;
+import br.ifes.leds.sincap.validacao.groups.obito.ObitoApto;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -88,7 +89,10 @@ public class ProcessoNotificacao extends ObjetoPersistente implements ProcessoNo
     @OneToOne
     @JoinColumn
     @Valid
-    @Null(message = "{EntrevistaValida.causaNaoDoacaoExiste}", groups = {EntrevistaRealizadaDoacaoAutorizada.class})
+    @Null.List({
+            @Null (message = "{ObitoValido.pacienteApto}", groups = {ObitoApto.class}),
+            @Null (message = "{EntrevistaValida.causaNaoDoacaoExiste}", groups = {EntrevistaRealizadaDoacaoAutorizada.class})
+            })
     @NotNull.List({
         @NotNull(message = "{EntrevistaValida.problemasEstruturais}", groups = {EntrevistaNaoRealizada.class}),
         @NotNull(message = "{EntrevistaValida.recusaFamiliar}", groups = {EntrevistaRealizadaDoacaoNaoAutorizada.class})

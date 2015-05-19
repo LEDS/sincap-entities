@@ -2,6 +2,7 @@ package br.ifes.leds.sincap.test.obito;
 
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CorpoEncaminhamento;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.ProcessoNotificacao;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoNaoDoacao;
 import br.ifes.leds.sincap.test.AbstractionTest;
 import br.ifes.leds.sincap.validacao.groups.obito.*;
 import org.junit.Before;
@@ -18,8 +19,10 @@ import java.util.Set;
 import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CorpoEncaminhamento.NAO_ENCAMINHADO;
 import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CorpoEncaminhamento.SVO;
 import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoDocumentoComFoto.PNI;
+import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoNaoDoacao.CONTRAINDICACAO_MEDICA;
 import static br.ifes.leds.sincap.test.TestUtil.*;
 import static br.ifes.leds.sincap.test.obito.ObitoTestUtil.causaMortis;
+import static br.ifes.leds.sincap.test.obito.ObitoTestUtil.causaNaoDoacao;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 
@@ -117,4 +120,21 @@ public class ObitoValidatorTest extends AbstractionTest {
         assertThat("Quando um obito  não é encaminhado a 1ª causa é obrigatória.",
                 temErro(violations, "Primeira causa é obrigatória."), is(true));
     }
+
+    @Test
+    public void testValidacaoObitoApto() throws Exception{
+        processoComObitoValido.getObito().setDataObito(haDuasHoras());
+        processoComObitoValido.getObito().getPaciente().getDocumentoSocial().setDocumento(null);
+        processoComObitoValido.getObito().getPaciente().getDocumentoSocial().setTipoDocumentoComFoto(PNI);
+        processoComObitoValido.setCausaNaoDoacao(causaNaoDoacao());
+
+        final Set<ConstraintViolation<ProcessoNotificacao>> violations = validator.validate(processoComObitoValido, ObitoApto.class);
+
+        assertThat("Paciente apto não possui contra indicação médica.",
+                violations.size(), greaterThanOrEqualTo(1));
+
+        assertThat("Quando um paciente é apto, não possui contra indicação médica.",
+                temErro(violations, "Paciente apto com contra indicação médica."), is(true));
+    }
+
 }
