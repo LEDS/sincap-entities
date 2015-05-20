@@ -9,15 +9,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class ObitoTestUtil extends TestUtil {
 
-    static CausaMortis causaMortis(){
-        final CausaMortis  causa = new CausaMortis();
+    static CausaMortis causaMortis() {
+        final CausaMortis causa = new CausaMortis();
         causa.setNome("Causa 1");
 
         return causa;
     }
 
-    static CausaNaoDoacao causaNaoDoacao(){
-        final CausaNaoDoacao  causaNaoDoacao = new CausaNaoDoacao();
+    static CausaNaoDoacao causaNaoDoacao() {
+        final CausaNaoDoacao causaNaoDoacao = new CausaNaoDoacao();
         causaNaoDoacao.setNome("Causa não doação 1");
         causaNaoDoacao.setTipoNaoDoacao(TipoNaoDoacao.CONTRAINDICACAO_MEDICA);
 

@@ -59,9 +59,9 @@ public class AplEntrevistaTest extends AbstractionTest {
         assertThat(
                 "Nome do paciente não está atualizando",
                 notificacaoSalva.getObito().getPaciente(), allOf(
-                hasProperty("nome", is("Fulano de Tal")),
-                hasProperty("numeroProntuario", notNullValue())
-        ));
+                        hasProperty("nome", is("Fulano de Tal")),
+                        hasProperty("numeroProntuario", notNullValue())
+                ));
         assertThat(notificacaoSalva.getUltimoEstado(), hasProperty("estadoNotificacao", is(AGUARDANDOANALISEENTREVISTA)));
         assertThat(notificacaoSalva.getEntrevista(), allOf(
                 hasProperty("entrevistaRealizada", is(nao)),
