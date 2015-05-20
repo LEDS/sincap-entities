@@ -1,5 +1,5 @@
 package br.ifes.leds.sincap.validacao.groups.obito;
 
-public interface NovaNotificacao {
+public interface NovaNotificacao extends EtapaObito {
 
 }

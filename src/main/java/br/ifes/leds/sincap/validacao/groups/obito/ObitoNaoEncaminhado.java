@@ -1,5 +1,5 @@
 package br.ifes.leds.sincap.validacao.groups.obito;
 
-public interface ObitoNaoEncaminhado {
+public interface ObitoNaoEncaminhado extends EtapaObito {
 
 }
