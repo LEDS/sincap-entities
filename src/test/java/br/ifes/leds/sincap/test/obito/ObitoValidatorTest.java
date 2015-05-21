@@ -146,4 +146,20 @@ public class ObitoValidatorTest extends AbstractionTest {
         assertThat("Quando um paciente é inapto, deve ter uma contra indicação médica.",
                 temErro(violations, "Paciente inapto sem contra indicação médica."), is(true));
     }
+
+    @Test
+    public void testValidacaoDadosObrigatorios() throws Exception {
+        processoComObitoValido.getObito().setTipoObito(null);
+        processoComObitoValido.getObito().getPaciente().getDocumentoSocial().setTipoDocumentoComFoto(null);
+        processoComObitoValido.getObito().getPaciente().setDataInternacao(null);
+        processoComObitoValido.getObito().getPaciente().setNumeroProntuario(null);
+        processoComObitoValido.getObito().setDataObito(null);
+        processoComObitoValido.getObito().setSetor(null);
+        processoComObitoValido.getObito().setCorpoEncaminhamento(null);
+
+        final Set<ConstraintViolation<ProcessoNotificacao>> violations = validator.validate(processoComObitoValido, ObitoApto.class);
+
+        assertThat("Os dados obrigatórios de óbito estão sendo validados",
+                violations.size(), greaterThanOrEqualTo(7));
+    }
 }

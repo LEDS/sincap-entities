@@ -1,7 +1,9 @@
 package br.ifes.leds.sincap.test;
 
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CausaMortis;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CorpoEncaminhamento;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.ProcessoNotificacao;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoObito;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.*;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +12,10 @@ import javax.validation.ConstraintViolation;
 import java.util.*;
 
 import static br.ifes.leds.sincap.controleInterno.cln.cdp.Sexo.MASCULINO;
+import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CorpoEncaminhamento.NAO_ENCAMINHADO;
 import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.EstadoCivil.SOLTEIRO;
 import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoDocumentoComFoto.RG;
+import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoObito.PCR;
 import static java.util.Calendar.HOUR_OF_DAY;
 
 public abstract class TestUtil {
@@ -46,6 +50,8 @@ public abstract class TestUtil {
                         .dataObito(ontem())
                         .dataCadastro(hoje())
                         .aptoDoacao(sim)
+                        .tipoObito(PCR)
+                        .corpoEncaminhamento(NAO_ENCAMINHADO)
                         .primeiraCausaMortis(new CausaMortis("Causa mortis 1"))
                         .segundaCausaMortis(new CausaMortis("Causa mortis 2"))
                         .paciente(PacienteDTO.builder()
