@@ -106,7 +106,7 @@ public class AplObito {
                 violations = validator.validate(processo, NotificacaoSalva.class);
             } else {
                 if (processo.getObito().getPaciente().getDocumentoSocial().getTipoDocumentoComFoto() == PNI) {
-                    violations = validator.validate(processo, ObitoPNI.class);
+                    violations = validator.validate(processo, ObitoNaoPNI.class);
                 }
                 if (processo.getObito().getCorpoEncaminhamento() == NAO_ENCAMINHADO) {
                     violations = validator.validate(processo, ObitoNaoEncaminhado.class);

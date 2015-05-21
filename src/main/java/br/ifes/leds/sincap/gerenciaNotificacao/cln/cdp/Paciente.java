@@ -7,7 +7,7 @@ import br.ifes.leds.sincap.validacao.annotations.DatasPacienteConsistentes;
 import br.ifes.leds.sincap.validacao.groups.entrevista.EntrevistaRealizadaDoacaoAutorizada;
 import br.ifes.leds.sincap.validacao.groups.entrevista.EntrevistaRealizadaDoacaoNaoAutorizada;
 import br.ifes.leds.sincap.validacao.groups.obito.EtapaObito;
-import br.ifes.leds.sincap.validacao.groups.obito.ObitoPNI;
+import br.ifes.leds.sincap.validacao.groups.obito.ObitoNaoPNI;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -41,7 +41,7 @@ public class Paciente extends Pessoa implements PacienteInterface {
 
     @Temporal(TemporalType.TIMESTAMP)
     @Past(groups = {EntrevistaRealizadaDoacaoAutorizada.class, EntrevistaRealizadaDoacaoNaoAutorizada.class})
-    @NotNull(groups = {EntrevistaRealizadaDoacaoAutorizada.class, EntrevistaRealizadaDoacaoNaoAutorizada.class,ObitoPNI.class})
+    @NotNull(groups = {EntrevistaRealizadaDoacaoAutorizada.class, EntrevistaRealizadaDoacaoNaoAutorizada.class,ObitoNaoPNI.class})
     private Calendar dataNascimento;
 
     @Column
@@ -49,7 +49,7 @@ public class Paciente extends Pessoa implements PacienteInterface {
     private String profissao;
 
     @Length(min = 3, max = 255)
-    @NotNull(groups = {EntrevistaRealizadaDoacaoAutorizada.class, EntrevistaRealizadaDoacaoNaoAutorizada.class,ObitoPNI.class})
+    @NotNull(groups = {EntrevistaRealizadaDoacaoAutorizada.class, EntrevistaRealizadaDoacaoNaoAutorizada.class,ObitoNaoPNI.class})
     @Column
     private String nomeMae;
 
@@ -62,7 +62,7 @@ public class Paciente extends Pessoa implements PacienteInterface {
     private String numeroProntuario;
 
     @Length(min = 3, max = 255, groups = {EntrevistaRealizadaDoacaoAutorizada.class, EntrevistaRealizadaDoacaoNaoAutorizada.class})
-    @NotNull(groups = {EntrevistaRealizadaDoacaoAutorizada.class, EntrevistaRealizadaDoacaoNaoAutorizada.class,ObitoPNI.class})
+    @NotNull(groups = {EntrevistaRealizadaDoacaoAutorizada.class, EntrevistaRealizadaDoacaoNaoAutorizada.class,ObitoNaoPNI.class})
     @Column
     private String numeroSUS;
 
