@@ -2,6 +2,7 @@ package br.ifes.leds.sincap.test.obito;
 
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CausaMortis;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CausaNaoDoacao;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.ProcessoNotificacao;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoNaoDoacao;
 import br.ifes.leds.sincap.test.TestUtil;
 import org.springframework.stereotype.Service;

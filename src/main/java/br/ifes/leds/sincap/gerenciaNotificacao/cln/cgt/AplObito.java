@@ -1,13 +1,16 @@
 package br.ifes.leds.sincap.gerenciaNotificacao.cln.cgt;
 
+import br.ifes.leds.reuse.ledsExceptions.CRUDExceptions.ViolacaoDeRIException;
 import br.ifes.leds.reuse.utility.Utility;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ObitoRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.PacienteRepository;
+import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ProcessoNotificacaoRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Obito;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.Paciente;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.ProcessoNotificacao;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.ObitoDTO;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.PacienteDTO;
+import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.dto.ProcessoNotificacaoDTO;
 import br.ifes.leds.sincap.validacao.groups.obito.*;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +38,9 @@ public class AplObito {
     private Mapper mapper;
     @Autowired
     private Utility utility;
+    @Autowired
+    private ProcessoNotificacaoRepository notificacaoRepository;
+
     private static Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
     /**
@@ -90,6 +96,38 @@ public class AplObito {
         obitoRepository.save(obito);
     }
 
+    public ProcessoNotificacao salvarObito(ProcessoNotificacaoDTO processoNotificacaoDTO){
+
+        ProcessoNotificacao notificacao = mapearProcessoNotificacaoDTO(processoNotificacaoDTO);
+
+        try {
+            return notificacaoRepository.save(notificacao);
+        } catch (Exception e) {
+            validarProcesso(notificacao);
+            throw new ViolacaoDeRIException(e);
+        }
+    }
+
+    private ProcessoNotificacao mapearProcessoNotificacaoDTO(ProcessoNotificacaoDTO processoNotificacaoDTO) {
+
+        return mapper.map(processoNotificacaoDTO, ProcessoNotificacao.class);
+    }
+
+    /**
+     * Valida o processo de notificação, verificando as restrições anotadas nas classes
+     * que compõem um processo.
+     *
+     * @param notificacao O objeto a ser validado.
+     * @throws ViolacaoDeRIException É lançada caso haja alguma violação de RI.
+     */
+    private static void validarProcesso(ProcessoNotificacao notificacao) throws ViolacaoDeRIException {
+        Set<ConstraintViolation<ProcessoNotificacao>> constraintViolations;
+        constraintViolations = validator.validate(notificacao);
+
+        if (constraintViolations != null && constraintViolations.size() > 0) {
+            throw new ViolacaoDeRIException(constraintViolations);
+        }
+    }
     public static void validarObito(ProcessoNotificacao processo) {
         Set<ConstraintViolation<ProcessoNotificacao>> violations;
 
