@@ -12,7 +12,9 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoDocumentoComFoto.PNI;
+import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoDocumentoComFoto.RG;
 import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoNaoDoacao.PROBLEMAS_ESTRUTURAIS;
+import static br.ifes.leds.sincap.test.TestUtil.haVinteAnos;
 import static junit.framework.Assert.assertTrue;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
@@ -81,6 +83,36 @@ public class AplObitoTest extends AbstractionTest {
         );
     }
 
+    @Test
+    public void salvarObitoNaoPniNaoEncaminhadoAptoDadosValidos(){
+
+        final ProcessoNotificacao notificacao = notificacaoRepository.saveAndFlush(processoComObitoValido);
+        final ProcessoNotificacaoDTO notificacaoDTO = mapper.map(notificacao, ProcessoNotificacaoDTO.class);
+
+
+        final ProcessoNotificacao notificacaoSalva = aplObito.salvarObito(notificacaoDTO);
+
+        assertThat(notificacaoSalva, allOf(
+                        hasProperty("id", notNullValue()),
+                        hasProperty("causaNaoDoacao", isEmptyOrNullString()))
+        );
+
+        assertThat(notificacaoSalva.getObito().getPaciente(), allOf(
+                        hasProperty("nome", is("Paciente Obito 1")),
+                        hasProperty("dataNascimento", notNullValue()),
+                        hasProperty("nomeMae", is("Nome da Mãe")),
+                        hasProperty("numeroSUS", is("123456789")))
+        );
+
+        assertThat(notificacaoSalva.getObito().getPaciente().getDocumentoSocial(), allOf(
+                        hasProperty("documento", is("2131432")),
+                        hasProperty("tipoDocumentoComFoto", is(RG)))
+        );
+
+        assertThat(notificacaoSalva.getObito().getPrimeiraCausaMortis(), allOf(
+                        hasProperty("nome", is("Causa mortis 1")))
+        );
+    }
 
     @Test
     public void testVoid() throws Exception {

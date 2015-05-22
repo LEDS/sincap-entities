@@ -57,6 +57,7 @@ public abstract class TestUtil {
                         .paciente(PacienteDTO.builder()
                                 .dataInternacao(haDezMeses())
                                 .dataNascimento(haVinteAnos())
+                                .nome("Paciente Obito 1")
                                 .profissao("Alguma Profissão")
                                 .nomeMae("Nome da Mãe")
                                 .numeroProntuario("HOSP123456789")
