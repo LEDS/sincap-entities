@@ -29,6 +29,7 @@ import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoDocumentoComFo
 @Service
 public class AplObito {
 
+    private static Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
     @Autowired
     private PacienteRepository pacienteRepository;
     @Autowired
@@ -41,7 +42,51 @@ public class AplObito {
     @Autowired
     private ProcessoNotificacaoRepository notificacaoRepository;
 
-    private static Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+    /**
+     * Valida o processo de notificação, verificando as restrições anotadas nas classes
+     * que compõem um processo.
+     *
+     * @param notificacao O objeto a ser validado.
+     * @throws ViolacaoDeRIException É lançada caso haja alguma violação de RI.
+     */
+    private static void validarProcesso(ProcessoNotificacao notificacao) throws ViolacaoDeRIException {
+        Set<ConstraintViolation<ProcessoNotificacao>> constraintViolations;
+        constraintViolations = validator.validate(notificacao);
+
+        if (constraintViolations != null && constraintViolations.size() > 0) {
+            throw new ViolacaoDeRIException(constraintViolations);
+        }
+    }
+
+    public static void validarObito(ProcessoNotificacao processo) {
+        Set<ConstraintViolation<ProcessoNotificacao>> violations;
+
+        if (processo.getHistorico().isEmpty() && processo.getId() != null) {
+            violations = validator.validate(processo, NovaNotificacao.class);
+        }
+        //O processo já foi salvo ao menos uma vez
+        if (processo.getId() == null) {
+            //O processo necessita ter um id caso já exista.
+            violations = validator.validate(processo, NotificacaoSalva.class);
+        }
+        if (processo.getObito().getPaciente().getDocumentoSocial().getTipoDocumentoComFoto() == PNI) {
+            violations = validator.validate(processo, ObitoNaoPNI.class);
+        }
+        if (processo.getObito().getCorpoEncaminhamento() == NAO_ENCAMINHADO) {
+            violations = validator.validate(processo, ObitoNaoEncaminhado.class);
+        } else {
+            violations = validator.validate(processo, ObitoEncaminhado.class);
+        }
+        if (processo.getObito().isAptoDoacao()) {
+            violations = validator.validate(processo, ObitoApto.class);
+        } else {
+            violations = validator.validate(processo, ObitoInapto.class);
+        }
+
+        if (violations != null && !violations.isEmpty()) {
+            throw new ViolacaoDeRIException(violations);
+        }
+    }
 
     /**
      * Obtém todos os pacientes.
@@ -96,14 +141,14 @@ public class AplObito {
         obitoRepository.save(obito);
     }
 
-    public ProcessoNotificacao salvarObito(ProcessoNotificacaoDTO processoNotificacaoDTO){
+    public ProcessoNotificacao salvarObito(ProcessoNotificacaoDTO processoNotificacaoDTO) {
 
         ProcessoNotificacao notificacao = mapearProcessoNotificacaoDTO(processoNotificacaoDTO);
+        validarObito(notificacao);
 
         try {
             return notificacaoRepository.save(notificacao);
         } catch (Exception e) {
-            validarProcesso(notificacao);
             throw new ViolacaoDeRIException(e);
         }
     }
@@ -111,53 +156,6 @@ public class AplObito {
     private ProcessoNotificacao mapearProcessoNotificacaoDTO(ProcessoNotificacaoDTO processoNotificacaoDTO) {
 
         return mapper.map(processoNotificacaoDTO, ProcessoNotificacao.class);
-    }
-
-    /**
-     * Valida o processo de notificação, verificando as restrições anotadas nas classes
-     * que compõem um processo.
-     *
-     * @param notificacao O objeto a ser validado.
-     * @throws ViolacaoDeRIException É lançada caso haja alguma violação de RI.
-     */
-    private static void validarProcesso(ProcessoNotificacao notificacao) throws ViolacaoDeRIException {
-        Set<ConstraintViolation<ProcessoNotificacao>> constraintViolations;
-        constraintViolations = validator.validate(notificacao);
-
-        if (constraintViolations != null && constraintViolations.size() > 0) {
-            throw new ViolacaoDeRIException(constraintViolations);
-        }
-    }
-    public static void validarObito(ProcessoNotificacao processo) {
-        Set<ConstraintViolation<ProcessoNotificacao>> violations;
-
-        if (processo.getHistorico().isEmpty()) {
-            //validações do novo processo.
-            if (processo.getId() != null) {
-                //O processo necessita de ID nulo na primeira tentativa de salvar
-                violations = validator.validate(processo, NovaNotificacao.class);
-            }
-        } else {
-            //O processo já foi salvo ao menos uma vez
-            if (processo.getId() == null) {
-                //O processo necessita ter um id caso já exista.
-                violations = validator.validate(processo, NotificacaoSalva.class);
-            } else {
-                if (processo.getObito().getPaciente().getDocumentoSocial().getTipoDocumentoComFoto() == PNI) {
-                    violations = validator.validate(processo, ObitoNaoPNI.class);
-                }
-                if (processo.getObito().getCorpoEncaminhamento() == NAO_ENCAMINHADO) {
-                    violations = validator.validate(processo, ObitoNaoEncaminhado.class);
-                } else {
-                    violations = validator.validate(processo, ObitoEncaminhado.class);
-                }
-                if (processo.getObito().isAptoDoacao()) {
-                    violations = validator.validate(processo, ObitoApto.class);
-                } else {
-                    violations = validator.validate(processo, ObitoInapto.class);
-                }
-            }
-        }
     }
 
 }

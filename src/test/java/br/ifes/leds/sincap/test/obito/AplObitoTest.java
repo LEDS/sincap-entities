@@ -1,5 +1,6 @@
 package br.ifes.leds.sincap.test.obito;
 
+import br.ifes.leds.reuse.ledsExceptions.CRUDExceptions.ViolacaoDeRIException;
 import br.ifes.leds.sincap.gerenciaNotificacao.cgd.ProcessoNotificacaoRepository;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CausaNaoDoacao;
 import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CorpoEncaminhamento;
@@ -13,6 +14,8 @@ import org.dozer.Mapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.validation.ConstraintViolation;
 
 import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.CorpoEncaminhamento.SVO;
 import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoDocumentoComFoto.PNI;
@@ -73,6 +76,20 @@ public class AplObitoTest extends AbstractionTest {
         assertThat(notificacaoSalva.getObito().getPrimeiraCausaMortis(), allOf(
                         hasProperty("nome", is("Causa mortis 1")))
         );
+    }
+
+    @Test (expected = ViolacaoDeRIException.class)
+    public void salvarNovoObitoPniNaoEncaminhadoAptoException(){
+        processoComObitoValido.getObito().setId(null);
+        processoComObitoValido.getObito().getPaciente().getDocumentoSocial().setDocumento(null);
+        processoComObitoValido.getObito().getPaciente().getDocumentoSocial().setTipoDocumentoComFoto(PNI);
+        processoComObitoValido.getObito().setCorpoEncaminhamento(SVO);
+        processoComObitoValido.setCausaNaoDoacao(causaNaoDoacao);
+
+        final ProcessoNotificacao notificacao = notificacaoRepository.saveAndFlush(processoComObitoValido);
+        final ProcessoNotificacaoDTO notificacaoDTO = mapper.map(notificacao, ProcessoNotificacaoDTO.class);
+
+        final ProcessoNotificacao notificacaoSalva = aplObito.salvarObito(notificacaoDTO);
     }
 
     @Test
