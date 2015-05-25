@@ -7,6 +7,8 @@ import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoNaoDoacao;
 import br.ifes.leds.sincap.test.TestUtil;
 import org.springframework.stereotype.Service;
 
+import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoNaoDoacao.CONTRAINDICACAO_MEDICA;
+
 @Service
 public class ObitoTestUtil extends TestUtil {
 
@@ -20,7 +22,7 @@ public class ObitoTestUtil extends TestUtil {
     static CausaNaoDoacao causaNaoDoacao() {
         final CausaNaoDoacao causaNaoDoacao = new CausaNaoDoacao();
         causaNaoDoacao.setNome("Causa não doação 1");
-        causaNaoDoacao.setTipoNaoDoacao(TipoNaoDoacao.CONTRAINDICACAO_MEDICA);
+        causaNaoDoacao.setTipoNaoDoacao(CONTRAINDICACAO_MEDICA);
 
         return causaNaoDoacao;
     }
