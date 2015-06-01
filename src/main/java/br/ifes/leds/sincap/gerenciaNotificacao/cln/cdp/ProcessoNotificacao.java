@@ -7,6 +7,10 @@ import br.ifes.leds.sincap.validacao.annotations.DataEntrevistaObitoConsistentes
 import br.ifes.leds.sincap.validacao.groups.entrevista.EntrevistaNaoRealizada;
 import br.ifes.leds.sincap.validacao.groups.entrevista.EntrevistaRealizadaDoacaoAutorizada;
 import br.ifes.leds.sincap.validacao.groups.entrevista.EntrevistaRealizadaDoacaoNaoAutorizada;
+import br.ifes.leds.sincap.validacao.groups.obito.NotificacaoSalva;
+import br.ifes.leds.sincap.validacao.groups.obito.NovaNotificacao;
+import br.ifes.leds.sincap.validacao.groups.obito.ObitoApto;
+import br.ifes.leds.sincap.validacao.groups.obito.ObitoInapto;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -86,10 +90,14 @@ public class ProcessoNotificacao extends ObjetoPersistente implements ProcessoNo
     @OneToOne
     @JoinColumn
     @Valid
-    @Null(message = "{EntrevistaValida.causaNaoDoacaoExiste}", groups = {EntrevistaRealizadaDoacaoAutorizada.class})
+    @Null.List({
+            @Null (message = "{ObitoValido.pacienteApto}", groups = {ObitoApto.class}),
+            @Null (message = "{EntrevistaValida.causaNaoDoacaoExiste}", groups = {EntrevistaRealizadaDoacaoAutorizada.class})
+            })
     @NotNull.List({
-        @NotNull(message = "{EntrevistaValida.problemasEstruturais}", groups = {EntrevistaNaoRealizada.class}),
-        @NotNull(message = "{EntrevistaValida.recusaFamiliar}", groups = {EntrevistaRealizadaDoacaoNaoAutorizada.class})
+            @NotNull(message = "{ObitoValido.pacienteInapto}", groups = {ObitoInapto.class}),
+            @NotNull(message = "{EntrevistaValida.problemasEstruturais}", groups = {EntrevistaNaoRealizada.class}),
+            @NotNull(message = "{EntrevistaValida.recusaFamiliar}", groups = {EntrevistaRealizadaDoacaoNaoAutorizada.class})
     })
     private CausaNaoDoacao causaNaoDoacao;
 
@@ -175,7 +183,8 @@ public class ProcessoNotificacao extends ObjetoPersistente implements ProcessoNo
     }
 
     @Override
-    @NotNull(message = "{EntrevistaValida.processoSemId}", groups = {EntrevistaNaoRealizada.class, EntrevistaRealizadaDoacaoAutorizada.class, EntrevistaRealizadaDoacaoNaoAutorizada.class})
+    @NotNull(message = "{EntrevistaValida.processoSemId}", groups = {EntrevistaNaoRealizada.class, EntrevistaRealizadaDoacaoAutorizada.class, EntrevistaRealizadaDoacaoNaoAutorizada.class, NotificacaoSalva.class})
+    @Null(message = "{ObitoValido.processoComId}", groups = NovaNotificacao.class)
     public Long getId() {
         return super.getId();
     }

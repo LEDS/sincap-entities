@@ -51,6 +51,8 @@ public class AplProcessoNotificacao {
     @Autowired
     private AplHospital aplHospital;
     @Autowired
+    private AplObito aplObito;
+    @Autowired
     private FuncionarioRepository funcionarioRepository;
 
     private static Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
@@ -92,26 +94,7 @@ public class AplProcessoNotificacao {
      * @return long - Retorna o id do ProcessoNotificacao salvo
      */
     public ProcessoNotificacao salvarNovaNotificacao(ProcessoNotificacaoDTO processoNotificacaoDTO, Long idFuncionario) {
-
-        ProcessoNotificacao notificacao = instanciarNovoProcessoNotificacao(processoNotificacaoDTO);
-
-        final Long idHospital = notificacao.getObito().getHospital().getId();
-        final Hospital hospitalBd = aplHospital.obter(idHospital);
-
-        notificacao.setNotificador(criarNotificador(idFuncionario));
-
-        setDatasNovaNotificacao(notificacao);
-
-        this.addEstadoInicial(notificacao, idFuncionario);
-
-        notificacao.setCodigo(hospitalBd.getSigla() + notificacao.getObito().getPaciente().getNumeroProntuario());
-
-        try {
-            return notificacaoRepository.save(notificacao);
-        } catch (Exception e) {
-            validarProcesso(notificacao);
-            throw new ViolacaoDeRIException(e);
-        }
+        return aplObito.salvarNovaNotificacao(processoNotificacaoDTO, idFuncionario);
     }
 
     /**
@@ -126,41 +109,12 @@ public class AplProcessoNotificacao {
      *
      */
     public ProcessoNotificacao salvarNovaNotificacao(ProcessoNotificacaoDTO processoNotificacaoDTO, Long idFuncionario, ComentarioDTO comentarioDTO) {
+        return aplObito.salvarNovaNotificacao(processoNotificacaoDTO, idFuncionario, comentarioDTO);
 
-        ProcessoNotificacao notificacao = instanciarNovoProcessoNotificacao(processoNotificacaoDTO);
-        Comentario comentario = mapearComentarioDTO(comentarioDTO);
-
-        final Long idHospital = notificacao.getObito().getHospital().getId();
-        final Hospital hospitalBd = aplHospital.obter(idHospital);
-
-        notificacao.setNotificador(criarNotificador(idFuncionario));
-
-        setDatasNovaNotificacao(notificacao);
-
-        this.addEstadoInicial(notificacao, idFuncionario);
-
-        notificacao.setCodigo(hospitalBd.getSigla() + notificacao.getObito().getPaciente().getNumeroProntuario());
-
-        try {
-            notificacao.addComentario(comentario);
-
-            return notificacaoRepository.save(notificacao);
-        } catch (Exception e) {
-            validarProcesso(notificacao);
-            throw new ViolacaoDeRIException(e);
-        }
     }
 
     public ProcessoNotificacao salvarObito(ProcessoNotificacaoDTO processoNotificacaoDTO){
-
-        ProcessoNotificacao notificacao = mapearProcessoNotificacaoDTO(processoNotificacaoDTO);
-
-        try {
-            return notificacaoRepository.save(notificacao);
-        } catch (Exception e) {
-            validarProcesso(notificacao);
-            throw new ViolacaoDeRIException(e);
-        }
+        return aplObito.salvarObito(processoNotificacaoDTO);
     }
 
     /**

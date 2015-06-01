@@ -2,11 +2,13 @@ package br.ifes.leds.sincap.controleInterno.cln.cdp;
 
 import br.ifes.leds.reuse.endereco.cdp.Endereco;
 import br.ifes.leds.reuse.persistence.ObjetoPersistente;
+import br.ifes.leds.sincap.validacao.groups.obito.ObitoNaoPNI;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 /**
  * Pessoa.java
@@ -21,6 +23,7 @@ import javax.persistence.*;
 public abstract class Pessoa extends ObjetoPersistente {
 
     @Column
+    @NotNull(groups = {ObitoNaoPNI.class})
     private String nome;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)

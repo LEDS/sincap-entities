@@ -7,6 +7,9 @@ import br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.interfaces.ObitoInterface
 import br.ifes.leds.sincap.validacao.annotations.DatasObitoConsistentes;
 import br.ifes.leds.sincap.validacao.groups.entrevista.EntrevistaRealizadaDoacaoAutorizada;
 import br.ifes.leds.sincap.validacao.groups.entrevista.EntrevistaRealizadaDoacaoNaoAutorizada;
+import br.ifes.leds.sincap.validacao.groups.obito.EtapaObito;
+import br.ifes.leds.sincap.validacao.groups.obito.ObitoEncaminhado;
+import br.ifes.leds.sincap.validacao.groups.obito.ObitoNaoEncaminhado;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,9 +18,12 @@ import org.joda.time.DateTime;
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import javax.validation.constraints.Past;
+import javax.validation.groups.Default;
 import java.util.Calendar;
 
+import static javax.persistence.EnumType.STRING;
 import static org.joda.time.Hours.hoursBetween;
 import static org.joda.time.Years.yearsBetween;
 
@@ -35,7 +41,7 @@ import static org.joda.time.Years.yearsBetween;
 public class Obito extends ObjetoPersistente implements ObitoInterface {
 	
     @Temporal(TemporalType.TIMESTAMP)
-    @NotNull
+    @NotNull(groups = {Default.class, EtapaObito.class})
     @Past
     private Calendar dataObito; //Data e horario do obito
 
@@ -48,21 +54,26 @@ public class Obito extends ObjetoPersistente implements ObitoInterface {
     @NotNull
     private boolean aptoDoacao;
 
-    @Enumerated (EnumType.STRING)
+    @Enumerated (STRING)
+    @NotNull(groups = {Default.class, EtapaObito.class})
     private CorpoEncaminhamento corpoEncaminhamento;
 
     @OneToOne(cascade = {CascadeType.ALL}, orphanRemoval = true)
-    @NotNull
+    @NotNull(message ="{ObitoValido.naoEncaminhado}",groups = ObitoNaoEncaminhado.class)
+    @Null(message ="{ObitoValido.encaminhado}", groups = ObitoEncaminhado.class)
     private CausaMortis primeiraCausaMortis;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @NotNull
+    @Null(message ="{ObitoValido.encaminhado}", groups = ObitoEncaminhado.class)
     private CausaMortis segundaCausaMortis;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @Null(message ="{ObitoValido.encaminhado}", groups = ObitoEncaminhado.class)
     private CausaMortis terceiraCausaMortis;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @Null(message ="{ObitoValido.encaminhado}", groups = ObitoEncaminhado.class)
     private CausaMortis quartaCausaMortis;
 
     @JoinColumn(nullable = false)
@@ -75,13 +86,14 @@ public class Obito extends ObjetoPersistente implements ObitoInterface {
     private Paciente paciente;
 
     @OneToOne
-    @NotNull
+    @NotNull(groups = {Default.class, EtapaObito.class})
     private Setor setor;
 
     @OneToOne
     @NotNull
     private Hospital hospital;
 
+    @NotNull(groups = EtapaObito.class)
     private TipoObito tipoObito;
 
     @Override
