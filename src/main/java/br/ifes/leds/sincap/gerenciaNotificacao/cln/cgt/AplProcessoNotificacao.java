@@ -28,6 +28,7 @@ import javax.validation.Validator;
 import java.util.*;
 
 import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoDocumentoComFoto.PNI;
+import static br.ifes.leds.sincap.gerenciaNotificacao.cln.cdp.TipoNaoDoacao.RECUSA_FAMILIAR;
 
 /**
  * AplProcessoNotificacao.java
@@ -508,6 +509,10 @@ public class AplProcessoNotificacao {
                 processoNotificacao,
                 EstadoNotificacaoEnum.AGUARDANDOARQUIVAMENTO,
                 idFuncionario);
+    }
+
+    public List<ProcessoNotificacao> obterPorPacienteNomeComEntrevistaDoacaoNaoAutorizada(String searchString) {
+        return notificacaoRepository.findByObitoPacienteNomeContainingAndEntrevistaIsNotNullAndEntrevistaDoacaoAutorizadaFalseAndCausaNaoDoacaoTipoNaoDoacao(searchString, RECUSA_FAMILIAR);
     }
 
     public List<ProcessoNotificacao> obterPorPacienteNomeComEntrevistaDoacaoAutorizada(String searchString) {

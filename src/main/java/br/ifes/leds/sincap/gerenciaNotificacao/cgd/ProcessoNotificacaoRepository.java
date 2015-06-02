@@ -24,6 +24,8 @@ public interface ProcessoNotificacaoRepository extends JpaRepository<ProcessoNot
 
     public List<ProcessoNotificacao> findByObitoPacienteNomeContainingAndEntrevistaIsNotNullAndEntrevistaDoacaoAutorizadaTrue(String searchString);
 
+    public List<ProcessoNotificacao> findByObitoPacienteNomeContainingAndEntrevistaIsNotNullAndEntrevistaDoacaoAutorizadaFalse(String searchString);
+
     public List<ProcessoNotificacao> findByDataArquivamentoIsNullOrderByDataAberturaDesc();
 
     public List<ProcessoNotificacao> findByDataAberturaBetween(Calendar dataAberturaInicio, Calendar dataAberturaFim);
@@ -80,5 +82,6 @@ public interface ProcessoNotificacaoRepository extends JpaRepository<ProcessoNot
 
     public ProcessoNotificacao findByObito_id(Long id);
 
+    public List<ProcessoNotificacao> findByObitoPacienteNomeContainingAndEntrevistaIsNotNullAndEntrevistaDoacaoAutorizadaFalseAndCausaNaoDoacaoTipoNaoDoacao(String string, TipoNaoDoacao recusaFamiliar);
 }
 

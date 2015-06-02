@@ -52,8 +52,8 @@ public class Entrevista extends ObjetoPersistente implements EntrevistaInterface
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @Valid
     @ConvertGroup(from = EntrevistaRealizadaDoacaoAutorizada.class, to = Default.class)
-    @NotNull(message = "{EntrevistaValida.autorizada.responsavel1}", groups = EntrevistaRealizadaDoacaoAutorizada.class)
-    @Null(message = "{EntrevistaValida.responsavel1}", groups = {EntrevistaNaoRealizada.class, EntrevistaRealizadaDoacaoNaoAutorizada.class})
+    @NotNull(message = "{EntrevistaValida.autorizada.responsavel1}", groups = {EntrevistaRealizadaDoacaoAutorizada.class, EntrevistaRealizadaDoacaoNaoAutorizada.class})
+    @Null(message = "{EntrevistaValida.responsavel1}", groups = {EntrevistaNaoRealizada.class})
     private Responsavel responsavel;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
@@ -66,15 +66,15 @@ public class Entrevista extends ObjetoPersistente implements EntrevistaInterface
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @Valid
     @ConvertGroup(from = EntrevistaRealizadaDoacaoAutorizada.class, to = Default.class)
-    @NotNull(message = "{EntrevistaValida.autorizada.testemunha1}", groups = EntrevistaRealizadaDoacaoAutorizada.class)
-    @Null(message = "{EntrevistaValida.testemunha1}", groups = {EntrevistaNaoRealizada.class, EntrevistaRealizadaDoacaoNaoAutorizada.class})
+    @NotNull(message = "{EntrevistaValida.autorizada.testemunha1}", groups = {EntrevistaRealizadaDoacaoAutorizada.class, EntrevistaRealizadaDoacaoNaoAutorizada.class})
+    @Null(message = "{EntrevistaValida.testemunha1}", groups = EntrevistaNaoRealizada.class)
     private Testemunha testemunha1;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @Valid
     @ConvertGroup(from = EntrevistaRealizadaDoacaoAutorizada.class, to = Default.class)
-    @NotNull(message = "{EntrevistaValida.autorizada.testemunha2}", groups = EntrevistaRealizadaDoacaoAutorizada.class)
-    @Null(message = "{EntrevistaValida.testemunha2}", groups = {EntrevistaNaoRealizada.class, EntrevistaRealizadaDoacaoNaoAutorizada.class})
+    @NotNull(message = "{EntrevistaValida.autorizada.testemunha2}", groups = {EntrevistaRealizadaDoacaoAutorizada.class, EntrevistaRealizadaDoacaoNaoAutorizada.class})
+    @Null(message = "{EntrevistaValida.testemunha2}", groups = EntrevistaNaoRealizada.class)
     private Testemunha testemunha2;
     
     @ManyToOne
