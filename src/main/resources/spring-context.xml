@@ -18,8 +18,8 @@
         <aop:aspectj-autoproxy />
 
         <bean id="AplCaptador" class="br.ifes.leds.sincap.controleInterno.cln.cgt.AplCaptador" />
-        <!--<bean id="AplNotificador" class="br.ifes.leds.sincap.controleInterno.cln.cgt.AplNotificador" />-->
-        <!--<bean id="AplAnalistaCNCDO" class="br.ifes.leds.sincap.controleInterno.cln.cgt.AplAnalistaCNCDO" />-->
+        <bean id="AplNotificador" class="br.ifes.leds.sincap.controleInterno.cln.cgt.AplNotificador" />
+        <bean id="AplAnalistaCNCDO" class="br.ifes.leds.sincap.controleInterno.cln.cgt.AplAnalistaCNCDO" />
 
 
         <!-- Aspect -->
