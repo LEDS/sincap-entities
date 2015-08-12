@@ -9,6 +9,7 @@ package br.ifes.leds.sincap.controleInterno.cln.cdp;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
@@ -22,6 +23,7 @@ import javax.validation.constraints.NotNull;
 @Setter
 @Entity
 @PrimaryKeyJoinColumn(name = "id")
+@ToString(callSuper=true, includeFieldNames=true,exclude="id")
 @EqualsAndHashCode(callSuper = true, exclude = {"bancoOlhos"})
 public class Captador extends Funcionario {
     @OneToOne

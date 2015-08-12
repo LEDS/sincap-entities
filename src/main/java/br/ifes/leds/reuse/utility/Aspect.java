@@ -22,76 +22,61 @@ public class Aspect {
     private final Logger logger = Logger.getLogger(this.getClass());
     private StringBuffer logMessage = new StringBuffer();
 
-    @Before("execution(* br.ifes.leds.sincap.*.cln.cgt.*.salvar(..))")
-    public void logBefore(JoinPoint joinPoint) {
-
+    private void print(JoinPoint joinPoint)
+    {
         BasicConfigurator.configure();
-
-        logger.setLevel(Level.INFO);
-
         logMessage.append("Classe: ");
         logMessage.append(joinPoint.getTarget().getClass().getSimpleName());
         logMessage.append(" Método: ");
         logMessage.append(joinPoint.getSignature().getName());
-        logMessage.append(" antes da execução! ");
+        Object[] args = joinPoint.getArgs();
+        for (Object arg: args) {
+            logMessage.append(" Argumento: "+arg.toString());
+        }
+        logger.setLevel(Level.INFO);
         logger.info(logMessage.toString());
-
         logMessage.setLength(0);
+
     }
 
+    private void print(JoinPoint joinPoint, Throwable error )
+    {
+
+        print(joinPoint);
+        logger.setLevel(Level.WARN);
+        logMessage.append(" Exceção: " + error);
+        logger.warn(logMessage.toString());
+    }
+
+//    @Before("execution(* br.ifes.leds.sincap.*.cln.cgt.*.salvar*(..))")
+//    public void logBefore(JoinPoint joinPoint) {
+//
+//        print(joinPoint);
+//    }
 
 
-    @Around("execution(* br.ifes.leds.sincap.*.cln.cgt.*.salvar(..))")
+
+    @Around("execution(* br.ifes.leds.sincap.*.cln.cgt.*.salvar*(..))")
     public void logAround(JoinPoint joinPoint) throws Throwable {
 
-        BasicConfigurator.configure();
+        print(joinPoint);
 
-        logger.setLevel(Level.INFO);
-
-        logMessage.append("Classe: ");
-        logMessage.append(joinPoint.getTarget().getClass().getSimpleName());
-        logMessage.append(" Método: ");
-        logMessage.append(joinPoint.getSignature().getName());
-        logMessage.append(" está sendo executado! ");
-        logger.info(logMessage.toString());
-
-        logMessage.setLength(0);
     }
-
-    @After("execution(* br.ifes.leds.sincap.*.cln.cgt.*.salvar(..))")
-    public void logAfter(JoinPoint joinPoint) {
-
-
-
-        logger.setLevel(Level.INFO);
-
-        logMessage.append("Classe: ");
-        logMessage.append(joinPoint.getTarget().getClass().getSimpleName());
-        logMessage.append(" Método: ");
-        logMessage.append(joinPoint.getSignature().getName());
-        logMessage.append(" Executado! ");
-        logger.info(logMessage.toString());
-
-        logMessage.setLength(0);
-    }
+//
+//    @After("execution(* br.ifes.leds.sincap.*.cln.cgt.*.salvar*(..))")
+//    public void logAfter(JoinPoint joinPoint) {
+//
+//        print(joinPoint);
+//
+//    }
 
     @AfterThrowing(
-            pointcut = "execution(* br.ifes.leds.sincap.*.cln.cgt.*.salvar(..))",
+            pointcut = "execution(* br.ifes.leds.sincap.*.cln.cgt.*.salvar*(..))",
             throwing= "error")
     public void logAfterThrowing(JoinPoint joinPoint,Throwable error) {
 
+        print(joinPoint,error);
 
-
-        logger.setLevel(Level.WARN);
-
-        logMessage.append("Classe: ");
-        logMessage.append(joinPoint.getTarget().getClass().getSimpleName());
-        logMessage.append(" Método: ");
-        logMessage.append(joinPoint.getSignature().getName());
-        logMessage.append(" Exceção: " + error);
-        logger.warn(logMessage.toString());
-
-        logMessage.setLength(0);
     }
 
 
