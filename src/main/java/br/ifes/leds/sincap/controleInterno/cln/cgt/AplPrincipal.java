@@ -19,7 +19,7 @@ import java.util.Set;
 public class AplPrincipal {
 
     @Autowired
-    private FuncionarioRepository funcionarioRepository;
+    private AplFuncionario aplFuncionario;
     @Autowired
     private CaptadorRepository captadorRepository;
     @Autowired
@@ -33,7 +33,7 @@ public class AplPrincipal {
      * @return user - Objeto Usuário
      */
     public Funcionario validarLogin(String cpf) {
-        return funcionarioRepository.findByCpf(cpf);
+        return aplFuncionario.obterPorCpf(cpf);
     }
 
     /**

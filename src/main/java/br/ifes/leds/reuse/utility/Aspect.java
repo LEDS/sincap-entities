@@ -46,11 +46,11 @@ public class Aspect {
 
         print(joinPoint);
         logger.setLevel(Level.WARN);
-        logMessage.append(" Exceção: " + error);
+        logMessage.append("Exceção: " + error);
         logger.warn(logMessage.toString());
     }
 
-//    @Before("execution(* br.ifes.leds.sincap.*.cln.cgt.*.salvar*(..))")
+//    @Before("execution(* br.ifes.leds.sincap.*.cln.cgt.*.*(..))")
 //    public void logBefore(JoinPoint joinPoint) {
 //
 //        print(joinPoint);
@@ -58,7 +58,7 @@ public class Aspect {
 
 
 
-    @Around("execution(* br.ifes.leds.sincap.*.cln.cgt.*.salvar*(..))")
+    @Around("execution(* br.ifes.leds.sincap.*.cln.cgt.*.*.*(..))")
     public void logAround(JoinPoint joinPoint) throws Throwable {
 
         print(joinPoint);
@@ -73,7 +73,7 @@ public class Aspect {
 //    }
 
     @AfterThrowing(
-            pointcut = "execution(* br.ifes.leds.sincap.*.cln.cgt.*.salvar*(..))",
+            pointcut = "execution(* br.ifes.leds.sincap.*.cln.cgt.*.*(..))",
             throwing= "error")
     public void logAfterThrowing(JoinPoint joinPoint,Throwable error) {
 

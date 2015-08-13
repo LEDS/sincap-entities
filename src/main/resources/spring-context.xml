@@ -17,9 +17,24 @@
 
         <aop:aspectj-autoproxy />
 
+        <bean id="AplFuncionario" class="br.ifes.leds.sincap.controleInterno.cln.cgt.AplFuncionario" />
         <bean id="AplCaptador" class="br.ifes.leds.sincap.controleInterno.cln.cgt.AplCaptador" />
         <bean id="AplNotificador" class="br.ifes.leds.sincap.controleInterno.cln.cgt.AplNotificador" />
         <bean id="AplAnalistaCNCDO" class="br.ifes.leds.sincap.controleInterno.cln.cgt.AplAnalistaCNCDO" />
+        <bean id="AplInstituicaoNotificadora" class="br.ifes.leds.sincap.controleInterno.cln.cgt.AplInstituicaoNotificadora" />
+        <bean id="AplHospital" class="br.ifes.leds.sincap.controleInterno.cln.cgt.AplHospital" />
+        <bean id="AplPrincipal" class="br.ifes.leds.sincap.controleInterno.cln.cgt.AplPrincipal" />
+        <bean id="AplCadastroInterno" class="br.ifes.leds.sincap.controleInterno.cln.cgt.AplCadastroInterno" />
+        <bean id="AplBancoOlhos" class="br.ifes.leds.sincap.controleInterno.cln.cgt.AplBancoOlhos" />
+        <bean id="AplSetor" class="br.ifes.leds.sincap.controleInterno.cln.cgt.AplSetor" />
+        <bean id="AplCaptacao" class="br.ifes.leds.sincap.gerenciaNotificacao.cln.cgt.AplCaptacao" />
+        <bean id="AplCausaNaoDoacao" class="br.ifes.leds.sincap.gerenciaNotificacao.cln.cgt.AplCausaNaoDoacao" />
+        <bean id="AplComentario" class="br.ifes.leds.sincap.gerenciaNotificacao.cln.cgt.AplComentario" />
+        <bean id="AplEntrevista" class="br.ifes.leds.sincap.gerenciaNotificacao.cln.cgt.AplEntrevista" />
+        <bean id="AplObito" class="br.ifes.leds.sincap.gerenciaNotificacao.cln.cgt.AplObito" />
+        <bean id="AplProcessoNotificacao" class="br.ifes.leds.sincap.gerenciaNotificacao.cln.cgt.AplProcessoNotificacao" />
+        <bean id="AplRelatorio" class="br.ifes.leds.sincap.gerenciaNotificacao.cln.cgt.AplRelatorio" />
+
 
 
         <!-- Aspect -->

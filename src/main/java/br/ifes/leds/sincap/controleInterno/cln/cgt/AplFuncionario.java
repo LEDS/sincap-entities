@@ -22,4 +22,8 @@ public class AplFuncionario {
     public Funcionario obter(Long id) {
         return funcionarioRepository.findOne(id);
     }
+
+    public Funcionario obterPorCpf(String cpf) {
+        return funcionarioRepository.findByCpf(cpf);
+    }
 }
