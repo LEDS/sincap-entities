@@ -3,6 +3,7 @@ package br.ifes.leds.sincap.controleInterno.cln.cdp;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -20,6 +21,7 @@ import static javax.persistence.FetchType.EAGER;
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = true)
+@ToString(callSuper=true,exclude={"id","hospitais"})
 public class BancoOlhos extends Instituicao {
 
     @OneToMany(mappedBy = "bancoOlhos", fetch = EAGER)

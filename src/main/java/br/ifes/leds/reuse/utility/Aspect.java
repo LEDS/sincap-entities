@@ -30,9 +30,11 @@ public class Aspect {
         logMessage.append(" Método: ");
         logMessage.append(joinPoint.getSignature().getName());
         Object[] args = joinPoint.getArgs();
+        logMessage.append(" [");
         for (Object arg: args) {
             logMessage.append(" Argumento: "+arg.toString());
         }
+        logMessage.append(" ]");
         logger.setLevel(Level.INFO);
         logger.info(logMessage.toString());
         logMessage.setLength(0);

@@ -12,6 +12,7 @@ import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
  * Notificador.java
@@ -23,6 +24,7 @@ import lombok.Setter;
 @Entity
 @PrimaryKeyJoinColumn(name="id")
 @EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true, exclude = {"id","instituicoesNotificadoras"})
 public class Notificador extends Funcionario {
 
     @ManyToMany(fetch = FetchType.EAGER)

@@ -23,7 +23,7 @@ import javax.validation.constraints.NotNull;
 @Setter
 @Entity
 @PrimaryKeyJoinColumn(name = "id")
-@ToString(callSuper=true, includeFieldNames=true,exclude="id")
+@ToString(callSuper=true,exclude={"id","bancoOlhos"})
 @EqualsAndHashCode(callSuper = true, exclude = {"bancoOlhos"})
 public class Captador extends Funcionario {
     @OneToOne

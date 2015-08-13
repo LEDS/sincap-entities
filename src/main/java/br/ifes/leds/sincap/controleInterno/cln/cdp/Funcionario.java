@@ -5,6 +5,7 @@ import br.ifes.leds.sincap.validacao.annotations.TelefoneFuncionarioConsistentes
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.validator.constraints.Email;
 
 import javax.persistence.*;
@@ -26,6 +27,7 @@ import static javax.persistence.FetchType.EAGER;
 @Inheritance(strategy = InheritanceType.JOINED)
 @TelefoneFuncionarioConsistentes
 @EqualsAndHashCode(callSuper = true)
+@ToString(callSuper=true,exclude={"id","senha","ativo","cpf","documentoSocial","email","permissoes"})
 public class Funcionario extends Pessoa {
 
     @Column

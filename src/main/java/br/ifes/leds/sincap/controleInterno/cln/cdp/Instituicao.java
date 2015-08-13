@@ -9,6 +9,7 @@ import br.ifes.leds.reuse.persistence.ObjetoPersistente;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
  * Instituicao.java
@@ -19,6 +20,7 @@ import lombok.Setter;
 @Getter
 @MappedSuperclass
 @EqualsAndHashCode(callSuper = true, exclude = {"funcionarios"})
+@ToString(exclude={"id","cnes","email","fantasia","endereco","telefone","funcionarios"})
 public abstract class Instituicao extends ObjetoPersistente {
 
     @Column(unique=true)

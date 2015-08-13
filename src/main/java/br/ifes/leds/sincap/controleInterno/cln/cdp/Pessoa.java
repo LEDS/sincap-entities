@@ -6,6 +6,7 @@ import br.ifes.leds.sincap.validacao.groups.obito.ObitoNaoPNI;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -20,6 +21,7 @@ import javax.validation.constraints.NotNull;
 @Setter
 @MappedSuperclass
 @EqualsAndHashCode(callSuper = true)
+@ToString(exclude= {"id","telefone","endereco"})
 public abstract class Pessoa extends ObjetoPersistente {
 
     @Column
