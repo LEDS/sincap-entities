@@ -645,4 +645,9 @@ public class AplProcessoNotificacao {
     {
       return  notificacaoRepository.findByObito_id(id);
     }
+
+    public Integer getQuantidadeNotificacaoPorNotificador(Long id)
+    {
+        return notificacaoRepository.countByNotificador_id(id);
+    }
 }
