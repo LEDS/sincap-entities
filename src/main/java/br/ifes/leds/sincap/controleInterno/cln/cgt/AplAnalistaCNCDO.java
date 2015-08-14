@@ -80,6 +80,11 @@ public class AplAnalistaCNCDO {
         analistaCNCDORepository.delete(analistaCNCDO);
     }
 
+    public void atualizar(AnalistaCNCDO analistaCNCDO)
+    {
+        analistaCNCDORepository.save(analistaCNCDO);
+    }
+
 
 
 }
