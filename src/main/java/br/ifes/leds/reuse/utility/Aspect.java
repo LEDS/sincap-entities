@@ -4,12 +4,15 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.BasicConfigurator;
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Before;
+
+import java.util.Arrays;
 
 
 /**
@@ -30,9 +33,9 @@ public class Aspect {
         logMessage.append(" Método: ");
         logMessage.append(joinPoint.getSignature().getName());
         Object[] args = joinPoint.getArgs();
-        logMessage.append(" [");
+        logMessage.append(" Argumentos: [");
         for (Object arg: args) {
-            logMessage.append(" Argumento: "+arg.toString());
+            logMessage.append(" "+arg.toString());
         }
         logMessage.append(" ]");
         logger.setLevel(Level.INFO);
@@ -50,27 +53,18 @@ public class Aspect {
         logger.warn(logMessage.toString());
     }
 
-//    @Before("execution(* br.ifes.leds.sincap.*.cln.cgt.*.*(..))")
-//    public void logBefore(JoinPoint joinPoint) {
-//
-//        print(joinPoint);
-//    }
+    @Before("execution(* br.ifes.leds.sincap.*.cln.cgt.*.*(..))")
+    public void logBefore(JoinPoint joinPoint) {
 
+        print(joinPoint);
+    }
 
-
-    @Around("execution(* br.ifes.leds.sincap.*.cln.cgt.*.*.*(..))")
-    public void logAround(JoinPoint joinPoint) throws Throwable {
+    @After("execution(* br.ifes.leds.sincap.*.cln.cgt.*.*(..))")
+    public void logAfter(JoinPoint joinPoint) {
 
         print(joinPoint);
 
     }
-//
-//    @After("execution(* br.ifes.leds.sincap.*.cln.cgt.*.salvar*(..))")
-//    public void logAfter(JoinPoint joinPoint) {
-//
-//        print(joinPoint);
-//
-//    }
 
     @AfterThrowing(
             pointcut = "execution(* br.ifes.leds.sincap.*.cln.cgt.*.*(..))",
