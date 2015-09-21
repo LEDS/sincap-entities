@@ -30,11 +30,18 @@ public class AplCaptador {
     /** Método para salvar um captador.
      * @param captador - objeto captador.
      */
-    public void salvar(Captador captador) {
+    public void salvar(Captador captador, boolean ativo) {
         List<Permissao> listPermissao = new ArrayList<>();
 
         listPermissao.add(permissaoRepository.findByRole("ROLE_CAPTADOR"));
         captador.setPermissoes(listPermissao);
+
+        if(ativo){
+            captador.setAtivo(true);
+        }
+        else{
+            captador.setAtivo(false);
+        }
 
         captadorRepository.save(captador);
     }
@@ -68,6 +75,12 @@ public class AplCaptador {
      */
     public Captador obter(Long id) {
         return captadorRepository.findOne(id);
+    }
+
+
+    public void atualizar(Captador captador)
+    {
+        captadorRepository.save(captador);
     }
 
     /** Método para obter uma lista de captador existentes.

@@ -58,12 +58,18 @@ public class AplAnalistaCNCDO {
      * @param analistaCNCDO - objeto Analista.
      * @param isAdmin Indica se é administrador ou não.
      */
-    public void salvar(AnalistaCNCDO analistaCNCDO, boolean isAdmin)
+    public void salvar(AnalistaCNCDO analistaCNCDO, boolean isAdmin, boolean ativo)
     {
         List<Permissao> listPermissao = new ArrayList<>();
 
         if(isAdmin) {
             listPermissao.add(permissaoRepository.findByRole("ROLE_ADMIN"));
+        }
+        if(ativo){
+            analistaCNCDO.setAtivo(true);
+        }
+        else{
+            analistaCNCDO.setAtivo(false);
         }
 
         listPermissao.add(permissaoRepository.findByRole("ROLE_ANALISTA"));

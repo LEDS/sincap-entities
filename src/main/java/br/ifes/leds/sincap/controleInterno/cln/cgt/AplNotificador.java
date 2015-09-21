@@ -31,11 +31,18 @@ public class AplNotificador {
      * Método para salvar um notificador.
      * @param notificador - objeto Notificador.
      */
-    public void salvarNotificador(Notificador notificador) {
+    public void salvarNotificador(Notificador notificador, boolean ativo) {
         List<Permissao> listPermissao = new ArrayList<>();
 
         listPermissao.add(permissaoRepository.findByRole("ROLE_NOTIFICADOR"));
         notificador.setPermissoes(listPermissao);
+
+        if(ativo){
+            notificador.setAtivo(true);
+        }
+        else{
+            notificador.setAtivo(false);
+        }
 
         notificadorRepository.save(notificador);
     }
@@ -72,9 +79,18 @@ public class AplNotificador {
         return notificadorRepository.findOne(id);
     }
 
+
+    public void atualizar(Notificador notificador)
+    {
+        notificadorRepository.save(notificador);
+
+    }
+
+
     /**
      * Método para obter uma lista de notificadores existentes.
      */
+
     public List<Notificador> obterTodosNotificadores() {
         return notificadorRepository.findAll();
     }
