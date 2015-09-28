@@ -97,7 +97,7 @@ public class NotificadorData {
      * @param df - instancia DataFactory.
      */
     public void salvarNotificador(DataFactory df, Notificador not) {
-        aplNotificador.salvarNotificador(not);
+        aplNotificador.salvarNotificador(not,true);
     }
     
     /** Método responsável por criar um objeto Telefone randomico.
