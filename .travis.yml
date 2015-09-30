@@ -10,4 +10,4 @@ branches:
   only:
     - master
 
-mvn test
+script: mvn test
