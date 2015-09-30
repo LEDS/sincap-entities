@@ -16,29 +16,29 @@
         <aspectj.version>1.6.9</aspectj.version>
         <dozer.version>5.4.0</dozer.version>
         <querydsl.version>3.5.0</querydsl.version>
-        <sonar.host.url>http://ledsapp.sr.ifes.edu.br:9000</sonar.host.url>
-        <sonar.jdbc.url>jdbc:postgresql://ledsapp.sr.ifes.edu.br:5432/sonar</sonar.jdbc.url>
+        <!--<sonar.host.url>http://ledsapp.sr.ifes.edu.br:9000</sonar.host.url>-->
+        <!--<sonar.jdbc.url>jdbc:postgresql://ledsapp.sr.ifes.edu.br:5432/sonar</sonar.jdbc.url>-->
         <!-- Codificacao -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
     </properties>
-    <distributionManagement>
-        <repository>
-            <id>nexus</id>
-            <name>Repositorio de Releases</name>
-            <url>
-                http://ledszeppellin.sr.ifes.edu.br:8082/nexus/content/repositories/Release/
-            </url>
-        </repository>
-        <snapshotRepository>
-            <id>nexus</id>
-            <name>Repositorios de Snapshots</name>
-            <url>
-                http://ledszeppellin.sr.ifes.edu.br:8082/nexus/content/repositories/Snapshot/
-            </url>
-        </snapshotRepository>
-    </distributionManagement>
+    <!--<distributionManagement>-->
+        <!--<repository>-->
+            <!--<id>nexus</id>-->
+            <!--<name>Repositorio de Releases</name>-->
+            <!--<url>-->
+                <!--http://ledszeppellin.sr.ifes.edu.br:8082/nexus/content/repositories/Release/-->
+            <!--</url>-->
+        <!--</repository>-->
+        <!--<snapshotRepository>-->
+            <!--<id>nexus</id>-->
+            <!--<name>Repositorios de Snapshots</name>-->
+            <!--<url>-->
+                <!--http://ledszeppellin.sr.ifes.edu.br:8082/nexus/content/repositories/Snapshot/-->
+            <!--</url>-->
+        <!--</snapshotRepository>-->
+    <!--</distributionManagement>-->
     <dependencies>
         <!-- Dependecia para utilizar dados Randomicos-->
         <dependency>
