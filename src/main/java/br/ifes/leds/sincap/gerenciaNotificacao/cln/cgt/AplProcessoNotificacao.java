@@ -645,4 +645,5 @@ public class AplProcessoNotificacao {
     {
       return  notificacaoRepository.findByObito_id(id);
     }
+
 }

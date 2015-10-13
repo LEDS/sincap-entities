@@ -56,4 +56,6 @@ public class Funcionario extends Pessoa {
 
     @ManyToMany(fetch = EAGER)
     private List<Permissao> permissoes;
+
+
 }
