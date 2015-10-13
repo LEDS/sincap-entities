@@ -98,14 +98,14 @@ public class AplNotificadorTest extends AbstractionTest {
         */
         @Test
 	public void salvarNotificador(){
-            aplNotificador.salvarNotificador(notificador);
+            aplNotificador.salvarNotificador(notificador,true);
             Assert.assertNotSame(0, notificador.getId());
 	}
         
         /** Método para testar a remoção um notificador pelo seu id.*/
         @Test
         public void removeNotificador(){
-            aplNotificador.salvarNotificador(notificador);
+            aplNotificador.salvarNotificador(notificador,true);
             aplNotificador.delete(notificador.getId());             
             Assert.assertNull(aplNotificador.obterNotificador(notificador.getId()));
         }        
@@ -113,21 +113,21 @@ public class AplNotificadorTest extends AbstractionTest {
         /** Método para testar a busca de um notificador pelo seu CPF.*/
         @Test
         public void obterNotificadorCpf(){
-            aplNotificador.salvarNotificador(notificador);
+            aplNotificador.salvarNotificador(notificador,true);
             Assert.assertSame("Notificador Teste",aplNotificador.obterNotificador("123.456.165-56").getNome());
         } 
         
         /** Método para testar a busca de um notificador pelo seu Id.*/
         @Test
         public void obterNotificadorId(){
-            aplNotificador.salvarNotificador(notificador);
+            aplNotificador.salvarNotificador(notificador,true);
             Assert.assertSame("Notificador Teste",aplNotificador.obterNotificador(notificador.getId()).getNome());
         } 
         
         /** Método para testar a busca de uma lista dos notificadores existentes.*/
         @Test
         public void obterNotificadorLista(){
-            aplNotificador.salvarNotificador(notificador);
+            aplNotificador.salvarNotificador(notificador,true);
             List<Notificador> listaNotificador = aplNotificador.obterTodosNotificadores();
             Assert.assertNotNull(listaNotificador);
         } 
