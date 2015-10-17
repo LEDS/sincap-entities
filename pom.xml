@@ -23,22 +23,22 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
     </properties>
-    <!--<distributionManagement>-->
-        <!--<repository>-->
-            <!--<id>nexus</id>-->
-            <!--<name>Repositorio de Releases</name>-->
-            <!--<url>-->
-                <!--http://ledszeppellin.sr.ifes.edu.br:8082/nexus/content/repositories/Release/-->
-            <!--</url>-->
-        <!--</repository>-->
-        <!--<snapshotRepository>-->
-            <!--<id>nexus</id>-->
-            <!--<name>Repositorios de Snapshots</name>-->
-            <!--<url>-->
-                <!--http://ledszeppellin.sr.ifes.edu.br:8082/nexus/content/repositories/Snapshot/-->
-            <!--</url>-->
-        <!--</snapshotRepository>-->
-    <!--</distributionManagement>-->
+    <distributionManagement>
+        <repository>
+            <id>nexus</id>
+            <name>Repositorio de Releases</name>
+            <url>
+	     http://ledszeppellin.sr.ifes.edu.br:82/content/repositories/releases/
+            </url>
+        </repository>
+        <snapshotRepository>
+            <id>nexus</id>
+            <name>Repositorios de Snapshots</name>
+            <url>
+		http://ledszeppellin.sr.ifes.edu.br:82/content/repositories/snapshots/
+            </url>
+        </snapshotRepository>
+    </distributionManagement>
     <dependencies>
         <!-- Dependecia para utilizar dados Randomicos-->
         <dependency>
@@ -408,25 +408,25 @@
                     <skip>true</skip>
                 </configuration>
             </plugin>
-            <!--<plugin>-->
-                <!--<groupId>org.sonatype.plugins</groupId>-->
-                <!--<artifactId>nexus-staging-maven-plugin</artifactId>-->
-                <!--<version>1.5.1</version>-->
-                <!--<executions>-->
-                    <!--<execution>-->
-                        <!--<id>default-deploy</id>-->
-                        <!--<phase>deploy</phase>-->
-                        <!--<goals>-->
-                            <!--<goal>deploy</goal>-->
-                        <!--</goals>-->
-                    <!--</execution>-->
-                <!--</executions>-->
-                <!--<configuration>-->
-                    <!--<serverId>nexus</serverId>-->
-                    <!--<nexusUrl>http://ledszeppellin.sr.ifes.edu.br:8082/nexus</nexusUrl>-->
-                    <!--<skipStaging>true</skipStaging>-->
-                <!--</configuration>-->
-            <!--</plugin>-->
+             <plugin>
+   		<groupId>org.sonatype.plugins</groupId>
+   		<artifactId>nexus-staging-maven-plugin</artifactId>
+   		<version>1.5.1</version>
+   <executions>
+      <execution>
+         <id>default-deploy</id>
+         <phase>deploy</phase>
+         <goals>
+            <goal>deploy</goal>
+         </goals>
+      </execution>
+   </executions>
+   <configuration>
+      <serverId>nexus</serverId>
+      <nexusUrl>http://http://ledszeppellin.sr.ifes.edu.br:82/</nexusUrl>
+      <skipStaging>true</skipStaging>
+   </configuration>
+</plugin>
         </plugins>
     </build>
 
