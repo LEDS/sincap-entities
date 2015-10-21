@@ -10,7 +10,8 @@ addons:
 services: postgresql
 
 before_install:
- - psql -c "CREATE DATABASE IF NOT EXISTS sincap_teste;" -U postgres
+ - psql -c "DROP DATABASE sincap_teste;" -U postgres
+ - psql -c "CREATE DATABASE sincap_teste;" -U postgres
  
 branches:
   only:
