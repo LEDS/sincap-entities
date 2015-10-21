@@ -5,6 +5,14 @@ sudo: false
 jdk:
  - oraclejdk8 
  - oraclejdk7
+addons:
+  postgresql: "9.3"
+
+services: postgresql
+
+env:
+  - DB=postgresql
+
 
 branches:
   only:
