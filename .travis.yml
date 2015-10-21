@@ -3,6 +3,9 @@ language: java
 jdk:
  - oraclejdk8 
  - oraclejdk7
+ 
+sudo: required
+
 addons:
   postgresql: "9.3"
 
