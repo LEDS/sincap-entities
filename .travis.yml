@@ -15,7 +15,7 @@ env:
   - DB=postgresql
 
 before_install:
- - psql -c "DROP DATABASE IF EXISTS sincap_teste;" -U postgres; 
+# - psql -c "DROP DATABASE IF EXISTS sincap_teste;" -U postgres; 
  - psql -U postgres -d sincap_teste -a -f ~/main/resources/sincapScript.sql;
 
 branches:
