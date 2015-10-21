@@ -12,7 +12,7 @@ addons:
 services: postgresql
 
 before_install:
- - psql -c "DROP DATABASE sincap_teste IF EXISTS ;" -U postgres; 
+ - psql -c "DROP DATABASE IF EXISTS sincap_teste;" -U postgres; 
 # - psql -f ~/main/resources/sincapScript.sql sincap_teste;
 
 branches:
