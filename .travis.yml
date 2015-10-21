@@ -15,7 +15,7 @@ env:
   - DB=postgresql
 
 before_install:
- - psql -c "DROP DATABASE IF EXISTS hello_world_test;" -U postgres; 
+ - psql -c "DROP DATABASE IF EXISTS sincap_teste;" -U postgres; 
 
 branches:
   only:
