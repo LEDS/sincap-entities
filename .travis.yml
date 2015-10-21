@@ -4,7 +4,7 @@ jdk:
  - oraclejdk8 
  - oraclejdk7
  
-sudo: required
+sudo: false
 
 addons:
   postgresql: "9.3"
@@ -15,7 +15,7 @@ env:
   - DB=postgresql
 
 before_install:
- #- psql -c "DROP DATABASE IF EXISTS ;" -U postgres; 
+ - psql -c "DROP DATABASE IF EXISTS ;" -U postgres; 
  - psql -f ~/main/resources/sincapScript.sql sincap_teste;
 
 branches:
