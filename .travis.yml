@@ -13,6 +13,8 @@ services: postgresql
 env:
   - DB=postgresql
 
+before_install:
+ - psql -c "DROP DATABASE IF EXISTS hello_world_test;" -U postgres; 
 
 branches:
   only:
