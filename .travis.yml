@@ -4,10 +4,10 @@ jdk:
  - oraclejdk8 
  - oraclejdk7
  
-addons:
+#addons:
   postgresql: "9.3"
 
-services: postgresql
+#services: postgresql
 
 #before_install:
 # - psql -c "DROP DATABASE IF EXISTS sincap_teste;" -U postgres
