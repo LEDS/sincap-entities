@@ -8,7 +8,7 @@ Para maiores informações entre no [link](http://leds.sr.ifes.edu.br/portfolio/
 
 ## O que é o Sincap Entities?
 Sincap Entities é o projeto responsável por conter toda as regras de negócios sobre o projeto Sincap. Esse é a base dos projetos:
-* __Sincap Web__: Interface Web do projeto sincap;
-* __Sincap Web-Service__: Web Service para integração com o projeto Mobile
-* __Sincap Mobile__: Versão mobile do projeto sincap contendo as funcionalidades para facilitar a notificação de captação de córnea;
+* [__Sincap Web__](https://github.com/LEDS/sincap-interface-web/): Interface Web do projeto sincap;
+* [__Sincap Web-Service__](https://github.com/LEDS/sincap-webservice): Web Service para integração com o projeto Mobile
+* [__Sincap Mobile__](https://github.com/LEDS/sincap-mobile): Versão mobile do projeto sincap contendo as funcionalidades para facilitar a notificação de captação de córnea;
 
