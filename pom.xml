@@ -16,10 +16,13 @@
         <aspectj.version>1.6.9</aspectj.version>
         <dozer.version>5.4.0</dozer.version>
         <querydsl.version>3.5.0</querydsl.version>
+
+        <!--- Configuracao do Sonar-->
+
         <sonar.host.url>http://ledszeppellin.sr.ifes.edu.br:9000</sonar.host.url>
--       <sonar.login>leds</sonar.login>
--       <sonar.password>ledssonar</sonar.password>
-        
+		<sonar.login>leds</sonar.login>
+		<sonar.password>ledssonar</sonar.password>
+
         <!-- Codificacao -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
