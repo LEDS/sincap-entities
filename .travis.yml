@@ -12,7 +12,7 @@ services: postgresql
 before_script:
  - psql -c "DROP DATABASE IF EXISTS sincap_teste;" -U postgres
  - psql -c "CREATE DATABASE sincap_teste;" -U postgres
- - psql -U postgres -d sincap_teste -f src/main/resources/sincapScript.sql
+ - psql -U postgres -d sincap_teste -f src/main/resources/sincapBackup.sql
  
 branches:
   only:
