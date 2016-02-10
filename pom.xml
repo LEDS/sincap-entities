@@ -34,14 +34,14 @@
             <id>nexus</id>
             <name>Repositorio de Releases</name>
             <url>
-	     http://ledszeppellin.sr.ifes.edu.br:82/content/repositories/releases/
+	     http://ledszeppellin.sr.ifes.edu.br:8081/content/repositories/releases/
             </url>
         </repository>
         <snapshotRepository>
             <id>nexus</id>
             <name>Repositorios de Snapshots</name>
             <url>
-		http://ledszeppellin.sr.ifes.edu.br:82/content/repositories/snapshots/
+		http://ledszeppellin.sr.ifes.edu.br:8081/content/repositories/snapshots/
             </url>
         </snapshotRepository>
     </distributionManagement>
@@ -429,7 +429,7 @@
    </executions>
    <configuration>
       <serverId>nexus</serverId>
-      <nexusUrl>http://http://ledszeppellin.sr.ifes.edu.br:82/</nexusUrl>
+      <nexusUrl>http://http://ledszeppellin.sr.ifes.edu.br:8081/</nexusUrl>
       <skipStaging>true</skipStaging>
    </configuration>
 </plugin>
