@@ -2,10 +2,13 @@ language: java
 
 jdk:
  - oraclejdk8 
- - oraclejdk7
  
 addons:
  -postgresql: "9.3"
+ -sonarqube: true
+env:
+  global:
+      - secure: "Oy8W0S88p8jvUDJE3t9Aac/2CI1l+S354eCNqhWhInKhfhOZepPADuQzy5qxfTrs/8DRxy5nylPLFk0nxHzpxHldr9UPBO4b7YYvd66Bi8lY8pmA62vsPjO1m+4u9JQJ3NCHEnttX2fwUU/IPcawNbM7Ne1j2OzJa4TvOF+zI1yHUfWJtmnxt1th8aXwf6GVeeXqPMh970MpTifnjHSxckGwmg5NSY6KoweQ6hBiXeDTMk/jVTWBBoYGZmr6vYjeETsmhzC2VyikQzWasbnjpxqO7A1fkK8j2d4qHF8J2sg3RW2LkGapPd4KzsAS1RvysyrO4cJg77ryUfXTJ7qnViqmxdAGpRyo4sbYMdtv4lcj4wVhLqF6pYSYA0QaRiEkpa2CImhUgu9GRmfHJ8bHFEMIWb6okR1s0r9dJs9fqRj+8KyvidOi/P/rb9/YvA2MwX30U+stpkJQ9WKZ1gb8GC/qh0jN1XDMRuURo174rnAkNJCFthnDOHktk8a9ksYqyQ3omVxOlSb4QRBou9dg/z/Aa/Wr551gb8dilO4Sol+EC6XScBeuCWL9Z035XxEl8O5HflI4LOLOa/ddKETEe5c7NF+DBFNoG7FdZBupDfsUBETe94IrvlThI0zHK+wjC6OgeqqHu93WwYNcrI6Ru+WtDGJk+IxOYUSpPvcZ7vA="
 
 services: postgresql
 
@@ -14,13 +17,16 @@ before_script:
  - psql -c "CREATE DATABASE sincap_teste;" -U postgres
  - psql -U postgres -d sincap_teste -f src/main/resources/sincapBackup.sql
  
+script:
+  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.login=$SONAR_TOKEN
+
+
 branches:
   only:
     - master
     - desenvolvimento
 
 after_success:
-  - mvn sonar:sonar
   - echo "<settings><servers><server><id>nexus</id><username>\${env.NEXUS_USER}</username><password>\${env.NEXUS_PASS}</password></server></servers></settings>" > ~/settings.xml
   - mvn clean deploy -Dmaven.test.skip=true --settings ~/settings.xml
 
