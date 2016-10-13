@@ -19,9 +19,7 @@
 
         <!--- Configuracao do Sonar-->
 
-        <sonar.host.url>http://ledszeppellin.sr.ifes.edu.br:9000</sonar.host.url>
-		<sonar.login>leds</sonar.login>
-		<sonar.password>ledssonar</sonar.password>
+        <sonar.host.url>https://sonarqube.com</sonar.host.url>
 
         <!-- Codificacao -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
