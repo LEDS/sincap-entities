@@ -28,7 +28,8 @@
         
 
     </properties>
-    <distributionManagement>
+   <!-- 
+   <distributionManagement>
         <repository>
             <id>nexus</id>
             <name>Repositorio de Releases</name>
@@ -43,7 +44,7 @@
 		http://ledszeppellin.sr.ifes.edu.br:8081/content/repositories/snapshots/
             </url>
         </snapshotRepository>
-    </distributionManagement>
+    </distributionManagement> -->
     <dependencies>
         <!-- Dependecia para utilizar dados Randomicos-->
         <dependency>
@@ -384,8 +385,8 @@
                 <!-- <artifactId>maven-compiler-plugin</artifactId> -->
                 <!-- <version>2.0.2</version> -->
                 <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
             <plugin>
@@ -413,7 +414,7 @@
                     <skip>true</skip>
                 </configuration>
             </plugin>
-             <plugin>
+           <!--  <plugin>
    		<groupId>org.sonatype.plugins</groupId>
    		<artifactId>nexus-staging-maven-plugin</artifactId>
    		<version>1.5.1</version>
@@ -430,8 +431,8 @@
       <serverId>nexus</serverId>
       <nexusUrl>http://http://ledszeppellin.sr.ifes.edu.br:8081/</nexusUrl>
       <skipStaging>true</skipStaging>
-   </configuration>
-</plugin>
+   </configuration> 
+</plugin> -->
         </plugins>
     </build>
 
