@@ -27,8 +27,8 @@ branches:
     - desenvolvimento
 
 after_success:
-  - echo "<settings><servers><server><id>nexus</id><username>\${env.NEXUS_USER}</username><password>\${env.NEXUS_PASS}</password></server></servers></settings>" > ~/settings.xml
-  - mvn clean deploy -Dmaven.test.skip=true --settings ~/settings.xml
+  #- echo "<settings><servers><server><id>nexus</id><username>\${env.NEXUS_USER}</username><password>\${env.NEXUS_PASS}</password></server></servers></settings>" > ~/settings.xml
+  #- mvn clean deploy -Dmaven.test.skip=true --settings ~/settings.xml
 
 notifications:
   slack: leds:Bdewxwg54FgRsFjl9zN5iRFI
